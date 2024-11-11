@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="MariaDb" database="MariaDb" id="MariaDb-13d6" >
+	<schema name="cosn" >
+		<table name="content" prior="content_data" >
+			<comment><![CDATA[contains the content created by members]]></comment>
+			<column name="content_id" type="INT" jt="4" mandatory="y" unsigned="y" />
+			<column name="creator_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[member who created this particular piece of content]]></comment>
+			</column>
+			<column name="content_type" type="ENUM" jt="12" mandatory="y" >
+				<enumeration><![CDATA['text','image','video']]></enumeration>
+				<comment><![CDATA[what kind of content was produced]]></comment>
+			</column>
+			<column name="content_data_url" type="VARCHAR" length="100" jt="12" mandatory="y" >
+				<comment><![CDATA[URL link to the data of the content]]></comment>
+			</column>
+			<column name="creation_date" type="DATE" jt="91" mandatory="y" >
+				<defo><![CDATA[CURRENT_DATE]]></defo>
+				<comment><![CDATA[when was the content created]]></comment>
+			</column>
+			<index name="pk_content_data" unique="PRIMARY_KEY" >
+				<column name="content_id" />
+			</index>
+			<fk name="fk_content_members" to_schema="cosn" to_table="members" >
+				<fk_column name="creator_id" pk="member_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="content_permissions" prior="tbl" >
+			<column name="content_permission_id" type="INT" jt="4" />
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="group_members" prior="tbl" >
+			<comment><![CDATA[Mapping between members and groups, each row telling us which member belongs to which group]]></comment>
+			<column name="group_membership_id" type="INT" jt="4" mandatory="y" unsigned="y" />
+			<column name="participant_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[the member_id of the participant of this group]]></comment>
+			</column>
+			<column name="joined_group_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[the ID of a particular group, that a particular member has joined]]></comment>
+			</column>
+			<column name="date_joined" type="DATE" jt="91" mandatory="y" >
+				<comment><![CDATA[the date when a particular member has joned a particular group]]></comment>
+			</column>
+			<column name="role_of_member" type="ENUM" jt="12" >
+				<defo><![CDATA['member']]></defo>
+				<enumeration><![CDATA['member','owner']]></enumeration>
+				<comment><![CDATA[the role of a particular member who joined a particular group, can be either 'owner' or 'member']]></comment>
+			</column>
+			<index name="pk_group_members" unique="PRIMARY_KEY" >
+				<column name="group_membership_id" />
+			</index>
+			<fk name="fk_group_members_members" to_schema="cosn" to_table="members" >
+				<fk_column name="participant_member_id" pk="member_id" />
+			</fk>
+			<fk name="fk_group_members_groups" to_schema="cosn" to_table="groups" >
+				<fk_column name="joined_group_id" pk="group_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="groups" spec="" >
+			<comment><![CDATA[Contains the information about the groups, such as their description, who created them, etc]]></comment>
+			<column name="group_id" type="INT" jt="4" mandatory="y" unsigned="y" />
+			<column name="group_name" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="owner_id" type="INT" jt="4" unsigned="y" >
+				<comment><![CDATA[ID of the member who created a particular group]]></comment>
+			</column>
+			<column name="description" type="TEXT" jt="-1" >
+				<comment><![CDATA[Description of the group, their interests, etc]]></comment>
+			</column>
+			<column name="creation_date" type="DATE" jt="91" >
+				<defo><![CDATA[current_timestamp()]]></defo>
+				<comment><![CDATA[Date when group was created]]></comment>
+			</column>
+			<index name="pk_groups" unique="PRIMARY_KEY" >
+				<column name="group_id" />
+			</index>
+			<index name="fk_groups_members" unique="NORMAL" >
+				<column name="owner_id" />
+			</index>
+			<fk name="fk_groups_members" to_schema="cosn" to_table="members" >
+				<fk_column name="owner_id" pk="member_id" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci]]></options>
+		</table>
+		<table name="member_relationships" prior="tbl" >
+			<comment><![CDATA[describes the relationships of the members, specifically if they are friends, family, colleagues or blocked]]></comment>
+			<column name="relationship_id" type="INT" jt="4" mandatory="y" unsigned="y" />
+			<column name="origin_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[the member from whom the relationship originates]]></comment>
+			</column>
+			<column name="target_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[the member to whom the origin_member is connected]]></comment>
+			</column>
+			<column name="relationship_type" type="ENUM" jt="12" mandatory="y" >
+				<enumeration><![CDATA['friend','family','colleague','blocked']]></enumeration>
+				<comment><![CDATA[The type of relationship can be 'friend, 'family', 'colleague' or 'blocked']]></comment>
+			</column>
+			<index name="pk_member_relationships" unique="PRIMARY_KEY" >
+				<column name="relationship_id" />
+			</index>
+			<fk name="fk_member_relationships_members" to_schema="cosn" to_table="members" >
+				<fk_column name="origin_member_id" pk="member_id" />
+			</fk>
+			<fk name="fk_member_relationships_members_0" to_schema="cosn" to_table="members" >
+				<fk_column name="target_member_id" pk="member_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="members" prior="member" spec="" >
+			<comment><![CDATA[contains the info for every member of COSN]]></comment>
+			<column name="member_id" type="INT" length="10" jt="4" mandatory="y" unsigned="y" />
+			<column name="username" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="password" type="VARCHAR" length="50" jt="12" mandatory="y" >
+				<comment><![CDATA[password of the user
+
+Mandatory (not null), for enabling the correct system functionality.]]></comment>
+			</column>
+			<column name="email" type="VARCHAR" length="50" jt="12" mandatory="y" >
+				<comment><![CDATA[email of the user
+
+Mandatory (not null), for identity verification purpose.]]></comment>
+			</column>
+			<column name="email_visibility" type="ENUM" jt="12" mandatory="y" >
+				<defo><![CDATA['private']]></defo>
+				<enumeration><![CDATA['public','member-specific','private']]></enumeration>
+				<comment><![CDATA[Defines the visibility of email.
+
+Public - everyone can see it.
+Private - nobody, except the owner of the info can see it.
+
+member-specific - when you see this, go the the 'personal_info_visibility' table to check which members can see this this information.]]></comment>
+			</column>
+			<column name="first_name" type="VARCHAR" length="100" jt="12" mandatory="y" >
+				<comment><![CDATA[Mandatory (not null), for identity verification purpose.]]></comment>
+			</column>
+			<column name="first_name_visibility" type="ENUM" jt="12" mandatory="y" >
+				<defo><![CDATA['private']]></defo>
+				<enumeration><![CDATA['public','member-specific','private']]></enumeration>
+			</column>
+			<column name="last_name" type="VARCHAR" length="100" jt="12" mandatory="y" >
+				<comment><![CDATA[Mandatory (not null), for identity verification purpose.]]></comment>
+			</column>
+			<column name="last_name_visibility" type="ENUM" jt="12" mandatory="y" >
+				<defo><![CDATA['private']]></defo>
+				<enumeration><![CDATA['public','member-specific','private']]></enumeration>
+			</column>
+			<column name="address" type="VARCHAR" length="100" jt="12" mandatory="y" >
+				<comment><![CDATA[address of the user.
+Mandatory (not null), for identity verification purpose.]]></comment>
+			</column>
+			<column name="address_visibility" type="ENUM" jt="12" mandatory="y" >
+				<defo><![CDATA['private']]></defo>
+				<enumeration><![CDATA['public','member-specific','private']]></enumeration>
+			</column>
+			<column name="date_of_birth" prior="dob" type="DATE" jt="91" mandatory="y" >
+				<comment><![CDATA[date of birth of the user.
+Mandatory (not null), for identity verification purpose.]]></comment>
+			</column>
+			<column name="date_of_birth_visibility" prior="dob_visibility" type="ENUM" jt="12" mandatory="y" >
+				<defo><![CDATA['private']]></defo>
+				<enumeration><![CDATA['public','member-specific','private']]></enumeration>
+			</column>
+			<column name="privilege_level" prior="privilege" type="ENUM" jt="12" mandatory="y" >
+				<defo><![CDATA['junior']]></defo>
+				<enumeration><![CDATA['administrator','senior','junior']]></enumeration>
+				<comment><![CDATA[privilege status of a group member (administrator, senior, junior)
+
+Mandatory (not null), for enabling the correct system functionality.]]></comment>
+			</column>
+			<column name="pseudonym" type="VARCHAR" length="50" jt="12" >
+				<comment><![CDATA[name for internal interactions]]></comment>
+			</column>
+			<column name="pseudonym_visibility" type="ENUM" jt="12" >
+				<defo><![CDATA['private']]></defo>
+				<enumeration><![CDATA['public','member-specific','private']]></enumeration>
+			</column>
+			<column name="status" type="ENUM" jt="12" >
+				<defo><![CDATA['Active']]></defo>
+				<enumeration><![CDATA['Active','Inactive','Suspended']]></enumeration>
+			</column>
+			<index name="pk_member" unique="PRIMARY_KEY" >
+				<column name="member_id" />
+			</index>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci]]></options>
+		</table>
+		<table name="personal_info_visibility" prior="private_info_visibility" >
+			<comment><![CDATA[Contains the mapping for 'member-specific' visibility of private information.
+
+Allows a particular piece of personal information, for a particular member, to be rendered visible to a particular set of other members. The set of other members can be constructed by the applicaton in the "shape" of a family, friends or groups, by simply inserting the needed member_id to the authorized_member_id.]]></comment>
+			<column name="personal_info_visiblity_id" prior="private_info_visiblity_id" type="INT" length="10" jt="4" mandatory="y" unsigned="y" />
+			<column name="owner_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[the membeer_id of the owner of this personal information]]></comment>
+			</column>
+			<column name="personal_info_type" type="ENUM" jt="12" mandatory="y" >
+				<enumeration><![CDATA['first_name','last_name','date_of_birth','address','pseudonym']]></enumeration>
+			</column>
+			<column name="authorized_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[the member_id that is authorized to view this particular personal information, of a particular member]]></comment>
+			</column>
+			<index name="pk_private_info_visibility" unique="PRIMARY_KEY" >
+				<column name="personal_info_visiblity_id" />
+			</index>
+			<index name="fk_personal_info_visibility_member" unique="NORMAL" >
+				<column name="owner_member_id" />
+			</index>
+			<index name="fk_personal_info_visibility_member_0" unique="NORMAL" >
+				<column name="authorized_member_id" />
+			</index>
+			<fk name="fk_personal_info_visibility_members" to_schema="cosn" to_table="members" >
+				<fk_column name="owner_member_id" pk="member_id" />
+			</fk>
+			<fk name="fk_personal_info_visibility_members_0" to_schema="cosn" to_table="members" >
+				<fk_column name="authorized_member_id" pk="member_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+	</schema>
+	<layout name="Main Layout" id="Layout-4cc" show_relation="columns" >
+		<comment><![CDATA[Main Layout]]></comment>
+		<entity schema="cosn" name="content" color="C1D8EE" x="640" y="240" />
+		<entity schema="cosn" name="content_permissions" color="C1D8EE" x="1056" y="400" />
+		<entity schema="cosn" name="group_members" color="C1D8EE" x="112" y="560" />
+		<entity schema="cosn" name="groups" color="3986C1" x="176" y="320" />
+		<entity schema="cosn" name="member_relationships" color="C1D8EE" x="752" y="624" />
+		<entity schema="cosn" name="members" color="3986C1" x="448" y="448" />
+		<entity schema="cosn" name="personal_info_visibility" color="C1D8EE" x="688" y="448" />
+		<callout x="48" y="48" pointer="Round" >
+			<comment><![CDATA[Create new tables by right-clicking the diagram.
+Double-click the table headers, columns, or foreign keys to edit.
+The schema structure will be saved to the design model file.]]></comment>
+		</callout>
+	</layout>
+</project>
