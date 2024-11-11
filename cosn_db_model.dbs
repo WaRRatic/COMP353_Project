@@ -27,7 +27,32 @@
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 		<table name="content_permissions" prior="tbl" >
-			<column name="content_permission_id" type="INT" jt="4" />
+			<column name="content_permission_id" type="INT" jt="4" mandatory="y" unsigned="y" />
+			<column name="target_content_id" type="INT" jt="4" unsigned="y" >
+				<comment><![CDATA[the specific piece of conent, defined by content_id on which a particular member has a certain permission]]></comment>
+			</column>
+			<column name="authorized_member_id" type="INT" jt="4" unsigned="y" >
+				<comment><![CDATA[which member_id has a specific permission to do something with a specific content_id
+
+authorized_member_id = 1 is "private" system member
+authorized_member_id = 2 is "public" system member]]></comment>
+			</column>
+			<column name="content_permission_type" type="ENUM" jt="12" >
+				<defo><![CDATA['private']]></defo>
+				<enumeration><![CDATA['private','read','edit','comment','share','modify-permission','moderate','link']]></enumeration>
+				<comment><![CDATA[the type of permission that the authorized_member_id has on this particular piece of content
+can be
+'private','read','edit','comment','share','modify-permission','moderate','link']]></comment>
+			</column>
+			<index name="pk_content_permissions" unique="PRIMARY_KEY" >
+				<column name="content_permission_id" />
+			</index>
+			<fk name="fk_content_permissions_content" to_schema="cosn" to_table="content" >
+				<fk_column name="target_content_id" pk="content_id" />
+			</fk>
+			<fk name="fk_content_permissions_members" to_schema="cosn" to_table="members" >
+				<fk_column name="authorized_member_id" pk="member_id" />
+			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 		<table name="group_members" prior="tbl" >
@@ -109,7 +134,10 @@
 		</table>
 		<table name="members" prior="member" spec="" >
 			<comment><![CDATA[contains the info for every member of COSN]]></comment>
-			<column name="member_id" type="INT" length="10" jt="4" mandatory="y" unsigned="y" />
+			<column name="member_id" type="INT" length="10" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[member_id = 1 is "private" system member
+member_id = 2 is "public" system member]]></comment>
+			</column>
 			<column name="username" type="VARCHAR" length="100" jt="12" mandatory="y" />
 			<column name="password" type="VARCHAR" length="50" jt="12" mandatory="y" >
 				<comment><![CDATA[password of the user
@@ -121,45 +149,19 @@ Mandatory (not null), for enabling the correct system functionality.]]></comment
 
 Mandatory (not null), for identity verification purpose.]]></comment>
 			</column>
-			<column name="email_visibility" type="ENUM" jt="12" mandatory="y" >
-				<defo><![CDATA['private']]></defo>
-				<enumeration><![CDATA['public','member-specific','private']]></enumeration>
-				<comment><![CDATA[Defines the visibility of email.
-
-Public - everyone can see it.
-Private - nobody, except the owner of the info can see it.
-
-member-specific - when you see this, go the the 'personal_info_visibility' table to check which members can see this this information.]]></comment>
-			</column>
 			<column name="first_name" type="VARCHAR" length="100" jt="12" mandatory="y" >
 				<comment><![CDATA[Mandatory (not null), for identity verification purpose.]]></comment>
 			</column>
-			<column name="first_name_visibility" type="ENUM" jt="12" mandatory="y" >
-				<defo><![CDATA['private']]></defo>
-				<enumeration><![CDATA['public','member-specific','private']]></enumeration>
-			</column>
 			<column name="last_name" type="VARCHAR" length="100" jt="12" mandatory="y" >
 				<comment><![CDATA[Mandatory (not null), for identity verification purpose.]]></comment>
-			</column>
-			<column name="last_name_visibility" type="ENUM" jt="12" mandatory="y" >
-				<defo><![CDATA['private']]></defo>
-				<enumeration><![CDATA['public','member-specific','private']]></enumeration>
 			</column>
 			<column name="address" type="VARCHAR" length="100" jt="12" mandatory="y" >
 				<comment><![CDATA[address of the user.
 Mandatory (not null), for identity verification purpose.]]></comment>
 			</column>
-			<column name="address_visibility" type="ENUM" jt="12" mandatory="y" >
-				<defo><![CDATA['private']]></defo>
-				<enumeration><![CDATA['public','member-specific','private']]></enumeration>
-			</column>
 			<column name="date_of_birth" prior="dob" type="DATE" jt="91" mandatory="y" >
 				<comment><![CDATA[date of birth of the user.
 Mandatory (not null), for identity verification purpose.]]></comment>
-			</column>
-			<column name="date_of_birth_visibility" prior="dob_visibility" type="ENUM" jt="12" mandatory="y" >
-				<defo><![CDATA['private']]></defo>
-				<enumeration><![CDATA['public','member-specific','private']]></enumeration>
 			</column>
 			<column name="privilege_level" prior="privilege" type="ENUM" jt="12" mandatory="y" >
 				<defo><![CDATA['junior']]></defo>
@@ -171,21 +173,18 @@ Mandatory (not null), for enabling the correct system functionality.]]></comment
 			<column name="pseudonym" type="VARCHAR" length="50" jt="12" >
 				<comment><![CDATA[name for internal interactions]]></comment>
 			</column>
-			<column name="pseudonym_visibility" type="ENUM" jt="12" >
-				<defo><![CDATA['private']]></defo>
-				<enumeration><![CDATA['public','member-specific','private']]></enumeration>
-			</column>
 			<column name="status" type="ENUM" jt="12" >
-				<defo><![CDATA['Active']]></defo>
-				<enumeration><![CDATA['Active','Inactive','Suspended']]></enumeration>
+				<defo><![CDATA['active']]></defo>
+				<enumeration><![CDATA['active','inactive','suspended','system']]></enumeration>
+				<comment><![CDATA[the 'system' status is used for internal backend representation of "public" and "private" members]]></comment>
 			</column>
 			<index name="pk_member" unique="PRIMARY_KEY" >
 				<column name="member_id" />
 			</index>
 			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci]]></options>
 		</table>
-		<table name="personal_info_visibility" prior="private_info_visibility" >
-			<comment><![CDATA[Contains the mapping for 'member-specific' visibility of private information.
+		<table name="personal_info_permissions" prior="personal_info_visibility" >
+			<comment><![CDATA[Contains the mapping for 'member-specific' permissions (visibility) of private information.
 
 Allows a particular piece of personal information, for a particular member, to be rendered visible to a particular set of other members. The set of other members can be constructed by the applicaton in the "shape" of a family, friends or groups, by simply inserting the needed member_id to the authorized_member_id.]]></comment>
 			<column name="personal_info_visiblity_id" prior="private_info_visiblity_id" type="INT" length="10" jt="4" mandatory="y" unsigned="y" />
@@ -196,7 +195,10 @@ Allows a particular piece of personal information, for a particular member, to b
 				<enumeration><![CDATA['first_name','last_name','date_of_birth','address','pseudonym']]></enumeration>
 			</column>
 			<column name="authorized_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
-				<comment><![CDATA[the member_id that is authorized to view this particular personal information, of a particular member]]></comment>
+				<comment><![CDATA[the member_id that is authorized to view this particular personal information, of a particular member
+
+authorized_member_id = 1, it is visible to the "private" system member
+authorized_member_id = 2, it is visible to the "public" system member]]></comment>
 			</column>
 			<index name="pk_private_info_visibility" unique="PRIMARY_KEY" >
 				<column name="personal_info_visiblity_id" />
@@ -224,7 +226,7 @@ Allows a particular piece of personal information, for a particular member, to b
 		<entity schema="cosn" name="groups" color="3986C1" x="176" y="320" />
 		<entity schema="cosn" name="member_relationships" color="C1D8EE" x="752" y="624" />
 		<entity schema="cosn" name="members" color="3986C1" x="448" y="448" />
-		<entity schema="cosn" name="personal_info_visibility" color="C1D8EE" x="688" y="448" />
+		<entity schema="cosn" name="personal_info_permissions" color="C1D8EE" x="688" y="448" />
 		<callout x="48" y="48" pointer="Round" >
 			<comment><![CDATA[Create new tables by right-clicking the diagram.
 Double-click the table headers, columns, or foreign keys to edit.
