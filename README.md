@@ -205,3 +205,16 @@ Who within those groups (such as certain members or roles) may have permission t
 For example, a member might allow their family group to view their home address but restrict access to it from their professional group. Alternatively, they might make their work history visible to colleagues in one specific project group while keeping it hidden from another group they belong to.
 
 In short, the visibility control is designed to give members the flexibility to share different parts of their personal information with specific groups or individuals within those groups based on their preferences.
+
+
+>**Q:** Based on the requirements, are the address fields, first and last name mandatory or could be blank?
+
+**A:** Based on the requirements provided, first and last names are likely mandatory, as they are essential for identity verification (for instance, when a new person is introduced by an existing member). The address field, however, does not appear to be required explicitly for membership or functionality, so it could likely be left blank if the user wishes.
+
+Here's the reasoning for each field:
+
+First and Last Name: These are necessary for verifying identities, especially when new users are introduced by existing members, as the system requires providing the "name and appropriate ID of an existing member" to validate membership. This suggests that names are required to ensure proper identification and association.
+
+Address: While the address might be part of the "other personal information," there is no explicit mention that it is required for membership or core functionality. It may therefore be optional or blank by default.
+
+In summary, first and last names are likely mandatory, while the address field could be optional or blank, depending on specific privacy or completeness preferences.
