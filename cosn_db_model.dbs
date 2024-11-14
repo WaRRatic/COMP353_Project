@@ -15,11 +15,14 @@
 				<comment><![CDATA[URL link to the data of the content]]></comment>
 			</column>
 			<column name="creation_date" type="DATE" jt="91" mandatory="y" >
-				<defo><![CDATA[CURRENT_DATE]]></defo>
+				<defo><![CDATA[curdate()]]></defo>
 				<comment><![CDATA[when was the content created]]></comment>
 			</column>
 			<index name="pk_content_data" unique="PRIMARY_KEY" >
 				<column name="content_id" />
+			</index>
+			<index name="fk_content_members" unique="NORMAL" >
+				<column name="creator_id" />
 			</index>
 			<fk name="fk_content_members" to_schema="cosn" to_table="members" >
 				<fk_column name="creator_id" pk="member_id" />
@@ -46,6 +49,12 @@ can be
 			</column>
 			<index name="pk_content_permissions" unique="PRIMARY_KEY" >
 				<column name="content_permission_id" />
+			</index>
+			<index name="fk_content_permissions_content" unique="NORMAL" >
+				<column name="target_content_id" />
+			</index>
+			<index name="fk_content_permissions_members" unique="NORMAL" >
+				<column name="authorized_member_id" />
 			</index>
 			<fk name="fk_content_permissions_content" to_schema="cosn" to_table="content" >
 				<fk_column name="target_content_id" pk="content_id" />
@@ -74,6 +83,12 @@ can be
 			</column>
 			<index name="pk_group_members" unique="PRIMARY_KEY" >
 				<column name="group_membership_id" />
+			</index>
+			<index name="fk_group_members_members" unique="NORMAL" >
+				<column name="participant_member_id" />
+			</index>
+			<index name="fk_group_members_groups" unique="NORMAL" >
+				<column name="joined_group_id" />
 			</index>
 			<fk name="fk_group_members_members" to_schema="cosn" to_table="members" >
 				<fk_column name="participant_member_id" pk="member_id" />
@@ -124,6 +139,12 @@ can be
 			<index name="pk_member_relationships" unique="PRIMARY_KEY" >
 				<column name="relationship_id" />
 			</index>
+			<index name="fk_member_relationships_members" unique="NORMAL" >
+				<column name="origin_member_id" />
+			</index>
+			<index name="fk_member_relationships_members_0" unique="NORMAL" >
+				<column name="target_member_id" />
+			</index>
 			<fk name="fk_member_relationships_members" to_schema="cosn" to_table="members" >
 				<fk_column name="origin_member_id" pk="member_id" />
 			</fk>
@@ -173,9 +194,9 @@ Mandatory (not null), for enabling the correct system functionality.]]></comment
 			<column name="pseudonym" type="VARCHAR" length="50" jt="12" >
 				<comment><![CDATA[name for internal interactions]]></comment>
 			</column>
-			<column name="status" type="ENUM" jt="12" >
+			<column name="status" type="ENUM" jt="12" mandatory="y" >
 				<defo><![CDATA['active']]></defo>
-				<enumeration><![CDATA['active','inactive','suspended','system']]></enumeration>
+				<enumeration><![CDATA['active','inactive','suspended']]></enumeration>
 				<comment><![CDATA[the 'system' status is used for internal backend representation of "public" and "private" members]]></comment>
 			</column>
 			<index name="pk_member" unique="PRIMARY_KEY" >

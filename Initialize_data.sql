@@ -1,5 +1,6 @@
 -- Active: 1731288670016@@127.0.0.1@3306@cosn
 --insert a "private" system member
+
 insert into 
   members (
     member_id, 
@@ -17,6 +18,35 @@ insert into
 values
   (
     1, 
+    'admin', 
+    'admin', 
+    'admin@cosn.com', 
+    'admin', 
+    'admin', 
+    'private', 
+    '1999-12-31', 
+    'administrator', 
+    'admin', 
+    'active'
+  );
+
+insert into 
+  members (
+    member_id, 
+    username, 
+    password, 
+    email, 
+    first_name, 
+    last_name, 
+    address, 
+    date_of_birth, 
+    privilege_level, 
+    pseudonym, 
+    status
+  )
+values
+  (
+    2, 
     'private', 
     'pw', 
     'private@email.com', 
@@ -26,7 +56,7 @@ values
     '1999-12-31', 
     'administrator', 
     'private', 
-    'system'
+    'active'
   );
 
 --insert a "public" system member
@@ -46,7 +76,7 @@ values
   )
 values
   (
-    2, 
+    3, 
     'public', 
     'pw', 
     'public@email.com', 
@@ -56,7 +86,7 @@ values
     '1999-12-31', 
     'administrator', 
     'public', 
-    'system'
+    'active'
   );
 
   --insert a "jimi hendrix" senior member, with status 'inactive'
@@ -76,9 +106,9 @@ values
   )
 values
   (
-    3, 
+    4, 
     'purple_haze', 
-    'pw9999', 
+    'purple_haze', 
     'jhendrix@email.com', 
     'Jimi', 
     'Hendrix', 
@@ -106,9 +136,9 @@ values
   )
 values
   (
-    4, 
+    5, 
     'lizard_king', 
-    'pw9999', 
+    'lizard_king', 
     'jmorrison@email.com', 
     'Jim', 
     'Morrison', 
@@ -137,9 +167,9 @@ values
   )
 values
   (
-    5, 
+    6, 
     'starlight', 
-    'pw9999', 
+    'starlight', 
     'mbellamy@email.com', 
     'Matt', 
     'Bellamy', 
@@ -167,9 +197,9 @@ values
   )
 values
   (
-    6, 
+    7, 
     'deadly_nightshade', 
-    'pw9999', 
+    'deadly_nightshade', 
     'ldr@email.com', 
     'Lana', 
     'Del Rey', 
