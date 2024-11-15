@@ -123,7 +123,7 @@ $result = $conn->query($sql);
         <br>
         <br>
         <ul>
-            <li><a href="homepage.php">back to homepage</a></li>
+            <li><a href="homepage.php">Back to Homepage</a></li>
         </ul>
 </body>
 </body>

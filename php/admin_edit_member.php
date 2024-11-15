@@ -90,7 +90,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     $stmt = $conn->prepare("UPDATE Members SET username = ?, password = ?, email = ?, first_name = ?, last_name = ?, address = ?, date_of_birth = ?, privilege_level = ?, pseudonym = ?, status = ? WHERE member_id = ?");
-    $stmt->bind_param("ssssssssssi", $username, $password, $email, $first_name, $last_name, $address, $date_of_birth, $privilege_level, $pseudonym, $status,$member_id);//'i' is for integer, 's' is for string, each "letter" must match the data types of the parameter, thefore 12 letters = 12 parameters
+    //'i' is for integer, 's' is for string, each "letter" must match the data types of the parameter, thefore 12 letters = 12 parameters
+    $stmt->bind_param("ssssssssssi", $username, $password, $email, $first_name, $last_name, $address, $date_of_birth, $privilege_level, $pseudonym, $status,$member_id);
     try{
         if ($stmt->execute()) {
             $conn->commit(); //if the update goes through without error, commit the transaction therefore saving the data
@@ -135,37 +136,37 @@ $conn->close();
     <h1>Edit Member</h1>
     <p>This section is only visible to admin users.</p>
     <form method="POST">
-        <label for="member_id">member_id:</label>
+        <label for="member_id">Member ID:</label>
         <input type="text" id="member_id" name="member_id" value="<?php echo $member_id; ?>" required><br>
         
-        <label for="username">username:</label>
+        <label for="username">Username:</label>
         <input type="text" id="username" name="username" value="<?php echo $username; ?>" required><br>
         
-        <label for="password">password:</label>
+        <label for="password">Password:</label>
         <input type="text" id="password" name="password" value="<?php echo $password; ?>" required><br>
 
         <label for="email">Email:</label>
         <input type="text" id="email" name="email" value="<?php echo $email; ?>" required><br>
         
-        <label for="first_name">first_name:</label>
+        <label for="first_name">First Name:</label>
         <input type="text" id="first_name" name="first_name" value="<?php echo $first_name; ?>" required><br>
 
-        <label for="last_name">last_name:</label>
+        <label for="last_name">Last Name:</label>
         <input type="text" id="last_name" name="last_name" value="<?php echo $last_name; ?>" required><br>
 
-        <label for="address">address:</label>
+        <label for="address">Address:</label>
         <input type="text" id="address" name="address" value="<?php echo $address; ?>" required><br>
 
-        <label for="date_of_birth">date_of_birth:</label>
+        <label for="date_of_birth">Date Of Birth:</label>
         <input type="text" id="date_of_birth" name="date_of_birth" value="<?php echo $date_of_birth; ?>" required><br>
 
-        <label for="privilege_level">privilege_level:</label>
+        <label for="privilege_level">Privilege Level:</label>
         <input type="text" id="privilege_level" name="privilege_level" value="<?php echo $privilege_level; ?>" required><br>
 
-        <label for="pseudonym">pseudonym:</label>
+        <label for="pseudonym">Pseudonym:</label>
         <input type="text" id="pseudonym" name="pseudonym" value="<?php echo $pseudonym; ?>" required><br>
         
-        <label for="status">status:</label>
+        <label for="status">Status:</label>
         <input type="text" id="status" name="status" value="<?php echo $status; ?>" required><br>
 
         <button type="submit">Update Member</button>
