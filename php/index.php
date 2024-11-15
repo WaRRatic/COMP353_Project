@@ -14,10 +14,10 @@
         .container {
             max-width: 400px;
             margin: auto;
-            padding: 20px;
-            text-align: center;
+            padding: 50px;
+            text-align:center;
             border: 1px solid #444;
-            border-radius: 5px;
+            border-radius: 40px;
             background-color: #2a2a2a;
         }
         input[type="text"], input[type="password"] {
