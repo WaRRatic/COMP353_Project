@@ -29,6 +29,12 @@
             border: 1px solid #555;
             border-radius: 5px;
         }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px; /* Spacing between buttons */
+            margin-top: 10px;
+        }
         button {
             padding: 10px 20px;
             border: none;
@@ -36,6 +42,7 @@
             color: #ffffff;
             border-radius: 5px;
             cursor: pointer;
+            flex: 1; /* Optional: makes both buttons the same width */
         }
         button:hover {
             background-color: #555;
@@ -106,15 +113,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-    <form method="POST" action="index.php">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required><br>
+<form method="POST" action="index.php">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required><br>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required><br>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required><br>
 
-        <button type="submit">Login</button>
-    </form>
+<div class="button-container">
+<!-- Login Button -->
+<button type="submit">Login</button>
+
+<!-- Sign Up Button with JavaScript for inline functionality -->
+<button type="button" onclick="window.location.href='cosn_sign_up.php'">Sign Up</button>
+
 </div>
 
 </body>

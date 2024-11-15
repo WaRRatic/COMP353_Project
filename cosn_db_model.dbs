@@ -155,7 +155,8 @@ can be
 		</table>
 		<table name="members" prior="member" spec="" >
 			<comment><![CDATA[contains the info for every member of COSN]]></comment>
-			<column name="member_id" type="INT" length="10" jt="4" mandatory="y" unsigned="y" >
+			<column name="member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
 				<comment><![CDATA[member_id = 1 is "private" system member
 member_id = 2 is "public" system member]]></comment>
 			</column>
@@ -176,11 +177,11 @@ Mandatory (not null), for identity verification purpose.]]></comment>
 			<column name="last_name" type="VARCHAR" length="100" jt="12" mandatory="y" >
 				<comment><![CDATA[Mandatory (not null), for identity verification purpose.]]></comment>
 			</column>
-			<column name="address" type="VARCHAR" length="100" jt="12" mandatory="y" >
+			<column name="address" type="VARCHAR" length="100" jt="12" >
 				<comment><![CDATA[address of the user.
 Mandatory (not null), for identity verification purpose.]]></comment>
 			</column>
-			<column name="date_of_birth" prior="dob" type="DATE" jt="91" mandatory="y" >
+			<column name="date_of_birth" prior="dob" type="DATE" jt="91" >
 				<comment><![CDATA[date of birth of the user.
 Mandatory (not null), for identity verification purpose.]]></comment>
 			</column>
