@@ -1,4 +1,15 @@
+# Project Set up
+
+In order to make the script run on your machine, you need your MariaDB installed, along with PHP, Apache, and XAMMP to initiate the servers.
+I use Visual Studio IDE for development.
+
+PHP files go inside htdocs folder of XAMMP installation folder
+Execute DB Create COSN Schema.sql against your running MariaDB script
+Execute .SQL files in the Initialize DB Data folder against the DB Create COSN Schema.sql
+once you have everything set up, go to http://localhost/index.php to view the website.
+
 # COMP353_Project -- Original focused problem statement
+
 Your objective is to design a relational database system for a “realistic”
 Private Online Community Social Network System (COSN) sketched out below.
 
