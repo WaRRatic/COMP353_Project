@@ -34,7 +34,9 @@ Requirements Specification
 
 You are required to develop a database system that will store at least the information about the
 following entities and relationships:
--Details on members: ID, password, other personal information such as address, internal
+
+-Details on members: 
+ID, password, other personal information such as address, internal
 interaction pseudonym etc. Members have family, friends and colleagues, privilege and status.
 A member can specify what part of his/her personal information is public and what part is
 accessible to which members of his/her group or is private.
@@ -70,26 +72,31 @@ system), emails have to be simulated by a pop-up window and internal and sent em
 
 Guidelines
 
--Details about groups: Records of information on each group, owner of the group, and list of
+-Details about groups:
+Records of information on each group, owner of the group, and list of
 members belonging to the group. Owner of the group can add new members or remove members
 from the group. Members of a group can share a forum of information such as photos, videos and
 posts. Adding any member to a group requires the knowledge of the person's email address, first name and DOB. 
 For a business member, the DOB is the date of incorporation of the business.
+
 -Each member has a home page which has an index of his/her contents as well as the contents
 of each of the groups where he is an owner or member. The owner has a feature to view and
 manage the permissions to any content; the permissions can be changed only by the owner.
 -Details on contents and the permissions: Each content added by a member can have a profile
 which indicates who can do what with it. Content can be classified as view only, view and
 comment or view and add or link to other content.
+
 - Non-person entities, local businesses, local organizations etc. could become members as long as
 they behave in a civil manner. The person members could always organize a plebiscite of person
 members to oust a non-person member and delete its contents.
+
 -The administrators include the content moderators. Each new content would be reviewed by
 a moderator before it could be posted. Any uncivil content is black-listed (not posted) and the
 member posting it is warned about the non-conformity of the posted content. A ‘real person’
 member is suspended for a duration of time once the number of warnings exceeds 3. A business
 person is fined after the second warning. If the number of suspensions or fines exceeds 3, the
 member is suspended for at least a year.
+
 - The membership is free for a ‘real-person’ whereas for a business member there is a fee, based
 on the number of postings made by it. 
 
