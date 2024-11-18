@@ -17,16 +17,16 @@ insert into
 values
   (
     1, 
-    'private', 
-    'pw', 
-    'private@email.com', 
-    'private', 
-    'private', 
-    'private', 
-    '1999-12-31', 
+    'josh_hommewwwwww', 
+    'pw1111', 
+    'jhomme@email.com', 
+    'Josh', 
+    'Homme', 
+    '567 Road', 
+    '1973-04-17', 
     'administrator', 
-    'private', 
-    'system'
+    'joshieboy', 
+    'active'
   );
 
 --insert a "public" system member
@@ -47,21 +47,21 @@ values
 values
   (
     2, 
-    'public', 
-    'pw', 
-    'public@email.com', 
-    'public', 
-    'public', 
-    'public', 
-    '1999-12-31', 
+    'steve_colbert', 
+    'sc2222', 
+    'scolbert@email.com', 
+    'Stephen', 
+    'Colbert', 
+    '999 Roadblock', 
+    '1964-04-13', 
     'administrator', 
-    'public', 
-    'system'
+    'stevie', 
+    'inactive'
   );
 
   --insert a "jimi hendrix" senior member, with status 'inactive'
     insert into 
-  members (
+  cosn.members (
     member_id, 
     username, 
     password, 
@@ -78,7 +78,7 @@ values
   (
     3, 
     'purple_haze', 
-    'pw9999', 
+    'jh3333', 
     'jhendrix@email.com', 
     'Jimi', 
     'Hendrix', 
@@ -91,7 +91,7 @@ values
 
   --insert a "jim morrison" senior member, with status 'suspended'
   insert into 
-  members (
+  cosn.members (
     member_id, 
     username, 
     password, 
@@ -108,7 +108,7 @@ values
   (
     4, 
     'lizard_king', 
-    'pw9999', 
+    'pw4444', 
     'jmorrison@email.com', 
     'Jim', 
     'Morrison', 
@@ -122,7 +122,7 @@ values
   
   --insert a "Matt Bellamy" senior member, with status 'active'
   insert into 
-  members (
+  cosn.members (
     member_id, 
     username, 
     password, 
@@ -139,7 +139,7 @@ values
   (
     5, 
     'starlight', 
-    'pw9999', 
+    'pw5555', 
     'mbellamy@email.com', 
     'Matt', 
     'Bellamy', 
@@ -152,7 +152,7 @@ values
 
     --insert a "Lana Del Rey" junior member, with status active
   insert into 
-  members (
+  cosn.members (
     member_id, 
     username, 
     password, 
@@ -169,7 +169,7 @@ values
   (
     6, 
     'deadly_nightshade', 
-    'pw9999', 
+    'pw6666', 
     'ldr@email.com', 
     'Lana', 
     'Del Rey', 
@@ -181,7 +181,7 @@ values
   );
 --insert a "sharon den adel" senior member, with status 'active'
   insert into 
-  members (
+  cosn.members (
     member_id, 
     username, 
     password, 
@@ -198,7 +198,7 @@ values
   (
     7, 
     'icequeen', 
-    'pw9999', 
+    'pw7777', 
     'sda@email.com', 
     'Sharon', 
     'Den Adel', 
@@ -208,9 +208,9 @@ values
     'icequeen77', 
     'active'
   );
-  --insert a "axl rose" senior member, with status 'inactive'
+  --insert a "axl" senior member, with status 'inactive'
   insert into 
-  members (
+  cosn.members (
     member_id, 
     username, 
     password, 
@@ -227,7 +227,7 @@ values
   (
     8, 
     'novemberrain', 
-    'pw9999', 
+    'pw8888', 
     'gnr@email.com', 
     'Axl', 
     'Rose', 

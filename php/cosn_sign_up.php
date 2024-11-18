@@ -122,6 +122,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'], $_POST['m
     $stmt = $pdo->prepare('SELECT member_id, username FROM members WHERE username = :username AND member_id = :member_id');
     $stmt->execute(['username' => $username, 'member_id' => $member_id]);
     $result = $stmt->fetch();
+
+    //JavaScript <script> tag
     try{
         if ($result) {
             // Use JavaScript to reveal the signup form if verification is successful
@@ -162,6 +164,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'], $_POST['m
         $stmt->execute(['new_username' => $new_username]);
         $usernameExists = $stmt->fetch();
 
+        //JavaScript <script> tag
         if ($emailExists) {
             echo "<script>alert('Email is already in use. Please use a different email address.');</script>";
         } elseif($usernameExists) {

@@ -1,6 +1,6 @@
 
 insert into 
-  content_permissions (
+  cosn.content_permissions (
     content_permission_id, 
     target_content_id, 
     authorized_member_id, 
@@ -15,7 +15,7 @@ values
   );
 
   insert into 
-  content_permissions (
+  cosn.content_permissions (
     content_permission_id, 
     target_content_id, 
     authorized_member_id, 
@@ -30,7 +30,7 @@ values
   );
 
   insert into 
-  content_permissions (
+  cosn.content_permissions (
     content_permission_id, 
     target_content_id, 
     authorized_member_id, 
@@ -45,7 +45,7 @@ values
   );
 
   insert into 
-  content_permissions (
+  cosn.content_permissions (
     content_permission_id, 
     target_content_id, 
     authorized_member_id, 
@@ -60,7 +60,7 @@ values
   );
 
   insert into 
-  content_permissions (
+  cosn.content_permissions (
     content_permission_id, 
     target_content_id, 
     authorized_member_id, 
@@ -75,7 +75,7 @@ values
   );
 
   insert into 
-  content_permissions (
+  cosn.content_permissions (
     content_permission_id, 
     target_content_id, 
     authorized_member_id, 
@@ -90,7 +90,7 @@ values
   );
 
   insert into 
-  content_permissions (
+  cosn.content_permissions (
     content_permission_id, 
     target_content_id, 
     authorized_member_id, 
@@ -105,7 +105,7 @@ values
   );
 
   insert into 
-  content_permissions (
+  cosn.content_permissions (
     content_permission_id, 
     target_content_id, 
     authorized_member_id, 
@@ -114,7 +114,7 @@ values
 values
   (
     8, 
-    3, 
+    4, 
     2, 
     'link'
   );

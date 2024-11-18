@@ -31,6 +31,7 @@ values
     'Group that is interested in the discussion and content sharing related to music of all genres', 
     '2021-04-20'
   );
+  
   insert into 
   cosn.groups (
     group_id, 

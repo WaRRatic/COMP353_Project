@@ -1,6 +1,6 @@
 
 insert into 
-  member_relationships (
+  cosn.member_relationships (
     relationship_id, 
     origin_member_id, 
     target_member_id, 
@@ -15,7 +15,7 @@ values
   );
 
   insert into 
-  member_relationships (
+  cosn.member_relationships (
     relationship_id, 
     origin_member_id, 
     target_member_id, 
@@ -30,7 +30,7 @@ values
   );
 
   insert into 
-  member_relationships (
+  cosn.member_relationships (
     relationship_id, 
     origin_member_id, 
     target_member_id, 
@@ -45,7 +45,7 @@ values
   );
 
   insert into 
-  member_relationships (
+  cosn.member_relationships (
     relationship_id, 
     origin_member_id, 
     target_member_id, 

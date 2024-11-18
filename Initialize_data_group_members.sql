@@ -1,5 +1,5 @@
 insert into 
-  group_members (
+ cosn.group_members (
     group_membership_id, 
     participant_member_id, 
     joined_group_id, 
@@ -16,7 +16,7 @@ values
   );
 
   insert into 
-  group_members (
+  cosn.group_members (
     group_membership_id, 
     participant_member_id, 
     joined_group_id, 
@@ -33,7 +33,7 @@ values
   );
 
   insert into 
-  group_members (
+  cosn.group_members (
     group_membership_id, 
     participant_member_id, 
     joined_group_id, 
@@ -50,7 +50,7 @@ values
   );
 
   insert into 
-  group_members (
+  cosn.group_members (
     group_membership_id, 
     participant_member_id, 
     joined_group_id, 

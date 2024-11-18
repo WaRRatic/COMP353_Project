@@ -214,9 +214,13 @@ can be
 			<column name="target_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[the member to whom the origin_member is connected]]></comment>
 			</column>
-			<column name="relationship_type" type="ENUM" jt="12" mandatory="y" >
+			<column name="member_relationship_type" prior="relationship_type" type="ENUM" jt="12" mandatory="y" >
 				<enumeration><![CDATA['friend','family','colleague','blocked']]></enumeration>
 				<comment><![CDATA[The type of relationship can be 'friend, 'family', 'colleague' or 'blocked']]></comment>
+			</column>
+			<column name="member_relationship_status" type="ENUM" jt="12" >
+				<enumeration><![CDATA['requested','approved','rejected']]></enumeration>
+				<comment><![CDATA[used to represent the evolution of the relationship from, specifically from a friend/family/colleage request to an actual confirmed relationship]]></comment>
 			</column>
 			<index name="pk_member_relationships" unique="PRIMARY_KEY" >
 				<column name="relationship_id" />
