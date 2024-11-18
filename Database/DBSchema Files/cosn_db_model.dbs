@@ -21,6 +21,11 @@
 			<column name="content_title" type="VARCHAR" length="100" jt="12" >
 				<comment><![CDATA[title of the post of the content]]></comment>
 			</column>
+			<column name="moderation_status" type="ENUM" jt="12" >
+				<defo><![CDATA['pending']]></defo>
+				<enumeration><![CDATA['pending', 'approved', 'rejected']]></enumeration>
+				<comment><![CDATA[status of the piece of content in terms of moderation]]></comment>
+			</column>
 			<index name="pk_content_data" unique="PRIMARY_KEY" >
 				<column name="content_id" />
 			</index>
@@ -60,6 +65,28 @@
 			</index>
 			<fk name="fk_content_group_permissions_groups" to_schema="cosn" to_table="groups" >
 				<fk_column name="target_group_id" pk="group_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="content_link_relationship" prior="content_" >
+			<comment><![CDATA[Describes the way that content s linked between each other such as a comment to a post]]></comment>
+			<column name="content_link_rel_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
+			</column>
+			<column name="origin_content_id" type="INT" jt="4" unsigned="y" >
+				<comment><![CDATA[ContendID of the piece of content to which another piece of content is linked]]></comment>
+			</column>
+			<column name="target_content_id" prior="targrt_content_id" type="INT" jt="4" unsigned="y" >
+				<comment><![CDATA[Identifies the piece of content that is linked to the origin contentID]]></comment>
+			</column>
+			<index name="pk_content_link_relationship" unique="PRIMARY_KEY" >
+				<column name="content_link_rel_id" />
+			</index>
+			<fk name="fk_content_link_relationship_content" to_schema="cosn" to_table="content" >
+				<fk_column name="origin_content_id" pk="content_id" />
+			</fk>
+			<fk name="fk_content_link_relationship_content_0" to_schema="cosn" to_table="content" >
+				<fk_column name="target_content_id" pk="content_id" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
@@ -349,18 +376,19 @@ authorized_member_id = 2, it is visible to the "public" system member]]></commen
 		</table>
 	</schema>
 	<layout name="Main Layout" id="Layout-4cc" show_relation="columns" >
-		<comment><![CDATA[Main Layout]]></comment>
+		<comment><![CDATA[COSN DB Schema]]></comment>
 		<entity schema="cosn" name="content" color="C1D8EE" x="640" y="240" />
-		<entity schema="cosn" name="content_group_permissions" color="C1D8EE" x="576" y="64" />
+		<entity schema="cosn" name="content_group_permissions" color="C1D8EE" x="448" y="80" />
+		<entity schema="cosn" name="content_link_relationship" color="C1D8EE" x="848" y="80" />
 		<entity schema="cosn" name="content_member_permission" color="C1D8EE" x="1056" y="400" />
 		<entity schema="cosn" name="content_public_permissions" color="C1D8EE" x="960" y="256" />
 		<entity schema="cosn" name="group_members" color="C1D8EE" x="112" y="560" />
 		<entity schema="cosn" name="groups" color="3986C1" x="176" y="320" />
-		<entity schema="cosn" name="member_messages" color="C1D8EE" x="736" y="848" />
-		<entity schema="cosn" name="member_relationships" color="C1D8EE" x="336" y="880" />
+		<entity schema="cosn" name="member_messages" color="C1D8EE" x="736" y="800" />
+		<entity schema="cosn" name="member_relationships" color="C1D8EE" x="256" y="768" />
 		<entity schema="cosn" name="members" color="3986C1" x="448" y="448" />
 		<entity schema="cosn" name="personal_info_permissions" color="C1D8EE" x="784" y="496" />
-		<entity schema="cosn" name="personal_info_public_permissions" color="C1D8EE" x="960" y="656" />
+		<entity schema="cosn" name="personal_info_public_permissions" color="C1D8EE" x="784" y="656" />
 		<callout x="48" y="48" pointer="Round" >
 			<comment><![CDATA[Create new tables by right-clicking the diagram.
 Double-click the table headers, columns, or foreign keys to edit.
