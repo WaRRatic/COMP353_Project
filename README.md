@@ -10,7 +10,7 @@ Execute DB Create COSN Schema.sql against your running MariaDB script.
 
 Execute .SQL files in the Initialize DB Data folder against the DB Create COSN Schema.sql.
 
-once you have everything set up, go to http://localhost/index.php to view the website.
+Once you have everything set up, go to http://localhost/index.php to view the website.
 
 # COMP353_Project -- Original focused problem statement
 
@@ -18,19 +18,20 @@ Your objective is to design a relational database system for a “realistic”
 Private Online Community Social Network System (COSN) sketched out below.
 
 Use MySQL Database Management System to develop the Private Online Community Social
-Network System - COSN. One of the objectiveis to first flesh out the requirement of the system
+Network System - COSN. One of the objectives is to first flesh out the requirements of the system
 bearing in mind the minimum as sketched below. The application would include a collection of
 tables and services hosted by COSN. Hence COSN would enable members to access a local
-community based server to share information and ideas. It provides services for people sharing
-interests, activities, and backgrounds among themselves. The COSN system allow its members
-to create a profile, to create a list of other members with whom to share contents, and to view
-and add comments and contents - if enabled by the owner member of the web page. It also
-allows members to interact among each other via self-contained messaging system. The
-objective is the sharing of news, pictures, posts, activities, events, interests with members in the
+community-based server to share information and ideas. It provides services for people sharing
+interests, activities, and backgrounds among themselves. The COSN system allows its members
+to create a profile, to create a list of other members with whom to share content, and to view
+and add comments and content - if enabled by the owner member of the web page. It also
+allows members to interact with each other via a self-contained messaging system. The
+objective is the sharing of news, pictures, posts, activities, events, and interests with members of the
 community. Also, it allows members to create groups that share common interests or affiliations
 and hold discussions in forums. 
 
 Requirements Specification
+
 You are required to develop a database system that will store at least the information about the
 following entities and relationships:
 -Details on members: ID, password, other personal information such as address, internal
@@ -41,7 +42,7 @@ A new person in the community can become a member by entering his details and va
 entering the required details such as the name and appropriate ID of an existing member or by
 being introduced to the system by an existing member. Only public information is visible to
 other non-members. Privilege can be either administrator, senior or junior. A member with an
-administrator privilege has the full power on all services such as creation, deletion, editing of all
+administrator privilege has full power over all services such as the creation, deletion, and editing of all
 members and groups. The administrator could also post public items (accessible to the world). A
 member can post new items and specify which of his groups can access the post and who in
 each group can comment on it or add content to the post. An item could also be accessible to any
@@ -59,46 +60,44 @@ privilege can change the privilege of another member. The system by default has 
 with username admin and password admin created initially(Both of these must be changed after
 the first login). Only members with administrator privileges can change the status of other
 members to suspended or reset it to active or inactive. A member with junior privilege can edit
-his/her profile, create a posting and communicate with other members. Also a junior member can
+his/her profile, create a posting and communicate with other members. Also, a junior member can
 post to groups that he/she is a member of only. A junior member can request to become a senior
 member. Each member can only have one profile including one email address.
-When installed on a operational system with functioning email server, the system could send out
+When installed on an operational system with a functioning email server, the system could send out
 messages to indicate new contents to the members of the associated group. However, since there
 is a restriction of sending emails by AITS (No email messages are allowed to be sent out of the
 system), emails have to be simulated by a pop-up window and internal and sent email boxes.
 
 Guidelines
-Flesh out these guideline for you implementation.
--Details about groups: Records of information on each group, owner of the group, list of
+
+-Details about groups: Records of information on each group, owner of the group, and list of
 members belonging to the group. Owner of the group can add new members or remove members
 from the group. Members of a group can share a forum of information such as photos, videos and
-posts. Adding any member to a group requires the knowledge of the persons email address 2
-, first
-name and DOB. For a business member, the DOB is the date of incorporation of the business.
+posts. Adding any member to a group requires the knowledge of the person's email address, first name and DOB. 
+For a business member, the DOB is the date of incorporation of the business.
 -Each member has a home page which has an index of his/her contents as well as the contents
 of each of the groups where he is an owner or member. The owner has a feature to view and
 manage the permissions to any content; the permissions can be changed only by the owner.
--Detail on contents and the permissions: Each content added by a member can have a profile
+-Details on contents and the permissions: Each content added by a member can have a profile
 which indicates who can do what with it. Content can be classified as view only, view and
-comment or view and add or link to other contents.
-- Non-person entities
-, local businesses, local organization etc. could become members as long as
+comment or view and add or link to other content.
+- Non-person entities, local businesses, local organizations etc. could become members as long as
 they behave in a civil manner. The person members could always organize a plebiscite of person
-members to oust an non-person member and delete its contents.
--The administrators include the contents moderators. Each new contents would be reviewed by
-a moderator before it could be posted. Any uncivil contents is black-listed (not posted) and the
-member posting it is warned about the non-conformity of the posted contents. A ‘real person.’
+members to oust a non-person member and delete its contents.
+-The administrators include the content moderators. Each new content would be reviewed by
+a moderator before it could be posted. Any uncivil content is black-listed (not posted) and the
+member posting it is warned about the non-conformity of the posted content. A ‘real person’
 member is suspended for a duration of time once the number of warnings exceeds 3. A business
 person is fined after the second warning. If the number of suspensions or fines exceeds 3, the
 member is suspended for at least a year.
-- The membership is free for a ‘real-person’ whereas for a business member there is a fee based
+- The membership is free for a ‘real-person’ whereas for a business member there is a fee, based
 on the number of postings made by it. 
 
 The system should support at least the following functionalities through its interface:
 1. Create/Delete/Edit/Display a member.
 2. Create/Delete/Edit/Display a group.
 3. Create/Delete/Edit/Display list of friends for a member.
-4. Member request to be a friend of other member or join a group.
+4. Member requests to be a friend of another member or join a group.
 5. Member's ability to block another member or to be withdrawn from a group.
 6. Member's ability to post texts, images or videos as well as to view posts by other members
 and comment on them.
@@ -115,8 +114,8 @@ or alternates suggested by one of the group members
 ## Requirements Analysis
 
 ### Project Description
- - **(transaction)**: create member profile
- - **(transaction)**: create a list of other members with whom to share contact, and to view and add comments and contents (if enabled by the owner member of webpage) 
+ - **(transaction)**: Create member profile
+ - **(transaction)**: create a list of other members with whom to share contact, and to view and add comments and contents (if enabled by the owner member of a webpage) 
  - **(transaction)**: message other members (objective: share news, pictures, posts, activities, events, interests)
  - **(transaction)**: members can create groups for interests and affiliations
 
