@@ -7,15 +7,6 @@ CREATE  TABLE cosn.content_public_permissions (
 	CONSTRAINT unq_content_public_permissions_target_content_id UNIQUE ( target_content_id ) 
  ) engine=InnoDB;
 
-CREATE  TABLE cosn.member_messages ( 
-	member_message_id    INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
-	origin_member_id     INT UNSIGNED   NOT NULL   ,
-	target_member_id     INT UNSIGNED   NOT NULL   ,
-	message_content      TEXT       ,
-	CONSTRAINT unq_member_messages_origin_member_id UNIQUE ( origin_member_id ) ,
-	CONSTRAINT unq_member_messages_target_member_id UNIQUE ( target_member_id ) 
- ) engine=InnoDB;
-
 CREATE  TABLE cosn.members ( 
 	member_id            INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
 	username             VARCHAR(100)    NOT NULL   ,
@@ -56,6 +47,15 @@ CREATE  TABLE cosn.groups (
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE INDEX fk_groups_members ON cosn.groups ( owner_id );
+
+CREATE  TABLE cosn.member_messages ( 
+	member_message_id    INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
+	origin_member_id     INT UNSIGNED   NOT NULL   ,
+	target_member_id     INT UNSIGNED   NOT NULL   ,
+	message_content      TEXT       ,
+	CONSTRAINT unq_member_messages_origin_member_id UNIQUE ( origin_member_id ) ,
+	CONSTRAINT unq_member_messages_target_member_id UNIQUE ( target_member_id ) 
+ ) engine=InnoDB;
 
 CREATE  TABLE cosn.member_relationships ( 
 	relationship_id      INT UNSIGNED   NOT NULL   PRIMARY KEY,
@@ -140,13 +140,13 @@ ALTER TABLE cosn.group_members ADD CONSTRAINT fk_group_members_groups FOREIGN KE
 
 ALTER TABLE cosn.groups ADD CONSTRAINT fk_groups_members FOREIGN KEY ( owner_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
+ALTER TABLE cosn.member_messages ADD CONSTRAINT fk_member_messages_members FOREIGN KEY ( origin_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE cosn.member_messages ADD CONSTRAINT fk_member_messages_members_0 FOREIGN KEY ( target_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
 ALTER TABLE cosn.member_relationships ADD CONSTRAINT fk_member_relationships_members FOREIGN KEY ( origin_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 ALTER TABLE cosn.member_relationships ADD CONSTRAINT fk_member_relationships_members_0 FOREIGN KEY ( target_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.members ADD CONSTRAINT fk_members_member_messages FOREIGN KEY ( member_id ) REFERENCES cosn.member_messages( origin_member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.members ADD CONSTRAINT fk_members_member_messages_0 FOREIGN KEY ( member_id ) REFERENCES cosn.member_messages( target_member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 ALTER TABLE cosn.personal_info_permissions ADD CONSTRAINT fk_personal_info_visibility_members FOREIGN KEY ( owner_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
@@ -163,14 +163,6 @@ ALTER TABLE cosn.content_public_permissions MODIFY target_content_id INT UNSIGNE
 ALTER TABLE cosn.content_public_permissions MODIFY content_public_permission_type ENUM('read','comment','share','link')     COMMENT 'the type of permission that the public has on this particular piece of content
 can be
 ''read'',''comment'',''share'',''link''';
-
-ALTER TABLE cosn.member_messages COMMENT 'table containing the messages that members send between each others';
-
-ALTER TABLE cosn.member_messages MODIFY origin_member_id INT UNSIGNED NOT NULL   COMMENT 'the member_id from who the message is sent FROM';
-
-ALTER TABLE cosn.member_messages MODIFY target_member_id INT UNSIGNED NOT NULL   COMMENT 'member_id that receives the message';
-
-ALTER TABLE cosn.member_messages MODIFY message_content TEXT     COMMENT 'the actual content of the message';
 
 ALTER TABLE cosn.members COMMENT 'contains the info for every member of COSN';
 
@@ -221,6 +213,14 @@ ALTER TABLE cosn.groups MODIFY owner_id INT UNSIGNED    COMMENT 'ID of the membe
 ALTER TABLE cosn.groups MODIFY description TEXT     COMMENT 'Description of the group, their interests, etc';
 
 ALTER TABLE cosn.groups MODIFY creation_date DATE   DEFAULT current_timestamp()  COMMENT 'Date when group was created';
+
+ALTER TABLE cosn.member_messages COMMENT 'table containing the messages that members send between each others';
+
+ALTER TABLE cosn.member_messages MODIFY origin_member_id INT UNSIGNED NOT NULL   COMMENT 'the member_id from who the message is sent FROM';
+
+ALTER TABLE cosn.member_messages MODIFY target_member_id INT UNSIGNED NOT NULL   COMMENT 'member_id that receives the message';
+
+ALTER TABLE cosn.member_messages MODIFY message_content TEXT     COMMENT 'the actual content of the message';
 
 ALTER TABLE cosn.member_relationships COMMENT 'describes the relationships of the members, specifically if they are friends, family, colleagues or blocked';
 

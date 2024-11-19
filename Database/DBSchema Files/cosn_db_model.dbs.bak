@@ -376,7 +376,7 @@ authorized_member_id = 2, it is visible to the "public" system member]]></commen
 		</table>
 	</schema>
 	<layout name="Main Layout" id="Layout-4cc" show_relation="columns" >
-		<comment><![CDATA[Main Layout]]></comment>
+		<comment><![CDATA[COSN DB Schema]]></comment>
 		<entity schema="cosn" name="content" color="C1D8EE" x="640" y="240" />
 		<entity schema="cosn" name="content_group_permissions" color="C1D8EE" x="448" y="80" />
 		<entity schema="cosn" name="content_link_relationship" color="C1D8EE" x="848" y="80" />

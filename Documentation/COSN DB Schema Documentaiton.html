@@ -312,7 +312,7 @@ a {
 Zoom with CTRL+whell mouse button, pan by dragging the diagram with the right-mouse button</title></use>
   <use id='logo' x='20' y='40' xlink:href='#logo'><title>DbSchema Database Designer </title></use>  <text x='20' y='30' class='legendTitle' >COSN DB Schema</text> 
   <text x='57' y='47' class='legendSubTitle'><tspan>Interactive docs: mouse-over comments, zoom and pan</tspan></text>
-  <a xlink:href='https%3A%2F%2Fdbschema.com'><text x='57' y='61' class='legendSubTitle'><tspan>DbSchema.com © 2024-11-18 Wise Coders<title>DbSchema is an universal database designer.
+  <a xlink:href='https%3A%2F%2Fdbschema.com'><text x='57' y='61' class='legendSubTitle'><tspan>DbSchema.com © 2024-11-19 Wise Coders<title>DbSchema is an universal database designer.
 DbSchema has a free Community Edition.</title></tspan></text></a> 
 </g>
 
@@ -405,6 +405,22 @@ groups ref members ( owner_id -&gt; member_id )</title>
 <path transform='translate(8,0)' marker-start='url(#ZeroMore)' marker-end='url(#Arrow)'  class='dotted '  d='M 304,416L 456,416Q 464,416 464,424L 464,432' ><title>&#x1F517;  Foreign Key fk_groups_members
 groups ref members ( owner_id -&gt; member_id )</title></path>
 <text x='313' y='411' transform='rotate(0 313,411)' class='relName'>owner&#95;id</text>
+<!-- == Fk 'member_messages_fk_member_messages_members' == -->
+<path id='member_messages_fk_member_messages_members'  onmouseover="hghl(['member_messages_fk_member_messages_members','cosn.member_messages.origin_member_id','cosn.members.member_id'])" onmouseout="uhghl(['member_messages_fk_member_messages_members','cosn.member_messages.origin_member_id','cosn.members.member_id'])" transform='translate(8,0)' class='unhighlight' d='M 720,800L 568,800Q 560,800 560,792L 560,672' >
+	<title>&#x1F517;  Foreign Key fk_member_messages_members
+member_messages ref members ( origin_member_id -&gt; member_id )</title>
+</path>
+<path transform='translate(8,0)' marker-start='url(#One)' marker-end='url(#Arrow)'    d='M 720,800L 568,800Q 560,800 560,792L 560,672' ><title>&#x1F517;  Foreign Key fk_member_messages_members
+member_messages ref members ( origin_member_id -&gt; member_id )</title></path>
+<text x='626' y='795' transform='rotate(0 626,795)' class='relName'>origin&#95;member&#95;id</text>
+<!-- == Fk 'member_messages_fk_member_messages_members_0' == -->
+<path id='member_messages_fk_member_messages_members_0'  onmouseover="hghl(['member_messages_fk_member_messages_members_0','cosn.member_messages.target_member_id','cosn.members.member_id'])" onmouseout="uhghl(['member_messages_fk_member_messages_members_0','cosn.member_messages.target_member_id','cosn.members.member_id'])" transform='translate(8,0)' class='unhighlight' d='M 752,784L 752,664Q 752,656 744,656L 576,656' >
+	<title>&#x1F517;  Foreign Key fk_member_messages_members_0
+member_messages ref members ( target_member_id -&gt; member_id )</title>
+</path>
+<path transform='translate(8,0)' marker-start='url(#One)' marker-end='url(#Arrow)'    d='M 752,784L 752,664Q 752,656 744,656L 576,656' ><title>&#x1F517;  Foreign Key fk_member_messages_members_0
+member_messages ref members ( target_member_id -&gt; member_id )</title></path>
+<text x='755' y='782' transform='rotate(270 755,782)' class='relName'>target&#95;member&#95;id</text>
 <!-- == Fk 'member_relationships_fk_member_relationships_members' == -->
 <path id='member_relationships_fk_member_relationships_members'  onmouseover="hghl(['member_relationships_fk_member_relationships_members','cosn.member_relationships.origin_member_id','cosn.members.member_id'])" onmouseout="uhghl(['member_relationships_fk_member_relationships_members','cosn.member_relationships.origin_member_id','cosn.members.member_id'])" transform='translate(8,0)' class='unhighlight' d='M 416,752L 416,648Q 416,640 424,640L 432,640' >
 	<title>&#x1F517;  Foreign Key fk_member_relationships_members
@@ -421,22 +437,6 @@ member_relationships ref members ( target_member_id -&gt; member_id )</title>
 <path transform='translate(8,0)' marker-start='url(#OneMore)' marker-end='url(#Arrow)'    d='M 448,752L 448,696Q 448,688 456,688L 456,688Q 464,688 464,680L 464,672' ><title>&#x1F517;  Foreign Key fk_member_relationships_members_0
 member_relationships ref members ( target_member_id -&gt; member_id )</title></path>
 <text x='451' y='750' transform='rotate(270 451,750)' class='relName'>target&#95;member&#95;id</text>
-<!-- == Fk 'members_fk_members_member_messages' == -->
-<path id='members_fk_members_member_messages'  onmouseover="hghl(['members_fk_members_member_messages','cosn.members.member_id','cosn.member_messages.origin_member_id'])" onmouseout="uhghl(['members_fk_members_member_messages','cosn.members.member_id','cosn.member_messages.origin_member_id'])" transform='translate(8,0)' class='unhighlight' d='M 560,672L 560,792Q 560,800 568,800L 720,800' >
-	<title>&#x1F517;  Foreign Key fk_members_member_messages
-members ref member_messages ( member_id -&gt; origin_member_id )</title>
-</path>
-<path transform='translate(8,0)' marker-start='url(#One)' marker-end='url(#Arrow)'    d='M 560,672L 560,792Q 560,800 568,800L 720,800' ><title>&#x1F517;  Foreign Key fk_members_member_messages
-members ref member_messages ( member_id -&gt; origin_member_id )</title></path>
-<text x='572' y='673' transform='rotate(90 572,673)' class='relName'>member&#95;id</text>
-<!-- == Fk 'members_fk_members_member_messages_0' == -->
-<path id='members_fk_members_member_messages_0'  onmouseover="hghl(['members_fk_members_member_messages_0','cosn.members.member_id','cosn.member_messages.target_member_id'])" onmouseout="uhghl(['members_fk_members_member_messages_0','cosn.members.member_id','cosn.member_messages.target_member_id'])" transform='translate(8,0)' class='unhighlight' d='M 544,672L 544,808Q 544,816 552,816L 720,816' >
-	<title>&#x1F517;  Foreign Key fk_members_member_messages_0
-members ref member_messages ( member_id -&gt; target_member_id )</title>
-</path>
-<path transform='translate(8,0)' marker-start='url(#One)' marker-end='url(#Arrow)'    d='M 544,672L 544,808Q 544,816 552,816L 720,816' ><title>&#x1F517;  Foreign Key fk_members_member_messages_0
-members ref member_messages ( member_id -&gt; target_member_id )</title></path>
-<text x='556' y='673' transform='rotate(90 556,673)' class='relName'>member&#95;id</text>
 <!-- == Fk 'personal_info_permissions_fk_personal_info_visibility_members' == -->
 <path id='personal_info_permissions_fk_personal_info_visibility_members'  onmouseover="hghl(['personal_info_permissions_fk_personal_info_visibility_members','cosn.personal_info_permissions.owner_member_id','cosn.members.member_id'])" onmouseout="uhghl(['personal_info_permissions_fk_personal_info_visibility_members','cosn.personal_info_permissions.owner_member_id','cosn.members.member_id'])" transform='translate(8,0)' class='unhighlight' d='M 768,496L 576,496' >
 	<title>&#x1F517;  Foreign Key fk_personal_info_visibility_members
@@ -454,13 +454,13 @@ personal_info_permissions ref members ( authorized_member_id -&gt; member_id )</
 personal_info_permissions ref members ( authorized_member_id -&gt; member_id )</title></path>
 <text x='646' y='507' transform='rotate(0 646,507)' class='relName'>authorized&#95;member&#95;id</text>
 <!-- == Fk 'personal_info_public_permissions_fk_personal_info_public_permissions_members' == -->
-<path id='personal_info_public_permissions_fk_personal_info_public_permissions_members'  onmouseover="hghl(['personal_info_public_permissions_fk_personal_info_public_permissions_members','cosn.personal_info_public_permissions.owner_member_id','cosn.members.member_id'])" onmouseout="uhghl(['personal_info_public_permissions_fk_personal_info_public_permissions_members','cosn.personal_info_public_permissions.owner_member_id','cosn.members.member_id'])" transform='translate(8,0)' class='unhighlight' d='M 768,656L 576,656' >
+<path id='personal_info_public_permissions_fk_personal_info_public_permissions_members'  onmouseover="hghl(['personal_info_public_permissions_fk_personal_info_public_permissions_members','cosn.personal_info_public_permissions.owner_member_id','cosn.members.member_id'])" onmouseout="uhghl(['personal_info_public_permissions_fk_personal_info_public_permissions_members','cosn.personal_info_public_permissions.owner_member_id','cosn.members.member_id'])" transform='translate(8,0)' class='unhighlight' d='M 768,624L 576,624' >
 	<title>&#x1F517;  Foreign Key fk_personal_info_public_permissions_members
 personal_info_public_permissions ref members ( owner_member_id -&gt; member_id )</title>
 </path>
-<path transform='translate(8,0)' marker-start='url(#OneMore)' marker-end='url(#Arrow)'    d='M 768,656L 576,656' ><title>&#x1F517;  Foreign Key fk_personal_info_public_permissions_members
+<path transform='translate(8,0)' marker-start='url(#OneMore)' marker-end='url(#Arrow)'    d='M 768,624L 576,624' ><title>&#x1F517;  Foreign Key fk_personal_info_public_permissions_members
 personal_info_public_permissions ref members ( owner_member_id -&gt; member_id )</title></path>
-<text x='672' y='651' transform='rotate(0 672,651)' class='relName'>owner&#95;member&#95;id</text>
+<text x='672' y='619' transform='rotate(0 672,619)' class='relName'>owner&#95;member&#95;id</text>
 <!-- == Table 'content' == -->
 <rect id='depict_cosn&#46;content' class='entity' style='stroke:#7698B9' x='640' y='232' width='176' height='160' />
 <rect x='640' y='232' width='176' height='28' style='stroke-width:0; fill:#202225'/>
@@ -468,18 +468,18 @@ personal_info_public_permissions ref members ( owner_member_id -&gt; member_id )
 <a xlink:href='#cosn.content'><text x='700' y='251' class='tableHeader'>content</text><title>Table cosn.content
  ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
       contains the content created by members</title></a>
-  <use id='nn' x='642' y='269' xlink:href='#nn'/><use id='pk' x='642' y='268' xlink:href='#pk'><title>&#x1F511;  Pk pk_content_data ( content_id ) </title></use><a xlink:href='#cosn.content.content_id'><text id='cosn&#46;content&#46;content&#95;id' x='659' y='279' onmouseover="hghl(['content_fk_content_content_public_permissions','cosn.content_public_permissions.target_content_id','content_fk_content_content_group_permissions','cosn.content_group_permissions.target_content_id','content_member_permission_fk_content_permissions_content','cosn.content_member_permission.target_content_id','content_link_relationship_fk_content_link_relationship_content','cosn.content_link_relationship.origin_content_id','content_link_relationship_fk_content_link_relationship_content_0','cosn.content_link_relationship.target_content_id'])" onmouseout="uhghl(['content_fk_content_content_public_permissions','cosn.content_public_permissions.target_content_id','content_fk_content_content_group_permissions','cosn.content_group_permissions.target_content_id','content_member_permission_fk_content_permissions_content','cosn.content_member_permission.target_content_id','content_link_relationship_fk_content_link_relationship_content','cosn.content_link_relationship.origin_content_id','content_link_relationship_fk_content_link_relationship_content_0','cosn.content_link_relationship.target_content_id'])">content&#95;id</text><title>&#10697;  content_id
+  <use id='nn' x='642' y='269' xlink:href='#nn'/><use id='pk' x='642' y='268' xlink:href='#pk'><title>&#x1F511;  Pk pk_content_data ( content_id ) </title></use><a xlink:href='#cosn.content.content_id'><text id='cosn&#46;content&#46;content&#95;id' x='659' y='279' onmouseover="hghl(['content_fk_content_content_public_permissions','cosn.content_public_permissions.target_content_id','content_fk_content_content_group_permissions','cosn.content_group_permissions.target_content_id','content_link_relationship_fk_content_link_relationship_content','cosn.content_link_relationship.origin_content_id','content_link_relationship_fk_content_link_relationship_content_0','cosn.content_link_relationship.target_content_id','content_member_permission_fk_content_permissions_content','cosn.content_member_permission.target_content_id'])" onmouseout="uhghl(['content_fk_content_content_public_permissions','cosn.content_public_permissions.target_content_id','content_fk_content_content_group_permissions','cosn.content_group_permissions.target_content_id','content_link_relationship_fk_content_link_relationship_content','cosn.content_link_relationship.origin_content_id','content_link_relationship_fk_content_link_relationship_content_0','cosn.content_link_relationship.target_content_id','content_member_permission_fk_content_permissions_content','cosn.content_member_permission.target_content_id'])">content&#95;id</text><title>&#10697;  content_id
      * int
  &#8599; content( target_content_id )
  &#8599; content( target_content_id )
- &#8601; content_member_permission( content_id )
  &#8601; content_link_relationship( content_id )
- &#8601; content_link_relationship( content_id )</title></a>
+ &#8601; content_link_relationship( content_id )
+ &#8601; content_member_permission( content_id )</title></a>
 <a xlink:href='#cosn.content.content_id'><use id='fk' x='804' y='268' xlink:href='#fk'/><title>&#x1F517;  References content_public_permissions ( content_id -&gt; target_content_id ) 
 References content_group_permissions ( content_id -&gt; target_content_id ) 
-Referred by content_member_permission ( target_content_id -&gt; content_id ) 
 Referred by content_link_relationship ( origin_content_id -&gt; content_id ) 
-Referred by content_link_relationship ( target_content_id -&gt; content_id ) </title></a>
+Referred by content_link_relationship ( target_content_id -&gt; content_id ) 
+Referred by content_member_permission ( target_content_id -&gt; content_id ) </title></a>
   <use id='nn' x='642' y='285' xlink:href='#nn'/><use id='idx' x='642' y='284' xlink:href='#idx'><title>&#x1F50D;  fk_content_members ( creator_id ) </title></use><a xlink:href='#cosn.content.creator_id'><text id='cosn&#46;content&#46;creator&#95;id' x='659' y='295' onmouseover="hghl(['content_fk_content_members','cosn.members.member_id'])" onmouseout="uhghl(['content_fk_content_members','cosn.members.member_id'])">creator&#95;id</text><title>&#10697;  creator_id
      * int
  &#8599; content( member_id )
@@ -677,18 +677,18 @@ Referred by group_members ( joined_group_id -&gt; group_id ) </title></a>
       table containing the messages that members send between each others</title></a>
   <use id='nn' x='738' y='829' xlink:href='#nn'/><use id='pk' x='738' y='828' xlink:href='#pk'><title>&#x1F511;  Pk pk_member_messages ( member_message_id ) </title></use><a xlink:href='#cosn.member_messages.member_message_id'><text id='cosn&#46;member&#95;messages&#46;member&#95;message&#95;id' x='755' y='839'>member&#95;message&#95;id</text><title>&#10697;  member_message_id
      * int</title></a>
-<text x='893' y='836' text-anchor='end' class='colType'>&#35;</text>  <use id='nn' x='738' y='845' xlink:href='#nn'/><use id='unq' x='738' y='844' xlink:href='#unq'><title>&#x1F50D;  Unq unq_member_messages_origin_member_id ( origin_member_id ) </title></use><a xlink:href='#cosn.member_messages.origin_member_id'><text id='cosn&#46;member&#95;messages&#46;origin&#95;member&#95;id' x='755' y='855' onmouseover="hghl(['members_fk_members_member_messages','cosn.members.member_id'])" onmouseout="uhghl(['members_fk_members_member_messages','cosn.members.member_id'])">origin&#95;member&#95;id</text><title>&#10697;  origin_member_id
+<text x='893' y='836' text-anchor='end' class='colType'>&#35;</text>  <use id='nn' x='738' y='845' xlink:href='#nn'/><use id='unq' x='738' y='844' xlink:href='#unq'><title>&#x1F50D;  Unq unq_member_messages_origin_member_id ( origin_member_id ) </title></use><a xlink:href='#cosn.member_messages.origin_member_id'><text id='cosn&#46;member&#95;messages&#46;origin&#95;member&#95;id' x='755' y='855' onmouseover="hghl(['member_messages_fk_member_messages_members','cosn.members.member_id'])" onmouseout="uhghl(['member_messages_fk_member_messages_members','cosn.members.member_id'])">origin&#95;member&#95;id</text><title>&#10697;  origin_member_id
      * int
- &#8601; members( origin_member_id )
+ &#8599; member_messages( member_id )
  ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
       the member_id from who the message is sent FROM</title></a>
-<a xlink:href='#cosn.member_messages.origin_member_id'><use id='ref' x='884' y='844' xlink:href='#ref'/><title>&#x1F517;  Referred by members ( member_id -&gt; origin_member_id ) </title></a>
-  <use id='nn' x='738' y='861' xlink:href='#nn'/><use id='unq' x='738' y='860' xlink:href='#unq'><title>&#x1F50D;  Unq unq_member_messages_target_member_id ( target_member_id ) </title></use><a xlink:href='#cosn.member_messages.target_member_id'><text id='cosn&#46;member&#95;messages&#46;target&#95;member&#95;id' x='755' y='871' onmouseover="hghl(['members_fk_members_member_messages_0','cosn.members.member_id'])" onmouseout="uhghl(['members_fk_members_member_messages_0','cosn.members.member_id'])">target&#95;member&#95;id</text><title>&#10697;  target_member_id
+<a xlink:href='#cosn.member_messages.origin_member_id'><use id='fk' x='884' y='844' xlink:href='#fk'/><title>&#x1F517;  References members ( origin_member_id -&gt; member_id ) </title></a>
+  <use id='nn' x='738' y='861' xlink:href='#nn'/><use id='unq' x='738' y='860' xlink:href='#unq'><title>&#x1F50D;  Unq unq_member_messages_target_member_id ( target_member_id ) </title></use><a xlink:href='#cosn.member_messages.target_member_id'><text id='cosn&#46;member&#95;messages&#46;target&#95;member&#95;id' x='755' y='871' onmouseover="hghl(['member_messages_fk_member_messages_members_0','cosn.members.member_id'])" onmouseout="uhghl(['member_messages_fk_member_messages_members_0','cosn.members.member_id'])">target&#95;member&#95;id</text><title>&#10697;  target_member_id
      * int
- &#8601; members( target_member_id )
+ &#8599; member_messages( member_id )
  ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
       member_id that receives the message</title></a>
-<a xlink:href='#cosn.member_messages.target_member_id'><use id='ref' x='884' y='860' xlink:href='#ref'/><title>&#x1F517;  Referred by members ( member_id -&gt; target_member_id ) </title></a>
+<a xlink:href='#cosn.member_messages.target_member_id'><use id='fk' x='884' y='860' xlink:href='#fk'/><title>&#x1F517;  References members ( target_member_id -&gt; member_id ) </title></a>
   <a xlink:href='#cosn.member_messages.message_content'><text id='cosn&#46;member&#95;messages&#46;message&#95;content' x='755' y='887'>message&#95;content</text><title>&#10697;  message_content
      text
  ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
@@ -731,10 +731,8 @@ Referred by group_members ( joined_group_id -&gt; group_id ) </title></a>
 <a xlink:href='#cosn.members'><text x='479' y='459' class='tableHeader'>members</text><title>Table cosn.members
  ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
       contains the info for every member of COSN</title></a>
-  <use id='nn' x='450' y='477' xlink:href='#nn'/><use id='pk' x='450' y='476' xlink:href='#pk'><title>&#x1F511;  Pk pk_member ( member_id ) </title></use><a xlink:href='#cosn.members.member_id'><text id='cosn&#46;members&#46;member&#95;id' x='467' y='487' onmouseover="hghl(['members_fk_members_member_messages','cosn.member_messages.origin_member_id','members_fk_members_member_messages_0','cosn.member_messages.target_member_id','content_fk_content_members','cosn.content.creator_id','content_member_permission_fk_content_permissions_members','cosn.content_member_permission.authorized_member_id','group_members_fk_group_members_members','cosn.group_members.participant_member_id','groups_fk_groups_members','cosn.groups.owner_id','member_relationships_fk_member_relationships_members','cosn.member_relationships.origin_member_id','member_relationships_fk_member_relationships_members_0','cosn.member_relationships.target_member_id','personal_info_permissions_fk_personal_info_visibility_members','cosn.personal_info_permissions.owner_member_id','personal_info_permissions_fk_personal_info_visibility_members_0','cosn.personal_info_permissions.authorized_member_id','personal_info_public_permissions_fk_personal_info_public_permissions_members','cosn.personal_info_public_permissions.owner_member_id'])" onmouseout="uhghl(['members_fk_members_member_messages','cosn.member_messages.origin_member_id','members_fk_members_member_messages_0','cosn.member_messages.target_member_id','content_fk_content_members','cosn.content.creator_id','content_member_permission_fk_content_permissions_members','cosn.content_member_permission.authorized_member_id','group_members_fk_group_members_members','cosn.group_members.participant_member_id','groups_fk_groups_members','cosn.groups.owner_id','member_relationships_fk_member_relationships_members','cosn.member_relationships.origin_member_id','member_relationships_fk_member_relationships_members_0','cosn.member_relationships.target_member_id','personal_info_permissions_fk_personal_info_visibility_members','cosn.personal_info_permissions.owner_member_id','personal_info_permissions_fk_personal_info_visibility_members_0','cosn.personal_info_permissions.authorized_member_id','personal_info_public_permissions_fk_personal_info_public_permissions_members','cosn.personal_info_public_permissions.owner_member_id'])">member&#95;id</text><title>&#10697;  member_id
+  <use id='nn' x='450' y='477' xlink:href='#nn'/><use id='pk' x='450' y='476' xlink:href='#pk'><title>&#x1F511;  Pk pk_member ( member_id ) </title></use><a xlink:href='#cosn.members.member_id'><text id='cosn&#46;members&#46;member&#95;id' x='467' y='487' onmouseover="hghl(['content_fk_content_members','cosn.content.creator_id','content_member_permission_fk_content_permissions_members','cosn.content_member_permission.authorized_member_id','group_members_fk_group_members_members','cosn.group_members.participant_member_id','groups_fk_groups_members','cosn.groups.owner_id','member_relationships_fk_member_relationships_members','cosn.member_relationships.origin_member_id','member_relationships_fk_member_relationships_members_0','cosn.member_relationships.target_member_id','personal_info_permissions_fk_personal_info_visibility_members','cosn.personal_info_permissions.owner_member_id','personal_info_permissions_fk_personal_info_visibility_members_0','cosn.personal_info_permissions.authorized_member_id','personal_info_public_permissions_fk_personal_info_public_permissions_members','cosn.personal_info_public_permissions.owner_member_id','member_messages_fk_member_messages_members','cosn.member_messages.origin_member_id','member_messages_fk_member_messages_members_0','cosn.member_messages.target_member_id'])" onmouseout="uhghl(['content_fk_content_members','cosn.content.creator_id','content_member_permission_fk_content_permissions_members','cosn.content_member_permission.authorized_member_id','group_members_fk_group_members_members','cosn.group_members.participant_member_id','groups_fk_groups_members','cosn.groups.owner_id','member_relationships_fk_member_relationships_members','cosn.member_relationships.origin_member_id','member_relationships_fk_member_relationships_members_0','cosn.member_relationships.target_member_id','personal_info_permissions_fk_personal_info_visibility_members','cosn.personal_info_permissions.owner_member_id','personal_info_permissions_fk_personal_info_visibility_members_0','cosn.personal_info_permissions.authorized_member_id','personal_info_public_permissions_fk_personal_info_public_permissions_members','cosn.personal_info_public_permissions.owner_member_id','member_messages_fk_member_messages_members','cosn.member_messages.origin_member_id','member_messages_fk_member_messages_members_0','cosn.member_messages.target_member_id'])">member&#95;id</text><title>&#10697;  member_id
      * int
- &#8599; members( origin_member_id )
- &#8599; members( target_member_id )
  &#8601; content( member_id )
  &#8601; content_member_permission( member_id )
  &#8601; group_members( member_id )
@@ -744,12 +742,12 @@ Referred by group_members ( joined_group_id -&gt; group_id ) </title></a>
  &#8601; personal_info_permissions( member_id )
  &#8601; personal_info_permissions( member_id )
  &#8601; personal_info_public_permissions( member_id )
+ &#8601; member_messages( member_id )
+ &#8601; member_messages( member_id )
  ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
       member_id = 1 is &quot;private&quot; system member
       member_id = 2 is &quot;public&quot; system member</title></a>
-<a xlink:href='#cosn.members.member_id'><use id='fk' x='564' y='476' xlink:href='#fk'/><title>&#x1F517;  References member_messages ( member_id -&gt; origin_member_id ) 
-References member_messages ( member_id -&gt; target_member_id ) 
-Referred by content ( creator_id -&gt; member_id ) 
+<a xlink:href='#cosn.members.member_id'><use id='ref' x='564' y='476' xlink:href='#ref'/><title>&#x1F517;  Referred by content ( creator_id -&gt; member_id ) 
 Referred by content_member_permission ( authorized_member_id -&gt; member_id ) 
 Referred by group_members ( participant_member_id -&gt; member_id ) 
 Referred by groups ( owner_id -&gt; member_id ) 
@@ -757,7 +755,9 @@ Referred by member_relationships ( origin_member_id -&gt; member_id )
 Referred by member_relationships ( target_member_id -&gt; member_id ) 
 Referred by personal_info_permissions ( owner_member_id -&gt; member_id ) 
 Referred by personal_info_permissions ( authorized_member_id -&gt; member_id ) 
-Referred by personal_info_public_permissions ( owner_member_id -&gt; member_id ) </title></a>
+Referred by personal_info_public_permissions ( owner_member_id -&gt; member_id ) 
+Referred by member_messages ( origin_member_id -&gt; member_id ) 
+Referred by member_messages ( target_member_id -&gt; member_id ) </title></a>
   <use id='nn' x='450' y='493' xlink:href='#nn'/><a xlink:href='#cosn.members.username'><text id='cosn&#46;members&#46;username' x='467' y='503'>username</text><title>&#10697;  username
      * varchar(100)</title></a>
 <text x='573' y='500' text-anchor='end' class='colType'>t</text>  <use id='nn' x='450' y='509' xlink:href='#nn'/><a xlink:href='#cosn.members.password'><text id='cosn&#46;members&#46;password' x='467' y='519'>password</text><title>&#10697;  password
@@ -835,19 +835,19 @@ Referred by personal_info_public_permissions ( owner_member_id -&gt; member_id )
 <a xlink:href='#cosn.personal_info_permissions.authorized_member_id'><use id='fk' x='980' y='572' xlink:href='#fk'/><title>&#x1F517;  References members ( authorized_member_id -&gt; member_id ) </title></a>
 
 <!-- == Table 'personal_info_public_permissions' == -->
-<rect id='depict_cosn&#46;personal&#95;info&#95;public&#95;permissions' class='entity' style='stroke:#7698B9' x='784' y='648' width='240' height='96' />
-<rect x='784' y='648' width='240' height='28' style='stroke-width:0; fill:#202225'/>
-<line class='topLine' style='stroke:#48739D;' stroke-linecap='round' x1='784' y1='648' x2='1024' y2='648'/>
-<a xlink:href='#cosn.personal_info_public_permissions'><text x='795' y='667' class='tableHeader'>personal&#95;info&#95;public&#95;permissions</text><title>Table cosn.personal_info_public_permissions</title></a>
-  <use id='nn' x='786' y='685' xlink:href='#nn'/><use id='pk' x='786' y='684' xlink:href='#pk'><title>&#x1F511;  Pk pk_personal_info_public_permissions ( personal_info_public_permission_id ) </title></use><a xlink:href='#cosn.personal_info_public_permissions.personal_info_public_permission_id'><text id='cosn&#46;personal&#95;info&#95;public&#95;permissions&#46;personal&#95;info&#95;public&#95;permission&#95;id' x='803' y='695'>personal&#95;info&#95;public&#95;permission&#95;id</text><title>&#10697;  personal_info_public_permission_id
+<rect id='depict_cosn&#46;personal&#95;info&#95;public&#95;permissions' class='entity' style='stroke:#7698B9' x='784' y='616' width='240' height='96' />
+<rect x='784' y='616' width='240' height='28' style='stroke-width:0; fill:#202225'/>
+<line class='topLine' style='stroke:#48739D;' stroke-linecap='round' x1='784' y1='616' x2='1024' y2='616'/>
+<a xlink:href='#cosn.personal_info_public_permissions'><text x='795' y='635' class='tableHeader'>personal&#95;info&#95;public&#95;permissions</text><title>Table cosn.personal_info_public_permissions</title></a>
+  <use id='nn' x='786' y='653' xlink:href='#nn'/><use id='pk' x='786' y='652' xlink:href='#pk'><title>&#x1F511;  Pk pk_personal_info_public_permissions ( personal_info_public_permission_id ) </title></use><a xlink:href='#cosn.personal_info_public_permissions.personal_info_public_permission_id'><text id='cosn&#46;personal&#95;info&#95;public&#95;permissions&#46;personal&#95;info&#95;public&#95;permission&#95;id' x='803' y='663'>personal&#95;info&#95;public&#95;permission&#95;id</text><title>&#10697;  personal_info_public_permission_id
      * int</title></a>
-<text x='1021' y='692' text-anchor='end' class='colType'>&#35;</text>  <use id='nn' x='786' y='701' xlink:href='#nn'/><a xlink:href='#cosn.personal_info_public_permissions.owner_member_id'><text id='cosn&#46;personal&#95;info&#95;public&#95;permissions&#46;owner&#95;member&#95;id' x='803' y='711' onmouseover="hghl(['personal_info_public_permissions_fk_personal_info_public_permissions_members','cosn.members.member_id'])" onmouseout="uhghl(['personal_info_public_permissions_fk_personal_info_public_permissions_members','cosn.members.member_id'])">owner&#95;member&#95;id</text><title>&#10697;  owner_member_id
+<text x='1021' y='660' text-anchor='end' class='colType'>&#35;</text>  <use id='nn' x='786' y='669' xlink:href='#nn'/><a xlink:href='#cosn.personal_info_public_permissions.owner_member_id'><text id='cosn&#46;personal&#95;info&#95;public&#95;permissions&#46;owner&#95;member&#95;id' x='803' y='679' onmouseover="hghl(['personal_info_public_permissions_fk_personal_info_public_permissions_members','cosn.members.member_id'])" onmouseout="uhghl(['personal_info_public_permissions_fk_personal_info_public_permissions_members','cosn.members.member_id'])">owner&#95;member&#95;id</text><title>&#10697;  owner_member_id
      * int
  &#8599; personal_info_public_permissions( member_id )</title></a>
-<a xlink:href='#cosn.personal_info_public_permissions.owner_member_id'><use id='fk' x='1012' y='700' xlink:href='#fk'/><title>&#x1F517;  References members ( owner_member_id -&gt; member_id ) </title></a>
-  <a xlink:href='#cosn.personal_info_public_permissions.personal_info_type'><text id='cosn&#46;personal&#95;info&#95;public&#95;permissions&#46;personal&#95;info&#95;type' x='803' y='727'>personal&#95;info&#95;type</text><title>&#10697;  personal_info_type
+<a xlink:href='#cosn.personal_info_public_permissions.owner_member_id'><use id='fk' x='1012' y='668' xlink:href='#fk'/><title>&#x1F517;  References members ( owner_member_id -&gt; member_id ) </title></a>
+  <a xlink:href='#cosn.personal_info_public_permissions.personal_info_type'><text id='cosn&#46;personal&#95;info&#95;public&#95;permissions&#46;personal&#95;info&#95;type' x='803' y='695'>personal&#95;info&#95;type</text><title>&#10697;  personal_info_type
      enum(&apos;first_name&apos;,&apos;last_name&apos;,&apos;date_of_birth&apos;,&apos;address&apos;,&apos;pseudonym&apos;,&apos;email&apos;)</title></a>
-<text x='1021' y='724' text-anchor='end' class='colType'>t</text>
+<text x='1021' y='692' text-anchor='end' class='colType'>t</text>
 <!-- == Callout == -->
 <rect class='callout' x='48' y='32' width='384' height='71' rx='16' ry='16'  />
 <text x='72' y='32' class='callout'>
@@ -1033,11 +1033,6 @@ function installListeners( svgContainer, svgImage ){
 	</tr>
 <tr><th colspan='4'>Referring Foreign Key</th></tr>
 	<tr>
-		<td><svg width='14' height='14'><use xlink:href='#ref'/></svg></td><td>fk_content_permissions_content</td>
-		<td > content&#95;id &#8601; <a href='#cosn&#46;content&#95;member&#95;permission'  onclick="window.scrollTo(856, 400);var nodes = document.getElementsByClassName('palpable');for (var i = 0; i < nodes.length; i++) { nodes[i].classList.remove('palpable');}; document.getElementById('depict_cosn.content_member_permission').classList.add('palpable'); return false;">&#10063; content&#95;member&#95;permission</a>(target&#95;content&#95;id) </td>
-		<td>  </td>
-	</tr>
-	<tr>
 		<td><svg width='14' height='14'><use xlink:href='#ref'/></svg></td><td>fk_content_link_relationship_content</td>
 		<td > content&#95;id &#8601; <a href='#cosn&#46;content&#95;link&#95;relationship'  onclick="window.scrollTo(648, 80);var nodes = document.getElementsByClassName('palpable');for (var i = 0; i < nodes.length; i++) { nodes[i].classList.remove('palpable');}; document.getElementById('depict_cosn.content_link_relationship').classList.add('palpable'); return false;">&#10063; content&#95;link&#95;relationship</a>(origin&#95;content&#95;id) </td>
 		<td>  </td>
@@ -1045,6 +1040,11 @@ function installListeners( svgContainer, svgImage ){
 	<tr>
 		<td><svg width='14' height='14'><use xlink:href='#ref'/></svg></td><td>fk_content_link_relationship_content_0</td>
 		<td > content&#95;id &#8601; <a href='#cosn&#46;content&#95;link&#95;relationship'  onclick="window.scrollTo(648, 80);var nodes = document.getElementsByClassName('palpable');for (var i = 0; i < nodes.length; i++) { nodes[i].classList.remove('palpable');}; document.getElementById('depict_cosn.content_link_relationship').classList.add('palpable'); return false;">&#10063; content&#95;link&#95;relationship</a>(target&#95;content&#95;id) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#ref'/></svg></td><td>fk_content_permissions_content</td>
+		<td > content&#95;id &#8601; <a href='#cosn&#46;content&#95;member&#95;permission'  onclick="window.scrollTo(856, 400);var nodes = document.getElementsByClassName('palpable');for (var i = 0; i < nodes.length; i++) { nodes[i].classList.remove('palpable');}; document.getElementById('depict_cosn.content_member_permission').classList.add('palpable'); return false;">&#10063; content&#95;member&#95;permission</a>(target&#95;content&#95;id) </td>
 		<td>  </td>
 	</tr>
 <tr><th colspan='4'>Options</th></tr>
@@ -1414,13 +1414,13 @@ function installListeners( svgContainer, svgImage ){
 		<td>  </td>
 	</tr>
 	<tr>
-		<td><span class='text-danger'>*</span><svg width='14' height='14'><use xlink:href='#unq'/></svg><svg width='14' height='14'><use xlink:href='#ref'/></svg></td>
+		<td><span class='text-danger'>*</span><svg width='14' height='14'><use xlink:href='#unq'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
 		<td><a name='cosn.member_messages.origin_member_id'>origin&#95;member&#95;id</a></td>
 		<td> INT UNSIGNED  </td>
 		<td> the member&#95;id from who the message is sent FROM </td>
 	</tr>
 	<tr>
-		<td><span class='text-danger'>*</span><svg width='14' height='14'><use xlink:href='#unq'/></svg><svg width='14' height='14'><use xlink:href='#ref'/></svg></td>
+		<td><span class='text-danger'>*</span><svg width='14' height='14'><use xlink:href='#unq'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
 		<td><a name='cosn.member_messages.target_member_id'>target&#95;member&#95;id</a></td>
 		<td> INT UNSIGNED  </td>
 		<td> member&#95;id that receives the message </td>
@@ -1444,15 +1444,15 @@ function installListeners( svgContainer, svgImage ){
 		<td>Unique Key ON target&#95;member&#95;id</td>
 		<td>  </td>
 	</tr>
-<tr><th colspan='4'>Referring Foreign Key</th></tr>
+<tr><th colspan='4'>Foreign Key</th></tr>
 	<tr>
-		<td><svg width='14' height='14'><use xlink:href='#ref'/></svg></td><td>fk_members_member_messages</td>
-		<td > origin&#95;member&#95;id &#8601; <a href='#cosn&#46;members'  onclick="window.scrollTo(248, 448);var nodes = document.getElementsByClassName('palpable');for (var i = 0; i < nodes.length; i++) { nodes[i].classList.remove('palpable');}; document.getElementById('depict_cosn.members').classList.add('palpable'); return false;">&#10063; members</a>(member&#95;id) </td>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_member_messages_members</td>
+		<td > origin&#95;member&#95;id &#8599; <a href='#cosn&#46;members'  onclick="window.scrollTo(248, 448);var nodes = document.getElementsByClassName('palpable');for (var i = 0; i < nodes.length; i++) { nodes[i].classList.remove('palpable');}; document.getElementById('depict_cosn.members').classList.add('palpable'); return false;">&#10063; members</a>(member&#95;id) </td>
 		<td>  </td>
 	</tr>
 	<tr>
-		<td><svg width='14' height='14'><use xlink:href='#ref'/></svg></td><td>fk_members_member_messages_0</td>
-		<td > target&#95;member&#95;id &#8601; <a href='#cosn&#46;members'  onclick="window.scrollTo(248, 448);var nodes = document.getElementsByClassName('palpable');for (var i = 0; i < nodes.length; i++) { nodes[i].classList.remove('palpable');}; document.getElementById('depict_cosn.members').classList.add('palpable'); return false;">&#10063; members</a>(member&#95;id) </td>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_member_messages_members_0</td>
+		<td > target&#95;member&#95;id &#8599; <a href='#cosn&#46;members'  onclick="window.scrollTo(248, 448);var nodes = document.getElementsByClassName('palpable');for (var i = 0; i < nodes.length; i++) { nodes[i].classList.remove('palpable');}; document.getElementById('depict_cosn.members').classList.add('palpable'); return false;">&#10063; members</a>(member&#95;id) </td>
 		<td>  </td>
 	</tr>
 <tr><th colspan='4'>Options</th></tr>
@@ -1536,7 +1536,7 @@ function installListeners( svgContainer, svgImage ){
 </thead>
 <tbody>
 	<tr>
-		<td><span class='text-danger'>*</span><svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><span class='text-danger'>*</span><svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#ref'/></svg></td>
 		<td><a name='cosn.members.member_id'>member&#95;id</a></td>
 		<td> INT UNSIGNED AUTO_INCREMENT  </td>
 		<td> member&#95;id &#61; 1 is &quot;private&quot; system member<br>member&#95;id &#61; 2 is &quot;public&quot; system member </td>
@@ -1606,17 +1606,6 @@ function installListeners( svgContainer, svgImage ){
 		<td>Primary Key ON member&#95;id</td>
 		<td>  </td>
 	</tr>
-<tr><th colspan='4'>Foreign Key</th></tr>
-	<tr>
-		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_members_member_messages</td>
-		<td > member&#95;id &#8599; <a href='#cosn&#46;member&#95;messages'  onclick="window.scrollTo(536, 800);var nodes = document.getElementsByClassName('palpable');for (var i = 0; i < nodes.length; i++) { nodes[i].classList.remove('palpable');}; document.getElementById('depict_cosn.member_messages').classList.add('palpable'); return false;">&#10063; member&#95;messages</a>(origin&#95;member&#95;id) </td>
-		<td>  </td>
-	</tr>
-	<tr>
-		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_members_member_messages_0</td>
-		<td > member&#95;id &#8599; <a href='#cosn&#46;member&#95;messages'  onclick="window.scrollTo(536, 800);var nodes = document.getElementsByClassName('palpable');for (var i = 0; i < nodes.length; i++) { nodes[i].classList.remove('palpable');}; document.getElementById('depict_cosn.member_messages').classList.add('palpable'); return false;">&#10063; member&#95;messages</a>(target&#95;member&#95;id) </td>
-		<td>  </td>
-	</tr>
 <tr><th colspan='4'>Referring Foreign Key</th></tr>
 	<tr>
 		<td><svg width='14' height='14'><use xlink:href='#ref'/></svg></td><td>fk_content_members</td>
@@ -1660,7 +1649,17 @@ function installListeners( svgContainer, svgImage ){
 	</tr>
 	<tr>
 		<td><svg width='14' height='14'><use xlink:href='#ref'/></svg></td><td>fk_personal_info_public_permissions_members</td>
-		<td > member&#95;id &#8601; <a href='#cosn&#46;personal&#95;info&#95;public&#95;permissions'  onclick="window.scrollTo(584, 656);var nodes = document.getElementsByClassName('palpable');for (var i = 0; i < nodes.length; i++) { nodes[i].classList.remove('palpable');}; document.getElementById('depict_cosn.personal_info_public_permissions').classList.add('palpable'); return false;">&#10063; personal&#95;info&#95;public&#95;permissions</a>(owner&#95;member&#95;id) </td>
+		<td > member&#95;id &#8601; <a href='#cosn&#46;personal&#95;info&#95;public&#95;permissions'  onclick="window.scrollTo(584, 624);var nodes = document.getElementsByClassName('palpable');for (var i = 0; i < nodes.length; i++) { nodes[i].classList.remove('palpable');}; document.getElementById('depict_cosn.personal_info_public_permissions').classList.add('palpable'); return false;">&#10063; personal&#95;info&#95;public&#95;permissions</a>(owner&#95;member&#95;id) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#ref'/></svg></td><td>fk_member_messages_members</td>
+		<td > member&#95;id &#8601; <a href='#cosn&#46;member&#95;messages'  onclick="window.scrollTo(536, 800);var nodes = document.getElementsByClassName('palpable');for (var i = 0; i < nodes.length; i++) { nodes[i].classList.remove('palpable');}; document.getElementById('depict_cosn.member_messages').classList.add('palpable'); return false;">&#10063; member&#95;messages</a>(origin&#95;member&#95;id) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#ref'/></svg></td><td>fk_member_messages_members_0</td>
+		<td > member&#95;id &#8601; <a href='#cosn&#46;member&#95;messages'  onclick="window.scrollTo(536, 800);var nodes = document.getElementsByClassName('palpable');for (var i = 0; i < nodes.length; i++) { nodes[i].classList.remove('palpable');}; document.getElementById('depict_cosn.member_messages').classList.add('palpable'); return false;">&#10063; member&#95;messages</a>(target&#95;member&#95;id) </td>
 		<td>  </td>
 	</tr>
 <tr><th colspan='4'>Options</th></tr>
@@ -1730,7 +1729,7 @@ function installListeners( svgContainer, svgImage ){
 </table></div></div>
 
 <br><br>
-<div class='card'><div class='card-body'><a name='cosn.personal_info_public_permissions'  onclick="window.scrollTo(584, 656);var nodes = document.getElementsByClassName('palpable');for (var i = 0; i < nodes.length; i++) { nodes[i].classList.remove('palpable');}; document.getElementById('depict_cosn.personal_info_public_permissions').classList.add('palpable'); return false;" style='cursor:pointer;'><h5 class='card-title'>Table personal_info_public_permissions</h5></a>
+<div class='card'><div class='card-body'><a name='cosn.personal_info_public_permissions'  onclick="window.scrollTo(584, 624);var nodes = document.getElementsByClassName('palpable');for (var i = 0; i < nodes.length; i++) { nodes[i].classList.remove('palpable');}; document.getElementById('depict_cosn.personal_info_public_permissions').classList.add('palpable'); return false;" style='cursor:pointer;'><h5 class='card-title'>Table personal_info_public_permissions</h5></a>
 <table class='table table-sm small' style='table-layout: fixed; word-wrap: break-word;'>
 <thead>
 <tr><th style='width:5%'>Idx</th><th style='width:40%'>Column Name</th><th>Data Type</th></tr>

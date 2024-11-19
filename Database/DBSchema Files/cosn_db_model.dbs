@@ -230,6 +230,12 @@ can be
 			<index name="unq_member_messages_target_member_id" unique="UNIQUE_KEY" >
 				<column name="target_member_id" />
 			</index>
+			<fk name="fk_member_messages_members" to_schema="cosn" to_table="members" >
+				<fk_column name="origin_member_id" pk="member_id" />
+			</fk>
+			<fk name="fk_member_messages_members_0" to_schema="cosn" to_table="members" >
+				<fk_column name="target_member_id" pk="member_id" />
+			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 		<table name="member_relationships" prior="tbl" >
@@ -316,12 +322,6 @@ Mandatory (not null), for enabling the correct system functionality.]]></comment
 			<index name="pk_member" unique="PRIMARY_KEY" >
 				<column name="member_id" />
 			</index>
-			<fk name="fk_members_member_messages" to_schema="cosn" to_table="member_messages" >
-				<fk_column name="member_id" pk="origin_member_id" />
-			</fk>
-			<fk name="fk_members_member_messages_0" to_schema="cosn" to_table="member_messages" >
-				<fk_column name="member_id" pk="target_member_id" />
-			</fk>
 			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci]]></options>
 		</table>
 		<table name="personal_info_permissions" prior="personal_info_visibility" >
@@ -388,7 +388,7 @@ authorized_member_id = 2, it is visible to the "public" system member]]></commen
 		<entity schema="cosn" name="member_relationships" color="C1D8EE" x="256" y="768" />
 		<entity schema="cosn" name="members" color="3986C1" x="448" y="448" />
 		<entity schema="cosn" name="personal_info_permissions" color="C1D8EE" x="784" y="496" />
-		<entity schema="cosn" name="personal_info_public_permissions" color="C1D8EE" x="784" y="656" />
+		<entity schema="cosn" name="personal_info_public_permissions" color="C1D8EE" x="784" y="624" />
 		<callout x="48" y="48" pointer="Round" >
 			<comment><![CDATA[Create new tables by right-clicking the diagram.
 Double-click the table headers, columns, or foreign keys to edit.
