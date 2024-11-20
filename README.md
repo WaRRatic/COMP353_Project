@@ -10,6 +10,8 @@ Execute DB Create COSN Schema.sql against your running MariaDB script.
 
 Execute .SQL files in the Initialize DB Data folder against the DB Create COSN Schema.sql.
 
+To have some data and try out examples, please instantiate everything in Initialize DB Data folder.
+
 Once you have everything set up, go to http://localhost/index.php to view the website.
 
 # COMP353_Project -- Original focused problem statement
