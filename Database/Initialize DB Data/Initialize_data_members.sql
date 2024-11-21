@@ -29,7 +29,7 @@ values
     'active'
   );
 
---insert a "public" system member
+-- insert a "public" system member
   insert into 
   cosn.members (
     member_id, 
@@ -59,7 +59,7 @@ values
     'inactive'
   );
 
-  --insert a "jimi hendrix" senior member, with status 'inactive'
+  -- insert a "jimi hendrix" senior member, with status 'inactive'
     insert into 
   cosn.members (
     member_id, 
@@ -89,7 +89,7 @@ values
     'inactive'
   );
 
-  --insert a "jim morrison" senior member, with status 'suspended'
+  -- insert a "jim morrison" senior member, with status 'suspended'
   insert into 
   cosn.members (
     member_id, 
@@ -120,7 +120,7 @@ values
   );
 
   
-  --insert a "Matt Bellamy" senior member, with status 'active'
+  -- insert a "Matt Bellamy" senior member, with status 'active'
   insert into 
   cosn.members (
     member_id, 
@@ -150,7 +150,7 @@ values
     'active'
   );
 
-    --insert a "Lana Del Rey" junior member, with status active
+    -- insert a "Lana Del Rey" junior member, with status active
   insert into 
   cosn.members (
     member_id, 
@@ -179,7 +179,7 @@ values
     'deadly_nightshade7', 
     'active'
   );
---insert a "sharon den adel" senior member, with status 'active'
+-- insert a "sharon den adel" senior member, with status 'active'
   insert into 
   cosn.members (
     member_id, 
@@ -208,7 +208,7 @@ values
     'icequeen77', 
     'active'
   );
-  --insert a "axl" senior member, with status 'inactive'
+  -- insert a "axl" senior member, with status 'inactive'
   insert into 
   cosn.members (
     member_id, 
