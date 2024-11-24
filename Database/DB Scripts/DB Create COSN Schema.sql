@@ -151,7 +151,7 @@ CREATE  TABLE cosn.group_vote_plebiscite_results (
 CREATE  TABLE cosn.content ( 
 	content_id           INT UNSIGNED   NOT NULL   PRIMARY KEY,
 	creator_id           INT UNSIGNED   NOT NULL   ,
-	content_type         ENUM('text','image','video')    NOT NULL   ,
+	content_type         ENUM('text','image','video','comment')    NOT NULL   ,
 	content_data         TEXT    NOT NULL   ,
 	content_creation_date DATE  DEFAULT curdate()  NOT NULL   ,
 	content_title        VARCHAR(100)       ,
@@ -430,7 +430,7 @@ ALTER TABLE cosn.content COMMENT 'contains the content created by members';
 
 ALTER TABLE cosn.content MODIFY creator_id INT UNSIGNED NOT NULL   COMMENT 'member who created this particular piece of content';
 
-ALTER TABLE cosn.content MODIFY content_type ENUM('text','image','video')  NOT NULL   COMMENT 'what kind of content was produced';
+ALTER TABLE cosn.content MODIFY content_type ENUM('text','image','video','comment')  NOT NULL   COMMENT 'what kind of content was produced';
 
 ALTER TABLE cosn.content MODIFY content_data TEXT  NOT NULL   COMMENT 'text or URL link to the data of the content';
 
