@@ -63,6 +63,9 @@
 			<index name="unq_content_group_permissions_target_content_id" unique="UNIQUE_KEY" >
 				<column name="target_content_id" />
 			</index>
+			<index name="fk_content_group_permissions_groups" unique="NORMAL" >
+				<column name="target_group_id" />
+			</index>
 			<fk name="fk_content_group_permissions_groups" to_schema="cosn" to_table="groups" >
 				<fk_column name="target_group_id" pk="group_id" />
 			</fk>
@@ -81,6 +84,12 @@
 			</column>
 			<index name="pk_content_link_relationship" unique="PRIMARY_KEY" >
 				<column name="content_link_rel_id" />
+			</index>
+			<index name="fk_content_link_relationship_content" unique="NORMAL" >
+				<column name="origin_content_id" />
+			</index>
+			<index name="fk_content_link_relationship_content_0" unique="NORMAL" >
+				<column name="target_content_id" />
 			</index>
 			<fk name="fk_content_link_relationship_content" to_schema="cosn" to_table="content" >
 				<fk_column name="origin_content_id" pk="content_id" />
@@ -125,6 +134,34 @@ can be
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
+		<table name="content_moderation_warning" prior="content_moderation_" >
+			<comment><![CDATA[Contains the moderation warning for content posted by a member (if the content was "flagged" by a moderator]]></comment>
+			<column name="content_moderation_warning_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
+			</column>
+			<column name="target_content_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[defines the particular piece of content that has been flagged by a moderator]]></comment>
+			</column>
+			<column name="owner_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[member responsible for posting a flagged content]]></comment>
+			</column>
+			<column name="moderator_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[ID of a moderator who flagged the particular piece of content]]></comment>
+			</column>
+			<index name="pk_content_moderation_warning" unique="PRIMARY_KEY" >
+				<column name="content_moderation_warning_id" />
+			</index>
+			<fk name="fk_content_moderation_warning_content" to_schema="cosn" to_table="content" >
+				<fk_column name="target_content_id" pk="content_id" />
+			</fk>
+			<fk name="fk_content_moderation_warning_members" to_schema="cosn" to_table="members" >
+				<fk_column name="owner_member_id" pk="member_id" />
+			</fk>
+			<fk name="fk_content_moderation_warning_members_0" to_schema="cosn" to_table="members" >
+				<fk_column name="moderator_member_id" pk="member_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
 		<table name="content_public_permissions" prior="content_public_permission" >
 			<comment><![CDATA[Defines which content is public]]></comment>
 			<column name="content_public_permission_id" prior="content_public_id" type="INT" jt="4" mandatory="y" unsigned="y" >
@@ -146,6 +183,148 @@ can be
 			<index name="unq_content_public_permissions_target_content_id" unique="UNIQUE_KEY" >
 				<column name="target_content_id" />
 			</index>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="gift_registry" prior="tbl" >
+			<comment><![CDATA[Describes gift registry entity that different members can attach gift ideas to.]]></comment>
+			<column name="gift_registry_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
+			</column>
+			<column name="organizer_member_id" prior="organized_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[ID of a particular gift registry organizer]]></comment>
+			</column>
+			<index name="pk_gift_registry" unique="PRIMARY_KEY" >
+				<column name="gift_registry_id" />
+			</index>
+			<fk name="fk_gift_registry_members" to_schema="cosn" to_table="members" >
+				<fk_column name="organizer_member_id" pk="member_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="gift_registry_ideas" prior="gift_registr" >
+			<comment><![CDATA[describes gift ideas for a particular registry]]></comment>
+			<column name="gift_registry_ideas_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
+			</column>
+			<column name="target_gift_registry_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[describes which particular gift registry a gift idea applies to]]></comment>
+			</column>
+			<column name="idea_owner_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[ID of a member proposing a particullar gift]]></comment>
+			</column>
+			<column name="gift_idea_description" type="VARCHAR" length="200" jt="12" mandatory="y" >
+				<comment><![CDATA[description of a proposed gift]]></comment>
+			</column>
+			<index name="pk_gift_registry_ideas" unique="PRIMARY_KEY" >
+				<column name="gift_registry_ideas_id" />
+			</index>
+			<fk name="fk_gift_registry_ideas_gift_registry" to_schema="cosn" to_table="gift_registry" >
+				<fk_column name="target_gift_registry_id" pk="gift_registry_id" />
+			</fk>
+			<fk name="fk_gift_registry_ideas_gift_registry_participants" to_schema="cosn" to_table="gift_registry_participants" >
+				<fk_column name="idea_owner_id" pk="participant_member_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="gift_registry_participants" prior="tbl" >
+			<comment><![CDATA[Contains the participants of a particular gift registry]]></comment>
+			<column name="gift_registry_participants_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
+			</column>
+			<column name="participant_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[ID of a participant of the registry]]></comment>
+			</column>
+			<column name="target_gift_registry_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[describes a particular gift registry that a member is part of]]></comment>
+			</column>
+			<index name="pk_gift_registry_participants" unique="PRIMARY_KEY" >
+				<column name="gift_registry_participants_id" />
+			</index>
+			<index name="unq_gift_registry_participants_participant_member_id" unique="UNIQUE_KEY" >
+				<column name="participant_member_id" />
+			</index>
+			<fk name="fk_gift_registry_participants_members" to_schema="cosn" to_table="members" >
+				<fk_column name="participant_member_id" pk="member_id" />
+			</fk>
+			<fk name="fk_gift_registry_participants_gift_registry" to_schema="cosn" to_table="gift_registry" >
+				<fk_column name="target_gift_registry_id" pk="gift_registry_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="group_event" prior="event" >
+			<comment><![CDATA[contains the events organized for particular groups]]></comment>
+			<column name="group_event_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
+			</column>
+			<column name="target_group_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[Group for which a particular event is organized]]></comment>
+			</column>
+			<column name="event_organizer_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[ID of a member who is organizing a particular event]]></comment>
+			</column>
+			<column name="event_name" type="VARCHAR" length="100" jt="12" mandatory="y" >
+				<comment><![CDATA[Name of the particular event being organized]]></comment>
+			</column>
+			<index name="pk_group_event" unique="PRIMARY_KEY" >
+				<column name="group_event_id" />
+			</index>
+			<fk name="fk_group_event_groups" to_schema="cosn" to_table="groups" >
+				<fk_column name="target_group_id" pk="group_id" />
+			</fk>
+			<fk name="fk_group_event_members" to_schema="cosn" to_table="members" >
+				<fk_column name="event_organizer_member_id" pk="member_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="group_event_option_vote" prior="tbl" >
+			<comment><![CDATA[contains the voting results of a particular member for a particular event option proposed]]></comment>
+			<column name="group_event_option_vote_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
+			</column>
+			<column name="target_group_event_option_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[ID of the option of proposed date/time/place for a particular event]]></comment>
+			</column>
+			<column name="option_voter_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[ID of the member who is voting on a particular option]]></comment>
+			</column>
+			<column name="option_voting_decision" type="BOOLEAN" jt="-7" >
+				<comment><![CDATA[describes the decision of a particular member regarding the proposed date/time/place for an event (true = support for the option)]]></comment>
+			</column>
+			<index name="pk_group_event_option_vote" unique="PRIMARY_KEY" >
+				<column name="group_event_option_vote_id" />
+			</index>
+			<fk name="fk_group_event_option_vote_group_event_options" to_schema="cosn" to_table="group_event_options" >
+				<fk_column name="target_group_event_option_id" pk="group_event_options_id" />
+			</fk>
+			<fk name="fk_group_event_option_vote_members" to_schema="cosn" to_table="members" >
+				<fk_column name="option_voter_member_id" pk="member_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="group_event_options" prior="group_event_" >
+			<comment><![CDATA[describes the proposed options for a particular group event]]></comment>
+			<column name="group_event_options_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
+			</column>
+			<column name="target_group_event_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[describes a particular group event ID on which a particular time/place/date option applies]]></comment>
+			</column>
+			<column name="option_owner_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[ID of the member proposing a particular option of date/time/place for the event]]></comment>
+			</column>
+			<column name="option_description" type="VARCHAR" length="100" jt="12" mandatory="y" >
+				<comment><![CDATA[describes the details of the proposed option for date/time/place
+Ex: "Alaska, 2025-01-01, 07:00"]]></comment>
+			</column>
+			<index name="pk_group_event_options" unique="PRIMARY_KEY" >
+				<column name="group_event_options_id" />
+			</index>
+			<fk name="fk_group_event_options_group_event" to_schema="cosn" to_table="group_event" >
+				<fk_column name="target_group_event_id" pk="group_event_id" />
+			</fk>
+			<fk name="fk_group_event_options_members" to_schema="cosn" to_table="members" >
+				<fk_column name="option_owner_member_id" pk="member_id" />
+			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 		<table name="group_members" prior="tbl" >
@@ -182,6 +361,59 @@ can be
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
+		<table name="group_vote_plebiscite" prior="group_vote_plebicsite" >
+			<comment><![CDATA[Contains the plebiscite organized to oust a non-person (corporate) member.]]></comment>
+			<column name="group_vote_plebiscite_id" prior="gropup_vote_plebiscite_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
+			</column>
+			<column name="target_member_id" type="INT" jt="4" unsigned="y" >
+				<comment><![CDATA[ID of a member being ousted]]></comment>
+			</column>
+			<column name="organizer_member_id" type="INT" jt="4" unsigned="y" >
+				<comment><![CDATA[ID of the organizer of the plebiscite]]></comment>
+			</column>
+			<column name="target_group_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[Group from which the non-person member is being ousted.]]></comment>
+			</column>
+			<index name="pk_group_vote_plebiscite" unique="PRIMARY_KEY" >
+				<column name="group_vote_plebiscite_id" />
+			</index>
+			<fk name="fk_group_vote_plebiscite_groups" to_schema="cosn" to_table="groups" >
+				<fk_column name="target_group_id" pk="group_id" />
+			</fk>
+			<fk name="fk_group_vote_plebiscite_members" to_schema="cosn" to_table="members" >
+				<fk_column name="target_member_id" pk="member_id" />
+			</fk>
+			<fk name="fk_group_vote_plebiscite_members_0" to_schema="cosn" to_table="members" >
+				<fk_column name="organizer_member_id" pk="member_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="group_vote_plebiscite_results" prior="group_vote" >
+			<comment><![CDATA[Results of the plebiscite]]></comment>
+			<column name="group_vote_plebiscite_results_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
+			</column>
+			<column name="target_group_vote_plebiscite_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[ID of the plebiscite.]]></comment>
+			</column>
+			<column name="voter_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[ID of the voting member on this particular plebiscite]]></comment>
+			</column>
+			<column name="voting_decision" type="BOOLEAN" jt="-7" mandatory="y" >
+				<comment><![CDATA[describes the decision of a particular member in the plebiscite vote (voting decision = true, meaning in favour of ousting)]]></comment>
+			</column>
+			<index name="pk_group_vote_plebiscite_results" unique="PRIMARY_KEY" >
+				<column name="group_vote_plebiscite_results_id" />
+			</index>
+			<fk name="fk_group_vote_plebiscite_results_members" to_schema="cosn" to_table="members" >
+				<fk_column name="voter_member_id" pk="member_id" />
+			</fk>
+			<fk name="fk_group_vote_plebiscite_results_group_vote_plebiscite" to_schema="cosn" to_table="group_vote_plebiscite" >
+				<fk_column name="target_group_vote_plebiscite_id" pk="group_vote_plebiscite_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
 		<table name="groups" spec="" >
 			<comment><![CDATA[Contains the information about the groups, such as their description, who created them, etc]]></comment>
 			<column name="group_id" type="INT" jt="4" mandatory="y" unsigned="y" />
@@ -195,6 +427,9 @@ can be
 			<column name="creation_date" type="DATE" jt="91" >
 				<defo><![CDATA[current_timestamp()]]></defo>
 				<comment><![CDATA[Date when group was created]]></comment>
+			</column>
+			<column name="cathegory" type="VARCHAR" length="100" jt="12" >
+				<comment><![CDATA[defines the different cathegories]]></comment>
 			</column>
 			<index name="pk_groups" unique="PRIMARY_KEY" >
 				<column name="group_id" />
@@ -230,6 +465,32 @@ can be
 			<index name="unq_member_messages_target_member_id" unique="UNIQUE_KEY" >
 				<column name="target_member_id" />
 			</index>
+			<fk name="fk_member_messages_members" to_schema="cosn" to_table="members" >
+				<fk_column name="origin_member_id" pk="member_id" />
+			</fk>
+			<fk name="fk_member_messages_members_0" to_schema="cosn" to_table="members" >
+				<fk_column name="target_member_id" pk="member_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="member_privilege_change_request" prior="member_privilege" >
+			<comment><![CDATA[Contains the privilege change request of a member, for example - a junior to senior member]]></comment>
+			<column name="member_privilege_change_request_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
+			</column>
+			<column name="target_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[The ID of the member who is requesting the change]]></comment>
+			</column>
+			<column name="requested_privilege_level" type="ENUM" jt="12" >
+				<enumeration><![CDATA['senior']]></enumeration>
+				<comment><![CDATA[desired privilege level for the tardet_member_id]]></comment>
+			</column>
+			<index name="pk_member_privilege_change_request" unique="PRIMARY_KEY" >
+				<column name="member_privilege_change_request_id" />
+			</index>
+			<fk name="fk_member_privilege_change_request_members" to_schema="cosn" to_table="members" >
+				<fk_column name="target_member_id" pk="member_id" />
+			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 		<table name="member_relationships" prior="tbl" >
@@ -313,15 +574,12 @@ Mandatory (not null), for enabling the correct system functionality.]]></comment
 				<enumeration><![CDATA['active','inactive','suspended']]></enumeration>
 				<comment><![CDATA[the 'system' status is used for internal backend representation of "public" and "private" members]]></comment>
 			</column>
+			<column name="corporation_flag" type="BOOLEAN" jt="-7" mandatory="y" >
+				<comment><![CDATA[Defines whether the member is a corporation (corporation_flag = true) or an actual person (corporation_flag = false).]]></comment>
+			</column>
 			<index name="pk_member" unique="PRIMARY_KEY" >
 				<column name="member_id" />
 			</index>
-			<fk name="fk_members_member_messages" to_schema="cosn" to_table="member_messages" >
-				<fk_column name="member_id" pk="origin_member_id" />
-			</fk>
-			<fk name="fk_members_member_messages_0" to_schema="cosn" to_table="member_messages" >
-				<fk_column name="member_id" pk="target_member_id" />
-			</fk>
 			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci]]></options>
 		</table>
 		<table name="personal_info_permissions" prior="personal_info_visibility" >
@@ -369,6 +627,9 @@ authorized_member_id = 2, it is visible to the "public" system member]]></commen
 			<index name="pk_personal_info_public_permissions" unique="PRIMARY_KEY" >
 				<column name="personal_info_public_permission_id" />
 			</index>
+			<index name="fk_personal_info_public_permissions_members" unique="NORMAL" >
+				<column name="owner_member_id" />
+			</index>
 			<fk name="fk_personal_info_public_permissions_members" to_schema="cosn" to_table="members" >
 				<fk_column name="owner_member_id" pk="member_id" />
 			</fk>
@@ -377,19 +638,29 @@ authorized_member_id = 2, it is visible to the "public" system member]]></commen
 	</schema>
 	<layout name="Main Layout" id="Layout-4cc" show_relation="columns" >
 		<comment><![CDATA[COSN DB Schema]]></comment>
-		<entity schema="cosn" name="content" color="C1D8EE" x="640" y="240" />
-		<entity schema="cosn" name="content_group_permissions" color="C1D8EE" x="448" y="80" />
-		<entity schema="cosn" name="content_link_relationship" color="C1D8EE" x="848" y="80" />
-		<entity schema="cosn" name="content_member_permission" color="C1D8EE" x="1056" y="400" />
-		<entity schema="cosn" name="content_public_permissions" color="C1D8EE" x="960" y="256" />
-		<entity schema="cosn" name="group_members" color="C1D8EE" x="112" y="560" />
-		<entity schema="cosn" name="groups" color="3986C1" x="176" y="320" />
-		<entity schema="cosn" name="member_messages" color="C1D8EE" x="736" y="800" />
-		<entity schema="cosn" name="member_relationships" color="C1D8EE" x="256" y="768" />
-		<entity schema="cosn" name="members" color="3986C1" x="448" y="448" />
-		<entity schema="cosn" name="personal_info_permissions" color="C1D8EE" x="784" y="496" />
-		<entity schema="cosn" name="personal_info_public_permissions" color="C1D8EE" x="784" y="656" />
-		<callout x="48" y="48" pointer="Round" >
+		<entity schema="cosn" name="content" color="E5C1EE" x="864" y="352" />
+		<entity schema="cosn" name="content_group_permissions" color="E5C1EE" x="672" y="160" />
+		<entity schema="cosn" name="content_link_relationship" color="E5C1EE" x="1072" y="192" />
+		<entity schema="cosn" name="content_member_permission" color="E5C1EE" x="1280" y="512" />
+		<entity schema="cosn" name="content_moderation_warning" color="E5C1EE" x="896" y="48" />
+		<entity schema="cosn" name="content_public_permissions" color="E5C1EE" x="1184" y="368" />
+		<entity schema="cosn" name="gift_registry" color="EED5C1" x="1296" y="672" />
+		<entity schema="cosn" name="gift_registry_ideas" color="EED5C1" x="1520" y="640" />
+		<entity schema="cosn" name="gift_registry_participants" color="EED5C1" x="1296" y="832" />
+		<entity schema="cosn" name="group_event" color="C1D8EE" x="48" y="576" />
+		<entity schema="cosn" name="group_event_option_vote" color="C1D8EE" x="64" y="896" />
+		<entity schema="cosn" name="group_event_options" color="C1D8EE" x="64" y="736" />
+		<entity schema="cosn" name="group_members" color="C1D8EE" x="320" y="640" />
+		<entity schema="cosn" name="group_vote_plebiscite" color="C1D8EE" x="208" y="240" />
+		<entity schema="cosn" name="group_vote_plebiscite_results" color="C1D8EE" x="112" y="416" />
+		<entity schema="cosn" name="groups" color="C1D8EE" x="448" y="352" />
+		<entity schema="cosn" name="member_messages" color="E5EEC1" x="1024" y="864" />
+		<entity schema="cosn" name="member_privilege_change_request" color="E5EEC1" x="640" y="912" />
+		<entity schema="cosn" name="member_relationships" color="E5EEC1" x="336" y="816" />
+		<entity schema="cosn" name="members" color="E5EEC1" x="656" y="512" />
+		<entity schema="cosn" name="personal_info_permissions" color="E5EEC1" x="1008" y="608" />
+		<entity schema="cosn" name="personal_info_public_permissions" color="E5EEC1" x="1008" y="736" />
+		<callout x="96" y="96" pointer="Round" >
 			<comment><![CDATA[Create new tables by right-clicking the diagram.
 Double-click the table headers, columns, or foreign keys to edit.
 The schema structure will be saved to the design model file.]]></comment>

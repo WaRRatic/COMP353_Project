@@ -4,7 +4,8 @@ insert into
     relationship_id, 
     origin_member_id, 
     target_member_id, 
-    relationship_type
+    member_relationship_type,
+    member_relationship_status
   )
 values
   (
@@ -12,6 +13,7 @@ values
     2, 
     3, 
     'friend'
+    'requested'
   );
 
   insert into 
@@ -19,7 +21,8 @@ values
     relationship_id, 
     origin_member_id, 
     target_member_id, 
-    relationship_type
+    member_relationship_type,
+    member_relationship_status
   )
 values
   (
@@ -27,6 +30,7 @@ values
     4, 
     5, 
     'family'
+    'approved'
   );
 
   insert into 
@@ -34,7 +38,8 @@ values
     relationship_id, 
     origin_member_id, 
     target_member_id, 
-    relationship_type
+    member_relationship_type,
+    member_relationship_status
   )
 values
   (
@@ -42,6 +47,7 @@ values
     2, 
     6, 
     'colleague'
+    'rejected'
   );
 
   insert into 
@@ -49,7 +55,8 @@ values
     relationship_id, 
     origin_member_id, 
     target_member_id, 
-    relationship_type
+    member_relationship_type,
+    member_relationship_status
   )
 values
   (
@@ -57,4 +64,5 @@ values
     1, 
     7, 
     'blocked'
+    'approved'
   );

@@ -18,7 +18,8 @@ CREATE  TABLE cosn.members (
 	date_of_birth        DATE       ,
 	privilege_level      ENUM('administrator','senior','junior')  DEFAULT 'junior'  NOT NULL   ,
 	pseudonym            VARCHAR(50)       ,
-	`status`             ENUM('active','inactive','suspended')  DEFAULT 'active'  NOT NULL   
+	`status`             ENUM('active','inactive','suspended')  DEFAULT 'active'  NOT NULL   ,
+	corporation_flag     BOOLEAN    NOT NULL   
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE  TABLE cosn.personal_info_permissions ( 
@@ -38,12 +39,27 @@ CREATE  TABLE cosn.personal_info_public_permissions (
 	personal_info_type   ENUM('first_name','last_name','date_of_birth','address','pseudonym','email')       
  ) engine=InnoDB;
 
+CREATE INDEX fk_personal_info_public_permissions_members ON cosn.personal_info_public_permissions ( owner_member_id );
+
+CREATE  TABLE cosn.gift_registry ( 
+	gift_registry_id     INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
+	organizer_member_id  INT UNSIGNED   NOT NULL   
+ ) engine=InnoDB;
+
+CREATE  TABLE cosn.gift_registry_participants ( 
+	gift_registry_participants_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
+	participant_member_id INT UNSIGNED   NOT NULL   ,
+	target_gift_registry_id INT UNSIGNED   NOT NULL   ,
+	CONSTRAINT unq_gift_registry_participants_participant_member_id UNIQUE ( participant_member_id ) 
+ ) engine=InnoDB;
+
 CREATE  TABLE cosn.groups ( 
 	group_id             INT UNSIGNED   NOT NULL   PRIMARY KEY,
 	group_name           VARCHAR(100)    NOT NULL   ,
 	owner_id             INT UNSIGNED      ,
 	description          TEXT       ,
-	creation_date        DATE  DEFAULT current_timestamp()     
+	creation_date        DATE  DEFAULT current_timestamp()     ,
+	cathegory            VARCHAR(100)       
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE INDEX fk_groups_members ON cosn.groups ( owner_id );
@@ -55,6 +71,12 @@ CREATE  TABLE cosn.member_messages (
 	message_content      TEXT       ,
 	CONSTRAINT unq_member_messages_origin_member_id UNIQUE ( origin_member_id ) ,
 	CONSTRAINT unq_member_messages_target_member_id UNIQUE ( target_member_id ) 
+ ) engine=InnoDB;
+
+CREATE  TABLE cosn.member_privilege_change_request ( 
+	member_privilege_change_request_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
+	target_member_id     INT UNSIGNED   NOT NULL   ,
+	requested_privilege_level ENUM('senior')       
  ) engine=InnoDB;
 
 CREATE  TABLE cosn.member_relationships ( 
@@ -77,6 +99,29 @@ CREATE  TABLE cosn.content_group_permissions (
 	CONSTRAINT unq_content_group_permissions_target_content_id UNIQUE ( target_content_id ) 
  ) engine=InnoDB;
 
+CREATE INDEX fk_content_group_permissions_groups ON cosn.content_group_permissions ( target_group_id );
+
+CREATE  TABLE cosn.gift_registry_ideas ( 
+	gift_registry_ideas_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
+	target_gift_registry_id INT UNSIGNED   NOT NULL   ,
+	idea_owner_id        INT UNSIGNED   NOT NULL   ,
+	gift_idea_description VARCHAR(200)    NOT NULL   
+ ) engine=InnoDB;
+
+CREATE  TABLE cosn.group_event ( 
+	group_event_id       INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
+	target_group_id      INT UNSIGNED   NOT NULL   ,
+	event_organizer_member_id INT UNSIGNED   NOT NULL   ,
+	event_name           VARCHAR(100)    NOT NULL   
+ ) engine=InnoDB;
+
+CREATE  TABLE cosn.group_event_options ( 
+	group_event_options_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
+	target_group_event_id INT UNSIGNED   NOT NULL   ,
+	option_owner_member_id INT UNSIGNED   NOT NULL   ,
+	option_description   VARCHAR(100)    NOT NULL   
+ ) engine=InnoDB;
+
 CREATE  TABLE cosn.group_members ( 
 	group_membership_id  INT UNSIGNED   NOT NULL   PRIMARY KEY,
 	participant_member_id INT UNSIGNED   NOT NULL   ,
@@ -88,6 +133,20 @@ CREATE  TABLE cosn.group_members (
 CREATE INDEX fk_group_members_members ON cosn.group_members ( participant_member_id );
 
 CREATE INDEX fk_group_members_groups ON cosn.group_members ( joined_group_id );
+
+CREATE  TABLE cosn.group_vote_plebiscite ( 
+	group_vote_plebiscite_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
+	target_member_id     INT UNSIGNED      ,
+	organizer_member_id  INT UNSIGNED      ,
+	target_group_id      INT UNSIGNED   NOT NULL   
+ ) engine=InnoDB;
+
+CREATE  TABLE cosn.group_vote_plebiscite_results ( 
+	group_vote_plebiscite_results_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
+	target_group_vote_plebiscite_id INT UNSIGNED   NOT NULL   ,
+	voter_member_id      INT UNSIGNED   NOT NULL   ,
+	voting_decision      BOOLEAN    NOT NULL   
+ ) engine=InnoDB;
 
 CREATE  TABLE cosn.content ( 
 	content_id           INT UNSIGNED   NOT NULL   PRIMARY KEY,
@@ -107,6 +166,10 @@ CREATE  TABLE cosn.content_link_relationship (
 	target_content_id    INT UNSIGNED      
  ) engine=InnoDB;
 
+CREATE INDEX fk_content_link_relationship_content ON cosn.content_link_relationship ( origin_content_id );
+
+CREATE INDEX fk_content_link_relationship_content_0 ON cosn.content_link_relationship ( target_content_id );
+
 CREATE  TABLE cosn.content_member_permission ( 
 	content_member_permission_id INT UNSIGNED   NOT NULL   PRIMARY KEY,
 	target_content_id    INT UNSIGNED      ,
@@ -117,6 +180,20 @@ CREATE  TABLE cosn.content_member_permission (
 CREATE INDEX fk_content_permissions_content ON cosn.content_member_permission ( target_content_id );
 
 CREATE INDEX fk_content_permissions_members ON cosn.content_member_permission ( authorized_member_id );
+
+CREATE  TABLE cosn.content_moderation_warning ( 
+	content_moderation_warning_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
+	target_content_id    INT UNSIGNED   NOT NULL   ,
+	owner_member_id      INT UNSIGNED   NOT NULL   ,
+	moderator_member_id  INT UNSIGNED   NOT NULL   
+ ) engine=InnoDB;
+
+CREATE  TABLE cosn.group_event_option_vote ( 
+	group_event_option_vote_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
+	target_group_event_option_id INT UNSIGNED   NOT NULL   ,
+	option_voter_member_id INT UNSIGNED   NOT NULL   ,
+	option_voting_decision BOOLEAN       
+ ) engine=InnoDB;
 
 ALTER TABLE cosn.content ADD CONSTRAINT fk_content_members FOREIGN KEY ( creator_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
@@ -134,15 +211,55 @@ ALTER TABLE cosn.content_member_permission ADD CONSTRAINT fk_content_permissions
 
 ALTER TABLE cosn.content_member_permission ADD CONSTRAINT fk_content_permissions_members FOREIGN KEY ( authorized_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
+ALTER TABLE cosn.content_moderation_warning ADD CONSTRAINT fk_content_moderation_warning_content FOREIGN KEY ( target_content_id ) REFERENCES cosn.content( content_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE cosn.content_moderation_warning ADD CONSTRAINT fk_content_moderation_warning_members FOREIGN KEY ( owner_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE cosn.content_moderation_warning ADD CONSTRAINT fk_content_moderation_warning_members_0 FOREIGN KEY ( moderator_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE cosn.gift_registry ADD CONSTRAINT fk_gift_registry_members FOREIGN KEY ( organizer_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE cosn.gift_registry_ideas ADD CONSTRAINT fk_gift_registry_ideas_gift_registry FOREIGN KEY ( target_gift_registry_id ) REFERENCES cosn.gift_registry( gift_registry_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE cosn.gift_registry_ideas ADD CONSTRAINT fk_gift_registry_ideas_gift_registry_participants FOREIGN KEY ( idea_owner_id ) REFERENCES cosn.gift_registry_participants( participant_member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE cosn.gift_registry_participants ADD CONSTRAINT fk_gift_registry_participants_members FOREIGN KEY ( participant_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE cosn.gift_registry_participants ADD CONSTRAINT fk_gift_registry_participants_gift_registry FOREIGN KEY ( target_gift_registry_id ) REFERENCES cosn.gift_registry( gift_registry_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE cosn.group_event ADD CONSTRAINT fk_group_event_groups FOREIGN KEY ( target_group_id ) REFERENCES cosn.groups( group_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE cosn.group_event ADD CONSTRAINT fk_group_event_members FOREIGN KEY ( event_organizer_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE cosn.group_event_option_vote ADD CONSTRAINT fk_group_event_option_vote_group_event_options FOREIGN KEY ( target_group_event_option_id ) REFERENCES cosn.group_event_options( group_event_options_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE cosn.group_event_option_vote ADD CONSTRAINT fk_group_event_option_vote_members FOREIGN KEY ( option_voter_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE cosn.group_event_options ADD CONSTRAINT fk_group_event_options_group_event FOREIGN KEY ( target_group_event_id ) REFERENCES cosn.group_event( group_event_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE cosn.group_event_options ADD CONSTRAINT fk_group_event_options_members FOREIGN KEY ( option_owner_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
 ALTER TABLE cosn.group_members ADD CONSTRAINT fk_group_members_members FOREIGN KEY ( participant_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 ALTER TABLE cosn.group_members ADD CONSTRAINT fk_group_members_groups FOREIGN KEY ( joined_group_id ) REFERENCES cosn.groups( group_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE cosn.group_vote_plebiscite ADD CONSTRAINT fk_group_vote_plebiscite_groups FOREIGN KEY ( target_group_id ) REFERENCES cosn.groups( group_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE cosn.group_vote_plebiscite ADD CONSTRAINT fk_group_vote_plebiscite_members FOREIGN KEY ( target_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE cosn.group_vote_plebiscite ADD CONSTRAINT fk_group_vote_plebiscite_members_0 FOREIGN KEY ( organizer_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE cosn.group_vote_plebiscite_results ADD CONSTRAINT fk_group_vote_plebiscite_results_members FOREIGN KEY ( voter_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE cosn.group_vote_plebiscite_results ADD CONSTRAINT fk_group_vote_plebiscite_results_group_vote_plebiscite FOREIGN KEY ( target_group_vote_plebiscite_id ) REFERENCES cosn.group_vote_plebiscite( group_vote_plebiscite_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 ALTER TABLE cosn.groups ADD CONSTRAINT fk_groups_members FOREIGN KEY ( owner_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 ALTER TABLE cosn.member_messages ADD CONSTRAINT fk_member_messages_members FOREIGN KEY ( origin_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 ALTER TABLE cosn.member_messages ADD CONSTRAINT fk_member_messages_members_0 FOREIGN KEY ( target_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE cosn.member_privilege_change_request ADD CONSTRAINT fk_member_privilege_change_request_members FOREIGN KEY ( target_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 ALTER TABLE cosn.member_relationships ADD CONSTRAINT fk_member_relationships_members FOREIGN KEY ( origin_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
@@ -195,6 +312,8 @@ ALTER TABLE cosn.members MODIFY pseudonym VARCHAR(50)     COMMENT 'name for inte
 
 ALTER TABLE cosn.members MODIFY `status` ENUM('active','inactive','suspended')  NOT NULL DEFAULT 'active'  COMMENT 'the ''system'' status is used for internal backend representation of "public" and "private" members';
 
+ALTER TABLE cosn.members MODIFY corporation_flag BOOLEAN  NOT NULL   COMMENT 'Defines whether the member is a corporation (corporation_flag = true) or an actual person (corporation_flag = false).';
+
 ALTER TABLE cosn.personal_info_permissions COMMENT 'Contains the mapping for ''member-specific'' permissions (visibility) of private information.
 
 Allows a particular piece of personal information, for a particular member, to be rendered visible to a particular set of other members. The set of other members can be constructed by the applicaton in the "shape" of a family, friends or groups, by simply inserting the needed member_id to the authorized_member_id.';
@@ -206,6 +325,16 @@ ALTER TABLE cosn.personal_info_permissions MODIFY authorized_member_id INT UNSIG
 authorized_member_id = 1, it is visible to the "private" system member
 authorized_member_id = 2, it is visible to the "public" system member';
 
+ALTER TABLE cosn.gift_registry COMMENT 'Describes gift registry entity that different members can attach gift ideas to.';
+
+ALTER TABLE cosn.gift_registry MODIFY organizer_member_id INT UNSIGNED NOT NULL   COMMENT 'ID of a particular gift registry organizer';
+
+ALTER TABLE cosn.gift_registry_participants COMMENT 'Contains the participants of a particular gift registry';
+
+ALTER TABLE cosn.gift_registry_participants MODIFY participant_member_id INT UNSIGNED NOT NULL   COMMENT 'ID of a participant of the registry';
+
+ALTER TABLE cosn.gift_registry_participants MODIFY target_gift_registry_id INT UNSIGNED NOT NULL   COMMENT 'describes a particular gift registry that a member is part of';
+
 ALTER TABLE cosn.groups COMMENT 'Contains the information about the groups, such as their description, who created them, etc';
 
 ALTER TABLE cosn.groups MODIFY owner_id INT UNSIGNED    COMMENT 'ID of the member who created a particular group';
@@ -214,6 +343,8 @@ ALTER TABLE cosn.groups MODIFY description TEXT     COMMENT 'Description of the 
 
 ALTER TABLE cosn.groups MODIFY creation_date DATE   DEFAULT current_timestamp()  COMMENT 'Date when group was created';
 
+ALTER TABLE cosn.groups MODIFY cathegory VARCHAR(100)     COMMENT 'defines the different cathegories';
+
 ALTER TABLE cosn.member_messages COMMENT 'table containing the messages that members send between each others';
 
 ALTER TABLE cosn.member_messages MODIFY origin_member_id INT UNSIGNED NOT NULL   COMMENT 'the member_id from who the message is sent FROM';
@@ -221,6 +352,12 @@ ALTER TABLE cosn.member_messages MODIFY origin_member_id INT UNSIGNED NOT NULL  
 ALTER TABLE cosn.member_messages MODIFY target_member_id INT UNSIGNED NOT NULL   COMMENT 'member_id that receives the message';
 
 ALTER TABLE cosn.member_messages MODIFY message_content TEXT     COMMENT 'the actual content of the message';
+
+ALTER TABLE cosn.member_privilege_change_request COMMENT 'Contains the privilege change request of a member, for example - a junior to senior member';
+
+ALTER TABLE cosn.member_privilege_change_request MODIFY target_member_id INT UNSIGNED NOT NULL   COMMENT 'The ID of the member who is requesting the change';
+
+ALTER TABLE cosn.member_privilege_change_request MODIFY requested_privilege_level ENUM('senior')     COMMENT 'desired privilege level for the tardet_member_id';
 
 ALTER TABLE cosn.member_relationships COMMENT 'describes the relationships of the members, specifically if they are friends, family, colleagues or blocked';
 
@@ -238,6 +375,31 @@ ALTER TABLE cosn.content_group_permissions MODIFY target_group_id INT UNSIGNED N
 
 ALTER TABLE cosn.content_group_permissions MODIFY content_group_permission_type ENUM('read','comment','share','link')     COMMENT 'the type of permission that a particular group has on a certain piece of content';
 
+ALTER TABLE cosn.gift_registry_ideas COMMENT 'describes gift ideas for a particular registry';
+
+ALTER TABLE cosn.gift_registry_ideas MODIFY target_gift_registry_id INT UNSIGNED NOT NULL   COMMENT 'describes which particular gift registry a gift idea applies to';
+
+ALTER TABLE cosn.gift_registry_ideas MODIFY idea_owner_id INT UNSIGNED NOT NULL   COMMENT 'ID of a member proposing a particullar gift';
+
+ALTER TABLE cosn.gift_registry_ideas MODIFY gift_idea_description VARCHAR(200)  NOT NULL   COMMENT 'description of a proposed gift';
+
+ALTER TABLE cosn.group_event COMMENT 'contains the events organized for particular groups';
+
+ALTER TABLE cosn.group_event MODIFY target_group_id INT UNSIGNED NOT NULL   COMMENT 'Group for which a particular event is organized';
+
+ALTER TABLE cosn.group_event MODIFY event_organizer_member_id INT UNSIGNED NOT NULL   COMMENT 'ID of a member who is organizing a particular event';
+
+ALTER TABLE cosn.group_event MODIFY event_name VARCHAR(100)  NOT NULL   COMMENT 'Name of the particular event being organized';
+
+ALTER TABLE cosn.group_event_options COMMENT 'describes the proposed options for a particular group event';
+
+ALTER TABLE cosn.group_event_options MODIFY target_group_event_id INT UNSIGNED NOT NULL   COMMENT 'describes a particular group event ID on which a particular time/place/date option applies';
+
+ALTER TABLE cosn.group_event_options MODIFY option_owner_member_id INT UNSIGNED NOT NULL   COMMENT 'ID of the member proposing a particular option of date/time/place for the event';
+
+ALTER TABLE cosn.group_event_options MODIFY option_description VARCHAR(100)  NOT NULL   COMMENT 'describes the details of the proposed option for date/time/place
+Ex: "Alaska, 2025-01-01, 07:00"';
+
 ALTER TABLE cosn.group_members COMMENT 'Mapping between members and groups, each row telling us which member belongs to which group';
 
 ALTER TABLE cosn.group_members MODIFY participant_member_id INT UNSIGNED NOT NULL   COMMENT 'the member_id of the participant of this group';
@@ -247,6 +409,22 @@ ALTER TABLE cosn.group_members MODIFY joined_group_id INT UNSIGNED NOT NULL   CO
 ALTER TABLE cosn.group_members MODIFY date_joined DATE  NOT NULL   COMMENT 'the date when a particular member has joned a particular group';
 
 ALTER TABLE cosn.group_members MODIFY role_of_member ENUM('member','owner')   DEFAULT 'member'  COMMENT 'the role of a particular member who joined a particular group, can be either ''owner'' or ''member''';
+
+ALTER TABLE cosn.group_vote_plebiscite COMMENT 'Contains the plebiscite organized to oust a non-person (corporate) member.';
+
+ALTER TABLE cosn.group_vote_plebiscite MODIFY target_member_id INT UNSIGNED    COMMENT 'ID of a member being ousted';
+
+ALTER TABLE cosn.group_vote_plebiscite MODIFY organizer_member_id INT UNSIGNED    COMMENT 'ID of the organizer of the plebiscite';
+
+ALTER TABLE cosn.group_vote_plebiscite MODIFY target_group_id INT UNSIGNED NOT NULL   COMMENT 'Group from which the non-person member is being ousted.';
+
+ALTER TABLE cosn.group_vote_plebiscite_results COMMENT 'Results of the plebiscite';
+
+ALTER TABLE cosn.group_vote_plebiscite_results MODIFY target_group_vote_plebiscite_id INT UNSIGNED NOT NULL   COMMENT 'ID of the plebiscite.';
+
+ALTER TABLE cosn.group_vote_plebiscite_results MODIFY voter_member_id INT UNSIGNED NOT NULL   COMMENT 'ID of the voting member on this particular plebiscite';
+
+ALTER TABLE cosn.group_vote_plebiscite_results MODIFY voting_decision BOOLEAN  NOT NULL   COMMENT 'describes the decision of a particular member in the plebiscite vote (voting decision = true, meaning in favour of ousting)';
 
 ALTER TABLE cosn.content COMMENT 'contains the content created by members';
 
@@ -280,4 +458,20 @@ authorized_member_id = 2 is "public" system member';
 ALTER TABLE cosn.content_member_permission MODIFY content_permission_type ENUM('read','edit','comment','share','modify-permission','moderate','link')     COMMENT 'the type of permission that the authorized_member_id has on this particular piece of content
 can be
 ''read'',''edit'',''comment'',''share'',''modify-permission'',''moderate'',''link''';
+
+ALTER TABLE cosn.content_moderation_warning COMMENT 'Contains the moderation warning for content posted by a member (if the content was "flagged" by a moderator';
+
+ALTER TABLE cosn.content_moderation_warning MODIFY target_content_id INT UNSIGNED NOT NULL   COMMENT 'defines the particular piece of content that has been flagged by a moderator';
+
+ALTER TABLE cosn.content_moderation_warning MODIFY owner_member_id INT UNSIGNED NOT NULL   COMMENT 'member responsible for posting a flagged content';
+
+ALTER TABLE cosn.content_moderation_warning MODIFY moderator_member_id INT UNSIGNED NOT NULL   COMMENT 'ID of a moderator who flagged the particular piece of content';
+
+ALTER TABLE cosn.group_event_option_vote COMMENT 'contains the voting results of a particular member for a particular event option proposed';
+
+ALTER TABLE cosn.group_event_option_vote MODIFY target_group_event_option_id INT UNSIGNED NOT NULL   COMMENT 'ID of the option of proposed date/time/place for a particular event';
+
+ALTER TABLE cosn.group_event_option_vote MODIFY option_voter_member_id INT UNSIGNED NOT NULL   COMMENT 'ID of the member who is voting on a particular option';
+
+ALTER TABLE cosn.group_event_option_vote MODIFY option_voting_decision BOOLEAN     COMMENT 'describes the decision of a particular member regarding the proposed date/time/place for an event (true = support for the option)';
 
