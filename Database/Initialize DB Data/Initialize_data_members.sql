@@ -12,13 +12,14 @@ insert into
     date_of_birth, 
     privilege_level, 
     pseudonym, 
-    status
+    status,
+    corporation_flag
   )
 values
   (
     1, 
-    'josh_hommewwwwww', 
-    'pw1111', 
+    'admin', 
+    'admin', 
     'jhomme@email.com', 
     'Josh', 
     'Homme', 
@@ -26,7 +27,8 @@ values
     '1973-04-17', 
     'administrator', 
     'joshieboy', 
-    'active'
+    'active',
+    FALSE
   );
 
 -- insert a "public" system member
@@ -42,7 +44,8 @@ values
     date_of_birth, 
     privilege_level, 
     pseudonym, 
-    status
+    status,
+    corporation_flag
   )
 values
   (
@@ -56,7 +59,8 @@ values
     '1964-04-13', 
     'administrator', 
     'stevie', 
-    'inactive'
+    'inactive',
+    FALSE
   );
 
   -- insert a "jimi hendrix" senior member, with status 'inactive'
@@ -72,7 +76,8 @@ values
     date_of_birth, 
     privilege_level, 
     pseudonym, 
-    status
+    status,
+    corporation_flag
   )
 values
   (
@@ -86,7 +91,8 @@ values
     '1942-11-27', 
     'senior', 
     'purple_haze69', 
-    'inactive'
+    'inactive',
+    FALSE
   );
 
   -- insert a "jim morrison" senior member, with status 'suspended'
@@ -102,7 +108,8 @@ values
     date_of_birth, 
     privilege_level, 
     pseudonym, 
-    status
+    status,
+    corporation_flag
   )
 values
   (
@@ -116,7 +123,8 @@ values
     '1943-12-08', 
     'senior', 
     'lizard_king01', 
-    'suspended'
+    'suspended',
+    FALSE
   );
 
   
@@ -133,7 +141,8 @@ values
     date_of_birth, 
     privilege_level, 
     pseudonym, 
-    status
+    status,
+    corporation_flag
   )
 values
   (
@@ -147,7 +156,8 @@ values
     '1978-06-09', 
     'senior', 
     'starlight78', 
-    'active'
+    'active',
+    FALSE
   );
 
     -- insert a "Lana Del Rey" junior member, with status active
@@ -163,7 +173,8 @@ values
     date_of_birth, 
     privilege_level, 
     pseudonym, 
-    status
+    status,
+    corporation_flag
   )
 values
   (
@@ -177,7 +188,8 @@ values
     '1985-06-21', 
     'junior', 
     'deadly_nightshade7', 
-    'active'
+    'active',
+    FALSE
   );
 -- insert a "sharon den adel" senior member, with status 'active'
   insert into 
@@ -192,7 +204,8 @@ values
     date_of_birth, 
     privilege_level, 
     pseudonym, 
-    status
+    status,
+    corporation_flag
   )
 values
   (
@@ -206,7 +219,8 @@ values
     '1960-10-25', 
     'senior', 
     'icequeen77', 
-    'active'
+    'active',
+    FALSE
   );
   -- insert a "axl" senior member, with status 'inactive'
   insert into 
@@ -221,7 +235,8 @@ values
     date_of_birth, 
     privilege_level, 
     pseudonym, 
-    status
+    status,
+    corporation_flag
   )
 values
   (
@@ -236,5 +251,6 @@ values
     'senior', 
     'novemberrain 66', 
     'inactive'
+    ,FALSE
   );
   
