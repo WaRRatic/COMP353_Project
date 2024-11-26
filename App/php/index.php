@@ -1,7 +1,8 @@
 <?php
 
 include("header.php");
-include('sidebar.php'); ?>
+include('sidebar.php'); 
+include("chatbox.php");?>
 <!DOCTYPE html>
 <html lang="en">
 <link rel="stylesheet" type = "text/css" href="../css/index.css" />
