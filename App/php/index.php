@@ -1,8 +1,7 @@
 <?php
 
 include("header.php");
-include('sidebar.php'); 
-include("chatbox.php");?>
+include('sidebar.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
 <link rel="stylesheet" type = "text/css" href="../css/index.css" />
@@ -19,7 +18,7 @@ include("chatbox.php");?>
     $dbPassword = "";
     $dbName = "cosn";
 
-	
+    if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {include('chatbox.php');}
 	
 	
 // Check if the form is submitted
