@@ -1,7 +1,7 @@
 
 insert into 
-  cosn.content_permissions (
-    content_permission_id, 
+  cosn.content_member_permission (
+    content_member_permission_id, 
     target_content_id, 
     authorized_member_id, 
     content_permission_type
@@ -11,12 +11,12 @@ values
     1, 
     1, 
     1, 
-    'private'
+    'read'
   );
 
   insert into 
-  cosn.content_permissions (
-    content_permission_id, 
+  cosn.content_member_permission (
+    content_member_permission_id, 
     target_content_id, 
     authorized_member_id, 
     content_permission_type
@@ -30,8 +30,8 @@ values
   );
 
   insert into 
-  cosn.content_permissions (
-    content_permission_id, 
+  cosn.content_member_permission (
+    content_member_permission_id, 
     target_content_id, 
     authorized_member_id, 
     content_permission_type
@@ -45,8 +45,8 @@ values
   );
 
   insert into 
-  cosn.content_permissions (
-    content_permission_id, 
+  cosn.content_member_permission (
+    content_member_permission_id, 
     target_content_id, 
     authorized_member_id, 
     content_permission_type
@@ -60,8 +60,8 @@ values
   );
 
   insert into 
-  cosn.content_permissions (
-    content_permission_id, 
+  cosn.content_member_permission (
+    content_member_permission_id, 
     target_content_id, 
     authorized_member_id, 
     content_permission_type
@@ -75,8 +75,8 @@ values
   );
 
   insert into 
-  cosn.content_permissions (
-    content_permission_id, 
+  cosn.content_member_permission (
+    content_member_permission_id, 
     target_content_id, 
     authorized_member_id, 
     content_permission_type
@@ -90,8 +90,8 @@ values
   );
 
   insert into 
-  cosn.content_permissions (
-    content_permission_id, 
+  cosn.content_member_permission (
+    content_member_permission_id, 
     target_content_id, 
     authorized_member_id, 
     content_permission_type
@@ -105,8 +105,8 @@ values
   );
 
   insert into 
-  cosn.content_permissions (
-    content_permission_id, 
+  cosn.content_member_permission (
+    content_member_permission_id, 
     target_content_id, 
     authorized_member_id, 
     content_permission_type
