@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" type = "text/css" href="../css/homepage.css" />
+<link rel="stylesheet" type = "text/css" href="./css/homepage.css" />
 <head>
     <meta charset="UTF-8">
     <title>Homepage</title>

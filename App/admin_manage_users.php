@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" type = "text/css" href="../css/admin_manage_users.css" />
+<link rel="stylesheet" type = "text/css" href="./css/admin_manage_users.css" />
 <head>
     <meta charset="UTF-8">
     <title>Admin manage users</title>

@@ -2,14 +2,14 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" type = "text/css" href="../css/main.css">
+    <link rel="stylesheet" type = "text/css" href="./css/header.css">
 
     <title><?= $title ?></title>
 </head>
 
 <body>
 <div class="topnav">
-    <a href="index.php"><img src="../logos/images.png" alt="Logo" style="height: 80px; width: auto;"></a>
+    <a href="index.php"><img src="./logos/cosn_logo.jpg" alt="Logo" style="height: 80px; width: auto;"></a>
 
     <div class="search-container">
         <form action="index.php">

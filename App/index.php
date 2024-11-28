@@ -4,7 +4,7 @@ include("header.php");
 include('sidebar.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" type = "text/css" href="../css/index.css" />
+<link rel="stylesheet" type = "text/css" href="./css/index.css" />
 <body>
 
 <div class="container">
@@ -18,7 +18,7 @@ include('sidebar.php'); ?>
     $dbPassword = "";
     $dbName = "cosn";
 
-    if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {include('chatbox.php');}
+    // if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {include('chatbox.php');}
 	
 	
 // Check if the form is submitted
