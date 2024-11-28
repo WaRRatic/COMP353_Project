@@ -3,8 +3,8 @@ insert into
     content_id, 
     creator_id, 
     content_type, 
-    content_data_url, 
-    creation_date
+    content_data, 
+    content_creation_date
   )
 values
   (
@@ -20,8 +20,8 @@ values
       content_id,
       creator_id, 
       content_type, 
-      content_data_url, 
-      creation_date
+      content_data, 
+      content_creation_date
     )
   values
     (
@@ -37,8 +37,8 @@ values
       content_id,
       creator_id, 
       content_type, 
-      content_data_url, 
-      creation_date
+      content_data, 
+      content_creation_date
     )
   values
     (
@@ -54,8 +54,8 @@ values
       content_id,
       creator_id, 
       content_type, 
-      content_data_url, 
-      creation_date
+      content_data, 
+      content_creation_date
     )
   values
     (
@@ -71,8 +71,8 @@ insert into
       content_id,
       creator_id, 
       content_type, 
-      content_data_url, 
-      creation_date
+      content_data, 
+      content_creation_date
     )
   values
     (
@@ -88,8 +88,8 @@ insert into
       content_id,
       creator_id, 
       content_type, 
-      content_data_url, 
-      creation_date
+      content_data, 
+      content_creation_date
     )
   values
     (
@@ -106,8 +106,8 @@ insert into
       content_id,
       creator_id, 
       content_type, 
-      content_data_url, 
-      creation_date
+      content_data, 
+      content_creation_date
     )
   values
     (
@@ -123,8 +123,8 @@ insert into
       content_id,
       creator_id, 
       content_type, 
-      content_data_url, 
-      creation_date
+      content_data, 
+      content_creation_date
     )
   values
     (

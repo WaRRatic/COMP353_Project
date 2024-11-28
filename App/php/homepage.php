@@ -15,6 +15,44 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("Location: index.php");
     exit;
 }
+
+
+// Database connection parameters
+$host = 'localhost';
+$db   = 'cosn';
+$user = 'root';
+$pass = '';
+
+
+// Set up DSN and options
+$dsn = "mysql:host=$host;dbname=$db";
+$options = [
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+];
+
+// Create a PDO instance
+try {
+     $pdo = new PDO($dsn, $user, $pass, $options);
+} catch (\PDOException $e) {
+     exit('Database connection failed: ' . $e->getMessage());
+}
+
+// Query to get public content
+$sql = "
+SELECT
+    content_id, m.username, content_type, content_data, content_creation_date, content_title, moderation_status
+FROM
+    content as cont
+INNER JOIN content_public_permissions as cpp
+    ON cont.content_id = cpp.target_content_id
+INNER JOIN members as m
+    ON cont.creator_id = m.member_id";
+
+$stmt = $pdo->query($sql);
+$public_content = $stmt->fetchAll();
+
+
 ?>
 
 <!DOCTYPE html>
@@ -37,12 +75,18 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             <li><a href="admin_manage_groups.php">Manage COSN groups</a></li>
             <li><a href="admin_post_public.php">Make a public post</a></li>
         </ul>
-
-        
-
     </div>
 <?php endif; ?>
-
+    
+<!-- Display public feed -->
+<h2>Public Feed</h2>
+<?php foreach ($public_content as $content): ?>
+    <div class="public-feed-item">
+        <h3><?php echo ($content['content_title']); ?></h3>
+        <p><?php echo nl2br(($content['content_data'])); ?></p>
+        <small>Posted on <?php echo ($content['content_creation_date']); ?> by User <?php echo ($content['username']); ?></small>
+    </div>
+<?php endforeach; ?>
 
     <a href="index.php">Logout</a>
 </body>
