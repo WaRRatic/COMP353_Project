@@ -19,7 +19,9 @@ CREATE  TABLE cosn.personal_info_permissions (
 	personal_info_permission_id INT UNSIGNED   NOT NULL   PRIMARY KEY,
 	owner_member_id      INT UNSIGNED   NOT NULL   ,
 	personal_info_type   ENUM('first_name','last_name','date_of_birth','address','pseudonym','email')    NOT NULL   ,
-	authorized_member_id INT UNSIGNED   NOT NULL   
+	authorized_member_id INT UNSIGNED   NOT NULL   ,
+	CONSTRAINT fk_personal_info_visibility_members FOREIGN KEY ( owner_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT fk_personal_info_visibility_members_0 FOREIGN KEY ( authorized_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
  ) engine=InnoDB;
 
 CREATE INDEX fk_personal_info_visibility_member ON cosn.personal_info_permissions ( owner_member_id );
@@ -29,7 +31,8 @@ CREATE INDEX fk_personal_info_visibility_member_0 ON cosn.personal_info_permissi
 CREATE  TABLE cosn.personal_info_public_permissions ( 
 	personal_info_public_permission_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
 	owner_member_id      INT UNSIGNED   NOT NULL   ,
-	personal_info_type   ENUM('first_name','last_name','date_of_birth','address','pseudonym','email')       
+	personal_info_type   ENUM('first_name','last_name','date_of_birth','address','pseudonym','email')       ,
+	CONSTRAINT fk_personal_info_public_permissions_members FOREIGN KEY ( owner_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
  ) engine=InnoDB;
 
 CREATE INDEX fk_personal_info_public_permissions_members ON cosn.personal_info_public_permissions ( owner_member_id );
@@ -41,7 +44,8 @@ CREATE  TABLE cosn.content (
 	content_data         TEXT    NOT NULL   ,
 	content_creation_date DATE  DEFAULT curdate()  NOT NULL   ,
 	content_title        VARCHAR(100)       ,
-	moderation_status    ENUM('pending', 'approved', 'rejected')  DEFAULT 'pending'     
+	moderation_status    ENUM('pending', 'approved', 'rejected')  DEFAULT 'pending'     ,
+	CONSTRAINT fk_content_members FOREIGN KEY ( creator_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
  ) engine=InnoDB;
 
 CREATE INDEX fk_content_members ON cosn.content ( creator_id );
@@ -49,7 +53,9 @@ CREATE INDEX fk_content_members ON cosn.content ( creator_id );
 CREATE  TABLE cosn.content_link_relationship ( 
 	content_link_rel_id  INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
 	origin_content_id    INT UNSIGNED      ,
-	target_content_id    INT UNSIGNED      
+	target_content_id    INT UNSIGNED      ,
+	CONSTRAINT fk_content_link_relationship_content_1 FOREIGN KEY ( origin_content_id ) REFERENCES cosn.content( content_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT fk_content_link_relationship_content_2 FOREIGN KEY ( target_content_id ) REFERENCES cosn.content( content_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
  ) engine=InnoDB;
 
 CREATE INDEX fk_content_link_relationship_content ON cosn.content_link_relationship ( origin_content_id );
@@ -60,7 +66,9 @@ CREATE  TABLE cosn.content_member_permission (
 	content_member_permission_id INT UNSIGNED   NOT NULL   PRIMARY KEY,
 	target_content_id    INT UNSIGNED      ,
 	authorized_member_id INT UNSIGNED      ,
-	content_permission_type ENUM('read','edit','comment','share','modify-permission','moderate','link')       
+	content_permission_type ENUM('read','edit','comment','share','modify-permission','moderate','link')       ,
+	CONSTRAINT fk_content_permissions_members FOREIGN KEY ( authorized_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT fk_content_member_permission_content FOREIGN KEY ( target_content_id ) REFERENCES cosn.content( content_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
  ) engine=InnoDB;
 
 CREATE INDEX fk_content_permissions_content ON cosn.content_member_permission ( target_content_id );
@@ -71,7 +79,10 @@ CREATE  TABLE cosn.content_moderation_warning (
 	content_moderation_warning_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
 	target_content_id    INT UNSIGNED   NOT NULL   ,
 	owner_member_id      INT UNSIGNED   NOT NULL   ,
-	moderator_member_id  INT UNSIGNED   NOT NULL   
+	moderator_member_id  INT UNSIGNED   NOT NULL   ,
+	CONSTRAINT fk_content_moderation_warning_content FOREIGN KEY ( target_content_id ) REFERENCES cosn.content( content_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT fk_content_moderation_warning_content_0 FOREIGN KEY ( owner_member_id ) REFERENCES cosn.content( creator_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT fk_content_moderation_warning_members FOREIGN KEY ( moderator_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
  ) engine=InnoDB;
 
 CREATE INDEX fk_content_moderation_warning_content ON cosn.content_moderation_warning ( target_content_id );
@@ -83,14 +94,16 @@ CREATE INDEX fk_content_moderation_warning_members ON cosn.content_moderation_wa
 CREATE  TABLE cosn.content_public_permissions ( 
 	content_public_permission_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
 	target_content_id    INT UNSIGNED      ,
-	content_public_permission_type ENUM('read','comment','share','link')       
+	content_public_permission_type ENUM('read','comment','share','link')       ,
+	CONSTRAINT fk_content_public_permissions_content FOREIGN KEY ( target_content_id ) REFERENCES cosn.content( content_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
  ) engine=InnoDB;
 
 CREATE INDEX fk_content_public_permissions_content ON cosn.content_public_permissions ( target_content_id );
 
 CREATE  TABLE cosn.gift_registry ( 
 	gift_registry_id     INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
-	organizer_member_id  INT UNSIGNED   NOT NULL   
+	organizer_member_id  INT UNSIGNED   NOT NULL   ,
+	CONSTRAINT fk_gift_registry_members FOREIGN KEY ( organizer_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
  ) engine=InnoDB;
 
 CREATE INDEX fk_gift_registry_members ON cosn.gift_registry ( organizer_member_id );
@@ -99,7 +112,9 @@ CREATE  TABLE cosn.gift_registry_ideas (
 	gift_registry_ideas_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
 	target_gift_registry_id INT UNSIGNED   NOT NULL   ,
 	idea_owner_id        INT UNSIGNED   NOT NULL   ,
-	gift_idea_description VARCHAR(200)    NOT NULL   
+	gift_idea_description VARCHAR(200)    NOT NULL   ,
+	CONSTRAINT fk_gift_registry_ideas_gift_registry_0 FOREIGN KEY ( target_gift_registry_id ) REFERENCES cosn.gift_registry( gift_registry_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT fk_gift_registry_ideas_members FOREIGN KEY ( idea_owner_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
  ) engine=InnoDB;
 
 CREATE INDEX fk_gift_registry_ideas_gift_registry ON cosn.gift_registry_ideas ( target_gift_registry_id );
@@ -109,7 +124,9 @@ CREATE INDEX fk_gift_registry_ideas_gift_registry_participants ON cosn.gift_regi
 CREATE  TABLE cosn.gift_registry_participants ( 
 	gift_registry_participants_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
 	participant_member_id INT UNSIGNED   NOT NULL   ,
-	target_gift_registry_id INT UNSIGNED   NOT NULL   
+	target_gift_registry_id INT UNSIGNED   NOT NULL   ,
+	CONSTRAINT fk_gift_registry_participants_members FOREIGN KEY ( participant_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT fk_gift_registry_participants_gift_registry FOREIGN KEY ( target_gift_registry_id ) REFERENCES cosn.gift_registry( gift_registry_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
  ) engine=InnoDB;
 
 CREATE INDEX fk_gift_registry_participants_gift_registry ON cosn.gift_registry_participants ( target_gift_registry_id );
@@ -122,7 +139,8 @@ CREATE  TABLE cosn.groups (
 	owner_id             INT UNSIGNED      ,
 	description          TEXT       ,
 	creation_date        DATE  DEFAULT current_timestamp()     ,
-	cathegory            VARCHAR(100)       
+	cathegory            VARCHAR(100)       ,
+	CONSTRAINT fk_groups_members FOREIGN KEY ( owner_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE INDEX fk_groups_members ON cosn.groups ( owner_id );
@@ -131,7 +149,9 @@ CREATE  TABLE cosn.member_messages (
 	member_message_id    INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
 	origin_member_id     INT UNSIGNED   NOT NULL   ,
 	target_member_id     INT UNSIGNED   NOT NULL   ,
-	message_content      TEXT       
+	message_content      TEXT       ,
+	CONSTRAINT fk_member_messages_members FOREIGN KEY ( origin_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT fk_member_messages_members_0 FOREIGN KEY ( target_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
  ) engine=InnoDB;
 
 CREATE INDEX fk_member_messages_members ON cosn.member_messages ( origin_member_id );
@@ -141,7 +161,8 @@ CREATE INDEX fk_member_messages_members_0 ON cosn.member_messages ( target_membe
 CREATE  TABLE cosn.member_privilege_change_request ( 
 	member_privilege_change_request_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
 	target_member_id     INT UNSIGNED   NOT NULL   ,
-	requested_privilege_level ENUM('senior')       
+	requested_privilege_level ENUM('senior')       ,
+	CONSTRAINT fk_member_privilege_change_request_members FOREIGN KEY ( target_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
  ) engine=InnoDB;
 
 CREATE INDEX fk_member_privilege_change_request_members ON cosn.member_privilege_change_request ( target_member_id );
@@ -151,7 +172,9 @@ CREATE  TABLE cosn.member_relationships (
 	origin_member_id     INT UNSIGNED   NOT NULL   ,
 	target_member_id     INT UNSIGNED   NOT NULL   ,
 	member_relationship_type ENUM('friend','family','colleague','blocked')    NOT NULL   ,
-	member_relationship_status ENUM('requested','approved','rejected')       
+	member_relationship_status ENUM('requested','approved','rejected')       ,
+	CONSTRAINT fk_member_relationships_members FOREIGN KEY ( origin_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT fk_member_relationships_members_0 FOREIGN KEY ( target_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
  ) engine=InnoDB;
 
 CREATE INDEX fk_member_relationships_members ON cosn.member_relationships ( origin_member_id );
@@ -162,7 +185,9 @@ CREATE  TABLE cosn.content_group_permissions (
 	content_group_permission_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
 	target_content_id    INT UNSIGNED      ,
 	target_group_id      INT UNSIGNED   NOT NULL   ,
-	content_group_permission_type ENUM('read','comment','share','link')       
+	content_group_permission_type ENUM('read','comment','share','link')       ,
+	CONSTRAINT fk_content_group_permissions_content FOREIGN KEY ( target_content_id ) REFERENCES cosn.content( content_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT fk_content_group_permissions_groups FOREIGN KEY ( target_group_id ) REFERENCES cosn.groups( group_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
  ) engine=InnoDB;
 
 CREATE INDEX fk_content_group_permissions_content ON cosn.content_group_permissions ( target_content_id );
@@ -173,7 +198,9 @@ CREATE  TABLE cosn.group_event (
 	group_event_id       INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
 	target_group_id      INT UNSIGNED   NOT NULL   ,
 	event_organizer_member_id INT UNSIGNED   NOT NULL   ,
-	event_name           VARCHAR(100)    NOT NULL   
+	event_name           VARCHAR(100)    NOT NULL   ,
+	CONSTRAINT fk_group_event_groups FOREIGN KEY ( target_group_id ) REFERENCES cosn.groups( group_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT fk_group_event_members FOREIGN KEY ( event_organizer_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
  ) engine=InnoDB;
 
 CREATE INDEX fk_group_event_groups ON cosn.group_event ( target_group_id );
@@ -184,7 +211,9 @@ CREATE  TABLE cosn.group_event_options (
 	group_event_options_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
 	target_group_event_id INT UNSIGNED   NOT NULL   ,
 	option_owner_member_id INT UNSIGNED   NOT NULL   ,
-	option_description   VARCHAR(100)    NOT NULL   
+	option_description   VARCHAR(100)    NOT NULL   ,
+	CONSTRAINT fk_group_event_options_group_event FOREIGN KEY ( target_group_event_id ) REFERENCES cosn.group_event( group_event_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT fk_group_event_options_members FOREIGN KEY ( option_owner_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
  ) engine=InnoDB;
 
 CREATE INDEX fk_group_event_options_group_event ON cosn.group_event_options ( target_group_event_id );
@@ -196,7 +225,9 @@ CREATE  TABLE cosn.group_members (
 	participant_member_id INT UNSIGNED   NOT NULL   ,
 	joined_group_id      INT UNSIGNED   NOT NULL   ,
 	date_joined          DATE    NOT NULL   ,
-	role_of_member       ENUM('member','owner')  DEFAULT 'member'     
+	role_of_member       ENUM('member','owner')  DEFAULT 'member'     ,
+	CONSTRAINT fk_group_members_members FOREIGN KEY ( participant_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT fk_group_members_groups FOREIGN KEY ( joined_group_id ) REFERENCES cosn.groups( group_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
  ) engine=InnoDB;
 
 CREATE INDEX fk_group_members_members ON cosn.group_members ( participant_member_id );
@@ -207,7 +238,10 @@ CREATE  TABLE cosn.group_vote_plebiscite (
 	group_vote_plebiscite_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
 	target_member_id     INT UNSIGNED      ,
 	organizer_member_id  INT UNSIGNED      ,
-	target_group_id      INT UNSIGNED   NOT NULL   
+	target_group_id      INT UNSIGNED   NOT NULL   ,
+	CONSTRAINT fk_group_vote_plebiscite_groups FOREIGN KEY ( target_group_id ) REFERENCES cosn.groups( group_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT fk_group_vote_plebiscite_members FOREIGN KEY ( target_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT fk_group_vote_plebiscite_members_0 FOREIGN KEY ( organizer_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
  ) engine=InnoDB;
 
 CREATE INDEX fk_group_vote_plebiscite_groups ON cosn.group_vote_plebiscite ( target_group_id );
@@ -220,7 +254,9 @@ CREATE  TABLE cosn.group_vote_plebiscite_results (
 	group_vote_plebiscite_results_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
 	target_group_vote_plebiscite_id INT UNSIGNED   NOT NULL   ,
 	voter_member_id      INT UNSIGNED   NOT NULL   ,
-	voting_decision      BOOLEAN    NOT NULL   
+	voting_decision      BOOLEAN    NOT NULL   ,
+	CONSTRAINT fk_group_vote_plebiscite_results_members FOREIGN KEY ( voter_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT fk_group_vote_plebiscite_results_group_vote_plebiscite FOREIGN KEY ( target_group_vote_plebiscite_id ) REFERENCES cosn.group_vote_plebiscite( group_vote_plebiscite_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
  ) engine=InnoDB;
 
 CREATE INDEX fk_group_vote_plebiscite_results_members ON cosn.group_vote_plebiscite_results ( voter_member_id );
@@ -231,88 +267,14 @@ CREATE  TABLE cosn.group_event_option_vote (
 	group_event_option_vote_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
 	target_group_event_option_id INT UNSIGNED   NOT NULL   ,
 	option_voter_member_id INT UNSIGNED   NOT NULL   ,
-	option_voting_decision BOOLEAN       
+	option_voting_decision BOOLEAN       ,
+	CONSTRAINT fk_group_event_option_vote_group_event_options FOREIGN KEY ( target_group_event_option_id ) REFERENCES cosn.group_event_options( group_event_options_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT fk_group_event_option_vote_members FOREIGN KEY ( option_voter_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
  ) engine=InnoDB;
 
 CREATE INDEX fk_group_event_option_vote_group_event_options ON cosn.group_event_option_vote ( target_group_event_option_id );
 
 CREATE INDEX fk_group_event_option_vote_members ON cosn.group_event_option_vote ( option_voter_member_id );
-
-ALTER TABLE cosn.content ADD CONSTRAINT fk_content_members FOREIGN KEY ( creator_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.content_group_permissions ADD CONSTRAINT fk_content_group_permissions_content FOREIGN KEY ( target_content_id ) REFERENCES cosn.content( content_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.content_group_permissions ADD CONSTRAINT fk_content_group_permissions_groups FOREIGN KEY ( target_group_id ) REFERENCES cosn.groups( group_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.content_link_relationship ADD CONSTRAINT fk_content_link_relationship_content_1 FOREIGN KEY ( origin_content_id ) REFERENCES cosn.content( content_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.content_link_relationship ADD CONSTRAINT fk_content_link_relationship_content_2 FOREIGN KEY ( target_content_id ) REFERENCES cosn.content( content_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.content_member_permission ADD CONSTRAINT fk_content_permissions_members FOREIGN KEY ( authorized_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.content_member_permission ADD CONSTRAINT fk_content_member_permission_content FOREIGN KEY ( target_content_id ) REFERENCES cosn.content( content_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.content_moderation_warning ADD CONSTRAINT fk_content_moderation_warning_content FOREIGN KEY ( target_content_id ) REFERENCES cosn.content( content_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.content_moderation_warning ADD CONSTRAINT fk_content_moderation_warning_content_0 FOREIGN KEY ( owner_member_id ) REFERENCES cosn.content( creator_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.content_moderation_warning ADD CONSTRAINT fk_content_moderation_warning_members FOREIGN KEY ( moderator_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.content_public_permissions ADD CONSTRAINT fk_content_public_permissions_content FOREIGN KEY ( target_content_id ) REFERENCES cosn.content( content_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.gift_registry ADD CONSTRAINT fk_gift_registry_members FOREIGN KEY ( organizer_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.gift_registry_ideas ADD CONSTRAINT fk_gift_registry_ideas_gift_registry_0 FOREIGN KEY ( target_gift_registry_id ) REFERENCES cosn.gift_registry( gift_registry_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.gift_registry_ideas ADD CONSTRAINT fk_gift_registry_ideas_members FOREIGN KEY ( idea_owner_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.gift_registry_participants ADD CONSTRAINT fk_gift_registry_participants_members FOREIGN KEY ( participant_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.gift_registry_participants ADD CONSTRAINT fk_gift_registry_participants_gift_registry FOREIGN KEY ( target_gift_registry_id ) REFERENCES cosn.gift_registry( gift_registry_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.group_event ADD CONSTRAINT fk_group_event_groups FOREIGN KEY ( target_group_id ) REFERENCES cosn.groups( group_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.group_event ADD CONSTRAINT fk_group_event_members FOREIGN KEY ( event_organizer_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.group_event_option_vote ADD CONSTRAINT fk_group_event_option_vote_group_event_options FOREIGN KEY ( target_group_event_option_id ) REFERENCES cosn.group_event_options( group_event_options_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.group_event_option_vote ADD CONSTRAINT fk_group_event_option_vote_members FOREIGN KEY ( option_voter_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.group_event_options ADD CONSTRAINT fk_group_event_options_group_event FOREIGN KEY ( target_group_event_id ) REFERENCES cosn.group_event( group_event_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.group_event_options ADD CONSTRAINT fk_group_event_options_members FOREIGN KEY ( option_owner_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.group_members ADD CONSTRAINT fk_group_members_members FOREIGN KEY ( participant_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.group_members ADD CONSTRAINT fk_group_members_groups FOREIGN KEY ( joined_group_id ) REFERENCES cosn.groups( group_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.group_vote_plebiscite ADD CONSTRAINT fk_group_vote_plebiscite_groups FOREIGN KEY ( target_group_id ) REFERENCES cosn.groups( group_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.group_vote_plebiscite ADD CONSTRAINT fk_group_vote_plebiscite_members FOREIGN KEY ( target_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.group_vote_plebiscite ADD CONSTRAINT fk_group_vote_plebiscite_members_0 FOREIGN KEY ( organizer_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.group_vote_plebiscite_results ADD CONSTRAINT fk_group_vote_plebiscite_results_members FOREIGN KEY ( voter_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.group_vote_plebiscite_results ADD CONSTRAINT fk_group_vote_plebiscite_results_group_vote_plebiscite FOREIGN KEY ( target_group_vote_plebiscite_id ) REFERENCES cosn.group_vote_plebiscite( group_vote_plebiscite_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.groups ADD CONSTRAINT fk_groups_members FOREIGN KEY ( owner_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.member_messages ADD CONSTRAINT fk_member_messages_members FOREIGN KEY ( origin_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.member_messages ADD CONSTRAINT fk_member_messages_members_0 FOREIGN KEY ( target_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.member_privilege_change_request ADD CONSTRAINT fk_member_privilege_change_request_members FOREIGN KEY ( target_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.member_relationships ADD CONSTRAINT fk_member_relationships_members FOREIGN KEY ( origin_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.member_relationships ADD CONSTRAINT fk_member_relationships_members_0 FOREIGN KEY ( target_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.personal_info_permissions ADD CONSTRAINT fk_personal_info_visibility_members FOREIGN KEY ( owner_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.personal_info_permissions ADD CONSTRAINT fk_personal_info_visibility_members_0 FOREIGN KEY ( authorized_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.personal_info_public_permissions ADD CONSTRAINT fk_personal_info_public_permissions_members FOREIGN KEY ( owner_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 ALTER TABLE cosn.members COMMENT 'contains the info for every member of COSN';
 
