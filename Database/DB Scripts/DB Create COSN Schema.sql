@@ -1,16 +1,5 @@
 CREATE SCHEMA cosn;
 
-CREATE  TABLE cosn.gift_registry_ideas ( 
-	gift_registry_ideas_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
-	target_gift_registry_id INT UNSIGNED   NOT NULL   ,
-	idea_owner_id        INT UNSIGNED   NOT NULL   ,
-	gift_idea_description VARCHAR(200)    NOT NULL   
- ) engine=InnoDB;
-
-CREATE INDEX fk_gift_registry_ideas_gift_registry ON cosn.gift_registry_ideas ( target_gift_registry_id );
-
-CREATE INDEX fk_gift_registry_ideas_gift_registry_participants ON cosn.gift_registry_ideas ( idea_owner_id );
-
 CREATE  TABLE cosn.members ( 
 	member_id            INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
 	username             VARCHAR(100)    NOT NULL   ,
@@ -105,6 +94,17 @@ CREATE  TABLE cosn.gift_registry (
  ) engine=InnoDB;
 
 CREATE INDEX fk_gift_registry_members ON cosn.gift_registry ( organizer_member_id );
+
+CREATE  TABLE cosn.gift_registry_ideas ( 
+	gift_registry_ideas_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
+	target_gift_registry_id INT UNSIGNED   NOT NULL   ,
+	idea_owner_id        INT UNSIGNED   NOT NULL   ,
+	gift_idea_description VARCHAR(200)    NOT NULL   
+ ) engine=InnoDB;
+
+CREATE INDEX fk_gift_registry_ideas_gift_registry ON cosn.gift_registry_ideas ( target_gift_registry_id );
+
+CREATE INDEX fk_gift_registry_ideas_gift_registry_participants ON cosn.gift_registry_ideas ( idea_owner_id );
 
 CREATE  TABLE cosn.gift_registry_participants ( 
 	gift_registry_participants_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
@@ -262,6 +262,10 @@ ALTER TABLE cosn.content_public_permissions ADD CONSTRAINT fk_content_public_per
 
 ALTER TABLE cosn.gift_registry ADD CONSTRAINT fk_gift_registry_members FOREIGN KEY ( organizer_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
+ALTER TABLE cosn.gift_registry_ideas ADD CONSTRAINT fk_gift_registry_ideas_gift_registry_0 FOREIGN KEY ( target_gift_registry_id ) REFERENCES cosn.gift_registry( gift_registry_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE cosn.gift_registry_ideas ADD CONSTRAINT fk_gift_registry_ideas_members FOREIGN KEY ( idea_owner_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
 ALTER TABLE cosn.gift_registry_participants ADD CONSTRAINT fk_gift_registry_participants_members FOREIGN KEY ( participant_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 ALTER TABLE cosn.gift_registry_participants ADD CONSTRAINT fk_gift_registry_participants_gift_registry FOREIGN KEY ( target_gift_registry_id ) REFERENCES cosn.gift_registry( gift_registry_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -309,14 +313,6 @@ ALTER TABLE cosn.personal_info_permissions ADD CONSTRAINT fk_personal_info_visib
 ALTER TABLE cosn.personal_info_permissions ADD CONSTRAINT fk_personal_info_visibility_members_0 FOREIGN KEY ( authorized_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 ALTER TABLE cosn.personal_info_public_permissions ADD CONSTRAINT fk_personal_info_public_permissions_members FOREIGN KEY ( owner_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE cosn.gift_registry_ideas COMMENT 'describes gift ideas for a particular registry';
-
-ALTER TABLE cosn.gift_registry_ideas MODIFY target_gift_registry_id INT UNSIGNED NOT NULL   COMMENT 'describes which particular gift registry a gift idea applies to';
-
-ALTER TABLE cosn.gift_registry_ideas MODIFY idea_owner_id INT UNSIGNED NOT NULL   COMMENT 'ID of a member proposing a particullar gift';
-
-ALTER TABLE cosn.gift_registry_ideas MODIFY gift_idea_description VARCHAR(200)  NOT NULL   COMMENT 'description of a proposed gift';
 
 ALTER TABLE cosn.members COMMENT 'contains the info for every member of COSN';
 
@@ -416,6 +412,14 @@ can be
 ALTER TABLE cosn.gift_registry COMMENT 'Describes gift registry entity that different members can attach gift ideas to.';
 
 ALTER TABLE cosn.gift_registry MODIFY organizer_member_id INT UNSIGNED NOT NULL   COMMENT 'ID of a particular gift registry organizer';
+
+ALTER TABLE cosn.gift_registry_ideas COMMENT 'describes gift ideas for a particular registry';
+
+ALTER TABLE cosn.gift_registry_ideas MODIFY target_gift_registry_id INT UNSIGNED NOT NULL   COMMENT 'describes which particular gift registry a gift idea applies to';
+
+ALTER TABLE cosn.gift_registry_ideas MODIFY idea_owner_id INT UNSIGNED NOT NULL   COMMENT 'ID of a member proposing a particullar gift';
+
+ALTER TABLE cosn.gift_registry_ideas MODIFY gift_idea_description VARCHAR(200)  NOT NULL   COMMENT 'description of a proposed gift';
 
 ALTER TABLE cosn.gift_registry_participants COMMENT 'Contains the participants of a particular gift registry';
 
