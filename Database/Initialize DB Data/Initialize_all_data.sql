@@ -264,6 +264,45 @@ values
     ,FALSE
   );
   
+  --eveyl mcgee-colbert, wife of steven colbert
+ insert into 
+  cosn.members (
+    member_id, 
+    username, 
+    password, 
+    email, 
+    first_name, 
+    last_name, 
+    address, 
+    date_of_birth, 
+    privilege_level, 
+    pseudonym, 
+    status,
+    corporation_flag
+  )
+values
+  (
+    9, 
+    'evy', 
+    '22', 
+    'evy@email.com', 
+    'Evelyn', 
+    'McGee-Colbert', 
+    'South Caroline', 
+    '1963-07-03', 
+    'senior', 
+    'evyc', 
+    'active'
+    ,FALSE
+  );
+
+-
+
+
+
+
+
+
 --INIT_CONTENT
 insert into 
   cosn.content (
@@ -271,15 +310,20 @@ insert into
     creator_id, 
     content_type, 
     content_data, 
-    content_creation_date
+    content_creation_date,
+    content_title
+    , moderation_status
+
   )
 values
   (
     1, 
     1,
     'text', 
-    'URL for text', 
-    '2024-01-01'
+    "What's the difference between a hippo and a zippo? One is really heavy, and the other's a little lighter.", 
+    '2024-01-01',
+    'Joke',
+    'approved'
   );
   
   insert into 
@@ -401,6 +445,11 @@ insert into
       'URL for video', 
       '2024-01-08'
     );
+
+INSERT INTO cosn.content 
+(content_id, creator_id, content_type, content_data, content_creation_date, content_title, moderation_status)
+VALUES 
+(9, 9, 'text', 'Steven Colbert, come eat - the dinner is ready', NOW(), 'Dinner Call', 'approved');
 
 --INIT_GROUPS
 insert into 
@@ -654,7 +703,13 @@ values
     'link'
   );
 
+INSERT INTO cosn.content_member_permission
+(content_member_permission_id, target_content_id, authorized_member_id, content_permission_type)
+VALUES
+(9,9, 2, 'comment');
+
   --INIT_CONTENT_PUBLIC_PERMISSIONS
+ 
   INSERT INTO cosn.content_public_permissions
 	( content_public_permission_id, target_content_id, content_public_permission_type) VALUES ( 1, 2, 'read' );
 
@@ -665,6 +720,9 @@ values
 
   INSERT INTO cosn.content_public_permissions
 	( content_public_permission_id, target_content_id, content_public_permission_type) VALUES ( 4, 5, 'link' );
+
+    INSERT INTO cosn.content_public_permissions
+	( content_public_permission_id, target_content_id, content_public_permission_type) VALUES ( 5, 1, 'read' );
 
 --INIT_MEMBERS_GROUPS
 insert into 
@@ -752,3 +810,14 @@ INSERT INTO cosn.member_relationships
 INSERT INTO cosn.member_relationships
 	( relationship_id, origin_member_id, target_member_id, member_relationship_type, member_relationship_status) 
   VALUES ( 4, 1, 7, 'blocked', 'approved' );
+
+--steven colbert is friends with Matt Bellamy
+  INSERT INTO cosn.member_relationships
+	( relationship_id, origin_member_id, target_member_id, member_relationship_type, member_relationship_status) 
+  VALUES ( 5, 2, 5, 'friend', 'approved' );
+
+--steven colbert has "family" relationship with evelyn mcgee-colbert
+    INSERT INTO cosn.member_relationships
+	( relationship_id, origin_member_id, target_member_id, member_relationship_type, member_relationship_status) 
+  VALUES ( 6, 2, 9, 'family', 'approved' );
+
