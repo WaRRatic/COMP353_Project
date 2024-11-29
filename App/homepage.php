@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <link rel="stylesheet" type = "text/css" href="./css/homepage.css" />
+<link rel="stylesheet" type = "text/css" href="./css/content_feed.css" />
 <head>
     <meta charset="UTF-8">
     <title>Homepage</title>
@@ -8,6 +9,10 @@
 
 <?php
 session_start();
+
+//set the logged in member id
+$logged_in_member_id = $_SESSION['member_id'];
+
 
 // Check if the user is logged in
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
@@ -38,18 +43,38 @@ try {
      exit('Database connection failed: ' . $e->getMessage());
 }
 
+
+
 // Query to get public content
 $sql = "
 SELECT
-    content_id, m.username, content_type, content_data, content_creation_date, content_title, moderation_status
+    content_id, m.username, content_type, content_data, content_creation_date, content_title, moderation_status, cpp.content_public_permission_type, 'public' as content_feed_type
 FROM
-    content as cont
-INNER JOIN content_public_permissions as cpp
+    cosn.content as cont
+INNER JOIN cosn.content_public_permissions as cpp
     ON cont.content_id = cpp.target_content_id
-INNER JOIN members as m
-    ON cont.creator_id = m.member_id";
+INNER JOIN cosn.members as m
+    ON cont.creator_id = m.member_id
+WHERE 
+moderation_status = 'approved'
+UNION
+SELECT
+    content_id, m.username, content_type, content_data, content_creation_date, content_title, moderation_status, cmp.content_permission_type, 'private' as content_feed_type
+FROM
+    cosn.content as cont
+INNER JOIN cosn.content_member_permission as cmp
+    ON cont.content_id = cmp.target_content_id
+INNER JOIN cosn.members as m
+    ON cont.creator_id = m.member_id
+WHERE
+moderation_status = 'approved' AND
+cmp.authorized_member_id = :logged_in_member_id;
+";
 
-$stmt = $pdo->query($sql);
+
+$stmt = $pdo->prepare($sql);
+$stmt->execute([':logged_in_member_id' => $logged_in_member_id]);
+
 $public_content = $stmt->fetchAll();
 
 
@@ -63,7 +88,11 @@ $public_content = $stmt->fetchAll();
 </head>
 <body>
 <h1>Welcome to <?php echo $_SESSION['member_username']; ?> homepage!</h1>
-    <p>You are now logged in.</p>
+    <small>You are now logged in.</small>
+    <h2>Activities</h2>
+        <ul>
+            <li><a href="create_content.php">Post content to COSN</a></li>
+        </ul>
 
     <!-- Display this element only if the role is "admin" -->
 <?php if ($_SESSION['privilege_level'] === 'administrator'): ?>
@@ -79,13 +108,16 @@ $public_content = $stmt->fetchAll();
 <?php endif; ?>
     
 <!-- Display public feed -->
-<h2>Public Feed</h2>
+<h2><?php echo $_SESSION['member_username']; ?>'s Content Feed</h2>
 <?php foreach ($public_content as $content): ?>
-    <div class="public-feed-item">
+    <div class="<?php echo $content['content_feed_type'] === 'private' ? 'private-feed-item' : 'public-feed-item'; ?>" 
+         data-permission-type="<?php echo htmlspecialchars($content['content_public_permission_type']); ?>"
+         data-feed-type="<?php echo htmlspecialchars($content['content_feed_type']); ?>">
         <h3><?php echo ($content['content_title']); ?></h3>
         <p><?php echo nl2br(($content['content_data'])); ?></p>
-        <small>Posted on <?php echo ($content['content_creation_date']); ?> by User <?php echo ($content['username']); ?></small>
+        <small>Posted on <?php echo ($content['content_creation_date']); ?> by User <?php echo ($content['username']);?> (content is: <?php echo ($content['content_feed_type']);?> )</small>
     </div>
+    <br><br> <!-- Added double line break for spacing -->
 <?php endforeach; ?>
 
     <a href="index.php">Logout</a>

@@ -61,13 +61,13 @@ values
   (
     2, 
     'steve_colbert', 
-    'sc2222', 
+    '1', 
     'scolbert@email.com', 
     'Stephen', 
     'Colbert', 
     '999 Roadblock', 
     '1964-04-13', 
-    'administrator', 
+    'senior', 
     'stevie', 
     'inactive',
     FALSE
@@ -296,13 +296,6 @@ values
     ,FALSE
   );
 
--
-
-
-
-
-
-
 --INIT_CONTENT
 insert into 
   cosn.content (
@@ -313,7 +306,6 @@ insert into
     content_creation_date,
     content_title
     , moderation_status
-
   )
 values
   (
