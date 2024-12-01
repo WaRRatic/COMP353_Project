@@ -63,7 +63,7 @@ CREATE INDEX fk_content_link_relationship_content ON cosn.content_link_relations
 CREATE INDEX fk_content_link_relationship_content_0 ON cosn.content_link_relationship ( target_content_id );
 
 CREATE  TABLE cosn.content_member_permission ( 
-	content_member_permission_id INT UNSIGNED   NOT NULL   PRIMARY KEY,
+	content_member_permission_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
 	target_content_id    INT UNSIGNED      ,
 	authorized_member_id INT UNSIGNED      ,
 	content_permission_type ENUM('read','edit','comment','share','modify-permission','moderate','link')       ,

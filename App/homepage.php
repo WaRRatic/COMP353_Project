@@ -7,6 +7,8 @@
     <title>Homepage</title>
 </head>
 
+
+
 <?php
 session_start();
 
@@ -91,10 +93,12 @@ $public_content = $stmt->fetchAll();
     <small>You are now logged in.</small>
     <h2>Activities</h2>
         <ul>
-            <li><a href="create_content.php">Post content to COSN</a></li>
+            <li><a href="create_content_and_set_permissions.php">Post content to COSN</a></li>
         </ul>
 
-    <!-- Display this element only if the role is "admin" -->
+
+        
+<!-- Display this element only if the role is "admin" -->
 <?php if ($_SESSION['privilege_level'] === 'administrator'): ?>
     <div style="border: 1px solid black; padding: 10px; margin: 10px;">
         <h2>Admin Panel</h2>

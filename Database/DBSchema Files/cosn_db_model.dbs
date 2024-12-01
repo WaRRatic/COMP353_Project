@@ -100,7 +100,9 @@
 		</table>
 		<table name="content_member_permission" prior="content_permissions" >
 			<comment><![CDATA[allows for setting the granular permissions to a particular piece of content, targeted at a particular member]]></comment>
-			<column name="content_member_permission_id" prior="content_permission_id" type="INT" jt="4" mandatory="y" unsigned="y" />
+			<column name="content_member_permission_id" prior="content_permission_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
+			</column>
 			<column name="target_content_id" type="INT" jt="4" unsigned="y" >
 				<comment><![CDATA[the specific piece of conent, defined by content_id on which a particular member has a certain permission]]></comment>
 			</column>
@@ -4240,6 +4242,10 @@ ALTER TABLE cosn.content MODIFY content_title VARCHAR(100)     COMMENT 'title of
 
 ALTER TABLE cosn.content MODIFY moderation_status ENUM('pending', 'approved', 'rejected')   DEFAULT 'pending'  COMMENT 'status of the piece of content in terms of moderation';
 ]]></string>
+		</script>
+		<script name="content_public_permissions_001" id="Editor-2675" language="SQL" >
+			<string><![CDATA[INSERT INTO cosn.content_public_permissions
+	( content_public_permission_id, target_content_id, content_public_permission_type) VALUES ( ?, ?, ? );]]></string>
 		</script>
 		<script name="group_members" id="Editor-20c8" language="SQL" >
 			<string><![CDATA[DELETE FROM cosn.group_members;]]></string>
