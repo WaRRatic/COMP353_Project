@@ -10,6 +10,12 @@
     margin: 0; /* Removes default margin */
 
 }
+.feed-item {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
 
 .container {
     max-width: 400px;
@@ -47,6 +53,20 @@ button:hover {
     border: 1px solid #ccc; /* Optional: Adds a border for visual clarity */
     padding: 15px; /* Optional: Adds padding inside the container */
     box-sizing: border-box; /* Ensures padding is included in the width calculation */
+}
+.view-post-button{
+    margin-top: 10px;
+}
+
+.view-post-button {
+    display: inline-block;
+    /* width: 25%; */
+    margin-right: 10px;
+    padding: 5px 10px;
+    background-color: #004314;
+    color: #e0e0e0;
+    text-decoration: none;
+    border-radius: 3px;
 }
 
 /* Action Buttons Styles */

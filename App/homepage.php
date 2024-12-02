@@ -109,6 +109,19 @@ foreach ($public_content as $row) {
 // Optional: Reindex the $posts array to have sequential keys
 $posts = array_values($posts);
 
+// Function to extract YouTube video ID
+function getYoutubeVideoId($url) {
+    $video_id = '';
+    // youtube.com/watch?v=VIDEO_ID format
+    if (preg_match('/youtube\.com\/watch\?v=([^\&\?\/]+)/', $url, $matches)) {
+        $video_id = $matches[1];
+    }
+    // youtu.be/VIDEO_ID format
+    else if (preg_match('/youtu\.be\/([^\&\?\/]+)/', $url, $matches)) {
+        $video_id = $matches[1];
+    }
+    return $video_id;
+}
 ?>
 
 <!DOCTYPE html>
@@ -150,12 +163,44 @@ $posts = array_values($posts);
                 // Create a space-separated string of permission types
                 $permission_types_string = implode(' ', array_map('strtolower', $permission_types));
             ?>
-            <div class="feed-item <?php echo htmlspecialchars($post['content_feed_type']); ?>-feed-item" 
+            <div class="feed-item <?php echo htmlspecialchars($post['content_feed_type']); ?>" 
                  data-feed-type="<?php echo htmlspecialchars($post['content_feed_type']); ?>"
                  data-permission-type="<?php echo htmlspecialchars($permission_types_string); ?>">
                 
                 <h3><?php echo htmlspecialchars($post['content_title']); ?></h3>
-                <p><?php echo nl2br(htmlspecialchars($post['content_data'])); ?></p>
+                
+                <?php
+                switch($post['content_type']) {
+                    case 'image':
+                        echo '<img src="' . htmlspecialchars($post['content_data']) . '" alt="' . htmlspecialchars($post['content_title']) . '" class="content-image">';
+                        break;
+                    case 'video':
+                        if (strpos($post['content_data'], 'youtube.com') !== false || strpos($post['content_data'], 'youtu.be') !== false) {
+                            $video_id = getYoutubeVideoId($post['content_data']);
+                            if ($video_id) {
+                                echo '<iframe width="100%" height="315" 
+                                        src="https://www.youtube.com/embed/' . htmlspecialchars($video_id) . '" 
+                                        frameborder="0" 
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                        allowfullscreen></iframe>';
+                            } else {
+                                echo '<p>Invalid YouTube URL</p>';
+                            }
+                        } else {
+                            echo '<video controls width="100%">
+                                    <source src="' . htmlspecialchars($post['content_data']) . '" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                  </video>';
+                        }
+                        break;
+                    case 'text':
+                        echo '<p>' . nl2br(htmlspecialchars($post['content_data'])) . '</p>';
+                        break;
+                    default:
+                        echo '<p>Unsupported content type: ' . htmlspecialchars($post['content_type']) . '</p>';
+                }
+                ?>
+                <br><hl>
                 <small>
                     Posted on <?php echo htmlspecialchars($post['content_creation_date']); ?> 
                     by User <?php echo htmlspecialchars($post['username']); ?>
@@ -169,6 +214,9 @@ $posts = array_values($posts);
                     <a href="Content_Interact.php?state=comment&content_id=<?php echo urlencode($post['content_id']); ?>" class="action-button comment-button">Comment</a>
                     <a href="Content_Interact.php?state=link&content_id=<?php echo urlencode($post['content_id']); ?>" class="action-button link-button">Link</a>
                 </div>
+                <div class="view-post-button">
+                    <a href="view_content.php?content_id=<?php echo urlencode($post['content_id']); ?>" class="view-post-button">View Post</a>
+                </div>
             </div>
             <br><br> <!-- Added double line break for spacing -->
         <?php endforeach; ?>
@@ -176,6 +224,7 @@ $posts = array_values($posts);
         <p>No content available to display.</p>
     <?php endif; ?>
 </div>
+
 
 <footer>
     <a href="index.php" class="logout-button">Logout</a>

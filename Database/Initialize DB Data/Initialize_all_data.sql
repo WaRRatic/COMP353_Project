@@ -443,6 +443,16 @@ INSERT INTO cosn.content
 VALUES 
 (9, 9, 'text', 'Steven Colbert, come eat - the dinner is ready', NOW(), 'Dinner Call', 'approved');
 
+INSERT INTO cosn.content 
+(content_id, creator_id, content_type, content_data, content_creation_date, content_title, moderation_status)
+VALUES 
+(10, 9, 'image', 'https://upload.wikimedia.org/wikipedia/commons/6/6b/American_Beaver.jpg', NOW(), 'American Beaver Image', 'approved');
+
+INSERT INTO cosn.content 
+(content_id, creator_id, content_type, content_data, content_creation_date, content_title, moderation_status)
+VALUES 
+(11, 9, 'video', 'https://www.youtube.com/watch?v=eAPqQFWEoKg&t=117s&ab_channel=BBCEarth', NOW(), 'Beaver Dam Video', 'approved');
+
 --INIT_GROUPS
 insert into 
   cosn.groups (
@@ -703,6 +713,10 @@ VALUES
 
 INSERT INTO cosn.content_member_permission
 	( target_content_id, authorized_member_id, content_permission_type) VALUES ( 9, 2, 'edit' );
+INSERT INTO cosn.content_member_permission
+	( target_content_id, authorized_member_id, content_permission_type) VALUES ( 10, 2, 'edit' );
+INSERT INTO cosn.content_member_permission
+	( target_content_id, authorized_member_id, content_permission_type) VALUES ( 11, 2, 'share' );
 
   --INIT_CONTENT_PUBLIC_PERMISSIONS
  
