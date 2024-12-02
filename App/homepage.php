@@ -47,38 +47,69 @@ try {
 
 
 
-// Query to get public content
+// Query to get public content and private content that the logged in user has access to
 $sql = "
-SELECT
-    content_id, m.username, content_type, content_data, content_creation_date, content_title, moderation_status, cpp.content_public_permission_type, 'public' as content_feed_type
-FROM
-    cosn.content as cont
-INNER JOIN cosn.content_public_permissions as cpp
-    ON cont.content_id = cpp.target_content_id
-INNER JOIN cosn.members as m
-    ON cont.creator_id = m.member_id
-WHERE 
-moderation_status = 'approved'
-UNION
-SELECT
-    content_id, m.username, content_type, content_data, content_creation_date, content_title, moderation_status, cmp.content_permission_type, 'private' as content_feed_type
-FROM
-    cosn.content as cont
-INNER JOIN cosn.content_member_permission as cmp
-    ON cont.content_id = cmp.target_content_id
-INNER JOIN cosn.members as m
-    ON cont.creator_id = m.member_id
-WHERE
-moderation_status = 'approved' AND
-cmp.authorized_member_id = :logged_in_member_id;
+    SELECT
+        content_id, m.username, content_type, content_data, content_creation_date, content_title, moderation_status, 
+        cpp.content_public_permission_type AS content_permission_type, 'public' as content_feed_type
+    FROM
+        cosn.content as cont
+    INNER JOIN cosn.content_public_permissions as cpp
+        ON cont.content_id = cpp.target_content_id
+    INNER JOIN cosn.members as m
+        ON cont.creator_id = m.member_id
+    WHERE 
+        moderation_status = 'approved'
+    UNION
+    SELECT
+        content_id, m.username, content_type, content_data, content_creation_date, content_title, moderation_status, 
+        cmp.content_permission_type AS content_permission_type, 'private' as content_feed_type
+    FROM
+        cosn.content as cont
+    INNER JOIN cosn.content_member_permission as cmp
+        ON cont.content_id = cmp.target_content_id
+    INNER JOIN cosn.members as m
+        ON cont.creator_id = m.member_id
+    WHERE
+        moderation_status = 'approved' AND
+        cmp.authorized_member_id = :logged_in_member_id
+    ORDER BY content_id, content_feed_type
 ";
-
 
 $stmt = $pdo->prepare($sql);
 $stmt->execute([':logged_in_member_id' => $logged_in_member_id]);
 
-$public_content = $stmt->fetchAll();
+// Fetch all rows as associative arrays
+$public_content = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+// Process each row to build the nested structure
+foreach ($public_content as $row) {
+    $content_id = $row['content_id'];
+    
+    // If the post doesn't exist in the $posts array, add it
+    if (!isset($posts[$content_id])) {
+        $posts[$content_id] = [
+            'content_id' => $row['content_id'],
+            'username' => $row['username'],
+            'content_type' => $row['content_type'],
+            'content_data' => $row['content_data'],
+            'content_creation_date' => $row['content_creation_date'],
+            'content_title' => $row['content_title'],
+            'moderation_status' => $row['moderation_status'],
+            'content_feed_type' => $row['content_feed_type'],
+            'permissions' => [] // Initialize the permissions array
+        ];
+    }
+    
+    // Add the permission to the post's permissions array
+    $posts[$content_id]['permissions'][] = [
+        'content_permission_type' => $row['content_permission_type']
+        // Add more permission-related fields here if necessary
+    ];
+}
+
+// Optional: Reindex the $posts array to have sequential keys
+$posts = array_values($posts);
 
 ?>
 
@@ -113,17 +144,46 @@ $public_content = $stmt->fetchAll();
     
 <!-- Display public feed -->
 <h2><?php echo $_SESSION['member_username']; ?>'s Content Feed</h2>
-<?php foreach ($public_content as $content): ?>
-    <div class="<?php echo $content['content_feed_type'] === 'private' ? 'private-feed-item' : 'public-feed-item'; ?>" 
-         data-permission-type="<?php echo htmlspecialchars($content['content_public_permission_type']); ?>"
-         data-feed-type="<?php echo htmlspecialchars($content['content_feed_type']); ?>">
-        <h3><?php echo ($content['content_title']); ?></h3>
-        <p><?php echo nl2br(($content['content_data'])); ?></p>
-        <small>Posted on <?php echo ($content['content_creation_date']); ?> by User <?php echo ($content['username']);?> (content is: <?php echo ($content['content_feed_type']);?> )</small>
-    </div>
-    <br><br> <!-- Added double line break for spacing -->
-<?php endforeach; ?>
 
-    <a href="index.php">Logout</a>
+<div id="main_feed">
+    <?php if (!empty($posts)): ?>
+        <?php foreach ($posts as $post): ?>
+            <?php
+                // Extract permission types into an array
+                $permission_types = array_column($post['permissions'], 'content_permission_type');
+                // Create a space-separated string of permission types
+                $permission_types_string = implode(' ', array_map('strtolower', $permission_types));
+            ?>
+            <div class="feed-item <?php echo htmlspecialchars($post['content_feed_type']); ?>-feed-item" 
+                 data-feed-type="<?php echo htmlspecialchars($post['content_feed_type']); ?>"
+                 data-permission-type="<?php echo htmlspecialchars($permission_types_string); ?>">
+                
+                <h3><?php echo htmlspecialchars($post['content_title']); ?></h3>
+                <p><?php echo nl2br(htmlspecialchars($post['content_data'])); ?></p>
+                <small>
+                    Posted on <?php echo htmlspecialchars($post['content_creation_date']); ?> 
+                    by User <?php echo htmlspecialchars($post['username']); ?>
+                    (Content is: <?php echo htmlspecialchars($post['content_feed_type']); ?>)
+                </small>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <a href="Content_Interact.php?state=edit&content_id=<?php echo urlencode($post['content_id']); ?>" class="action-button edit-button">Edit</a>
+                    <a href="Content_Interact.php?state=share&content_id=<?php echo urlencode($post['content_id']); ?>" class="action-button share-button">Share</a>
+                    <a href="Content_Interact.php?state=comment&content_id=<?php echo urlencode($post['content_id']); ?>" class="action-button comment-button">Comment</a>
+                    <a href="Content_Interact.php?state=link&content_id=<?php echo urlencode($post['content_id']); ?>" class="action-button link-button">Link</a>
+                </div>
+            </div>
+            <br><br> <!-- Added double line break for spacing -->
+        <?php endforeach; ?>
+    <?php else: ?>
+        <p>No content available to display.</p>
+    <?php endif; ?>
+</div>
+
+<footer>
+    <a href="index.php" class="logout-button">Logout</a>
+</footer>
+
 </body>
 </html>

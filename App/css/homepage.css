@@ -4,7 +4,13 @@
     color: #e0e0e0;
     font-family: Arial, sans-serif;
     transition: background-color 0.3s, color 0.3s;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensures the body takes up the full height of the viewport */
+    margin: 0; /* Removes default margin */
+
 }
+
 .container {
     max-width: 400px;
     margin: auto;
@@ -34,3 +40,45 @@ button {
 button:hover {
     background-color: #555;
 }
+
+#main_feed {
+    width: 50%; /* Sets the width to half of the page */
+    float: left; /* Aligns the element to the left */
+    border: 1px solid #ccc; /* Optional: Adds a border for visual clarity */
+    padding: 15px; /* Optional: Adds padding inside the container */
+    box-sizing: border-box; /* Ensures padding is included in the width calculation */
+}
+
+/* Action Buttons Styles */
+.action-buttons {
+    margin-top: 10px;
+}
+
+.action-button {
+    display: none; /* Hide all buttons by default */
+    margin-right: 10px;
+    padding: 5px 10px;
+    background-color: #444;
+    color: #e0e0e0;
+    text-decoration: none;
+    border-radius: 3px;
+}
+
+.action-button:hover {
+    background-color: #555;
+}
+
+/* Show buttons based on individual permissions using the ~= selector */
+.feed-item[data-permission-type~="edit"] .action-button.edit-button,
+.feed-item[data-permission-type~="share"] .action-button.share-button,
+.feed-item[data-permission-type~="comment"] .action-button.comment-button,
+.feed-item[data-permission-type~="link"] .action-button.link-button {
+    display: inline-block;
+}
+
+/* .feed-item[data-permission-type="private"] .action-button.edit-button,
+.feed-item[data-permission-type="private"] .action-button.comment-button {
+    display: inline-block;
+} */
+
+/* Add more rules based on other permission types if necessary */
