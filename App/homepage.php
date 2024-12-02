@@ -7,8 +7,6 @@
     <title>Homepage</title>
 </head>
 
-
-
 <?php
 session_start();
 
@@ -126,8 +124,6 @@ $posts = array_values($posts);
         <ul>
             <li><a href="create_content_and_set_permissions.php">Post content to COSN</a></li>
         </ul>
-
-
         
 <!-- Display this element only if the role is "admin" -->
 <?php if ($_SESSION['privilege_level'] === 'administrator'): ?>
@@ -168,7 +164,7 @@ $posts = array_values($posts);
 
                 <!-- Action Buttons -->
                 <div class="action-buttons">
-                    <a href="Content_Interact.php?state=edit&content_id=<?php echo urlencode($post['content_id']); ?>" class="action-button edit-button">Edit</a>
+                    <a href="edit_content.php?content_id=<?php echo urlencode($post['content_id']); ?>" class="action-button edit-button">Edit</a>
                     <a href="Content_Interact.php?state=share&content_id=<?php echo urlencode($post['content_id']); ?>" class="action-button share-button">Share</a>
                     <a href="Content_Interact.php?state=comment&content_id=<?php echo urlencode($post['content_id']); ?>" class="action-button comment-button">Comment</a>
                     <a href="Content_Interact.php?state=link&content_id=<?php echo urlencode($post['content_id']); ?>" class="action-button link-button">Link</a>

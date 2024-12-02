@@ -695,10 +695,14 @@ values
     'link'
   );
 
+
 INSERT INTO cosn.content_member_permission
 (content_member_permission_id, target_content_id, authorized_member_id, content_permission_type)
 VALUES
 (9,9, 2, 'comment');
+
+INSERT INTO cosn.content_member_permission
+	( target_content_id, authorized_member_id, content_permission_type) VALUES ( 9, 2, 'edit' );
 
   --INIT_CONTENT_PUBLIC_PERMISSIONS
  
