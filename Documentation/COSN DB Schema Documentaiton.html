@@ -65,7 +65,7 @@ a {
 
 <a name='layout1' style='position:sticky; top:0;'/><h4>Main Layout</h4>
 <div class='svgContainer'>
-<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'   width='1840' height='1166' viewBox='0 0 1840 1166' >
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'   width='1888' height='1166' viewBox='0 0 1888 1166' >
   <script type='text/ecmascript'>
   <![CDATA[
   function hghl(el) { for ( var i in el ){ var elem = document.getElementById(el[i]); if ( elem != null ) elem.setAttribute('class','highlight');  }  }
@@ -312,7 +312,7 @@ a {
 
 <!-- == Shape Colors == -->
 <!-- == Desktop == -->
-<rect x='1' y='1' width='1838' height='1164' rx='8' ry='8' style='fill:url(#layoutBgA); stroke:#ccc; stroke-width:.7px; cursor:move;' />
+<rect x='1' y='1' width='1886' height='1164' rx='8' ry='8' style='fill:url(#layoutBgA); stroke:#ccc; stroke-width:.7px; cursor:move;' />
 
 <!-- == Legend == -->
 <g transform='translate(10,10)'>
@@ -321,19 +321,27 @@ a {
 Zoom with CTRL+whell mouse button, pan by dragging the diagram with the right-mouse button</title></use>
   <use id='logo' x='20' y='40' xlink:href='#logo'><title>DbSchema Database Designer </title></use>  <text x='20' y='30' class='legendTitle' >Main Layout</text> 
   <text x='57' y='47' class='legendSubTitle'><tspan>Interactive docs: mouse-over comments, zoom and pan</tspan></text>
-  <a xlink:href='https%3A%2F%2Fdbschema.com'><text x='57' y='61' class='legendSubTitle'><tspan>DbSchema.com © 2024-12-02 Wise Coders<title>DbSchema is an universal database designer.
+  <a xlink:href='https%3A%2F%2Fdbschema.com'><text x='57' y='61' class='legendSubTitle'><tspan>DbSchema.com © 2024-12-03 Wise Coders<title>DbSchema is an universal database designer.
 DbSchema has a free Community Edition.</title></tspan></text></a> 
 </g>
 
 <g transform='translate(0,110)'>
-<!-- == Fk 'content_fk_content_members' == -->
-<path id='content_fk_content_members'  onmouseover="hghl(['content_fk_content_members','cosn.content.creator_id','cosn.members.member_id'])" onmouseout="uhghl(['content_fk_content_members','cosn.content.creator_id','cosn.members.member_id'])" transform='translate(8,0)' class='unhighlight' d='M 848,480L 776,480Q 768,480 768,488L 768,496' >
-	<title>&#x1F517;  Foreign Key fk_content_members
-content ref members ( creator_id -&gt; member_id )</title>
+<!-- == Fk 'content_comment_fk_content_comment_members' == -->
+<path id='content_comment_fk_content_comment_members'  onmouseover="hghl(['content_comment_fk_content_comment_members','cosn.content_comment.commenter_member_id','cosn.members.member_id'])" onmouseout="uhghl(['content_comment_fk_content_comment_members','cosn.content_comment.commenter_member_id','cosn.members.member_id'])" transform='translate(8,0)' class='unhighlight' d='M 1408,320L 792,320Q 784,320 784,328L 784,496' >
+	<title>&#x1F517;  Foreign Key fk_content_comment_members
+content_comment ref members ( commenter_member_id -&gt; member_id )</title>
 </path>
-<path transform='translate(8,0)' marker-start='url(#OneMore)' marker-end='url(#Arrow)'    d='M 848,480L 776,480Q 768,480 768,488L 768,496' ><title>&#x1F517;  Foreign Key fk_content_members
-content ref members ( creator_id -&gt; member_id )</title></path>
-<text x='801' y='475' transform='rotate(0 801,475)' class='relName'>creator&#95;id</text>
+<path transform='translate(8,0)' marker-start='url(#ZeroMore)' marker-end='url(#Arrow)'  class='dotted '  d='M 1408,320L 792,320Q 784,320 784,328L 784,496' ><title>&#x1F517;  Foreign Key fk_content_comment_members
+content_comment ref members ( commenter_member_id -&gt; member_id )</title></path>
+<text x='1282' y='315' transform='rotate(0 1282,315)' class='relName'>commenter&#95;member&#95;id</text>
+<!-- == Fk 'content_comment_fk_content_comment_content' == -->
+<path id='content_comment_fk_content_comment_content'  onmouseover="hghl(['content_comment_fk_content_comment_content','cosn.content_comment.target_content_id','cosn.content.content_id'])" onmouseout="uhghl(['content_comment_fk_content_comment_content','cosn.content_comment.target_content_id','cosn.content.content_id'])" transform='translate(8,0)' class='unhighlight' d='M 1408,336L 1064,336Q 1056,336 1056,344L 1056,360Q 1056,368 1048,368L 1040,368' >
+	<title>&#x1F517;  Foreign Key fk_content_comment_content
+content_comment ref content ( target_content_id -&gt; content_id )</title>
+</path>
+<path transform='translate(8,0)' marker-start='url(#ZeroMore)' marker-end='url(#Arrow)'  class='dotted '  d='M 1408,336L 1064,336Q 1056,336 1056,344L 1056,360Q 1056,368 1048,368L 1040,368' ><title>&#x1F517;  Foreign Key fk_content_comment_content
+content_comment ref content ( target_content_id -&gt; content_id )</title></path>
+<text x='1318' y='331' transform='rotate(0 1318,331)' class='relName'>target&#95;content&#95;id</text>
 <!-- == Fk 'content_group_permissions_fk_content_group_permissions_content' == -->
 <path id='content_group_permissions_fk_content_group_permissions_content'  onmouseover="hghl(['content_group_permissions_fk_content_group_permissions_content','cosn.content_group_permissions.target_content_id','cosn.content.content_id'])" onmouseout="uhghl(['content_group_permissions_fk_content_group_permissions_content','cosn.content_group_permissions.target_content_id','cosn.content.content_id'])" transform='translate(8,0)' class='unhighlight' d='M 880,272L 880,336' >
 	<title>&#x1F517;  Foreign Key fk_content_group_permissions_content
@@ -367,19 +375,19 @@ content_link_relationship ref content ( target_content_id -&gt; content_id )</ti
 content_link_relationship ref content ( target_content_id -&gt; content_id )</title></path>
 <text x='1046' y='203' transform='rotate(0 1046,203)' class='relName'>target&#95;content&#95;id</text>
 <!-- == Fk 'content_member_permission_fk_content_permissions_members' == -->
-<path id='content_member_permission_fk_content_permissions_members'  onmouseover="hghl(['content_member_permission_fk_content_permissions_members','cosn.content_member_permission.authorized_member_id','cosn.members.member_id'])" onmouseout="uhghl(['content_member_permission_fk_content_permissions_members','cosn.content_member_permission.authorized_member_id','cosn.members.member_id'])" transform='translate(8,0)' class='unhighlight' d='M 1264,528L 800,528' >
+<path id='content_member_permission_fk_content_permissions_members'  onmouseover="hghl(['content_member_permission_fk_content_permissions_members','cosn.content_member_permission.authorized_member_id','cosn.members.member_id'])" onmouseout="uhghl(['content_member_permission_fk_content_permissions_members','cosn.content_member_permission.authorized_member_id','cosn.members.member_id'])" transform='translate(8,0)' class='unhighlight' d='M 1264,544L 800,544' >
 	<title>&#x1F517;  Foreign Key fk_content_permissions_members
 content_member_permission ref members ( authorized_member_id -&gt; member_id )</title>
 </path>
-<path transform='translate(8,0)' marker-start='url(#ZeroMore)' marker-end='url(#Arrow)'  class='dotted '  d='M 1264,528L 800,528' ><title>&#x1F517;  Foreign Key fk_content_permissions_members
+<path transform='translate(8,0)' marker-start='url(#ZeroMore)' marker-end='url(#Arrow)'  class='dotted '  d='M 1264,544L 800,544' ><title>&#x1F517;  Foreign Key fk_content_permissions_members
 content_member_permission ref members ( authorized_member_id -&gt; member_id )</title></path>
-<text x='1142' y='523' transform='rotate(0 1142,523)' class='relName'>authorized&#95;member&#95;id</text>
+<text x='1142' y='539' transform='rotate(0 1142,539)' class='relName'>authorized&#95;member&#95;id</text>
 <!-- == Fk 'content_member_permission_fk_content_member_permission_content' == -->
-<path id='content_member_permission_fk_content_member_permission_content'  onmouseover="hghl(['content_member_permission_fk_content_member_permission_content','cosn.content_member_permission.target_content_id','cosn.content.content_id'])" onmouseout="uhghl(['content_member_permission_fk_content_member_permission_content','cosn.content_member_permission.target_content_id','cosn.content.content_id'])" transform='translate(8,0)' class='unhighlight' d='M 1264,512L 1064,512Q 1056,512 1056,504L 1056,488Q 1056,480 1048,480L 1040,480' >
+<path id='content_member_permission_fk_content_member_permission_content'  onmouseover="hghl(['content_member_permission_fk_content_member_permission_content','cosn.content_member_permission.target_content_id','cosn.content.content_id'])" onmouseout="uhghl(['content_member_permission_fk_content_member_permission_content','cosn.content_member_permission.target_content_id','cosn.content.content_id'])" transform='translate(8,0)' class='unhighlight' d='M 1264,512L 1040,512' >
 	<title>&#x1F517;  Foreign Key fk_content_member_permission_content
 content_member_permission ref content ( target_content_id -&gt; content_id )</title>
 </path>
-<path transform='translate(8,0)' marker-start='url(#ZeroMore)' marker-end='url(#Arrow)'  class='dotted '  d='M 1264,512L 1064,512Q 1056,512 1056,504L 1056,488Q 1056,480 1048,480L 1040,480' ><title>&#x1F517;  Foreign Key fk_content_member_permission_content
+<path transform='translate(8,0)' marker-start='url(#ZeroMore)' marker-end='url(#Arrow)'  class='dotted '  d='M 1264,512L 1040,512' ><title>&#x1F517;  Foreign Key fk_content_member_permission_content
 content_member_permission ref content ( target_content_id -&gt; content_id )</title></path>
 <text x='1174' y='507' transform='rotate(0 1174,507)' class='relName'>target&#95;content&#95;id</text>
 <!-- == Fk 'content_moderation_warning_fk_content_moderation_warning_content' == -->
@@ -399,11 +407,11 @@ content_moderation_warning ref content ( owner_member_id -&gt; creator_id )</tit
 content_moderation_warning ref content ( owner_member_id -&gt; creator_id )</title></path>
 <text x='956' y='161' transform='rotate(90 956,161)' class='relName'>owner&#95;member&#95;id</text>
 <!-- == Fk 'content_moderation_warning_fk_content_moderation_warning_members' == -->
-<path id='content_moderation_warning_fk_content_moderation_warning_members'  onmouseover="hghl(['content_moderation_warning_fk_content_moderation_warning_members','cosn.content_moderation_warning.moderator_member_id','cosn.members.member_id'])" onmouseout="uhghl(['content_moderation_warning_fk_content_moderation_warning_members','cosn.content_moderation_warning.moderator_member_id','cosn.members.member_id'])" transform='translate(8,0)' class='unhighlight' d='M 1072,160L 1072,536Q 1072,544 1064,544L 800,544' >
+<path id='content_moderation_warning_fk_content_moderation_warning_members'  onmouseover="hghl(['content_moderation_warning_fk_content_moderation_warning_members','cosn.content_moderation_warning.moderator_member_id','cosn.members.member_id'])" onmouseout="uhghl(['content_moderation_warning_fk_content_moderation_warning_members','cosn.content_moderation_warning.moderator_member_id','cosn.members.member_id'])" transform='translate(8,0)' class='unhighlight' d='M 1072,160L 1072,552Q 1072,560 1064,560L 800,560' >
 	<title>&#x1F517;  Foreign Key fk_content_moderation_warning_members
 content_moderation_warning ref members ( moderator_member_id -&gt; member_id )</title>
 </path>
-<path transform='translate(8,0)' marker-start='url(#OneMore)' marker-end='url(#Arrow)'    d='M 1072,160L 1072,536Q 1072,544 1064,544L 800,544' ><title>&#x1F517;  Foreign Key fk_content_moderation_warning_members
+<path transform='translate(8,0)' marker-start='url(#OneMore)' marker-end='url(#Arrow)'    d='M 1072,160L 1072,552Q 1072,560 1064,560L 800,560' ><title>&#x1F517;  Foreign Key fk_content_moderation_warning_members
 content_moderation_warning ref members ( moderator_member_id -&gt; member_id )</title></path>
 <text x='1084' y='161' transform='rotate(90 1084,161)' class='relName'>moderator&#95;member&#95;id</text>
 <!-- == Fk 'content_public_permissions_fk_content_public_permissions_content' == -->
@@ -415,11 +423,11 @@ content_public_permissions ref content ( target_content_id -&gt; content_id )</t
 content_public_permissions ref content ( target_content_id -&gt; content_id )</title></path>
 <text x='1078' y='379' transform='rotate(0 1078,379)' class='relName'>target&#95;content&#95;id</text>
 <!-- == Fk 'gift_registry_fk_gift_registry_members' == -->
-<path id='gift_registry_fk_gift_registry_members'  onmouseover="hghl(['gift_registry_fk_gift_registry_members','cosn.gift_registry.organizer_member_id','cosn.members.member_id'])" onmouseout="uhghl(['gift_registry_fk_gift_registry_members','cosn.gift_registry.organizer_member_id','cosn.members.member_id'])" transform='translate(8,0)' class='unhighlight' d='M 1280,672L 1256,672Q 1248,672 1248,664L 1248,568Q 1248,560 1240,560L 800,560' >
+<path id='gift_registry_fk_gift_registry_members'  onmouseover="hghl(['gift_registry_fk_gift_registry_members','cosn.gift_registry.organizer_member_id','cosn.members.member_id'])" onmouseout="uhghl(['gift_registry_fk_gift_registry_members','cosn.gift_registry.organizer_member_id','cosn.members.member_id'])" transform='translate(8,0)' class='unhighlight' d='M 1280,672L 1256,672Q 1248,672 1248,664L 1248,488Q 1248,480 1240,480L 1096,480Q 1088,480 1088,472L 1088,296Q 1088,288 1080,288L 776,288Q 768,288 768,296L 768,496' >
 	<title>&#x1F517;  Foreign Key fk_gift_registry_members
 gift_registry ref members ( organizer_member_id -&gt; member_id )</title>
 </path>
-<path transform='translate(8,0)' marker-start='url(#OneMore)' marker-end='url(#Arrow)'    d='M 1280,672L 1256,672Q 1248,672 1248,664L 1248,568Q 1248,560 1240,560L 800,560' ><title>&#x1F517;  Foreign Key fk_gift_registry_members
+<path transform='translate(8,0)' marker-start='url(#OneMore)' marker-end='url(#Arrow)'    d='M 1280,672L 1256,672Q 1248,672 1248,664L 1248,488Q 1248,480 1240,480L 1096,480Q 1088,480 1088,472L 1088,296Q 1088,288 1080,288L 776,288Q 768,288 768,296L 768,496' ><title>&#x1F517;  Foreign Key fk_gift_registry_members
 gift_registry ref members ( organizer_member_id -&gt; member_id )</title></path>
 <text x='1166' y='667' transform='rotate(0 1166,667)' class='relName'>organizer&#95;member&#95;id</text>
 <!-- == Fk 'gift_registry_ideas_fk_gift_registry_ideas_gift_registry_0' == -->
@@ -454,6 +462,22 @@ gift_registry_participants ref gift_registry ( target_gift_registry_id -&gt; gif
 <path transform='translate(8,0)' marker-start='url(#OneMore)' marker-end='url(#Arrow)'    d='M 1312,816L 1312,752' ><title>&#x1F517;  Foreign Key fk_gift_registry_participants_gift_registry
 gift_registry_participants ref gift_registry ( target_gift_registry_id -&gt; gift_registry_id )</title></path>
 <text x='1315' y='814' transform='rotate(270 1315,814)' class='relName'>target&#95;gift&#95;registry&#95;id</text>
+<!-- == Fk 'gift_registry_permissions_fk_gift_registry_permissions_gift_registry' == -->
+<path id='gift_registry_permissions_fk_gift_registry_permissions_gift_registry'  onmouseover="hghl(['gift_registry_permissions_fk_gift_registry_permissions_gift_registry','cosn.gift_registry_permissions.target_gift_registry_id','cosn.gift_registry.gift_registry_id'])" onmouseout="uhghl(['gift_registry_permissions_fk_gift_registry_permissions_gift_registry','cosn.gift_registry_permissions.target_gift_registry_id','cosn.gift_registry.gift_registry_id'])" transform='translate(8,0)' class='unhighlight' d='M 1616,864L 1528,864Q 1520,864 1520,856L 1520,776Q 1520,768 1512,768L 1448,768Q 1440,768 1440,760L 1440,752' >
+	<title>&#x1F517;  Foreign Key fk_gift_registry_permissions_gift_registry
+gift_registry_permissions ref gift_registry ( target_gift_registry_id -&gt; gift_registry_id )</title>
+</path>
+<path transform='translate(8,0)' marker-start='url(#ZeroMore)' marker-end='url(#Arrow)'  class='dotted '  d='M 1616,864L 1528,864Q 1520,864 1520,856L 1520,776Q 1520,768 1512,768L 1448,768Q 1440,768 1440,760L 1440,752' ><title>&#x1F517;  Foreign Key fk_gift_registry_permissions_gift_registry
+gift_registry_permissions ref gift_registry ( target_gift_registry_id -&gt; gift_registry_id )</title></path>
+<text x='1502' y='859' transform='rotate(0 1502,859)' class='relName'>target&#95;gift&#95;registry&#95;id</text>
+<!-- == Fk 'gift_registry_permissions_fk_gift_registry_permissions_members' == -->
+<path id='gift_registry_permissions_fk_gift_registry_permissions_members'  onmouseover="hghl(['gift_registry_permissions_fk_gift_registry_permissions_members','cosn.gift_registry_permissions.authorized_member_id','cosn.members.member_id'])" onmouseout="uhghl(['gift_registry_permissions_fk_gift_registry_permissions_members','cosn.gift_registry_permissions.authorized_member_id','cosn.members.member_id'])" transform='translate(8,0)' class='unhighlight' d='M 1648,976L 1648,1016Q 1648,1024 1640,1024L 616,1024Q 608,1024 608,1016L 608,728Q 608,720 616,720L 640,720' >
+	<title>&#x1F517;  Foreign Key fk_gift_registry_permissions_members
+gift_registry_permissions ref members ( authorized_member_id -&gt; member_id )</title>
+</path>
+<path transform='translate(8,0)' marker-start='url(#ZeroMore)' marker-end='url(#Arrow)'  class='dotted '  d='M 1648,976L 1648,1016Q 1648,1024 1640,1024L 616,1024Q 608,1024 608,1016L 608,728Q 608,720 616,720L 640,720' ><title>&#x1F517;  Foreign Key fk_gift_registry_permissions_members
+gift_registry_permissions ref members ( authorized_member_id -&gt; member_id )</title></path>
+<text x='1660' y='977' transform='rotate(90 1660,977)' class='relName'>authorized&#95;member&#95;id</text>
 <!-- == Fk 'group_event_fk_group_event_groups' == -->
 <path id='group_event_fk_group_event_groups'  onmouseover="hghl(['group_event_fk_group_event_groups','cosn.group_event.target_group_id','cosn.groups.group_id'])" onmouseout="uhghl(['group_event_fk_group_event_groups','cosn.group_event.target_group_id','cosn.groups.group_id'])" transform='translate(8,0)' class='unhighlight' d='M 80,560L 80,392Q 80,384 88,384L 432,384' >
 	<title>&#x1F517;  Foreign Key fk_group_event_groups
@@ -479,11 +503,11 @@ group_event_option_vote ref group_event_options ( target_group_event_option_id -
 group_event_option_vote ref group_event_options ( target_group_event_option_id -&gt; group_event_options_id )</title></path>
 <text x='83' y='878' transform='rotate(270 83,878)' class='relName'>target&#95;group&#95;event&#95;option&#95;id</text>
 <!-- == Fk 'group_event_option_vote_fk_group_event_option_vote_members' == -->
-<path id='group_event_option_vote_fk_group_event_option_vote_members'  onmouseover="hghl(['group_event_option_vote_fk_group_event_option_vote_members','cosn.group_event_option_vote.option_voter_member_id','cosn.members.member_id'])" onmouseout="uhghl(['group_event_option_vote_fk_group_event_option_vote_members','cosn.group_event_option_vote.option_voter_member_id','cosn.members.member_id'])" transform='translate(8,0)' class='unhighlight' d='M 272,960L 600,960Q 608,960 608,952L 608,728Q 608,720 616,720L 640,720' >
+<path id='group_event_option_vote_fk_group_event_option_vote_members'  onmouseover="hghl(['group_event_option_vote_fk_group_event_option_vote_members','cosn.group_event_option_vote.option_voter_member_id','cosn.members.member_id'])" onmouseout="uhghl(['group_event_option_vote_fk_group_event_option_vote_members','cosn.group_event_option_vote.option_voter_member_id','cosn.members.member_id'])" transform='translate(8,0)' class='unhighlight' d='M 272,960L 584,960Q 592,960 592,952L 592,712Q 592,704 600,704L 640,704' >
 	<title>&#x1F517;  Foreign Key fk_group_event_option_vote_members
 group_event_option_vote ref members ( option_voter_member_id -&gt; member_id )</title>
 </path>
-<path transform='translate(8,0)' marker-start='url(#OneMore)' marker-end='url(#Arrow)'    d='M 272,960L 600,960Q 608,960 608,952L 608,728Q 608,720 616,720L 640,720' ><title>&#x1F517;  Foreign Key fk_group_event_option_vote_members
+<path transform='translate(8,0)' marker-start='url(#OneMore)' marker-end='url(#Arrow)'    d='M 272,960L 584,960Q 592,960 592,952L 592,712Q 592,704 600,704L 640,704' ><title>&#x1F517;  Foreign Key fk_group_event_option_vote_members
 group_event_option_vote ref members ( option_voter_member_id -&gt; member_id )</title></path>
 <text x='281' y='955' transform='rotate(0 281,955)' class='relName'>option&#95;voter&#95;member&#95;id</text>
 <!-- == Fk 'group_event_options_fk_group_event_options_group_event' == -->
@@ -591,11 +615,11 @@ member_privilege_change_request ref members ( target_member_id -&gt; member_id )
 member_privilege_change_request ref members ( target_member_id -&gt; member_id )</title></path>
 <text x='675' y='894' transform='rotate(270 675,894)' class='relName'>target&#95;member&#95;id</text>
 <!-- == Fk 'member_relationships_fk_member_relationships_members' == -->
-<path id='member_relationships_fk_member_relationships_members'  onmouseover="hghl(['member_relationships_fk_member_relationships_members','cosn.member_relationships.origin_member_id','cosn.members.member_id'])" onmouseout="uhghl(['member_relationships_fk_member_relationships_members','cosn.member_relationships.origin_member_id','cosn.members.member_id'])" transform='translate(8,0)' class='unhighlight' d='M 528,800L 528,712Q 528,704 536,704L 640,704' >
+<path id='member_relationships_fk_member_relationships_members'  onmouseover="hghl(['member_relationships_fk_member_relationships_members','cosn.member_relationships.origin_member_id','cosn.members.member_id'])" onmouseout="uhghl(['member_relationships_fk_member_relationships_members','cosn.member_relationships.origin_member_id','cosn.members.member_id'])" transform='translate(8,0)' class='unhighlight' d='M 528,800L 528,696Q 528,688 536,688L 640,688' >
 	<title>&#x1F517;  Foreign Key fk_member_relationships_members
 member_relationships ref members ( origin_member_id -&gt; member_id )</title>
 </path>
-<path transform='translate(8,0)' marker-start='url(#OneMore)' marker-end='url(#Arrow)'    d='M 528,800L 528,712Q 528,704 536,704L 640,704' ><title>&#x1F517;  Foreign Key fk_member_relationships_members
+<path transform='translate(8,0)' marker-start='url(#OneMore)' marker-end='url(#Arrow)'    d='M 528,800L 528,696Q 528,688 536,688L 640,688' ><title>&#x1F517;  Foreign Key fk_member_relationships_members
 member_relationships ref members ( origin_member_id -&gt; member_id )</title></path>
 <text x='531' y='798' transform='rotate(270 531,798)' class='relName'>origin&#95;member&#95;id</text>
 <!-- == Fk 'member_relationships_fk_member_relationships_members_0' == -->
@@ -630,74 +654,44 @@ personal_info_public_permissions ref members ( owner_member_id -&gt; member_id )
 <path transform='translate(8,0)' marker-start='url(#OneMore)' marker-end='url(#Arrow)'    d='M 992,768L 760,768Q 752,768 752,760L 752,752' ><title>&#x1F517;  Foreign Key fk_personal_info_public_permissions_members
 personal_info_public_permissions ref members ( owner_member_id -&gt; member_id )</title></path>
 <text x='896' y='763' transform='rotate(0 896,763)' class='relName'>owner&#95;member&#95;id</text>
-<!-- == Fk 'content_comment_fk_content_comment_members' == -->
-<path id='content_comment_fk_content_comment_members'  onmouseover="hghl(['content_comment_fk_content_comment_members','cosn.content_comment.commenter_member_id','cosn.members.member_id'])" onmouseout="uhghl(['content_comment_fk_content_comment_members','cosn.content_comment.commenter_member_id','cosn.members.member_id'])" transform='translate(8,0)' class='unhighlight' d='M 1408,320L 792,320Q 784,320 784,328L 784,496' >
-	<title>&#x1F517;  Foreign Key fk_content_comment_members
-content_comment ref members ( commenter_member_id -&gt; member_id )</title>
+<!-- == Fk 'content_fk_content_members' == -->
+<path id='content_fk_content_members'  onmouseover="hghl(['content_fk_content_members','cosn.content.creator_id','cosn.members.member_id'])" onmouseout="uhghl(['content_fk_content_members','cosn.content.creator_id','cosn.members.member_id'])" transform='translate(8,0)' class='unhighlight' d='M 848,480L 760,480Q 752,480 752,488L 752,496' >
+	<title>&#x1F517;  Foreign Key fk_content_members
+content ref members ( creator_id -&gt; member_id )</title>
 </path>
-<path transform='translate(8,0)' marker-start='url(#ZeroMore)' marker-end='url(#Arrow)'  class='dotted '  d='M 1408,320L 792,320Q 784,320 784,328L 784,496' ><title>&#x1F517;  Foreign Key fk_content_comment_members
-content_comment ref members ( commenter_member_id -&gt; member_id )</title></path>
-<text x='1282' y='315' transform='rotate(0 1282,315)' class='relName'>commenter&#95;member&#95;id</text>
-<!-- == Fk 'content_comment_fk_content_comment_content' == -->
-<path id='content_comment_fk_content_comment_content'  onmouseover="hghl(['content_comment_fk_content_comment_content','cosn.content_comment.target_content_id','cosn.content.content_id'])" onmouseout="uhghl(['content_comment_fk_content_comment_content','cosn.content_comment.target_content_id','cosn.content.content_id'])" transform='translate(8,0)' class='unhighlight' d='M 1408,336L 1064,336Q 1056,336 1056,344L 1056,360Q 1056,368 1048,368L 1040,368' >
-	<title>&#x1F517;  Foreign Key fk_content_comment_content
-content_comment ref content ( target_content_id -&gt; content_id )</title>
-</path>
-<path transform='translate(8,0)' marker-start='url(#ZeroMore)' marker-end='url(#Arrow)'  class='dotted '  d='M 1408,336L 1064,336Q 1056,336 1056,344L 1056,360Q 1056,368 1048,368L 1040,368' ><title>&#x1F517;  Foreign Key fk_content_comment_content
-content_comment ref content ( target_content_id -&gt; content_id )</title></path>
-<text x='1318' y='331' transform='rotate(0 1318,331)' class='relName'>target&#95;content&#95;id</text>
-<!-- == Table 'content' == -->
-<rect id='depict_cosn&#46;content' class='entity' style='stroke:#AB76B9' x='864' y='344' width='176' height='160' />
-<rect x='864' y='344' width='176' height='28' style='stroke-width:0; fill:#242025'/>
-<line class='topLine' style='stroke:#8C489D;' stroke-linecap='round' x1='864' y1='344' x2='1040' y2='344'/>
-<a xlink:href='#cosn.content'><text x='924' y='363' class='tableHeader'>content</text><title>Table cosn.content
+<path transform='translate(8,0)' marker-start='url(#OneMore)' marker-end='url(#Arrow)'    d='M 848,480L 760,480Q 752,480 752,488L 752,496' ><title>&#x1F517;  Foreign Key fk_content_members
+content ref members ( creator_id -&gt; member_id )</title></path>
+<text x='801' y='475' transform='rotate(0 801,475)' class='relName'>creator&#95;id</text>
+<!-- == Table 'content_comment' == -->
+<rect id='depict_cosn&#46;content&#95;comment' class='entity' style='stroke:#AB76B9' x='1424' y='232' width='176' height='128' />
+<rect x='1424' y='232' width='176' height='28' style='stroke-width:0; fill:#242025'/>
+<line class='topLine' style='stroke:#8C489D;' stroke-linecap='round' x1='1424' y1='232' x2='1600' y2='232'/>
+<a xlink:href='#cosn.content_comment'><text x='1451' y='251' class='tableHeader'>content&#95;comment</text><title>Table cosn.content_comment
  ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
-      contains the content created by members</title></a>
-  <use id='nn' x='866' y='381' xlink:href='#nn'/><use id='pk' x='866' y='380' xlink:href='#pk'><title>&#x1F511;  Pk pk_content_data ( content_id ) </title></use><a xlink:href='#cosn.content.content_id'><text id='cosn&#46;content&#46;content&#95;id' x='883' y='391' onmouseover="hghl(['content_comment_fk_content_comment_content','cosn.content_comment.target_content_id','content_group_permissions_fk_content_group_permissions_content','cosn.content_group_permissions.target_content_id','content_link_relationship_fk_content_link_relationship_content_1','cosn.content_link_relationship.origin_content_id','content_link_relationship_fk_content_link_relationship_content_2','cosn.content_link_relationship.target_content_id','content_member_permission_fk_content_member_permission_content','cosn.content_member_permission.target_content_id','content_moderation_warning_fk_content_moderation_warning_content','cosn.content_moderation_warning.target_content_id','content_public_permissions_fk_content_public_permissions_content','cosn.content_public_permissions.target_content_id'])" onmouseout="uhghl(['content_comment_fk_content_comment_content','cosn.content_comment.target_content_id','content_group_permissions_fk_content_group_permissions_content','cosn.content_group_permissions.target_content_id','content_link_relationship_fk_content_link_relationship_content_1','cosn.content_link_relationship.origin_content_id','content_link_relationship_fk_content_link_relationship_content_2','cosn.content_link_relationship.target_content_id','content_member_permission_fk_content_member_permission_content','cosn.content_member_permission.target_content_id','content_moderation_warning_fk_content_moderation_warning_content','cosn.content_moderation_warning.target_content_id','content_public_permissions_fk_content_public_permissions_content','cosn.content_public_permissions.target_content_id'])">content&#95;id</text><title>&#10697;  content_id
-     * int
- &#8601; content_comment( content_id )
- &#8601; content_group_permissions( content_id )
- &#8601; content_link_relationship( content_id )
- &#8601; content_link_relationship( content_id )
- &#8601; content_member_permission( content_id )
- &#8601; content_moderation_warning( content_id )
- &#8601; content_public_permissions( content_id )</title></a>
-<a xlink:href='#cosn.content.content_id'><use id='ref' x='1028' y='380' xlink:href='#ref'/><title>&#x1F517;  Referred by content_comment ( target_content_id -&gt; content_id ) 
-Referred by content_group_permissions ( target_content_id -&gt; content_id ) 
-Referred by content_link_relationship ( origin_content_id -&gt; content_id ) 
-Referred by content_link_relationship ( target_content_id -&gt; content_id ) 
-Referred by content_member_permission ( target_content_id -&gt; content_id ) 
-Referred by content_moderation_warning ( target_content_id -&gt; content_id ) 
-Referred by content_public_permissions ( target_content_id -&gt; content_id ) </title></a>
-  <use id='nn' x='866' y='397' xlink:href='#nn'/><use id='idx' x='866' y='396' xlink:href='#idx'><title>&#x1F50D;  fk_content_members ( creator_id ) </title></use><a xlink:href='#cosn.content.creator_id'><text id='cosn&#46;content&#46;creator&#95;id' x='883' y='407' onmouseover="hghl(['content_fk_content_members','cosn.members.member_id','content_moderation_warning_fk_content_moderation_warning_content_0','cosn.content_moderation_warning.owner_member_id'])" onmouseout="uhghl(['content_fk_content_members','cosn.members.member_id','content_moderation_warning_fk_content_moderation_warning_content_0','cosn.content_moderation_warning.owner_member_id'])">creator&#95;id</text><title>&#10697;  creator_id
-     * int
- &#8599; content( member_id )
- &#8601; content_moderation_warning( creator_id )
+      table containing comments on content from members</title></a>
+  <use id='nn' x='1426' y='269' xlink:href='#nn'/><use id='pk' x='1426' y='268' xlink:href='#pk'><title>&#x1F511;  Pk pk_content_comment ( content_comment_id ) </title></use><a xlink:href='#cosn.content_comment.content_comment_id'><text id='cosn&#46;content&#95;comment&#46;content&#95;comment&#95;id' x='1443' y='279'>content&#95;comment&#95;id</text><title>&#10697;  content_comment_id
+     * int</title></a>
+<text x='1597' y='276' text-anchor='end' class='colType'>&#35;</text>  <a xlink:href='#cosn.content_comment.commenter_member_id'><text id='cosn&#46;content&#95;comment&#46;commenter&#95;member&#95;id' x='1443' y='295' onmouseover="hghl(['content_comment_fk_content_comment_members','cosn.members.member_id'])" onmouseout="uhghl(['content_comment_fk_content_comment_members','cosn.members.member_id'])">commenter&#95;member&#95;id</text><title>&#10697;  commenter_member_id
+     int
+ &#8599; content_comment( member_id )
  ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
-      member who created this particular piece of content</title></a>
-<a xlink:href='#cosn.content.creator_id'><use id='fk' x='1028' y='396' xlink:href='#fk'/><title>&#x1F517;  References members ( creator_id -&gt; member_id ) 
-Referred by content_moderation_warning ( owner_member_id -&gt; creator_id ) </title></a>
-  <use id='nn' x='866' y='413' xlink:href='#nn'/><a xlink:href='#cosn.content.content_type'><text id='cosn&#46;content&#46;content&#95;type' x='883' y='423'>content&#95;type</text><title>&#10697;  content_type
-     * enum(&apos;text&apos;,&apos;image&apos;,&apos;video&apos;)
+      the member who made the content</title></a>
+<a xlink:href='#cosn.content_comment.commenter_member_id'><use id='fk' x='1588' y='284' xlink:href='#fk'/><title>&#x1F517;  References members ( commenter_member_id -&gt; member_id ) </title></a>
+  <a xlink:href='#cosn.content_comment.comment_text'><text id='cosn&#46;content&#95;comment&#46;comment&#95;text' x='1443' y='311'>comment&#95;text</text><title>&#10697;  comment_text
+     varchar(250)
  ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
-      what kind of content was produced</title></a>
-<text x='1037' y='420' text-anchor='end' class='colType'>t</text>  <use id='nn' x='866' y='429' xlink:href='#nn'/><a xlink:href='#cosn.content.content_data'><text id='cosn&#46;content&#46;content&#95;data' x='883' y='439'>content&#95;data</text><title>&#10697;  content_data
-     * text
+      the actual text of the comment on a certain piece of content</title></a>
+<text x='1597' y='308' text-anchor='end' class='colType'>t</text>  <a xlink:href='#cosn.content_comment.target_content_id'><text id='cosn&#46;content&#95;comment&#46;target&#95;content&#95;id' x='1443' y='327' onmouseover="hghl(['content_comment_fk_content_comment_content','cosn.content.content_id'])" onmouseout="uhghl(['content_comment_fk_content_comment_content','cosn.content.content_id'])">target&#95;content&#95;id</text><title>&#10697;  target_content_id
+     int
+ &#8599; content_comment( content_id )
  ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
-      text or URL link to the data of the content</title></a>
-<text x='1037' y='436' text-anchor='end' class='colType'>t</text>  <use id='nn' x='866' y='445' xlink:href='#nn'/><a xlink:href='#cosn.content.content_creation_date'><text id='cosn&#46;content&#46;content&#95;creation&#95;date' x='883' y='455'>content&#95;creation&#95;date</text><title>&#10697;  content_creation_date
-     * date default curdate()
+      the content which is the target of the comment</title></a>
+<a xlink:href='#cosn.content_comment.target_content_id'><use id='fk' x='1588' y='316' xlink:href='#fk'/><title>&#x1F517;  References content ( target_content_id -&gt; content_id ) </title></a>
+  <a xlink:href='#cosn.content_comment.datetime_comment'><text id='cosn&#46;content&#95;comment&#46;datetime&#95;comment' x='1443' y='343'>datetime&#95;comment</text><title>&#10697;  datetime_comment
+     datetime
  ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
-      when was the content created</title></a>
-<text x='1037' y='452' text-anchor='end' class='colType'>d</text>  <a xlink:href='#cosn.content.content_title'><text id='cosn&#46;content&#46;content&#95;title' x='883' y='471'>content&#95;title</text><title>&#10697;  content_title
-     varchar(100)
- ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
-      title of the post of the content</title></a>
-<text x='1037' y='468' text-anchor='end' class='colType'>t</text>  <a xlink:href='#cosn.content.moderation_status'><text id='cosn&#46;content&#46;moderation&#95;status' x='883' y='487'>moderation&#95;status</text><title>&#10697;  moderation_status
-     enum(&apos;pending&apos;, &apos;approved&apos;, &apos;rejected&apos;) default &apos;pending&apos;
- ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
-      status of the piece of content in terms of moderation</title></a>
-<text x='1037' y='484' text-anchor='end' class='colType'>t</text>
+      the datetime of when the comment was created</title></a>
+<text x='1597' y='340' text-anchor='end' class='colType'>d</text>
 <!-- == Table 'content_group_permissions' == -->
 <rect id='depict_cosn&#46;content&#95;group&#95;permissions' class='entity' style='stroke:#AB76B9' x='672' y='152' width='224' height='112' />
 <rect x='672' y='152' width='224' height='28' style='stroke-width:0; fill:#242025'/>
@@ -836,12 +830,14 @@ Referred by content_moderation_warning ( owner_member_id -&gt; creator_id ) </ti
 <a xlink:href='#cosn.gift_registry'><text x='1334' y='683' class='tableHeader'>gift&#95;registry</text><title>Table cosn.gift_registry
  ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
       Describes gift registry entity that different members can attach gift ideas to.</title></a>
-  <use id='nn' x='1298' y='701' xlink:href='#nn'/><use id='pk' x='1298' y='700' xlink:href='#pk'><title>&#x1F511;  Pk pk_gift_registry ( gift_registry_id ) </title></use><a xlink:href='#cosn.gift_registry.gift_registry_id'><text id='cosn&#46;gift&#95;registry&#46;gift&#95;registry&#95;id' x='1315' y='711' onmouseover="hghl(['gift_registry_ideas_fk_gift_registry_ideas_gift_registry_0','cosn.gift_registry_ideas.target_gift_registry_id','gift_registry_participants_fk_gift_registry_participants_gift_registry','cosn.gift_registry_participants.target_gift_registry_id'])" onmouseout="uhghl(['gift_registry_ideas_fk_gift_registry_ideas_gift_registry_0','cosn.gift_registry_ideas.target_gift_registry_id','gift_registry_participants_fk_gift_registry_participants_gift_registry','cosn.gift_registry_participants.target_gift_registry_id'])">gift&#95;registry&#95;id</text><title>&#10697;  gift_registry_id
+  <use id='nn' x='1298' y='701' xlink:href='#nn'/><use id='pk' x='1298' y='700' xlink:href='#pk'><title>&#x1F511;  Pk pk_gift_registry ( gift_registry_id ) </title></use><a xlink:href='#cosn.gift_registry.gift_registry_id'><text id='cosn&#46;gift&#95;registry&#46;gift&#95;registry&#95;id' x='1315' y='711' onmouseover="hghl(['gift_registry_ideas_fk_gift_registry_ideas_gift_registry_0','cosn.gift_registry_ideas.target_gift_registry_id','gift_registry_participants_fk_gift_registry_participants_gift_registry','cosn.gift_registry_participants.target_gift_registry_id','gift_registry_permissions_fk_gift_registry_permissions_gift_registry','cosn.gift_registry_permissions.target_gift_registry_id'])" onmouseout="uhghl(['gift_registry_ideas_fk_gift_registry_ideas_gift_registry_0','cosn.gift_registry_ideas.target_gift_registry_id','gift_registry_participants_fk_gift_registry_participants_gift_registry','cosn.gift_registry_participants.target_gift_registry_id','gift_registry_permissions_fk_gift_registry_permissions_gift_registry','cosn.gift_registry_permissions.target_gift_registry_id'])">gift&#95;registry&#95;id</text><title>&#10697;  gift_registry_id
      * int
  &#8601; gift_registry_ideas( gift_registry_id )
- &#8601; gift_registry_participants( gift_registry_id )</title></a>
+ &#8601; gift_registry_participants( gift_registry_id )
+ &#8601; gift_registry_permissions( gift_registry_id )</title></a>
 <a xlink:href='#cosn.gift_registry.gift_registry_id'><use id='ref' x='1444' y='700' xlink:href='#ref'/><title>&#x1F517;  Referred by gift_registry_ideas ( target_gift_registry_id -&gt; gift_registry_id ) 
-Referred by gift_registry_participants ( target_gift_registry_id -&gt; gift_registry_id ) </title></a>
+Referred by gift_registry_participants ( target_gift_registry_id -&gt; gift_registry_id ) 
+Referred by gift_registry_permissions ( target_gift_registry_id -&gt; gift_registry_id ) </title></a>
   <use id='nn' x='1298' y='717' xlink:href='#nn'/><use id='idx' x='1298' y='716' xlink:href='#idx'><title>&#x1F50D;  fk_gift_registry_members ( organizer_member_id ) </title></use><a xlink:href='#cosn.gift_registry.organizer_member_id'><text id='cosn&#46;gift&#95;registry&#46;organizer&#95;member&#95;id' x='1315' y='727' onmouseover="hghl(['gift_registry_fk_gift_registry_members','cosn.members.member_id'])" onmouseout="uhghl(['gift_registry_fk_gift_registry_members','cosn.members.member_id'])">organizer&#95;member&#95;id</text><title>&#10697;  organizer_member_id
      * int
  &#8599; gift_registry( member_id )
@@ -897,6 +893,34 @@ Referred by gift_registry_participants ( target_gift_registry_id -&gt; gift_regi
       describes a particular gift registry that a member is part of</title></a>
 <a xlink:href='#cosn.gift_registry_participants.target_gift_registry_id'><use id='fk' x='1492' y='892' xlink:href='#fk'/><title>&#x1F517;  References gift_registry ( target_gift_registry_id -&gt; gift_registry_id ) </title></a>
 
+<!-- == Table 'gift_registry_permissions' == -->
+<rect id='depict_cosn&#46;gift&#95;registry&#95;permissions' class='entity' style='stroke:#B99376' x='1632' y='856' width='208' height='112' />
+<rect x='1632' y='856' width='208' height='28' style='stroke-width:0; fill:#252220'/>
+<line class='topLine' style='stroke:#9D6D48;' stroke-linecap='round' x1='1632' y1='856' x2='1840' y2='856'/>
+<a xlink:href='#cosn.gift_registry_permissions'><text x='1654' y='875' class='tableHeader'>gift&#95;registry&#95;permissions</text><title>Table cosn.gift_registry_permissions
+ ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+      contains the permissions that members have on a gift registry</title></a>
+  <use id='nn' x='1634' y='893' xlink:href='#nn'/><use id='pk' x='1634' y='892' xlink:href='#pk'><title>&#x1F511;  Pk pk_gift_registry_permissions ( gift_registry_permissions_id ) </title></use><a xlink:href='#cosn.gift_registry_permissions.gift_registry_permissions_id'><text id='cosn&#46;gift&#95;registry&#95;permissions&#46;gift&#95;registry&#95;permissions&#95;id' x='1651' y='903'>gift&#95;registry&#95;permissions&#95;id</text><title>&#10697;  gift_registry_permissions_id
+     * int</title></a>
+<text x='1837' y='900' text-anchor='end' class='colType'>&#35;</text>  <a xlink:href='#cosn.gift_registry_permissions.target_gift_registry_id'><text id='cosn&#46;gift&#95;registry&#95;permissions&#46;target&#95;gift&#95;registry&#95;id' x='1651' y='919' onmouseover="hghl(['gift_registry_permissions_fk_gift_registry_permissions_gift_registry','cosn.gift_registry.gift_registry_id'])" onmouseout="uhghl(['gift_registry_permissions_fk_gift_registry_permissions_gift_registry','cosn.gift_registry.gift_registry_id'])">target&#95;gift&#95;registry&#95;id</text><title>&#10697;  target_gift_registry_id
+     int
+ &#8599; gift_registry_permissions( gift_registry_id )
+ ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+      The target ID of the gift registry on which a particular members pemission is defined</title></a>
+<a xlink:href='#cosn.gift_registry_permissions.target_gift_registry_id'><use id='fk' x='1828' y='908' xlink:href='#fk'/><title>&#x1F517;  References gift_registry ( target_gift_registry_id -&gt; gift_registry_id ) </title></a>
+  <a xlink:href='#cosn.gift_registry_permissions.authorized_member_id'><text id='cosn&#46;gift&#95;registry&#95;permissions&#46;authorized&#95;member&#95;id' x='1651' y='935' onmouseover="hghl(['gift_registry_permissions_fk_gift_registry_permissions_members','cosn.members.member_id'])" onmouseout="uhghl(['gift_registry_permissions_fk_gift_registry_permissions_members','cosn.members.member_id'])">authorized&#95;member&#95;id</text><title>&#10697;  authorized_member_id
+     int
+ &#8599; gift_registry_permissions( member_id )
+ ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+      the ID of the member that has a certain permission on a certain gift registry</title></a>
+<a xlink:href='#cosn.gift_registry_permissions.authorized_member_id'><use id='fk' x='1828' y='924' xlink:href='#fk'/><title>&#x1F517;  References members ( authorized_member_id -&gt; member_id ) </title></a>
+  <a xlink:href='#cosn.gift_registry_permissions.gift_registry_permission_type'><text id='cosn&#46;gift&#95;registry&#95;permissions&#46;gift&#95;registry&#95;permission&#95;type' x='1651' y='951'>gift&#95;registry&#95;permission&#95;type</text><title>&#10697;  gift_registry_permission_type
+     enum(&apos;view&apos;, &apos;edit&apos;, &apos;add-item&apos;)
+ ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+      the type of permission that a certain member has on a certain gift registry
+      
+      can be &apos;view&apos;, &apos;edit&apos;, &apos;add-item&apos;</title></a>
+<text x='1837' y='948' text-anchor='end' class='colType'>t</text>
 <!-- == Table 'group_event' == -->
 <rect id='depict_cosn&#46;group&#95;event' class='entity' style='stroke:#7698B9' x='48' y='568' width='208' height='112' />
 <rect x='48' y='568' width='208' height='28' style='stroke-width:0; fill:#202225'/>
@@ -1187,7 +1211,7 @@ Referred by group_vote_plebiscite ( target_group_id -&gt; group_id ) </title></a
 <a xlink:href='#cosn.members'><text x='695' y='523' class='tableHeader'>members</text><title>Table cosn.members
  ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
       contains the info for every member of COSN</title></a>
-  <use id='nn' x='658' y='541' xlink:href='#nn'/><use id='pk' x='658' y='540' xlink:href='#pk'><title>&#x1F511;  Pk pk_member ( member_id ) </title></use><a xlink:href='#cosn.members.member_id'><text id='cosn&#46;members&#46;member&#95;id' x='675' y='551' onmouseover="hghl(['content_fk_content_members','cosn.content.creator_id','content_comment_fk_content_comment_members','cosn.content_comment.commenter_member_id','content_member_permission_fk_content_permissions_members','cosn.content_member_permission.authorized_member_id','content_moderation_warning_fk_content_moderation_warning_members','cosn.content_moderation_warning.moderator_member_id','gift_registry_fk_gift_registry_members','cosn.gift_registry.organizer_member_id','gift_registry_ideas_fk_gift_registry_ideas_members','cosn.gift_registry_ideas.idea_owner_id','gift_registry_participants_fk_gift_registry_participants_members','cosn.gift_registry_participants.participant_member_id','group_event_fk_group_event_members','cosn.group_event.event_organizer_member_id','group_event_option_vote_fk_group_event_option_vote_members','cosn.group_event_option_vote.option_voter_member_id','group_event_options_fk_group_event_options_members','cosn.group_event_options.option_owner_member_id','group_members_fk_group_members_members','cosn.group_members.participant_member_id','group_vote_plebiscite_fk_group_vote_plebiscite_members','cosn.group_vote_plebiscite.target_member_id','group_vote_plebiscite_fk_group_vote_plebiscite_members_0','cosn.group_vote_plebiscite.organizer_member_id','group_vote_plebiscite_results_fk_group_vote_plebiscite_results_members','cosn.group_vote_plebiscite_results.voter_member_id','groups_fk_groups_members','cosn.groups.owner_id','member_messages_fk_member_messages_members','cosn.member_messages.origin_member_id','member_messages_fk_member_messages_members_0','cosn.member_messages.target_member_id','member_privilege_change_request_fk_member_privilege_change_request_members','cosn.member_privilege_change_request.target_member_id','member_relationships_fk_member_relationships_members','cosn.member_relationships.origin_member_id','member_relationships_fk_member_relationships_members_0','cosn.member_relationships.target_member_id','personal_info_permissions_fk_personal_info_visibility_members','cosn.personal_info_permissions.owner_member_id','personal_info_permissions_fk_personal_info_visibility_members_0','cosn.personal_info_permissions.authorized_member_id','personal_info_public_permissions_fk_personal_info_public_permissions_members','cosn.personal_info_public_permissions.owner_member_id'])" onmouseout="uhghl(['content_fk_content_members','cosn.content.creator_id','content_comment_fk_content_comment_members','cosn.content_comment.commenter_member_id','content_member_permission_fk_content_permissions_members','cosn.content_member_permission.authorized_member_id','content_moderation_warning_fk_content_moderation_warning_members','cosn.content_moderation_warning.moderator_member_id','gift_registry_fk_gift_registry_members','cosn.gift_registry.organizer_member_id','gift_registry_ideas_fk_gift_registry_ideas_members','cosn.gift_registry_ideas.idea_owner_id','gift_registry_participants_fk_gift_registry_participants_members','cosn.gift_registry_participants.participant_member_id','group_event_fk_group_event_members','cosn.group_event.event_organizer_member_id','group_event_option_vote_fk_group_event_option_vote_members','cosn.group_event_option_vote.option_voter_member_id','group_event_options_fk_group_event_options_members','cosn.group_event_options.option_owner_member_id','group_members_fk_group_members_members','cosn.group_members.participant_member_id','group_vote_plebiscite_fk_group_vote_plebiscite_members','cosn.group_vote_plebiscite.target_member_id','group_vote_plebiscite_fk_group_vote_plebiscite_members_0','cosn.group_vote_plebiscite.organizer_member_id','group_vote_plebiscite_results_fk_group_vote_plebiscite_results_members','cosn.group_vote_plebiscite_results.voter_member_id','groups_fk_groups_members','cosn.groups.owner_id','member_messages_fk_member_messages_members','cosn.member_messages.origin_member_id','member_messages_fk_member_messages_members_0','cosn.member_messages.target_member_id','member_privilege_change_request_fk_member_privilege_change_request_members','cosn.member_privilege_change_request.target_member_id','member_relationships_fk_member_relationships_members','cosn.member_relationships.origin_member_id','member_relationships_fk_member_relationships_members_0','cosn.member_relationships.target_member_id','personal_info_permissions_fk_personal_info_visibility_members','cosn.personal_info_permissions.owner_member_id','personal_info_permissions_fk_personal_info_visibility_members_0','cosn.personal_info_permissions.authorized_member_id','personal_info_public_permissions_fk_personal_info_public_permissions_members','cosn.personal_info_public_permissions.owner_member_id'])">member&#95;id</text><title>&#10697;  member_id
+  <use id='nn' x='658' y='541' xlink:href='#nn'/><use id='pk' x='658' y='540' xlink:href='#pk'><title>&#x1F511;  Pk pk_member ( member_id ) </title></use><a xlink:href='#cosn.members.member_id'><text id='cosn&#46;members&#46;member&#95;id' x='675' y='551' onmouseover="hghl(['content_fk_content_members','cosn.content.creator_id','content_comment_fk_content_comment_members','cosn.content_comment.commenter_member_id','content_member_permission_fk_content_permissions_members','cosn.content_member_permission.authorized_member_id','content_moderation_warning_fk_content_moderation_warning_members','cosn.content_moderation_warning.moderator_member_id','gift_registry_fk_gift_registry_members','cosn.gift_registry.organizer_member_id','gift_registry_ideas_fk_gift_registry_ideas_members','cosn.gift_registry_ideas.idea_owner_id','gift_registry_participants_fk_gift_registry_participants_members','cosn.gift_registry_participants.participant_member_id','group_event_fk_group_event_members','cosn.group_event.event_organizer_member_id','group_event_option_vote_fk_group_event_option_vote_members','cosn.group_event_option_vote.option_voter_member_id','group_event_options_fk_group_event_options_members','cosn.group_event_options.option_owner_member_id','group_members_fk_group_members_members','cosn.group_members.participant_member_id','group_vote_plebiscite_fk_group_vote_plebiscite_members','cosn.group_vote_plebiscite.target_member_id','group_vote_plebiscite_fk_group_vote_plebiscite_members_0','cosn.group_vote_plebiscite.organizer_member_id','group_vote_plebiscite_results_fk_group_vote_plebiscite_results_members','cosn.group_vote_plebiscite_results.voter_member_id','groups_fk_groups_members','cosn.groups.owner_id','member_messages_fk_member_messages_members','cosn.member_messages.origin_member_id','member_messages_fk_member_messages_members_0','cosn.member_messages.target_member_id','member_privilege_change_request_fk_member_privilege_change_request_members','cosn.member_privilege_change_request.target_member_id','member_relationships_fk_member_relationships_members','cosn.member_relationships.origin_member_id','member_relationships_fk_member_relationships_members_0','cosn.member_relationships.target_member_id','personal_info_permissions_fk_personal_info_visibility_members','cosn.personal_info_permissions.owner_member_id','personal_info_permissions_fk_personal_info_visibility_members_0','cosn.personal_info_permissions.authorized_member_id','personal_info_public_permissions_fk_personal_info_public_permissions_members','cosn.personal_info_public_permissions.owner_member_id','gift_registry_permissions_fk_gift_registry_permissions_members','cosn.gift_registry_permissions.authorized_member_id'])" onmouseout="uhghl(['content_fk_content_members','cosn.content.creator_id','content_comment_fk_content_comment_members','cosn.content_comment.commenter_member_id','content_member_permission_fk_content_permissions_members','cosn.content_member_permission.authorized_member_id','content_moderation_warning_fk_content_moderation_warning_members','cosn.content_moderation_warning.moderator_member_id','gift_registry_fk_gift_registry_members','cosn.gift_registry.organizer_member_id','gift_registry_ideas_fk_gift_registry_ideas_members','cosn.gift_registry_ideas.idea_owner_id','gift_registry_participants_fk_gift_registry_participants_members','cosn.gift_registry_participants.participant_member_id','group_event_fk_group_event_members','cosn.group_event.event_organizer_member_id','group_event_option_vote_fk_group_event_option_vote_members','cosn.group_event_option_vote.option_voter_member_id','group_event_options_fk_group_event_options_members','cosn.group_event_options.option_owner_member_id','group_members_fk_group_members_members','cosn.group_members.participant_member_id','group_vote_plebiscite_fk_group_vote_plebiscite_members','cosn.group_vote_plebiscite.target_member_id','group_vote_plebiscite_fk_group_vote_plebiscite_members_0','cosn.group_vote_plebiscite.organizer_member_id','group_vote_plebiscite_results_fk_group_vote_plebiscite_results_members','cosn.group_vote_plebiscite_results.voter_member_id','groups_fk_groups_members','cosn.groups.owner_id','member_messages_fk_member_messages_members','cosn.member_messages.origin_member_id','member_messages_fk_member_messages_members_0','cosn.member_messages.target_member_id','member_privilege_change_request_fk_member_privilege_change_request_members','cosn.member_privilege_change_request.target_member_id','member_relationships_fk_member_relationships_members','cosn.member_relationships.origin_member_id','member_relationships_fk_member_relationships_members_0','cosn.member_relationships.target_member_id','personal_info_permissions_fk_personal_info_visibility_members','cosn.personal_info_permissions.owner_member_id','personal_info_permissions_fk_personal_info_visibility_members_0','cosn.personal_info_permissions.authorized_member_id','personal_info_public_permissions_fk_personal_info_public_permissions_members','cosn.personal_info_public_permissions.owner_member_id','gift_registry_permissions_fk_gift_registry_permissions_members','cosn.gift_registry_permissions.authorized_member_id'])">member&#95;id</text><title>&#10697;  member_id
      * int
  &#8601; content( member_id )
  &#8601; content_comment( member_id )
@@ -1212,6 +1236,7 @@ Referred by group_vote_plebiscite ( target_group_id -&gt; group_id ) </title></a
  &#8601; personal_info_permissions( member_id )
  &#8601; personal_info_permissions( member_id )
  &#8601; personal_info_public_permissions( member_id )
+ &#8601; gift_registry_permissions( member_id )
  ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
       member_id = 1 is &quot;private&quot; system member
       member_id = 2 is &quot;public&quot; system member</title></a>
@@ -1237,7 +1262,8 @@ Referred by member_relationships ( origin_member_id -&gt; member_id )
 Referred by member_relationships ( target_member_id -&gt; member_id ) 
 Referred by personal_info_permissions ( owner_member_id -&gt; member_id ) 
 Referred by personal_info_permissions ( authorized_member_id -&gt; member_id ) 
-Referred by personal_info_public_permissions ( owner_member_id -&gt; member_id ) </title></a>
+Referred by personal_info_public_permissions ( owner_member_id -&gt; member_id ) 
+Referred by gift_registry_permissions ( authorized_member_id -&gt; member_id ) </title></a>
   <use id='nn' x='658' y='557' xlink:href='#nn'/><a xlink:href='#cosn.members.username'><text id='cosn&#46;members&#46;username' x='675' y='567'>username</text><title>&#10697;  username
      * varchar(100)</title></a>
 <text x='797' y='564' text-anchor='end' class='colType'>t</text>  <use id='nn' x='658' y='573' xlink:href='#nn'/><a xlink:href='#cosn.members.password'><text id='cosn&#46;members&#46;password' x='675' y='583'>password</text><title>&#10697;  password
@@ -1332,36 +1358,62 @@ Referred by personal_info_public_permissions ( owner_member_id -&gt; member_id )
   <a xlink:href='#cosn.personal_info_public_permissions.personal_info_type'><text id='cosn&#46;personal&#95;info&#95;public&#95;permissions&#46;personal&#95;info&#95;type' x='1027' y='807'>personal&#95;info&#95;type</text><title>&#10697;  personal_info_type
      enum(&apos;first_name&apos;,&apos;last_name&apos;,&apos;date_of_birth&apos;,&apos;address&apos;,&apos;pseudonym&apos;,&apos;email&apos;)</title></a>
 <text x='1245' y='804' text-anchor='end' class='colType'>t</text>
-<!-- == Table 'content_comment' == -->
-<rect id='depict_cosn&#46;content&#95;comment' class='entity' style='stroke:#AB76B9' x='1424' y='232' width='176' height='128' />
-<rect x='1424' y='232' width='176' height='28' style='stroke-width:0; fill:#242025'/>
-<line class='topLine' style='stroke:#8C489D;' stroke-linecap='round' x1='1424' y1='232' x2='1600' y2='232'/>
-<a xlink:href='#cosn.content_comment'><text x='1451' y='251' class='tableHeader'>content&#95;comment</text><title>Table cosn.content_comment
+<!-- == Table 'content' == -->
+<rect id='depict_cosn&#46;content' class='entity' style='stroke:#AB76B9' x='864' y='344' width='176' height='176' />
+<rect x='864' y='344' width='176' height='28' style='stroke-width:0; fill:#242025'/>
+<line class='topLine' style='stroke:#8C489D;' stroke-linecap='round' x1='864' y1='344' x2='1040' y2='344'/>
+<a xlink:href='#cosn.content'><text x='924' y='363' class='tableHeader'>content</text><title>Table cosn.content
  ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
-      table containing comments on content from members</title></a>
-  <use id='nn' x='1426' y='269' xlink:href='#nn'/><use id='pk' x='1426' y='268' xlink:href='#pk'><title>&#x1F511;  Pk pk_content_comment ( content_comment_id ) </title></use><a xlink:href='#cosn.content_comment.content_comment_id'><text id='cosn&#46;content&#95;comment&#46;content&#95;comment&#95;id' x='1443' y='279'>content&#95;comment&#95;id</text><title>&#10697;  content_comment_id
-     * int</title></a>
-<text x='1597' y='276' text-anchor='end' class='colType'>&#35;</text>  <a xlink:href='#cosn.content_comment.commenter_member_id'><text id='cosn&#46;content&#95;comment&#46;commenter&#95;member&#95;id' x='1443' y='295' onmouseover="hghl(['content_comment_fk_content_comment_members','cosn.members.member_id'])" onmouseout="uhghl(['content_comment_fk_content_comment_members','cosn.members.member_id'])">commenter&#95;member&#95;id</text><title>&#10697;  commenter_member_id
-     int
- &#8599; content_comment( member_id )
+      contains the content created by members</title></a>
+  <use id='nn' x='866' y='381' xlink:href='#nn'/><use id='pk' x='866' y='380' xlink:href='#pk'><title>&#x1F511;  Pk pk_content_data ( content_id ) </title></use><a xlink:href='#cosn.content.content_id'><text id='cosn&#46;content&#46;content&#95;id' x='883' y='391' onmouseover="hghl(['content_comment_fk_content_comment_content','cosn.content_comment.target_content_id','content_group_permissions_fk_content_group_permissions_content','cosn.content_group_permissions.target_content_id','content_link_relationship_fk_content_link_relationship_content_1','cosn.content_link_relationship.origin_content_id','content_link_relationship_fk_content_link_relationship_content_2','cosn.content_link_relationship.target_content_id','content_member_permission_fk_content_member_permission_content','cosn.content_member_permission.target_content_id','content_moderation_warning_fk_content_moderation_warning_content','cosn.content_moderation_warning.target_content_id','content_public_permissions_fk_content_public_permissions_content','cosn.content_public_permissions.target_content_id'])" onmouseout="uhghl(['content_comment_fk_content_comment_content','cosn.content_comment.target_content_id','content_group_permissions_fk_content_group_permissions_content','cosn.content_group_permissions.target_content_id','content_link_relationship_fk_content_link_relationship_content_1','cosn.content_link_relationship.origin_content_id','content_link_relationship_fk_content_link_relationship_content_2','cosn.content_link_relationship.target_content_id','content_member_permission_fk_content_member_permission_content','cosn.content_member_permission.target_content_id','content_moderation_warning_fk_content_moderation_warning_content','cosn.content_moderation_warning.target_content_id','content_public_permissions_fk_content_public_permissions_content','cosn.content_public_permissions.target_content_id'])">content&#95;id</text><title>&#10697;  content_id
+     * int
+ &#8601; content_comment( content_id )
+ &#8601; content_group_permissions( content_id )
+ &#8601; content_link_relationship( content_id )
+ &#8601; content_link_relationship( content_id )
+ &#8601; content_member_permission( content_id )
+ &#8601; content_moderation_warning( content_id )
+ &#8601; content_public_permissions( content_id )</title></a>
+<a xlink:href='#cosn.content.content_id'><use id='ref' x='1028' y='380' xlink:href='#ref'/><title>&#x1F517;  Referred by content_comment ( target_content_id -&gt; content_id ) 
+Referred by content_group_permissions ( target_content_id -&gt; content_id ) 
+Referred by content_link_relationship ( origin_content_id -&gt; content_id ) 
+Referred by content_link_relationship ( target_content_id -&gt; content_id ) 
+Referred by content_member_permission ( target_content_id -&gt; content_id ) 
+Referred by content_moderation_warning ( target_content_id -&gt; content_id ) 
+Referred by content_public_permissions ( target_content_id -&gt; content_id ) </title></a>
+  <use id='nn' x='866' y='397' xlink:href='#nn'/><use id='idx' x='866' y='396' xlink:href='#idx'><title>&#x1F50D;  fk_content_members ( creator_id ) </title></use><a xlink:href='#cosn.content.creator_id'><text id='cosn&#46;content&#46;creator&#95;id' x='883' y='407' onmouseover="hghl(['content_fk_content_members','cosn.members.member_id','content_moderation_warning_fk_content_moderation_warning_content_0','cosn.content_moderation_warning.owner_member_id'])" onmouseout="uhghl(['content_fk_content_members','cosn.members.member_id','content_moderation_warning_fk_content_moderation_warning_content_0','cosn.content_moderation_warning.owner_member_id'])">creator&#95;id</text><title>&#10697;  creator_id
+     * int
+ &#8599; content( member_id )
+ &#8601; content_moderation_warning( creator_id )
  ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
-      the member who made the content</title></a>
-<a xlink:href='#cosn.content_comment.commenter_member_id'><use id='fk' x='1588' y='284' xlink:href='#fk'/><title>&#x1F517;  References members ( commenter_member_id -&gt; member_id ) </title></a>
-  <a xlink:href='#cosn.content_comment.comment_text'><text id='cosn&#46;content&#95;comment&#46;comment&#95;text' x='1443' y='311'>comment&#95;text</text><title>&#10697;  comment_text
-     varchar(250)
+      member who created this particular piece of content</title></a>
+<a xlink:href='#cosn.content.creator_id'><use id='fk' x='1028' y='396' xlink:href='#fk'/><title>&#x1F517;  References members ( creator_id -&gt; member_id ) 
+Referred by content_moderation_warning ( owner_member_id -&gt; creator_id ) </title></a>
+  <use id='nn' x='866' y='413' xlink:href='#nn'/><a xlink:href='#cosn.content.content_type'><text id='cosn&#46;content&#46;content&#95;type' x='883' y='423'>content&#95;type</text><title>&#10697;  content_type
+     * enum(&apos;text&apos;,&apos;image&apos;,&apos;video&apos;)
  ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
-      the actual text of the comment on a certain piece of content</title></a>
-<text x='1597' y='308' text-anchor='end' class='colType'>t</text>  <a xlink:href='#cosn.content_comment.target_content_id'><text id='cosn&#46;content&#95;comment&#46;target&#95;content&#95;id' x='1443' y='327' onmouseover="hghl(['content_comment_fk_content_comment_content','cosn.content.content_id'])" onmouseout="uhghl(['content_comment_fk_content_comment_content','cosn.content.content_id'])">target&#95;content&#95;id</text><title>&#10697;  target_content_id
-     int
- &#8599; content_comment( content_id )
+      what kind of content was produced</title></a>
+<text x='1037' y='420' text-anchor='end' class='colType'>t</text>  <use id='nn' x='866' y='429' xlink:href='#nn'/><a xlink:href='#cosn.content.content_data'><text id='cosn&#46;content&#46;content&#95;data' x='883' y='439'>content&#95;data</text><title>&#10697;  content_data
+     * text
  ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
-      the content which is the target of the comment</title></a>
-<a xlink:href='#cosn.content_comment.target_content_id'><use id='fk' x='1588' y='316' xlink:href='#fk'/><title>&#x1F517;  References content ( target_content_id -&gt; content_id ) </title></a>
-  <a xlink:href='#cosn.content_comment.datetime_comment'><text id='cosn&#46;content&#95;comment&#46;datetime&#95;comment' x='1443' y='343'>datetime&#95;comment</text><title>&#10697;  datetime_comment
-     datetime
+      text or URL link to the data of the content</title></a>
+<text x='1037' y='436' text-anchor='end' class='colType'>t</text>  <use id='nn' x='866' y='445' xlink:href='#nn'/><a xlink:href='#cosn.content.content_creation_date'><text id='cosn&#46;content&#46;content&#95;creation&#95;date' x='883' y='455'>content&#95;creation&#95;date</text><title>&#10697;  content_creation_date
+     * date default curdate()
  ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
-      the datetime of when the comment was created</title></a>
-<text x='1597' y='340' text-anchor='end' class='colType'>d</text>
+      when was the content created</title></a>
+<text x='1037' y='452' text-anchor='end' class='colType'>d</text>  <a xlink:href='#cosn.content.content_title'><text id='cosn&#46;content&#46;content&#95;title' x='883' y='471'>content&#95;title</text><title>&#10697;  content_title
+     varchar(100)
+ ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+      title of the post of the content</title></a>
+<text x='1037' y='468' text-anchor='end' class='colType'>t</text>  <a xlink:href='#cosn.content.moderation_status'><text id='cosn&#46;content&#46;moderation&#95;status' x='883' y='487'>moderation&#95;status</text><title>&#10697;  moderation_status
+     enum(&apos;pending&apos;, &apos;approved&apos;, &apos;rejected&apos;) default &apos;pending&apos;
+ ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+      status of the piece of content in terms of moderation</title></a>
+<text x='1037' y='484' text-anchor='end' class='colType'>t</text>  <use id='nn' x='866' y='493' xlink:href='#nn'/><a xlink:href='#cosn.content.content_deleted_flag'><text id='cosn&#46;content&#46;content&#95;deleted&#95;flag' x='883' y='503'>content&#95;deleted&#95;flag</text><title>&#10697;  content_deleted_flag
+     * boolean default false
+ ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+      used to &quot;delete&quot; content by users</title></a>
+<text x='1037' y='500' text-anchor='end' class='colType'>b</text>
 </g></svg></div>
 <script type='text/javascript'>
 var svgContainers = document.getElementsByClassName("svgContainer");
@@ -1457,6 +1509,7 @@ function installListeners( svgContainer, svgImage ){
 <li><a href='#cosn.gift_registry'/>gift_registry</a>
 <li><a href='#cosn.gift_registry_ideas'/>gift_registry_ideas</a>
 <li><a href='#cosn.gift_registry_participants'/>gift_registry_participants</a>
+<li><a href='#cosn.gift_registry_permissions'/>gift_registry_permissions</a>
 <li><a href='#cosn.group_event'/>group_event</a>
 <li><a href='#cosn.group_event_option_vote'/>group_event_option_vote</a>
 <li><a href='#cosn.group_event_options'/>group_event_options</a>
@@ -1523,6 +1576,12 @@ function installListeners( svgContainer, svgImage ){
 		<td><a name='cosn.content.moderation_status'>moderation&#95;status</a></td>
 		<td> ENUM&#40;&#39;pending&#39;&#44; &#39;approved&#39;&#44; &#39;rejected&#39;&#41;  DEFAULT 'pending' </td>
 		<td> status of the piece of content in terms of moderation </td>
+	</tr>
+	<tr>
+		<td><span class='text-danger'>*</span></td>
+		<td><a name='cosn.content.content_deleted_flag'>content&#95;deleted&#95;flag</a></td>
+		<td> BOOLEAN  DEFAULT false </td>
+		<td> used to &quot;delete&quot; content by users </td>
 	</tr>
 <tr><th colspan='4'>Indexes</th></tr>
 	<tr>		<td><svg width='14' height='14'><use xlink:href='#pk'/></svg></td><td>pk&#95;content&#95;data</td>
@@ -1983,6 +2042,11 @@ function installListeners( svgContainer, svgImage ){
 		<td > gift&#95;registry&#95;id &#8601; <a href='#cosn&#46;gift&#95;registry&#95;participants'  onclick="window.scrollTo(1096, 832);var nodes = document.getElementsByClassName('palpable');for (var i = 0; i < nodes.length; i++) { nodes[i].classList.remove('palpable');}; document.getElementById('depict_cosn.gift_registry_participants').classList.add('palpable'); return false;">&#10063; gift&#95;registry&#95;participants</a>(target&#95;gift&#95;registry&#95;id) </td>
 		<td>  </td>
 	</tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#ref'/></svg></td><td>fk_gift_registry_permissions_gift_registry</td>
+		<td > gift&#95;registry&#95;id &#8601; <a href='#cosn&#46;gift&#95;registry&#95;permissions'  onclick="window.scrollTo(1432, 864);var nodes = document.getElementsByClassName('palpable');for (var i = 0; i < nodes.length; i++) { nodes[i].classList.remove('palpable');}; document.getElementById('depict_cosn.gift_registry_permissions').classList.add('palpable'); return false;">&#10063; gift&#95;registry&#95;permissions</a>(target&#95;gift&#95;registry&#95;id) </td>
+		<td>  </td>
+	</tr>
 <tr><th colspan='4'>Options</th></tr>
 <tr><td colspan='4'>engine&#61;InnoDB</td></tr>
 </tbody>
@@ -2097,6 +2161,59 @@ function installListeners( svgContainer, svgImage ){
 	<tr>
 		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_gift_registry_participants_gift_registry</td>
 		<td > target&#95;gift&#95;registry&#95;id &#8599; <a href='#cosn&#46;gift&#95;registry'  onclick="window.scrollTo(1096, 672);var nodes = document.getElementsByClassName('palpable');for (var i = 0; i < nodes.length; i++) { nodes[i].classList.remove('palpable');}; document.getElementById('depict_cosn.gift_registry').classList.add('palpable'); return false;">&#10063; gift&#95;registry</a>(gift&#95;registry&#95;id) </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Options</th></tr>
+<tr><td colspan='4'>engine&#61;InnoDB</td></tr>
+</tbody>
+</table></div></div>
+
+<br><br>
+<div class='card'><div class='card-body'><a name='cosn.gift_registry_permissions'  onclick="window.scrollTo(1432, 864);var nodes = document.getElementsByClassName('palpable');for (var i = 0; i < nodes.length; i++) { nodes[i].classList.remove('palpable');}; document.getElementById('depict_cosn.gift_registry_permissions').classList.add('palpable'); return false;" style='cursor:pointer;'><h5 class='card-title'>Table gift_registry_permissions</h5></a>
+<p class="text-muted">contains the permissions that members have on a gift registry</p>
+<table class='table table-sm small' style='table-layout: fixed; word-wrap: break-word;'>
+<thead>
+<tr><th style='width:5%'>Idx</th><th style='width:20%'>Column Name</th><th style='width:23%'>Definition</th><th style='width:52%'>Description</th></tr>
+</thead>
+<tbody>
+	<tr>
+		<td><span class='text-danger'>*</span><svg width='14' height='14'><use xlink:href='#pk'/></svg></td>
+		<td><a name='cosn.gift_registry_permissions.gift_registry_permissions_id'>gift&#95;registry&#95;permissions&#95;id</a></td>
+		<td> INT UNSIGNED AUTO_INCREMENT  </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><a name='cosn.gift_registry_permissions.target_gift_registry_id'>target&#95;gift&#95;registry&#95;id</a></td>
+		<td> INT UNSIGNED  </td>
+		<td> The target ID of the gift registry on which a particular members pemission is defined </td>
+	</tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><a name='cosn.gift_registry_permissions.authorized_member_id'>authorized&#95;member&#95;id</a></td>
+		<td> INT UNSIGNED  </td>
+		<td> the ID of the member that has a certain permission on a certain gift registry </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='cosn.gift_registry_permissions.gift_registry_permission_type'>gift&#95;registry&#95;permission&#95;type</a></td>
+		<td> ENUM&#40;&#39;view&#39;&#44; &#39;edit&#39;&#44; &#39;add&#45;item&#39;&#41;  </td>
+		<td> the type of permission that a certain member has on a certain gift registry<br><br>can be &#39;view&#39;&#44; &#39;edit&#39;&#44; &#39;add&#45;item&#39; </td>
+	</tr>
+<tr><th colspan='4'>Indexes</th></tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#pk'/></svg></td><td>pk&#95;gift&#95;registry&#95;permissions</td>
+		<td>Primary Key ON gift&#95;registry&#95;permissions&#95;id</td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Foreign Key</th></tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_gift_registry_permissions_gift_registry</td>
+		<td > target&#95;gift&#95;registry&#95;id &#8599; <a href='#cosn&#46;gift&#95;registry'  onclick="window.scrollTo(1096, 672);var nodes = document.getElementsByClassName('palpable');for (var i = 0; i < nodes.length; i++) { nodes[i].classList.remove('palpable');}; document.getElementById('depict_cosn.gift_registry').classList.add('palpable'); return false;">&#10063; gift&#95;registry</a>(gift&#95;registry&#95;id) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_gift_registry_permissions_members</td>
+		<td > authorized&#95;member&#95;id &#8599; <a href='#cosn&#46;members'  onclick="window.scrollTo(456, 512);var nodes = document.getElementsByClassName('palpable');for (var i = 0; i < nodes.length; i++) { nodes[i].classList.remove('palpable');}; document.getElementById('depict_cosn.members').classList.add('palpable'); return false;">&#10063; members</a>(member&#95;id) </td>
 		<td>  </td>
 	</tr>
 <tr><th colspan='4'>Options</th></tr>
@@ -2961,6 +3078,11 @@ function installListeners( svgContainer, svgImage ){
 	<tr>
 		<td><svg width='14' height='14'><use xlink:href='#ref'/></svg></td><td>fk_personal_info_public_permissions_members</td>
 		<td > member&#95;id &#8601; <a href='#cosn&#46;personal&#95;info&#95;public&#95;permissions'  onclick="window.scrollTo(808, 736);var nodes = document.getElementsByClassName('palpable');for (var i = 0; i < nodes.length; i++) { nodes[i].classList.remove('palpable');}; document.getElementById('depict_cosn.personal_info_public_permissions').classList.add('palpable'); return false;">&#10063; personal&#95;info&#95;public&#95;permissions</a>(owner&#95;member&#95;id) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#ref'/></svg></td><td>fk_gift_registry_permissions_members</td>
+		<td > member&#95;id &#8601; <a href='#cosn&#46;gift&#95;registry&#95;permissions'  onclick="window.scrollTo(1432, 864);var nodes = document.getElementsByClassName('palpable');for (var i = 0; i < nodes.length; i++) { nodes[i].classList.remove('palpable');}; document.getElementById('depict_cosn.gift_registry_permissions').classList.add('palpable'); return false;">&#10063; gift&#95;registry&#95;permissions</a>(authorized&#95;member&#95;id) </td>
 		<td>  </td>
 	</tr>
 <tr><th colspan='4'>Options</th></tr>

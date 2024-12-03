@@ -46,7 +46,7 @@ try {
 
 
 // QUERY explanation:
-// For the logged in user, for the content that has passed moderation: 
+// General conditions: (1) Get content the logged-in user has permissions on, (2) content that has passed moderation, (3) content that is not deleted, (4) exclude comments
 // Query to get Public content
 // UNION Query to get private content that the user has permission to view
 // UNION Query to get content that the group the user is in has permission to view
@@ -62,6 +62,7 @@ $sql = "
         ON cont.creator_id = m.member_id
     WHERE 
         moderation_status = 'approved'
+        and content_deleted_flag <> true
         and content_type not in ('comment')
     UNION
     SELECT
@@ -76,6 +77,7 @@ $sql = "
     WHERE
         moderation_status = 'approved' AND
         cmp.authorized_member_id = :logged_in_member_id
+        and content_deleted_flag <> true
         and content_type not in ('comment')
     UNION
     SELECT
@@ -94,6 +96,7 @@ $sql = "
     WHERE 
         moderation_status = 'approved'
         and m.member_id = :logged_in_member_id
+        and content_deleted_flag <> true
         and content_type not in ('comment')
     ORDER BY content_creation_date desc
 ";
@@ -160,6 +163,7 @@ function getYoutubeVideoId($url) {
     <small>You are now logged in.</small>
     <h2>Activities</h2>
         <ul>
+            <li><a href="create_content_and_set_permissions.php">Post content to COSN</a></li>
             <li><a href="create_content_and_set_permissions.php">Post content to COSN</a></li>
         </ul>
         

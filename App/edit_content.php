@@ -66,7 +66,8 @@ $sql = $pdo->prepare("
     INNER JOIN cosn.members as m
         ON cont.creator_id = m.member_id
     WHERE 
-        content_id = :content_id AND  
+        content_id = :content_id AND
+        content_deleted_flag <> true AND
         cpp.content_public_permission_type = 'edit'
     UNION
     SELECT
@@ -81,6 +82,7 @@ $sql = $pdo->prepare("
     WHERE
         content_id = :content_id AND
         cmp.authorized_member_id = :logged_in_member_id AND
+        content_deleted_flag <> true AND
         cmp.content_permission_type = 'edit'
     ORDER BY content_id, content_feed_type
     ");
@@ -142,6 +144,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
 }
+
+// Delete content
+if (isset($_POST['delete_content'])) {
+    try {
+        $pdo2 = new PDO($dsn, $user, $pass, $options);
+        $pdo2->beginTransaction();
+
+        $deleteStmt = $pdo2->prepare('UPDATE content SET content_deleted_flag = true WHERE content_id = :content_id');
+        $deleteStmt->execute(['content_id' => $content_id]);
+
+        $pdo2->commit();
+        echo "<script>alert('Content deleted successfully!');";
+        echo "window.location.href = 'homepage.php';</script>";
+        exit;
+    } catch (Exception $e) {
+        $pdo2->rollback();
+        echo "<script>alert('Error deleting content: " . addslashes($e->getMessage()) . "');</script>";
+    }
+}
+
+
 // Create a PDO instance
 try {
     $pdo2 = new PDO($dsn, $user, $pass, $options);
@@ -156,6 +179,8 @@ $contentDetails = $sqlContent->fetch(PDO::FETCH_ASSOC);
 $content_type = $contentDetails['content_type'];
 $content_title = $contentDetails['content_title'];
 $content_data = $contentDetails['content_data'];
+
+
 
 
 ?>
@@ -180,7 +205,11 @@ $content_data = $contentDetails['content_data'];
         <input type="text" id="content_data" name="content_data" value="<?php echo $content_data; ?>" required><br>
 
         <button type="submit">Update Content</button>
+        <button type="submit" name="delete_content" onclick="return confirm('Are you sure you want to delete this content? This action cannot be undone.');" style="background-color: #ff4444; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px;">
+    Delete Content
+</button>
     </form>
+
     
     <br><br>
     <hr>

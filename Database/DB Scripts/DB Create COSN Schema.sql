@@ -45,6 +45,7 @@ CREATE  TABLE cosn.content (
 	content_creation_date DATE  DEFAULT curdate()  NOT NULL   ,
 	content_title        VARCHAR(100)       ,
 	moderation_status    ENUM('pending', 'approved', 'rejected')  DEFAULT 'pending'     ,
+	content_deleted_flag BOOLEAN  DEFAULT false  NOT NULL   ,
 	CONSTRAINT fk_content_members FOREIGN KEY ( creator_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
  ) engine=InnoDB;
 
@@ -142,6 +143,15 @@ CREATE  TABLE cosn.gift_registry_participants (
 CREATE INDEX fk_gift_registry_participants_gift_registry ON cosn.gift_registry_participants ( target_gift_registry_id );
 
 CREATE INDEX fk_gift_registry_participants_members ON cosn.gift_registry_participants ( participant_member_id );
+
+CREATE  TABLE cosn.gift_registry_permissions ( 
+	gift_registry_permissions_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
+	target_gift_registry_id INT UNSIGNED      ,
+	authorized_member_id INT UNSIGNED      ,
+	gift_registry_permission_type ENUM('view', 'edit', 'add-item')       ,
+	CONSTRAINT fk_gift_registry_permissions_gift_registry FOREIGN KEY ( target_gift_registry_id ) REFERENCES cosn.gift_registry( gift_registry_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT fk_gift_registry_permissions_members FOREIGN KEY ( authorized_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
+ ) engine=InnoDB;
 
 CREATE  TABLE cosn.groups ( 
 	group_id             INT UNSIGNED   NOT NULL   PRIMARY KEY,
@@ -344,6 +354,8 @@ ALTER TABLE cosn.content MODIFY content_title VARCHAR(100)     COMMENT 'title of
 
 ALTER TABLE cosn.content MODIFY moderation_status ENUM('pending', 'approved', 'rejected')   DEFAULT 'pending'  COMMENT 'status of the piece of content in terms of moderation';
 
+ALTER TABLE cosn.content MODIFY content_deleted_flag BOOLEAN  NOT NULL DEFAULT false  COMMENT 'used to "delete" content by users';
+
 ALTER TABLE cosn.content_comment COMMENT 'table containing comments on content from members';
 
 ALTER TABLE cosn.content_comment MODIFY commenter_member_id INT UNSIGNED    COMMENT 'the member who made the content';
@@ -408,6 +420,16 @@ ALTER TABLE cosn.gift_registry_participants COMMENT 'Contains the participants o
 ALTER TABLE cosn.gift_registry_participants MODIFY participant_member_id INT UNSIGNED NOT NULL   COMMENT 'ID of a participant of the registry';
 
 ALTER TABLE cosn.gift_registry_participants MODIFY target_gift_registry_id INT UNSIGNED NOT NULL   COMMENT 'describes a particular gift registry that a member is part of';
+
+ALTER TABLE cosn.gift_registry_permissions COMMENT 'contains the permissions that members have on a gift registry';
+
+ALTER TABLE cosn.gift_registry_permissions MODIFY target_gift_registry_id INT UNSIGNED    COMMENT 'The target ID of the gift registry on which a particular members pemission is defined';
+
+ALTER TABLE cosn.gift_registry_permissions MODIFY authorized_member_id INT UNSIGNED    COMMENT 'the ID of the member that has a certain permission on a certain gift registry';
+
+ALTER TABLE cosn.gift_registry_permissions MODIFY gift_registry_permission_type ENUM('view', 'edit', 'add-item')     COMMENT 'the type of permission that a certain member has on a certain gift registry
+
+can be ''view'', ''edit'', ''add-item''';
 
 ALTER TABLE cosn.groups COMMENT 'Contains the information about the groups, such as their description, who created them, etc';
 
