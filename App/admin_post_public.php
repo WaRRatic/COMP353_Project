@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" type = "text/css" href="./css/admin_post_public.css" />
 <head>
     <meta charset="UTF-8">
     <title>Admin post public</title>

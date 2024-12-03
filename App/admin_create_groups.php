@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+<link rel="stylesheet" type = "text/css" href="../css/admin_edit_groups.css" />
 <head>
     <meta charset="UTF-8">
-    <title>Admin edit groups</title>
+    <title>Admin Create groups</title>
 </head>
 <?php
 session_start();
@@ -90,25 +91,25 @@ $conn->close();
     <title>Edit Group</title>
 </head>
 <body>
-    <h1>Edit Group</h1>
+    <h1>create Group</h1>
     <p>This section is only visible to admin users.</p>
     <form method="POST">
         <label for="group_id">Group ID:</label>
-        <input type="text" id="group_id" name="group_id" value="<?php echo $group_id; ?>" required><br>
+        <input type="text" id="group_id" name="group_id" required><br>
         
         <label for="group_name">Group Name:</label>
-        <input type="text" id="group_name" name="group_name" value="<?php echo $group_name; ?>" required><br>
+        <input type="text" id="group_name" name="group_name" required><br>
         
         <label for="owner_id">Owner ID:</label>
-        <input type="text" id="owner_id" name="owner_id" value="<?php echo $owner_id; ?>" required><br>
+        <input type="text" id="owner_id" name="owner_id" required><br>
 
         <label for="description">Description:</label>
-        <input type="text" id="description" name="description" value="<?php echo $description; ?>" required><br>
+        <input type="text" id="description" name="description" required><br>
         
         <label for="creation_date">Creation Date:</label>
-        <input type="text" id="creation_date" name="creation_date" value="<?php echo $creation_date; ?>" required><br>
+        <input type="text" id="creation_date" name="creation_date" required><br>
 
-        <button type="submit">Update Group</button>
+        <button type="submit">Create Group</button>
     </form>
 
 </html>
