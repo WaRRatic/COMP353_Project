@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" type = "text/css" href="../css/admin_edit_groups.css" />
+<link rel="stylesheet" type = "text/css" href="./css/admin_edit_groups.css" />
 <head>
     <meta charset="UTF-8">
     <title>Admin Create groups</title>
