@@ -2,7 +2,7 @@
 session_start();
 include("header.php");
 include('sidebar.php');
-include("db.php"); //Include the file for the database connection 
+//include("db.php"); //Include the file for the database connection 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,10 +17,10 @@ include("db.php"); //Include the file for the database connection
     <h3>Please Login</h3>
 
     <?php
-        if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) 
-        {
-            include('chatbox.php');
-        }
+        //if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) 
+      //  {
+         //   include('chatbox.php');
+       // }
 	
 	
         // Check if the form is submitted
