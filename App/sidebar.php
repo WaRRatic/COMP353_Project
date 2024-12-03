@@ -12,10 +12,11 @@
 <div class="sidebar">
     
     <div class="sidebar-menu">
-        <a href="index.php" class="menu-item">Home</a>
-        <a href="trending.php" class="menu-item">Trending</a>
-        <a href="messages.php" class="menu-item">Messages</a>
-        
+        <a href="index.php" class="menu-item">Homepage</a>
+        <a href="index.php" class="menu-item">Main Page</a>
+        <a href="Organize_Event.php" class="menu-item">Organize event</a>
+        <a href="get_friends.php" class="menu-item">Friends List </a>
+        <a href="get_friends.php" class="menu-item">Blocked Users List </a>
     </div>
 </div>
 
