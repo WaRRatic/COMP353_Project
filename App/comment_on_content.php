@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" type = "text/css" href="./css/view_content.css" />
+<link rel="stylesheet" type = "text/css" href="./css/comment_on_content.css" />
 <head>
     <meta charset="UTF-8">
     <title>Admin manage users</title>
@@ -69,7 +69,7 @@ $sql = $pdo->prepare("
         ON cont.creator_id = m.member_id
     WHERE 
         content_id = :content_id AND  
-        cpp.content_public_permission_type in ('read','comment','share','link') AND
+        cpp.content_public_permission_type in ('comment') AND
         moderation_status = 'approved'
     UNION
     SELECT
@@ -84,7 +84,7 @@ $sql = $pdo->prepare("
     WHERE
         content_id = :content_id AND
         cmp.authorized_member_id = :logged_in_member_id AND
-        cmp.content_permission_type in ('read','edit','comment','share','modify-permission','moderate','link') AND
+        cmp.content_permission_type in ('comment') AND
         moderation_status = 'approved'
     UNION
     SELECT
@@ -104,7 +104,7 @@ $sql = $pdo->prepare("
         content_id = :content_id AND
         moderation_status = 'approved' AND
         m.member_id = :logged_in_member_id AND
-        cgp.content_group_permission_type in ('read','comment','share','link')
+        cgp.content_group_permission_type in ('comment')
     ORDER BY content_id, content_feed_type
     ");
 
@@ -113,7 +113,7 @@ $readPermissionExists = $sql->fetch();
 
 // Check if the member has Edit privilege on the content
 if (!$readPermissionExists) {
-    echo "<script>alert('You don't have permission to view this content or it was not moderated yet');</script>";
+    echo "<script>alert('You don't have permission to comment on this content or it was not moderated yet');</script>";
     header("Location: homepage.php"); 
     exit;
 }
@@ -166,15 +166,36 @@ function getYoutubeVideoId($url) {
     return $video_id;
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_comment'])) {
+    $comment = $_POST['comment'];
+    
+    try {
+        $stmt_comment = $pdo_comment->prepare('
+            INSERT INTO content_comment
+            (commenter_member_id, comment_text, target_content_id, datetime_comment) 
+            VALUES (:member_id, :content, :content_id, NOW());
+        ');
+        $stmt_comment->execute([
+            'member_id' => $member_id, 
+            'content' => $comment, 
+            'content_id' => $content_id
+        ]);
+        echo "<script>alert('Comment created!');</script>";
+        header("Location: comment_on_content.php?content_id=$content_id");
+    } catch (PDOException $e) {
+        echo "<script>alert('Database error: {$e->getMessage()}');</script>";
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>View Content</title>
+    <title>Comment on Content</title>
 </head>
 <body>
-    <h1>View Content</h1>
+    <h1>Comment on Content</h1>
     <p>This section is only visible to users that have appropriate permission to this content</p>
     <small>This content has passed moderation</small>
     
@@ -237,6 +258,14 @@ function getYoutubeVideoId($url) {
         </div>
     <?php endforeach; ?>
 </div>
+
+<form id="commentForm"  method="POST">
+    <h2>Add comment on this content</h2>
+    <label for="comment">Comment:</label>
+    <input type="text" id="comment" name="comment" required>
+
+    <button type="submit" name="add_comment">Add comment</button>
+</form>
     
     <br><br>
     <hr>

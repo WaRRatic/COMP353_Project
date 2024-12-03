@@ -323,16 +323,20 @@ values
       content_id,
       creator_id, 
       content_type, 
-      content_data, 
-      content_creation_date
+      content_data,
+      content_title, 
+      content_creation_date,
+      moderation_status
     )
   values
     (
       2, 
       2,
       'image', 
-      'URL for image', 
+      'content_data ="https://en.wikipedia.org/wiki/Duck#/media/File:Bucephala-albeola-010.jpg" ',
+      'Duck Image',
       '2024-01-02'
+      , 'approved'
     );
 
     insert into 
@@ -452,6 +456,11 @@ INSERT INTO cosn.content
 (content_id, creator_id, content_type, content_data, content_creation_date, content_title, moderation_status)
 VALUES 
 (11, 9, 'video', 'https://www.youtube.com/watch?v=eAPqQFWEoKg&t=117s&ab_channel=BBCEarth', NOW(), 'Beaver Dam Video', 'approved');
+
+INSERT INTO cosn.content 
+(content_id, creator_id, content_type, content_data, content_creation_date, content_title, moderation_status)
+VALUES 
+(12, 8, 'image', 'https://upload.wikimedia.org/wikipedia/commons/2/2c/Obscured_jaguar.jpg', NOW(), 'Jaguar', 'approved');
 
 --INIT_GROUPS
 insert into 
@@ -581,6 +590,20 @@ values
       5, 
       1, 
       'link'
+    );
+    insert into 
+    cosn.content_group_permissions (
+      content_group_permission_id, 
+      target_content_id, 
+      target_group_id, 
+      content_group_permission_type
+    )
+  values
+    (
+      5, 
+      12, 
+      1, 
+      'read'
     );
 
 --INIT_CONTENT_MEMBER_PERMISSIONS
@@ -831,3 +854,11 @@ INSERT INTO cosn.member_relationships
 	( relationship_id, origin_member_id, target_member_id, member_relationship_type, member_relationship_status) 
   VALUES ( 6, 2, 9, 'family', 'approved' );
 
+--INIT CONTENT_COMMENT
+INSERT INTO cosn.content_comment
+	( content_comment_id, commenter_member_id, comment_text, target_content_id, datetime_comment) 
+  VALUES ( 1, 2, "ok, in 2 minutes!", 9,  NOW());
+
+  INSERT INTO cosn.content_comment
+	( content_comment_id, commenter_member_id, comment_text, target_content_id, datetime_comment) 
+  VALUES ( 2, 9, "Hurry up, the food will get cold!", 9,  NOW());

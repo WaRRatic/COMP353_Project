@@ -10,7 +10,7 @@
 				<comment><![CDATA[member who created this particular piece of content]]></comment>
 			</column>
 			<column name="content_type" type="ENUM" jt="12" mandatory="y" >
-				<enumeration><![CDATA['text','image','video','comment']]></enumeration>
+				<enumeration><![CDATA['text','image','video']]></enumeration>
 				<comment><![CDATA[what kind of content was produced]]></comment>
 			</column>
 			<column name="content_data" prior="content_data_url" type="TEXT" jt="-1" mandatory="y" >
@@ -36,6 +36,34 @@
 			</index>
 			<fk name="fk_content_members" to_schema="cosn" to_table="members" >
 				<fk_column name="creator_id" pk="member_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="content_comment" prior="tbl" >
+			<comment><![CDATA[table containing comments on content from members]]></comment>
+			<column name="content_comment_id" prior="content_comment" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
+			</column>
+			<column name="commenter_member_id" type="INT" jt="4" unsigned="y" >
+				<comment><![CDATA[the member who made the content]]></comment>
+			</column>
+			<column name="comment_text" type="VARCHAR" length="250" jt="12" >
+				<comment><![CDATA[the actual text of the comment on a certain piece of content]]></comment>
+			</column>
+			<column name="target_content_id" type="INT" jt="4" unsigned="y" >
+				<comment><![CDATA[the content which is the target of the comment]]></comment>
+			</column>
+			<column name="datetime_comment" type="DATETIME" jt="93" >
+				<comment><![CDATA[the datetime of when the comment was created]]></comment>
+			</column>
+			<index name="pk_content_comment" unique="PRIMARY_KEY" >
+				<column name="content_comment_id" />
+			</index>
+			<fk name="fk_content_comment_members" to_schema="cosn" to_table="members" >
+				<fk_column name="commenter_member_id" pk="member_id" />
+			</fk>
+			<fk name="fk_content_comment_content" to_schema="cosn" to_table="content" >
+				<fk_column name="target_content_id" pk="content_id" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
@@ -700,6 +728,7 @@ authorized_member_id = 2, it is visible to the "public" system member]]></commen
 	<layout name="Main Layout" id="Layout-4cc" show_relation="columns" >
 		<comment><![CDATA[COSN DB Schema]]></comment>
 		<entity schema="cosn" name="content" color="E5C1EE" x="864" y="352" />
+		<entity schema="cosn" name="content_comment" color="E5C1EE" x="1424" y="240" />
 		<entity schema="cosn" name="content_group_permissions" color="E5C1EE" x="672" y="160" />
 		<entity schema="cosn" name="content_link_relationship" color="E5C1EE" x="1152" y="144" />
 		<entity schema="cosn" name="content_member_permission" color="E5C1EE" x="1280" y="512" />
@@ -4215,6 +4244,12 @@ FROM
 			<string><![CDATA[INSERT INTO cosn.content
 	( content_id, creator_id, content_type, content_data, content_creation_date, content_title, moderation_status) VALUES ( ?, ?, ?, ?, ?, ?, ? );]]></string>
 		</script>
+		<script name="content_003" id="Editor-183f" language="SQL" >
+			<string><![CDATA[SELECT
+	content_id, creator_id, content_type, content_data, content_creation_date, content_title, moderation_status
+FROM
+	cosn.content t;]]></string>
+		</script>
 		<script name="content_004" id="Editor-1f41" language="SQL" >
 			<string><![CDATA[CREATE  TABLE cosn.content ( 
 	content_id           INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
@@ -4242,6 +4277,9 @@ ALTER TABLE cosn.content MODIFY content_title VARCHAR(100)     COMMENT 'title of
 
 ALTER TABLE cosn.content MODIFY moderation_status ENUM('pending', 'approved', 'rejected')   DEFAULT 'pending'  COMMENT 'status of the piece of content in terms of moderation';
 ]]></string>
+		</script>
+		<script name="content_005" id="Editor-15be" language="SQL" >
+			<string><![CDATA[UPDATE cosn.content SET content_data ="https://upload.wikimedia.org/wikipedia/commons/b/bf/Bucephala-albeola-010.jpg" where content_id =2 ;]]></string>
 		</script>
 		<script name="content_public_permissions_001" id="Editor-2675" language="SQL" >
 			<string><![CDATA[INSERT INTO cosn.content_public_permissions

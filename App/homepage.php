@@ -45,11 +45,15 @@ try {
 
 
 
-// Query to get public content and private content that the logged in user has access to
+// QUERY explanation:
+// For the logged in user, for the content that has passed moderation: 
+// Query to get Public content
+// UNION Query to get private content that the user has permission to view
+// UNION Query to get content that the group the user is in has permission to view
 $sql = "
     SELECT
         content_id, m.username, content_type, content_data, content_creation_date, content_title, moderation_status, 
-        cpp.content_public_permission_type AS content_permission_type, 'public' as content_feed_type
+        cpp.content_public_permission_type AS content_permission_type, 'public' as content_feed_type, NULL as post_group_name
     FROM
         cosn.content as cont
     INNER JOIN cosn.content_public_permissions as cpp
@@ -58,10 +62,11 @@ $sql = "
         ON cont.creator_id = m.member_id
     WHERE 
         moderation_status = 'approved'
+        and content_type not in ('comment')
     UNION
     SELECT
         content_id, m.username, content_type, content_data, content_creation_date, content_title, moderation_status, 
-        cmp.content_permission_type AS content_permission_type, 'private' as content_feed_type
+        cmp.content_permission_type AS content_permission_type, 'private' as content_feed_type, NULL as post_group_name
     FROM
         cosn.content as cont
     INNER JOIN cosn.content_member_permission as cmp
@@ -71,7 +76,26 @@ $sql = "
     WHERE
         moderation_status = 'approved' AND
         cmp.authorized_member_id = :logged_in_member_id
-    ORDER BY content_id, content_feed_type
+        and content_type not in ('comment')
+    UNION
+    SELECT
+        content_id, m.username, content_type, content_data, content_creation_date, content_title, moderation_status, 
+        cgp.content_group_permission_type AS content_permission_type, 'group' as content_feed_type, g.group_name as post_group_name
+    FROM
+        cosn.content as cont
+    INNER JOIN cosn.content_group_permissions as cgp
+        ON cont.content_id = cgp.target_content_id
+    INNER JOIN cosn.groups as g
+        ON g.group_id = cgp.target_group_id
+    INNER JOIN cosn.group_members as gm
+        on gm.joined_group_id = g.group_id
+    INNER JOIN cosn.members as m
+        ON m.member_id = gm.participant_member_id
+    WHERE 
+        moderation_status = 'approved'
+        and m.member_id = :logged_in_member_id
+        and content_type not in ('comment')
+    ORDER BY content_creation_date desc
 ";
 
 $stmt = $pdo->prepare($sql);
@@ -95,6 +119,7 @@ foreach ($public_content as $row) {
             'content_title' => $row['content_title'],
             'moderation_status' => $row['moderation_status'],
             'content_feed_type' => $row['content_feed_type'],
+            'post_group_name' => $row['post_group_name'],
             'permissions' => [] // Initialize the permissions array
         ];
     }
@@ -152,7 +177,7 @@ function getYoutubeVideoId($url) {
 <?php endif; ?>
     
 <!-- Display public feed -->
-<h2><?php echo $_SESSION['member_username']; ?>'s Content Feed</h2>
+<!-- <h2><?php echo $_SESSION['member_username']; ?>'s Content Feed (most recent posts first)</h2> -->
 
 <div id="main_feed">
     <?php if (!empty($posts)): ?>
@@ -202,16 +227,21 @@ function getYoutubeVideoId($url) {
                 ?>
                 <br><hl>
                 <small>
+                <hr>
                     Posted on <?php echo htmlspecialchars($post['content_creation_date']); ?> 
                     by User <?php echo htmlspecialchars($post['username']); ?>
-                    (Content is: <?php echo htmlspecialchars($post['content_feed_type']); ?>)
+
+                    (Content permission: <?php echo htmlspecialchars($post['content_feed_type']); ?>)
+                    <?php if (isset($post['post_group_name']) && !empty($post['post_group_name'])): ?>
+                       <hr><br> Content permission via group: <?php echo htmlspecialchars($post['post_group_name']); ?>
+                    <?php endif; ?>
                 </small>
 
                 <!-- Action Buttons -->
                 <div class="action-buttons">
                     <a href="edit_content.php?content_id=<?php echo urlencode($post['content_id']); ?>" class="action-button edit-button">Edit</a>
                     <a href="Content_Interact.php?state=share&content_id=<?php echo urlencode($post['content_id']); ?>" class="action-button share-button">Share</a>
-                    <a href="Content_Interact.php?state=comment&content_id=<?php echo urlencode($post['content_id']); ?>" class="action-button comment-button">Comment</a>
+                    <a href="comment_on_content.php?content_id=<?php echo urlencode($post['content_id']); ?>" class="action-button comment-button">Comment</a>
                     <a href="Content_Interact.php?state=link&content_id=<?php echo urlencode($post['content_id']); ?>" class="action-button link-button">Link</a>
                 </div>
                 <div class="view-post-button">

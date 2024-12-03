@@ -40,7 +40,7 @@ CREATE INDEX fk_personal_info_public_permissions_members ON cosn.personal_info_p
 CREATE  TABLE cosn.content ( 
 	content_id           INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
 	creator_id           INT UNSIGNED   NOT NULL   ,
-	content_type         ENUM('text','image','video','comment')    NOT NULL   ,
+	content_type         ENUM('text','image','video')    NOT NULL   ,
 	content_data         TEXT    NOT NULL   ,
 	content_creation_date DATE  DEFAULT curdate()  NOT NULL   ,
 	content_title        VARCHAR(100)       ,
@@ -49,6 +49,16 @@ CREATE  TABLE cosn.content (
  ) engine=InnoDB;
 
 CREATE INDEX fk_content_members ON cosn.content ( creator_id );
+
+CREATE  TABLE cosn.content_comment ( 
+	content_comment_id   INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
+	commenter_member_id  INT UNSIGNED      ,
+	comment_text         VARCHAR(250)       ,
+	target_content_id    INT UNSIGNED      ,
+	datetime_comment     DATETIME       ,
+	CONSTRAINT fk_content_comment_members FOREIGN KEY ( commenter_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT fk_content_comment_content FOREIGN KEY ( target_content_id ) REFERENCES cosn.content( content_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
+ ) engine=InnoDB;
 
 CREATE  TABLE cosn.content_link_relationship ( 
 	content_link_rel_id  INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
@@ -324,7 +334,7 @@ ALTER TABLE cosn.content COMMENT 'contains the content created by members';
 
 ALTER TABLE cosn.content MODIFY creator_id INT UNSIGNED NOT NULL   COMMENT 'member who created this particular piece of content';
 
-ALTER TABLE cosn.content MODIFY content_type ENUM('text','image','video','comment')  NOT NULL   COMMENT 'what kind of content was produced';
+ALTER TABLE cosn.content MODIFY content_type ENUM('text','image','video')  NOT NULL   COMMENT 'what kind of content was produced';
 
 ALTER TABLE cosn.content MODIFY content_data TEXT  NOT NULL   COMMENT 'text or URL link to the data of the content';
 
@@ -333,6 +343,16 @@ ALTER TABLE cosn.content MODIFY content_creation_date DATE  NOT NULL DEFAULT cur
 ALTER TABLE cosn.content MODIFY content_title VARCHAR(100)     COMMENT 'title of the post of the content';
 
 ALTER TABLE cosn.content MODIFY moderation_status ENUM('pending', 'approved', 'rejected')   DEFAULT 'pending'  COMMENT 'status of the piece of content in terms of moderation';
+
+ALTER TABLE cosn.content_comment COMMENT 'table containing comments on content from members';
+
+ALTER TABLE cosn.content_comment MODIFY commenter_member_id INT UNSIGNED    COMMENT 'the member who made the content';
+
+ALTER TABLE cosn.content_comment MODIFY comment_text VARCHAR(250)     COMMENT 'the actual text of the comment on a certain piece of content';
+
+ALTER TABLE cosn.content_comment MODIFY target_content_id INT UNSIGNED    COMMENT 'the content which is the target of the comment';
+
+ALTER TABLE cosn.content_comment MODIFY datetime_comment DATETIME     COMMENT 'the datetime of when the comment was created';
 
 ALTER TABLE cosn.content_link_relationship COMMENT 'Describes the way that content s linked between each other such as a comment to a post';
 
@@ -422,6 +442,8 @@ ALTER TABLE cosn.member_relationships MODIFY target_member_id INT UNSIGNED NOT N
 ALTER TABLE cosn.member_relationships MODIFY member_relationship_type ENUM('friend','family','colleague','blocked')  NOT NULL   COMMENT 'The type of relationship can be ''friend, ''family'', ''colleague'' or ''blocked''';
 
 ALTER TABLE cosn.member_relationships MODIFY member_relationship_status ENUM('requested','approved','rejected')     COMMENT 'used to represent the evolution of the relationship from, specifically from a friend/family/colleage request to an actual confirmed relationship';
+
+ALTER TABLE cosn.content_group_permissions COMMENT 'table describing which groups can access to what content';
 
 ALTER TABLE cosn.content_group_permissions MODIFY target_content_id INT UNSIGNED    COMMENT 'the specific piece of conent, defined by content_id on which a particular group has certain permission';
 
