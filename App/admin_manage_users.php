@@ -38,6 +38,9 @@ $result = $conn->query($sql);
 <body>
     <h1>Choose a Member to edit</h1>
     <p>This section is only visible to admin users.</p>
+    <div id="center_button">
+    <button onclick="location.href='admin_create_member.php'">Create member</button>
+    </div>
     <table border="1">
         <tr>
             <th></th>
@@ -72,6 +75,13 @@ $result = $conn->query($sql);
                 echo "<td>" . $row['privilege_level'] . "</td>";
                 echo "<td>" . $row['pseudonym'] . "</td>";
                 echo "<td>" . $row['status'] . "</td>";
+                echo "<td>";
+                echo "<td><a href='admin_view_member.php?member_id=" . $row['member_id'] . "'><button>View member</button></a></td>"
+                echo "<form action='admin_delete_member.php' method='POST' onsubmit='return confirm(\"Are you sure you want to delete this member?\");'>";
+                echo "<input type='hidden' name='member_id' value='" . $row['member_id'] . "'>";
+                echo "<button type='submit'>Delete Member</button>";
+                echo "</form>";
+                echo "</td>";
                 echo "</tr>";
             }
         } else {

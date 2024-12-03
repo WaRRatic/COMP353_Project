@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" type = "text/css" href="./css/admin_edit_member.css" />
+<link rel="stylesheet" type = "text/css" href="./css/admin_create_member.css"/>
 <head>
     <meta charset="UTF-8">
-    <title>Admin manage users</title>
+    <title>Admin Create users</title>
 </head>
 <?php
 session_start();
@@ -58,19 +58,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try{
         if ($stmt->execute()) {
             $conn->commit(); //if the update goes through without error, commit the transaction therefore saving the data
-            echo "<script>alert('Member updated successfully!');</script>";
+            echo "<script>alert('Member created successfully!');</script>";
             header("Location: admin_manage_users.php"); // Redirect to the members list upon successful update
         } else {
             // Rollback the transaction if there's an error
             $conn->rollback();
-            echo "<script>alert('Error updating the member! Check your datatypes and try again... $conn->error;');</script>";
+            echo "<script>alert('Error creating member! Check your datatypes and try again... $conn->error;');</script>";
         }
     } catch (Exception $e) {
         // Rollback in case of ENUM validation error or any other failure
         $conn->rollback();
         // Output an alert and use JavaScript for redirection
-        echo "<script>alert('Error updating the member! Check your datatypes and try again: " . addslashes($e->getMessage()) . "');</script>";
-        echo "<script>window.location.href = 'admin_edit_member.php?member_id=" . $member_id . "&error=" . urlencode($e->getMessage()) . "';</script>";
+        echo "<script>alert('Error creating member! Check your datatypes and try again: " . addslashes($e->getMessage()) . "');</script>";
+        echo "<script>window.location.href = 'admin_create_member.php?member_id=" . $member_id . "&error=" . urlencode($e->getMessage()) . "';</script>";
         exit;
     }
 
@@ -78,60 +78,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $conn->close();
     exit;
 }
-
-// Fetch member details for the form
-$stmt = $conn->prepare("SELECT member_id,username,password,email,first_name,last_name,address,date_of_birth,privilege_level,pseudonym,status FROM members WHERE member_id = ?");
-$stmt->bind_param("i", $member_id);
-$stmt->execute();
-$stmt->bind_result($member_id, $username, $password, $email, $first_name, $last_name, $address, $date_of_birth, $privilege_level, $pseudonym, $status);
-$stmt->fetch();
-$stmt->close();
-$conn->close();
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
+    <head>
     <meta charset="UTF-8">
-    <title>Edit Member</title>
+    <title>Create Member</title>
 </head>
 <body>
-    <h1>Edit Member</h1>
+    <h1>Create Member</h1>
     <p>This section is only visible to admin users.</p>
     <form method="POST">
         <label for="member_id">Member ID:</label>
-        <input type="text" id="member_id" name="member_id" value="<?php echo $member_id; ?>" required><br>
+        <input type="text" id="member_id" name="member_id" required><br>
         
         <label for="username">Username:</label>
-        <input type="text" id="username" name="username" value="<?php echo $username; ?>" required><br>
+        <input type="text" id="username" name="username"  required><br>
         
         <label for="password">Password:</label>
-        <input type="text" id="password" name="password" value="<?php echo $password; ?>" required><br>
+        <input type="text" id="password" name="password" required><br>
 
         <label for="email">Email:</label>
-        <input type="text" id="email" name="email" value="<?php echo $email; ?>" required><br>
+        <input type="text" id="email" name="email" required><br>
         
         <label for="first_name">First Name:</label>
-        <input type="text" id="first_name" name="first_name" value="<?php echo $first_name; ?>" required><br>
+        <input type="text" id="first_name" name="first_name" required><br>
 
         <label for="last_name">Last Name:</label>
-        <input type="text" id="last_name" name="last_name" value="<?php echo $last_name; ?>" required><br>
+        <input type="text" id="last_name" name="last_name" required><br>
 
         <label for="address">Address:</label>
-        <input type="text" id="address" name="address" value="<?php echo $address; ?>" required><br>
+        <input type="text" id="address" name="address" required><br>
 
         <label for="date_of_birth">Date Of Birth:</label>
-        <input type="text" id="date_of_birth" name="date_of_birth" value="<?php echo $date_of_birth; ?>" required><br>
+        <input type="text" id="date_of_birth" name="date_of_birth" required><br>
 
         <label for="privilege_level">Privilege Level:</label>
-        <input type="text" id="privilege_level" name="privilege_level" value="<?php echo $privilege_level; ?>" required><br>
+        <input type="text" id="privilege_level" name="privilege_level" required><br>
 
         <label for="pseudonym">Pseudonym:</label>
-        <input type="text" id="pseudonym" name="pseudonym" value="<?php echo $pseudonym; ?>" required><br>
+        <input type="text" id="pseudonym" name="pseudonym" required><br>
         
         <label for="status">Status:</label>
-        <input type="text" id="status" name="status" value="<?php echo $status; ?>" required><br>
+        <input type="text" id="status" name="status" required><br>
 
-        <button type="submit">Update Member</button>
+        <button type="submit">create Member</button>
     </form>
+
 </html>

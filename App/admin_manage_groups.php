@@ -61,6 +61,13 @@ $result = $conn->query($sql);
                 echo "<td>" . $row['owner_id'] . "</td>";
                 echo "<td>" . $row['description'] . "</td>";
                 echo "<td>" . $row['creation_date'] . "</td>";
+                echo "<td>";
+                echo "<td><a href='admin_view_group.php?group_id=" . $row['group_id'] . "'><button>View group</button></a></td>";
+                echo "<form action='admin_delete_group.php' method='POST' onsubmit='return confirm(\"Are you sure you want to delete this group?\");'>";
+                echo "<input type='hidden' name='group_id' value='" . $row['group_id'] . "'>";
+                echo "<button type='submit'>Delete group</button>";
+                echo "</form>";
+                echo "</td>";
                 echo "</tr>";
             }
         } else {
