@@ -18,8 +18,9 @@
         <a href="chatbox.php" class="menu-item">Message a Friend </a>
         <a href="index.php" class="menu-item">Gift Exchange </a>  <!-- will link to the gift exchange.php file when that is ready -->
         <a href="view_Groups.php" class="menu-item">View Groups </a> 
+        <a href="view_Friend_Requests.php" class="menu-item">Friends </a> <!-- This file will show the user's friends as well as list other users that can be sent a friend request -->
         <a href="view_Friend_Requests.php" class="menu-item">View Friend Requests </a> 
-        <a href="view_Blocked_Users.php" class="menu-item">View Blocked Users </a> <!-- still has to be implemented this will allow people see their blcoked users-->
+        <a href="view_Blocked_Users.php" class="menu-item">View Blocked Users </a>
     </div>
 </div>
 
