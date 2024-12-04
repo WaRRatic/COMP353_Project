@@ -2,7 +2,7 @@
 session_start();
 include("header.php");
 include('sidebar.php');
-//include("db.php"); //Include the file for the database connection 
+include("db.php"); //Include the file for the database connection 
 ?>
 <!DOCTYPE html>
 <html lang="en">
