@@ -8,8 +8,8 @@
 -- truncate table cosn.members;
 
 
---INIT_MEMBERS
---insert a "private" system member
+-- INIT_MEMBERS
+-- insert a "private" system member
 insert into 
   cosn.members (
     member_id, 
@@ -264,7 +264,7 @@ values
     ,FALSE
   );
   
-  --eveyl mcgee-colbert, wife of steven colbert
+  -- evy mcgee-colbert, wife of steven colbert
  insert into 
   cosn.members (
     member_id, 
@@ -296,7 +296,7 @@ values
     ,FALSE
   );
 
---INIT_CONTENT
+-- INIT_CONTENT
 insert into 
   cosn.content (
     content_id, 
@@ -462,7 +462,7 @@ INSERT INTO cosn.content
 VALUES 
 (12, 8, 'image', 'https://upload.wikimedia.org/wikipedia/commons/2/2c/Obscured_jaguar.jpg', NOW(), 'Jaguar', 'approved');
 
---INIT_GROUPS
+-- INIT_GROUPS
 insert into 
   cosn.groups (
     group_id, 
@@ -531,7 +531,7 @@ values
     '2024-02-21'
   );
 
-  --INIT_CONTENT_GROUP_PERMISSIONS
+  -- INIT_CONTENT_GROUP_PERMISSIONS
   insert into 
     cosn.content_group_permissions (
       content_group_permission_id, 
@@ -606,7 +606,7 @@ values
       'read'
     );
 
---INIT_CONTENT_MEMBER_PERMISSIONS
+-- INIT_CONTENT_MEMBER_PERMISSIONS
 
 insert into 
   cosn.content_member_permission (
@@ -741,7 +741,7 @@ INSERT INTO cosn.content_member_permission
 INSERT INTO cosn.content_member_permission
 	( target_content_id, authorized_member_id, content_permission_type) VALUES ( 11, 2, 'share' );
 
-  --INIT_CONTENT_PUBLIC_PERMISSIONS
+  -- INIT_CONTENT_PUBLIC_PERMISSIONS
  
   INSERT INTO cosn.content_public_permissions
 	( content_public_permission_id, target_content_id, content_public_permission_type) VALUES ( 1, 2, 'read' );
@@ -757,7 +757,7 @@ INSERT INTO cosn.content_member_permission
     INSERT INTO cosn.content_public_permissions
 	( content_public_permission_id, target_content_id, content_public_permission_type) VALUES ( 5, 1, 'read' );
 
---INIT_MEMBERS_GROUPS
+-- INIT_MEMBERS_GROUPS
 insert into 
  cosn.group_members (
     group_membership_id, 
@@ -826,7 +826,7 @@ values
     'member'
   );
 
-  --INIT_MEMBERS_RELATIONSHIPS
+  -- INIT_MEMBERS_RELATIONSHIPS
 
 INSERT INTO cosn.member_relationships
 	( relationship_id, origin_member_id, target_member_id, member_relationship_type, member_relationship_status) 
@@ -844,17 +844,17 @@ INSERT INTO cosn.member_relationships
 	( relationship_id, origin_member_id, target_member_id, member_relationship_type, member_relationship_status) 
   VALUES ( 4, 1, 7, 'blocked', 'approved' );
 
---steven colbert is friends with Matt Bellamy
+-- steven colbert is friends with Matt Bellamy
   INSERT INTO cosn.member_relationships
 	( relationship_id, origin_member_id, target_member_id, member_relationship_type, member_relationship_status) 
   VALUES ( 5, 2, 5, 'friend', 'approved' );
 
---steven colbert has "family" relationship with evelyn mcgee-colbert
+-- steven colbert has "family" relationship with evelyn mcgee-colbert
     INSERT INTO cosn.member_relationships
 	( relationship_id, origin_member_id, target_member_id, member_relationship_type, member_relationship_status) 
   VALUES ( 6, 2, 9, 'family', 'approved' );
 
---INIT CONTENT_COMMENT
+-- INIT CONTENT_COMMENT
 INSERT INTO cosn.content_comment
 	( content_comment_id, commenter_member_id, comment_text, target_content_id, datetime_comment) 
   VALUES ( 1, 2, "ok, in 2 minutes!", 9,  NOW());
