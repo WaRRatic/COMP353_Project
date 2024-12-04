@@ -1,7 +1,7 @@
 <?php
 
-//include("header.php");
-//include('sidebar.php'); ?>
+include("header.php");
+include('sidebar.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
 <link rel="stylesheet" type = "text/css" href="./css/cosn_sign_up.css" />
