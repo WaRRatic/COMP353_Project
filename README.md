@@ -1,3 +1,27 @@
+# Lab set up
+0. Sign into Github
+
+
+1. install github desktop
+https://central.github.com/deployments/desktop/desktop/latest/win32
+
+2. In Github Desktop, sign-in launching the browser window -- get the link from the window and paste it into Chrome. Sign-in with Chrome.
+
+3. Clone the Comp358 repo into C:\Users\v_chychk\
+
+1. install xammp into C:\Users\v_chychk\xampp
+https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/8.2.12/xampp-windows-x64-8.2.12-0-VS16-installer.exe
+
+
+3. install vscode
+https://go.microsoft.com/fwlink/?LinkID=534107
+
+
+
+http://localhost/index.php
+
+
+
 # Project Set up
 
 In order to make the script run on your machine, you need your MariaDB installed, along with PHP, Apache, and XAMMP to initiate the servers.
