@@ -17,6 +17,7 @@
         <a href="Organize_Event.php" class="menu-item">Organize event</a>
         <a href="get_friends.php" class="menu-item">Friends List </a>
         <a href="get_friends.php" class="menu-item">Blocked Users List </a>
+        <a href="chatbox.php" class="menu-item">Message a Friend </a>
     </div>
 </div>
 
