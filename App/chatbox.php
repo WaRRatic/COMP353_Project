@@ -1,5 +1,6 @@
 <?php
 session_start();
+include 'db.php';
 if (!isset($_SESSION['member_id'])) {
     echo "You must be logged in to view this page.";
     exit;
@@ -24,6 +25,8 @@ if (!isset($_SESSION['member_id'])) {
     <div id="chatBox" class="chat-box"></div>
     <input type="text" id="messageInput" placeholder="Type your message">
     <button onclick="sendMessage()">Send</button>
+    <button onclick="unfriend()">Unfriend</button>
+    <button onclick="block()">Block</button>
 
     <script>
         const loggedInUserId = <?php echo $_SESSION['member_id']; ?>;
@@ -92,6 +95,58 @@ if (!isset($_SESSION['member_id'])) {
                 } else {
                     alert('Failed to send message.');
                 }
+            });
+        }
+
+        //function to unfriend curently selected friend
+        function unfriend() 
+        {
+            const targetId = document.getElementById('friendSelect').value;
+        
+
+            //In case no friend is currently selected
+            if (!targetId) 
+            {
+                alert("No friend is selected. Cannot unfriend");
+                return;
+            }
+
+            //If a friend is selected then call the unfriend_user.php file
+            fetch('unfriend_user.php', 
+                {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ target_id: targetId })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    fetchFriends(); // Refresh the friend list
+                });
+        }
+
+
+        //function to block a user
+         function block() 
+         {
+            const targetId = document.getElementById('friendSelect').value;
+
+            //if there is no current friend selected and the use pressed on the block buttin then we return this message
+            if (!targetId) 
+            {
+                alert('No user selected. Cannot block');
+                return;
+            }
+            //Fetch the file where blocking the user occurs. It will add to the table the id of the blocked user
+            fetch('block_user.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ blocked_id: targetId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                fetchFriends(); // Refresh the friend list
             });
         }
 
