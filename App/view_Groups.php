@@ -79,5 +79,42 @@ $conn->close();
             <p>You are not a member of any groups yet.</p>
         <?php endif; ?>
     </div>
+
+
+     <!-- Display Groups the user is not a part of with "Join" button -->
+     <div>
+        <h2>Available Groups to Join</h2>
+        <?php if (count($not_joined_groups) > 0): ?>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Group Name</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Created On</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($not_joined_groups as $group): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($group['group_name']); ?></td>
+                            <td><?php echo htmlspecialchars($group['description']); ?></td>
+                            <td><?php echo htmlspecialchars($group['cathegory']); ?></td>
+                            <td><?php echo htmlspecialchars($group['creation_date']); ?></td>
+                            <td>
+                                <form action="join_group.php" method="POST" style="display:inline;">
+                                    <input type="hidden" name="group_id" value="<?php echo $group['group_id']; ?>">
+                                    <button type="submit" name="join" class="btn-join">Join</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php else: ?>
+            <p>There are no other groups to join at the moment.</p>
+        <?php endif; ?>
+    </div>
+
 </body>
 </html>
