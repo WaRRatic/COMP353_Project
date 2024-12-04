@@ -17,11 +17,6 @@ include('sidebar.php');
     <h3>Please Login</h3>
 
     <?php
-        //if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) 
-      //  {
-         //   include('chatbox.php');
-       // }
-	
 	
         // Check if the form is submitted
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
