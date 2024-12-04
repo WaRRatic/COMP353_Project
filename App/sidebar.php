@@ -17,6 +17,7 @@
         <a href="Organize_Event.php" class="menu-item">Organize event</a>
         <a href="chatbox.php" class="menu-item">Message a Friend </a>
         <a href="index.php" class="menu-item">Gift Exchange </a>  <!-- will link to the gift exchange.php file when that is ready -->
+        <a href="view_Groups.php" class="menu-item">View Groups </a> <!-- still has to be implemented ->
     </div>
 </div>
 
