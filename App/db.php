@@ -3,7 +3,7 @@
 
 $dbServername = "localhost";
 $dbUsername = "root";
-$dbPassword = "root";
+$dbPassword = "";
 $dbName = "cosn";
 
 try {
