@@ -1,5 +1,5 @@
 <?php
-//session_start();
+session_start();
 if (!isset($_SESSION['member_id'])) {
     echo "You must be logged in to view this page.";
     exit;
