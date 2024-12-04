@@ -4,7 +4,7 @@ In order to make the script run on your machine, you need your MariaDB installed
 
 I use Visual Studio IDE for development.
 
-PHP files go inside htdocs folder of XAMMP installation folder.
+Everything from the local App folder goes inside htdocs folder of XAMMP installation folder.
 
 Execute DB Create COSN Schema.sql against your running MariaDB script.
 
