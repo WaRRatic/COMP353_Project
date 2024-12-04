@@ -1,18 +1,17 @@
 <?php
-//File to connect to the database
+//File to connect to the database using PDO
 
 $dbServername = "localhost";
 $dbUsername = "root";
-$dbPassword = "";
+$dbPassword = "root";
 $dbName = "cosn";
 
-// Create a database connection
-$conn = new mysqli($dbServername, $dbUsername, $dbPassword, $dbName);
-
-// Check the connection
-if ($conn->connect_error) 
-{
-    die("Connection failed: " . $conn->connect_error);
+try {
+    // Create a PDO connection
+    $pdo = new PDO("mysql:host=$dbServername;dbname=$dbName", $dbUsername, $dbPassword);
+    // Set the PDO error mode to exception
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch(PDOException $e) {
+    die("Connection failed: " . $e->getMessage());
 }
-
 ?>
