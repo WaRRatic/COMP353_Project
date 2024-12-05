@@ -1,0 +1,125 @@
+body {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+    font-family: Arial, sans-serif;
+    transition: background-color 0.3s, color 0.3s;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.container {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #444;
+    border-radius: 5px;
+    background-color: #2a2a2a;
+}
+
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #333;
+    color: #e0e0e0;
+    border: 1px solid #555;
+    border-radius: 5px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #666;
+    color: #ffffff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+.registry-item {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.view-button, .edit-button {
+    display: inline-block;
+    margin-right: 10px;
+    padding: 5px 10px;
+    background-color: #004314;
+    color: #e0e0e0;
+    text-decoration: none;
+    border-radius: 3px;
+}
+
+.view-button, .edit-button:hover {
+    background-color: #006620;
+}
+
+.add-button {
+    background-color: #FFA500;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    width: auto;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.add-button:hover {
+    background-color: #FF8C00;
+}
+
+.participant-item {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #2a2a2a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.remove-button {
+    background-color: #666;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.remove-button:hover {
+    background-color: #555;
+}
+
+.add-participant-form {
+    margin: 20px 0;
+}
+
+.add-participant-form select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #333;
+    color: #e0e0e0;
+    border: 1px solid #555;
+    border-radius: 5px;
+}

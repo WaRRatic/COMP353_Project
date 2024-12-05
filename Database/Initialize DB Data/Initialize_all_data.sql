@@ -831,3 +831,41 @@ INSERT INTO cosn.member_relationships
 	( relationship_id, origin_member_id, target_member_id, member_relationship_type, member_relationship_status) 
   VALUES ( 6, 2, 9, 'family', 'approved' );
 
+
+
+-- INIT_GIFT_REGISTRY
+INSERT INTO cosn.gift_registry (gift_registry_id, organizer_member_id) 
+VALUES ( 1, 2); --Steve Colbert's registry
+
+INSERT INTO cosn.gift_registry (gift_registry_id, organizer_member_id) 
+VALUES ( 2, 9); --Evelyn's registry
+
+INSERT INTO cosn.gift_registry_participants (gift_registry_participants_id, participant_member_id, target_gift_registry_id)
+VALUES (1, 2, 1); --Steve in his own registry
+
+INSERT INTO cosn.gift_registry_participants (gift_registry_participants_id, participant_member_id, target_gift_registry_id)
+VALUES (2, 9, 1); --Evelyn in Steve's registry
+
+INSERT INTO cosn.gift_registry_participants (gift_registry_participants_id, participant_member_id, target_gift_registry_id)
+VALUES (3, 5, 1); --Matt Bellamy in Steve's registry
+
+INSERT INTO cosn.gift_registry_participants (gift_registry_participants_id, participant_member_id, target_gift_registry_id)
+VALUES (4, 9, 2); --Evelyn in her own registry
+
+INSERT INTO cosn.gift_registry_participants (gift_registry_participants_id, participant_member_id, target_gift_registry_id)
+VALUES ( 5, 2, 2); --Steve in Evelyn's registry
+
+INSERT INTO cosn.gift_registry_ideas (gift_registry_ideas_id, target_gift_registry_id, idea_owner_id, gift_idea_description) 
+VALUES ( 1, 1, 2, 'New tie');
+
+INSERT INTO cosn.gift_registry_ideas (gift_registry_ideas_id, target_gift_registry_id, idea_owner_id, gift_idea_description) 
+VALUES ( 2, 1, 9, 'Barbenheimer, Directors Cut');
+
+INSERT INTO cosn.gift_registry_ideas (gift_registry_ideas_id, target_gift_registry_id, idea_owner_id, gift_idea_description)
+VALUES ( 3, 1, 5, 'Brand new comic books');
+
+INSERT INTO cosn.gift_registry_ideas (gift_registry_ideas_id, target_gift_registry_id, idea_owner_id, gift_idea_description)
+VALUES ( 4, 2, 9, 'Used car');
+
+INSERT INTO cosn.gift_registry_ideas (gift_registry_ideas_id, target_gift_registry_id, idea_owner_id, gift_idea_description)
+VALUES ( 5, 2, 2, 'Leaf blower');

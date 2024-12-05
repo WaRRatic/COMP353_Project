@@ -15,6 +15,7 @@
         <a href="index.php" class="menu-item">Home</a>
         <a href="trending.php" class="menu-item">Trending</a>
         <a href="messages.php" class="menu-item">Messages</a>
+        <a href="gift_registry.php" class="menu-item">Gift Registry</a>
         
     </div>
 </div>
