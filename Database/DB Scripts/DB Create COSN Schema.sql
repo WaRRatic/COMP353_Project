@@ -160,6 +160,7 @@ CREATE  TABLE cosn.groups (
 	description          TEXT       ,
 	creation_date        DATE  DEFAULT current_timestamp()     ,
 	cathegory            VARCHAR(100)       ,
+	group_deleted_flag   BOOLEAN  DEFAULT false     ,
 	CONSTRAINT fk_groups_members FOREIGN KEY ( owner_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

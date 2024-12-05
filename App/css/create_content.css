@@ -23,6 +23,12 @@ input[type="text"], input[type="password"] {
     border: 1px solid #555;
     border-radius: 5px;
 }
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Spacing between buttons */
+    margin-top: 10px;
+}
 button {
     padding: 10px 20px;
     border: none;
@@ -30,18 +36,12 @@ button {
     color: #ffffff;
     border-radius: 5px;
     cursor: pointer;
+    flex: 1; /* Optional: makes both buttons the same width */
 }
 button:hover {
     background-color: #555;
 }
-.main-content {
-    margin-left: 200px; /* Match sidebar width */
-    padding: 20px;
-}
-
-/* Ensure proper spacing on smaller screens */
-@media screen and (max-width: 768px) {
-    .main-content {
-        margin-left: 0;
-    }
+/* Styling omitted for brevity */
+.hidden {
+    display: none;
 }

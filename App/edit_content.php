@@ -1,3 +1,8 @@
+<?php
+
+include("header.php");
+include('sidebar.php'); ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <link rel="stylesheet" type = "text/css" href="./css/edit_content.css" />
@@ -192,6 +197,7 @@ $content_data = $contentDetails['content_data'];
     <title>Edit Content</title>
 </head>
 <body>
+<div class="main-content">
     <h1>Edit Content</h1>
     <p>This section is only visible to users that have Edit permission to this content</p>
     <form method="POST">
@@ -213,6 +219,5 @@ $content_data = $contentDetails['content_data'];
     
     <br><br>
     <hr>
-<a href="Homepage.php">Back to Homepage</a>
-
+</div>
 </html>
