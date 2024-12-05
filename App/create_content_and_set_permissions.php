@@ -149,12 +149,12 @@
 
     try {
         //set DB connection
-        $dbServername = "localhost";
-        $dbUsername = "root";
-        $dbPassword = "";
-        $dbName = "cosn";
+        $host = "localhost";
+        $user = "root";
+        $pass= "";
+        $db= "cosn";
         
-        $pdo = new PDO("mysql:host=$dbServername;dbname=$dbName", $dbUsername, $dbPassword);
+        $pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         // Begin transaction

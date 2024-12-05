@@ -25,13 +25,13 @@ if (!isset($_GET['member_id'])) {
 $member_id = $_GET['member_id'];
 
 //set db connections variables
-$dbServername = "localhost";
-$dbUsername = "root";
-$dbPassword = "";
-$dbName = "cosn";
+$host = 'localhost';
+$db   = 'cosn';
+$user = 'root';
+$pass = '';
 
 // Create a database connection
-$conn = new mysqli($dbServername, $dbUsername, $dbPassword, $dbName);
+$conn = new mysqli($host, $user, $pass, $db);
 
 // Fetch member details for the form
 $stmt = $conn->prepare("SELECT member_id,username,password,email,first_name,last_name,address,date_of_birth,privilege_level,pseudonym,status FROM members WHERE member_id = ?");

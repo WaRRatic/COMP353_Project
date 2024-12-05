@@ -25,13 +25,13 @@ if (!isset($_GET['member_id'])) {
 $member_id = $_GET['member_id'];
 
 //set db connections variables
-$dbServername = "localhost";
-$dbUsername = "root";
-$dbPassword = "";
-$dbName = "cosn";
+$host = "localhost";
+$user = "root";
+$pass = "";
+$db = "cosn";
 
 // Create a database connection
-$conn = new mysqli($dbServername, $dbUsername, $dbPassword, $dbName);
+$conn = new mysqli($host, $user, $pass, $db);
 
 // If the form is submitted, update the member's data
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

@@ -13,12 +13,12 @@ if (!isset($_SESSION['loggedin'])) {
 
 $logged_in_member_id = $_SESSION['member_id'];
 
-$dbServername = "localhost";
-$dbUsername = "root";
-$dbPassword = "";
-$dbName = "cosn";
+$host = 'localhost';
+$db   = 'cosn';
+$user = 'root';
+$pass = '';
 
-$conn = new mysqli($dbServername, $dbUsername, $dbPassword, $dbName);
+$conn = new mysqli($conn = new mysqli($host, $user, $pass, $db););
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
