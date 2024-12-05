@@ -114,6 +114,8 @@ CREATE INDEX fk_content_public_permissions_content ON cosn.content_public_permis
 CREATE  TABLE cosn.gift_registry ( 
 	gift_registry_id     INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
 	organizer_member_id  INT UNSIGNED   NOT NULL   ,
+	gift_registry_name   VARCHAR(100)       ,
+	gift_registry_description VARCHAR(100)       ,
 	CONSTRAINT fk_gift_registry_members FOREIGN KEY ( organizer_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
  ) engine=InnoDB;
 
@@ -408,6 +410,10 @@ ALTER TABLE cosn.gift_registry COMMENT 'Describes gift registry entity that diff
 
 ALTER TABLE cosn.gift_registry MODIFY organizer_member_id INT UNSIGNED NOT NULL   COMMENT 'ID of a particular gift registry organizer';
 
+ALTER TABLE cosn.gift_registry MODIFY gift_registry_name VARCHAR(100)     COMMENT 'name of the particular registry';
+
+ALTER TABLE cosn.gift_registry MODIFY gift_registry_description VARCHAR(100)     COMMENT 'Description for the particular gift registry';
+
 ALTER TABLE cosn.gift_registry_ideas COMMENT 'describes gift ideas for a particular registry';
 
 ALTER TABLE cosn.gift_registry_ideas MODIFY target_gift_registry_id INT UNSIGNED NOT NULL   COMMENT 'describes which particular gift registry a gift idea applies to';
@@ -440,7 +446,7 @@ ALTER TABLE cosn.groups MODIFY description TEXT     COMMENT 'Description of the 
 
 ALTER TABLE cosn.groups MODIFY creation_date DATE   DEFAULT current_timestamp()  COMMENT 'Date when group was created';
 
-ALTER TABLE cosn.groups MODIFY category VARCHAR(100)     COMMENT 'defines the different categories';
+ALTER TABLE cosn.groups MODIFY category VARCHAR(100)     COMMENT 'defines the different cathegories';
 
 ALTER TABLE cosn.member_messages COMMENT 'table containing the messages that members send between each others';
 

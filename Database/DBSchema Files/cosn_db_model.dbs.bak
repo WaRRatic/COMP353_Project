@@ -28,6 +28,10 @@
 				<enumeration><![CDATA['pending', 'approved', 'rejected']]></enumeration>
 				<comment><![CDATA[status of the piece of content in terms of moderation]]></comment>
 			</column>
+			<column name="content_deleted_flag" type="BOOLEAN" jt="-7" mandatory="y" >
+				<defo><![CDATA[false]]></defo>
+				<comment><![CDATA[used to "delete" content by users]]></comment>
+			</column>
 			<index name="pk_content_data" unique="PRIMARY_KEY" >
 				<column name="content_id" />
 			</index>
@@ -439,10 +443,11 @@ Ex: "Alaska, 2025-01-01, 07:00"]]></comment>
 			<column name="date_joined" type="DATE" jt="91" mandatory="y" >
 				<comment><![CDATA[the date when a particular member has joned a particular group]]></comment>
 			</column>
-			<column name="role_of_member" type="ENUM" jt="12" >
+			<column name="group_member_status" prior="role_of_member" type="ENUM" jt="12" >
 				<defo><![CDATA['member']]></defo>
-				<enumeration><![CDATA['member','owner']]></enumeration>
-				<comment><![CDATA[the role of a particular member who joined a particular group, can be either 'owner' or 'member']]></comment>
+				<enumeration><![CDATA['member','owner','requested','ousted']]></enumeration>
+				<comment><![CDATA[the status of a particular member in a particular group
+can be either 'owner', 'member', 'requested, 'ousted']]></comment>
 			</column>
 			<index name="pk_group_members" unique="PRIMARY_KEY" >
 				<column name="group_membership_id" />
@@ -545,6 +550,9 @@ Ex: "Alaska, 2025-01-01, 07:00"]]></comment>
 			</column>
 			<column name="cathegory" type="VARCHAR" length="100" jt="12" >
 				<comment><![CDATA[defines the different cathegories]]></comment>
+			</column>
+			<column name="group_deleted_flag" type="BOOLEAN" jt="-7" >
+				<defo><![CDATA[false]]></defo>
 			</column>
 			<index name="pk_groups" unique="PRIMARY_KEY" >
 				<column name="group_id" />
@@ -4312,10 +4320,7 @@ ALTER TABLE cosn.content MODIFY moderation_status ENUM('pending', 'approved', 'r
 			<string><![CDATA[UPDATE cosn.content SET content_data ="https://upload.wikimedia.org/wikipedia/commons/b/bf/Bucephala-albeola-010.jpg" where content_id =2 ;]]></string>
 		</script>
 		<script name="content_comment" id="Editor-1ff1" language="SQL" >
-			<string><![CDATA[SELECT
-	content_comment_id, commenter_member_id, comment_text, target_content_id, datetime_comment
-FROM
-	cosn.content_comment t;]]></string>
+			<string><![CDATA[update content set content_deleted_flag = false where content_id = 10;]]></string>
 		</script>
 		<script name="content_public_permissions_001" id="Editor-2675" language="SQL" >
 			<string><![CDATA[INSERT INTO cosn.content_public_permissions

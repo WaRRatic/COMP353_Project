@@ -239,6 +239,12 @@ can be
 			<column name="organizer_member_id" prior="organized_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[ID of a particular gift registry organizer]]></comment>
 			</column>
+			<column name="gift_registry_name" type="VARCHAR" length="100" jt="12" >
+				<comment><![CDATA[name of the particular registry]]></comment>
+			</column>
+			<column name="gift_registry_description" type="VARCHAR" length="100" jt="12" >
+				<comment><![CDATA[Description for the particular gift registry]]></comment>
+			</column>
 			<index name="pk_gift_registry" unique="PRIMARY_KEY" >
 				<column name="gift_registry_id" />
 			</index>
@@ -548,7 +554,7 @@ can be either 'owner', 'member', 'requested, 'ousted']]></comment>
 				<defo><![CDATA[current_timestamp()]]></defo>
 				<comment><![CDATA[Date when group was created]]></comment>
 			</column>
-			<column name="cathegory" type="VARCHAR" length="100" jt="12" >
+			<column name="category" prior="cathegory" type="VARCHAR" length="100" jt="12" >
 				<comment><![CDATA[defines the different cathegories]]></comment>
 			</column>
 			<column name="group_deleted_flag" type="BOOLEAN" jt="-7" >
@@ -763,7 +769,7 @@ authorized_member_id = 2, it is visible to the "public" system member]]></commen
 		</table>
 	</schema>
 	<layout name="Main Layout" id="Layout-4cc" show_relation="columns" >
-		<comment><![CDATA[Main Layout]]></comment>
+		<comment><![CDATA[COSN DB Schema]]></comment>
 		<entity schema="cosn" name="content" color="E5C1EE" x="864" y="352" />
 		<entity schema="cosn" name="content_comment" color="E5C1EE" x="1424" y="240" />
 		<entity schema="cosn" name="content_group_permissions" color="E5C1EE" x="672" y="160" />
