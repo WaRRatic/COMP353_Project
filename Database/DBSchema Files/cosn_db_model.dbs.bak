@@ -325,6 +325,12 @@ can be 'view', 'edit', 'add-item']]></comment>
 			<index name="pk_gift_registry_permissions" unique="PRIMARY_KEY" >
 				<column name="gift_registry_permissions_id" />
 			</index>
+			<fk name="fk_gift_registry_permissions_gift_registry" to_schema="cosn" to_table="gift_registry" >
+				<fk_column name="target_gift_registry_id" pk="gift_registry_id" />
+			</fk>
+			<fk name="fk_gift_registry_permissions_members" to_schema="cosn" to_table="members" >
+				<fk_column name="authorized_member_id" pk="member_id" />
+			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 		<table name="group_event" prior="event" >
@@ -760,7 +766,7 @@ authorized_member_id = 2, it is visible to the "public" system member]]></commen
 		<entity schema="cosn" name="gift_registry" color="EED5C1" x="1296" y="672" />
 		<entity schema="cosn" name="gift_registry_ideas" color="EED5C1" x="1632" y="640" />
 		<entity schema="cosn" name="gift_registry_participants" color="EED5C1" x="1296" y="832" />
-		<entity schema="cosn" name="gift_registry_permissions" color="C1D8EE" x="1568" y="832" />
+		<entity schema="cosn" name="gift_registry_permissions" color="EED5C1" x="1632" y="864" />
 		<entity schema="cosn" name="group_event" color="C1D8EE" x="48" y="576" />
 		<entity schema="cosn" name="group_event_option_vote" color="C1D8EE" x="64" y="896" />
 		<entity schema="cosn" name="group_event_options" color="C1D8EE" x="64" y="736" />

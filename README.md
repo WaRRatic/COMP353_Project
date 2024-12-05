@@ -20,7 +20,10 @@ https://go.microsoft.com/fwlink/?LinkID=534107
 
 http://localhost/index.php
 
-
+# Project Assumptions
+Here are the core assumptions that were made when designing COSN:
+- One and only super-admin in COSN system (member_id=1)
+- One group admin per each COSN group (except for the COSN super-admin (member_id=1))  
 
 # Project Set up
 

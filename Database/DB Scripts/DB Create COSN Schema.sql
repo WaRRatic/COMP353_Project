@@ -159,7 +159,7 @@ CREATE  TABLE cosn.groups (
 	owner_id             INT UNSIGNED      ,
 	description          TEXT       ,
 	creation_date        DATE  DEFAULT current_timestamp()     ,
-	cathegory            VARCHAR(100)       ,
+	category             VARCHAR(100)       ,
 	group_deleted_flag   BOOLEAN  DEFAULT false     ,
 	CONSTRAINT fk_groups_members FOREIGN KEY ( owner_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -246,7 +246,7 @@ CREATE  TABLE cosn.group_members (
 	participant_member_id INT UNSIGNED   NOT NULL   ,
 	joined_group_id      INT UNSIGNED   NOT NULL   ,
 	date_joined          DATE    NOT NULL   ,
-	role_of_member       ENUM('member','owner')  DEFAULT 'member'     ,
+	group_member_status  ENUM('member','owner','requested','ousted')  DEFAULT 'member'     ,
 	CONSTRAINT fk_group_members_members FOREIGN KEY ( participant_member_id ) REFERENCES cosn.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	CONSTRAINT fk_group_members_groups FOREIGN KEY ( joined_group_id ) REFERENCES cosn.groups( group_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
  ) engine=InnoDB;
@@ -440,7 +440,7 @@ ALTER TABLE cosn.groups MODIFY description TEXT     COMMENT 'Description of the 
 
 ALTER TABLE cosn.groups MODIFY creation_date DATE   DEFAULT current_timestamp()  COMMENT 'Date when group was created';
 
-ALTER TABLE cosn.groups MODIFY cathegory VARCHAR(100)     COMMENT 'defines the different cathegories';
+ALTER TABLE cosn.groups MODIFY category VARCHAR(100)     COMMENT 'defines the different categories';
 
 ALTER TABLE cosn.member_messages COMMENT 'table containing the messages that members send between each others';
 
@@ -499,7 +499,8 @@ ALTER TABLE cosn.group_members MODIFY joined_group_id INT UNSIGNED NOT NULL   CO
 
 ALTER TABLE cosn.group_members MODIFY date_joined DATE  NOT NULL   COMMENT 'the date when a particular member has joned a particular group';
 
-ALTER TABLE cosn.group_members MODIFY role_of_member ENUM('member','owner')   DEFAULT 'member'  COMMENT 'the role of a particular member who joined a particular group, can be either ''owner'' or ''member''';
+ALTER TABLE cosn.group_members MODIFY group_member_status ENUM('member','owner','requested','ousted')   DEFAULT 'member'  COMMENT 'the status of a particular member in a particular group
+can be either ''owner'', ''member'', ''requested, ''ousted''';
 
 ALTER TABLE cosn.group_vote_plebiscite COMMENT 'Contains the plebiscite organized to oust a non-person (corporate) member.';
 
