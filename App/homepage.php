@@ -164,11 +164,11 @@ function getYoutubeVideoId($url) {
     <title>Homepage</title>
 </head>
 <body>
+<div class="main-content">
 <h1>Welcome to <?php echo $_SESSION['member_username']; ?> homepage!</h1>
     <small>You are now logged in.</small>
     <h2>Activities</h2>
         <ul>
-            <li><a href="create_content_and_set_permissions.php">Post content to COSN</a></li>
             <li><a href="create_content_and_set_permissions.php">Post content to COSN</a></li>
         </ul>
         
@@ -265,9 +265,6 @@ function getYoutubeVideoId($url) {
 </div>
 
 
-<footer>
-    <a href="index.php" class="logout-button">Logout</a>
-</footer>
-
+    </div>
 </body>
 </html>

@@ -1,9 +1,14 @@
+<?php
+
+include("header.php");
+include('sidebar.php'); ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <link rel="stylesheet" type = "text/css" href="./css/view_content.css" />
 <head>
     <meta charset="UTF-8">
-    <title>Admin manage users</title>
+    <title>View content</title>
 </head>
 <?php
 session_start();
@@ -174,6 +179,7 @@ function getYoutubeVideoId($url) {
     <title>View Content</title>
 </head>
 <body>
+<div class="main-content">
     <h1>View Content</h1>
     <p>This section is only visible to users that have appropriate permission to this content</p>
     <small>This content has passed moderation</small>
@@ -240,6 +246,5 @@ function getYoutubeVideoId($url) {
     
     <br><br>
     <hr>
-<a href="Homepage.php">Back to Homepage</a>
 
 </html>
