@@ -26,7 +26,7 @@ if ($registry['organizer_member_id'] != $member_id && $registry['privilege_level
 // adding new participant
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_participant'])) {
     $new_participant = $_POST['participant_id'];
-    $sql = "INSERT INTO gift_registry_participant 
+    $sql = "INSERT INTO gift_registry_participants 
             (participant_member_id, target_gift_registry_id) 
             VALUES ($new_participant, $registry_id)";
     $conn->query($sql);
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_participant'])) {
 // removing participant
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_participant'])) {
     $remove_id = $_POST['remove_id'];
-    $sql = "DELETE FROM gift_registry_participant 
+    $sql = "DELETE FROM gift_registry_participants 
             WHERE participant_member_id = $remove_id 
             AND target_gift_registry_id = $registry_id";
     $conn->query($sql);
@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_participant'])
 
 // get current participants
 $sql = "SELECT grp.*, m.username 
-        FROM gift_registry_participant grp
+        FROM gift_registry_participants grp
         JOIN members m ON grp.participant_member_id = m.member_id
         WHERE grp.target_gift_registry_id = $registry_id";
 $result = $conn->query($sql);
@@ -53,7 +53,7 @@ $participants = $result->fetch_all(MYSQLI_ASSOC);
 $sql = "SELECT member_id, username FROM members 
         WHERE member_id NOT IN (
             SELECT participant_member_id 
-            FROM gift_registry_participant 
+            FROM gift_registry_participants
             WHERE target_gift_registry_id = $registry_id
         )";
 $result = $conn->query($sql);

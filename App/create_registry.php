@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] ==='POST') {
         $registry_id = $conn->insert_id;
 
         //add creator as a participant
-        $sql = "INSERT INTO gift_registry_participant
+        $sql = "INSERT INTO gift_registry_participants
                 (participant_member_id, target_gift_registry_id)
                 VALUES ($member_id, $registry_id)";
         $conn->query($sql);

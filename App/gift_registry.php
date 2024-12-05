@@ -26,7 +26,21 @@ $member_id = $_SESSION['member_id'];
         </div>
         
         <?php
-        
+        // Database connection
+$host = 'localhost';
+$db   = 'cosn';
+$user = 'root';
+$pass = '';
+$charset = 'utf8mb4';
+
+$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+$options = [
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+];
+
+$pdo = new PDO($dsn, $user, $pass, $options);
+
 
         //get registries where user is organizer
         $sql = "SELECT gr.gift_registry_id, m.username, COUNT(gri.gift_registry_ideas_id) as idea_count 

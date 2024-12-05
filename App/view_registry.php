@@ -34,11 +34,11 @@ $is_participant = $is_admin;
 
 // only check regular participation if not admin
 if (!$is_admin) {
-    $sql = "SELECT * FROM gift_registry_participant 
+    $sql = "SELECT * FROM gift_registry_participants 
             WHERE participant_member_id = $member_id 
             AND target_gift_registry_id = $registry_id
             UNION
-            SELECT grp.* FROM gift_registry_participant grp
+            SELECT grp.* FROM gift_registry_participants grp
             JOIN group_members gm ON grp.participant_member_id = gm.participant_member_id
             JOIN group_members gm2 ON gm.joined_group_id = gm2.joined_group_id
             WHERE gm2.participant_member_id = $member_id
@@ -101,9 +101,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_participant) {
 
         <div class="button-container">
             <?php if ($registry['organizer_member_id'] == $member_id): ?>
-                <button onclick="location.href='manage_participants.php?id<?= $registry_id ?>'" class="secondary-button">Manage Participants</button>
+                <button onclick="location.href='manage_participants.php?id=<?= $registry_id ?>'" class="secondary-button">Manage Participants</button>
             <?php endif; ?>
-            <button onclick="location.href='gift_registry.php': class="secondary-button">Back to Registries</button>
+            <button onclick="location.href='gift_registry.php'">Back to Registries</button>
             </div>
     </div>
 </body>
