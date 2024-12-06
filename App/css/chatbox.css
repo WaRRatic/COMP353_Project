@@ -1,79 +1,53 @@
-/* Chatbox container */
-.chatbox-container {
+/* Night Mode Styles for Chatbox */
+body {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+    font-family: Arial, sans-serif;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.container {
     position: fixed;
-    bottom: 0;
-    right: 0;
-    width: 300px;
-    background-color: #f1f1f1;
-    border: 1px solid #ccc;
-    border-radius: 8px 8px 0 0;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
-    z-index: 1000;
+    bottom: 20px;
+    right: 20px; /* Adjust to position the chatbox on the right side */
+    max-width: 400px;
+    width: 300px; /* Adjust this to your preferred width */
+    padding: 20px;
+    margin-left: 40%; /* This seems unnecessary when using fixed positioning */
+    text-align: center;
+    border: 1px solid #444;
+    border-radius: 40px;
+    background-color: #2a2a2a;
+    z-index: 1050; /* Higher z-index to ensure it stays above the sidebar */
 }
 
-/* Chat header */
-.chat-header {
-    background-color: #c4b9f5;
-    color: rgb(0, 79, 153);
+input[type="text"], input[type="password"] {
+    width: 80%;
     padding: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 8px 8px 0 0;
-    cursor: pointer;
-}
-
-/* Chat content */
-.chat-content {
-    display: none; /* Hidden by default, toggled by JS */
-    padding: 10px;
-    height: 300px;
-    overflow-y: auto;
-}
-
-/* Chat messages */
-.chat-messages {
-    margin-bottom: 10px;
-    overflow-y: auto;
-    height: 200px;
-}
-
-.chat-messages .sent {
-    text-align: right;
-    background-color: #dcf8c6;
-    margin: 5px 0;
-    padding: 5px 10px;
-    border-radius: 10px;
-    display: inline-block;
-}
-
-.chat-messages .received {
-    text-align: left;
-    background-color: #f1f1f1;
-    margin: 5px 0;
-    padding: 5px 10px;
-    border-radius: 10px;
-    display: inline-block;
-}
-
-/* Input and button */
-input#messageInput {
-    width: calc(100% - 60px);
-    margin-right: 10px;
-    padding: 5px;
-    border: 1px solid #ccc;
+    margin: 10px 0;
+    background-color: #333;
+    color: #e0e0e0;
+    border: 1px solid #555;
     border-radius: 5px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Spacing between buttons */
+    margin-top: 10px;
 }
 
 button {
-    background-color: #007bff;
-    color: white;
+    padding: 10px 20px;
     border: none;
-    padding: 5px 10px;
+    background-color: #666;
+    color: #ffffff;
     border-radius: 5px;
     cursor: pointer;
+    flex: 1; /* Optional: makes both buttons the same width */
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #555;
 }
