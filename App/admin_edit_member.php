@@ -24,12 +24,12 @@ if (!isset($_GET['member_id'])) {
 
 $member_id = $_GET['member_id'];
 
+
 //set db connections variables
 $dbServername = "localhost";
 $dbUsername = "root";
 $dbPassword = "";
 $dbName = "cosn";
-
 // Create a database connection
 $conn = new mysqli($dbServername, $dbUsername, $dbPassword, $dbName);
 
