@@ -2,10 +2,6 @@
 session_start();
 include 'db.php'; // Include database connection
 
-if (!isset($_SESSION['user_id'])) {
-    echo "You need to log in first!";
-    exit;
-}
 
 $user_id = $_SESSION['user_id'];
 
