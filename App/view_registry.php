@@ -68,9 +68,15 @@ $gift_ideas = $result->fetch_all(MYSQLI_ASSOC);
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_participant) {
     if (!empty($_POST['gift_idea'])) {
         $gift_idea = $_POST['gift_idea'];
-        $sql = "INSERT INTO gift_registry_ideas
-                (target_gift_registry_id, idea_owner_id, gift_idea_description)
-                VALUES ($registry_id, $member_id, '$gift_idea')";
+        $stmt = $pdo->prepare("INSERT INTO gift_registry_ideas
+            (target_gift_registry_id, idea_owner_id, gift_idea_description)
+            VALUES (:registry_id, :member_id, :gift_idea)");
+        $stmt->execute([
+            'registry_id' => $registry_id,
+            'member_id' => $member_id,
+            'gift_idea' => $gift_idea
+        ]);
+
         if ($conn->query($sql)) {
             header("Location: view_registry.php?id=$registry_id");
             exit;
@@ -83,15 +89,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_idea'])) {
     $idea_id = $_POST['delete_idea'];
     // Only allow deletion by admin or registry owner
     if ($is_admin || $registry['organizer_member_id'] == $member_id) {
-        $stmt = $pdo->prepare("DELETE FROM gift_registry_ideas WHERE gift_registry_ideas_id = :idea_id AND target_gift_registry_id = :registry_id");
-        $stmt->execute([
-            'idea_id' => $idea_id,
-            'registry_id' => $registry_id
-        ]);
-        header("Location: view_registry.php?id=$registry_id");
-        exit;
+        try {
+            $stmt = $pdo->prepare("DELETE FROM gift_registry_ideas WHERE gift_registry_ideas_id = :idea_id AND target_gift_registry_id = :registry_id");
+            $stmt->execute([
+                'idea_id' => $idea_id,
+                'registry_id' => $registry_id
+            ]);
+            header("Location: view_registry.php?id=$registry_id");
+            exit;
+        } catch(PDOException $e) {
+            echo "<script>alert('Error deleting idea: " . addslashes($e->getMessage()) . "');</script>";
+        }
     }
 }
+
 
 ?>
 
