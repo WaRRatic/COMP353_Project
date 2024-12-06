@@ -239,12 +239,6 @@ can be
 			<column name="organizer_member_id" prior="organized_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[ID of a particular gift registry organizer]]></comment>
 			</column>
-			<column name="gift_registry_name" type="VARCHAR" length="100" jt="12" >
-				<comment><![CDATA[name of the particular registry]]></comment>
-			</column>
-			<column name="gift_registry_description" type="VARCHAR" length="100" jt="12" >
-				<comment><![CDATA[Description for the particular gift registry]]></comment>
-			</column>
 			<index name="pk_gift_registry" unique="PRIMARY_KEY" >
 				<column name="gift_registry_id" />
 			</index>
@@ -555,7 +549,7 @@ can be either 'owner', 'member', 'requested, 'ousted']]></comment>
 				<comment><![CDATA[Date when group was created]]></comment>
 			</column>
 			<column name="category" prior="cathegory" type="VARCHAR" length="100" jt="12" >
-				<comment><![CDATA[defines the different cathegories]]></comment>
+				<comment><![CDATA[defines the different categories]]></comment>
 			</column>
 			<column name="group_deleted_flag" type="BOOLEAN" jt="-7" >
 				<defo><![CDATA[false]]></defo>
@@ -707,7 +701,12 @@ Mandatory (not null), for enabling the correct system functionality.]]></comment
 				<comment><![CDATA[the 'system' status is used for internal backend representation of "public" and "private" members]]></comment>
 			</column>
 			<column name="corporation_flag" type="BOOLEAN" jt="-7" mandatory="y" >
+				<defo><![CDATA[false]]></defo>
 				<comment><![CDATA[Defines whether the member is a corporation (corporation_flag = true) or an actual person (corporation_flag = false).]]></comment>
+			</column>
+			<column name="member_deleted_flag" type="BOOLEAN" jt="-7" >
+				<defo><![CDATA[false]]></defo>
+				<comment><![CDATA[indicates whether a member is deleted (true) or not (false)]]></comment>
 			</column>
 			<index name="pk_member" unique="PRIMARY_KEY" >
 				<column name="member_id" />
@@ -769,7 +768,7 @@ authorized_member_id = 2, it is visible to the "public" system member]]></commen
 		</table>
 	</schema>
 	<layout name="Main Layout" id="Layout-4cc" show_relation="columns" >
-		<comment><![CDATA[COSN DB Schema]]></comment>
+		<comment><![CDATA[Main Layout]]></comment>
 		<entity schema="cosn" name="content" color="E5C1EE" x="864" y="352" />
 		<entity schema="cosn" name="content_comment" color="E5C1EE" x="1424" y="240" />
 		<entity schema="cosn" name="content_group_permissions" color="E5C1EE" x="672" y="160" />
@@ -4334,6 +4333,10 @@ ALTER TABLE cosn.content MODIFY moderation_status ENUM('pending', 'approved', 'r
 		</script>
 		<script name="group_members" id="Editor-20c8" language="SQL" >
 			<string><![CDATA[DELETE FROM cosn.group_members;]]></string>
+		</script>
+		<script name="group_members_001" id="Editor-2467" language="SQL" >
+			<string><![CDATA[INSERT INTO cosn.group_members
+	( group_membership_id, participant_member_id, joined_group_id, date_joined, group_member_status) VALUES ( ?, ?, ?, ?, ? );]]></string>
 		</script>
 	</layout>
 </project>
