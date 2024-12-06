@@ -2,11 +2,6 @@
 session_start();
 include("db.php");
 
-// Ensure the user is logged in
-if (!isset($_SESSION['member_id'])) {
-    echo "You must be logged in to view this page.";
-    exit;
-}
 
 $member_id = $_SESSION['member_id'];
 
