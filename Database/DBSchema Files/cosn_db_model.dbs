@@ -239,6 +239,12 @@ can be
 			<column name="organizer_member_id" prior="organized_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[ID of a particular gift registry organizer]]></comment>
 			</column>
+			<column name="gift_registry_description" type="VARCHAR" length="100" jt="12" >
+				<comment><![CDATA[Description for the particular gift registry]]></comment>
+			</column>
+			<column name="gift_registry_name" type="VARCHAR" length="100" jt="12" >
+				<comment><![CDATA[name of the particular registry]]></comment>
+			</column>
 			<index name="pk_gift_registry" unique="PRIMARY_KEY" >
 				<column name="gift_registry_id" />
 			</index>
