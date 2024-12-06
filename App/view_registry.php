@@ -1,6 +1,8 @@
 <?php
 session_start();
 include("db.php");
+include('sidebar.php'); 
+include("header.php");
 
 if (!isset($_SESSION['loggedin'])) {
     header("Location: index.php");
@@ -75,6 +77,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_participant) {
         }
     }
 }
+
+// Handle idea deletion
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_idea'])) {
+    $idea_id = $_POST['delete_idea'];
+    // Only allow deletion by admin or registry owner
+    if ($is_admin || $registry['organizer_member_id'] == $member_id) {
+        $stmt = $pdo->prepare("DELETE FROM gift_registry_ideas WHERE gift_registry_ideas_id = :idea_id AND target_gift_registry_id = :registry_id");
+        $stmt->execute([
+            'idea_id' => $idea_id,
+            'registry_id' => $registry_id
+        ]);
+        header("Location: view_registry.php?id=$registry_id");
+        exit;
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -86,7 +104,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_participant) {
 </head>
 <body>
     <div class="container">
-        <h1>Gift Registry</h1>
+        <h1><?=htmlspecialchars($registry['gift_registry_name']) ?></h1>
+        <p><?=htmlspecialchars($registry['gift_registry_description']) ?></p>
         <p>Organized by: <?=htmlspecialchars($registry['username']) ?> </p>
 
         <div class="gift-list">
@@ -94,6 +113,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $is_participant) {
                 <div class="gift-item">
                     <p class="description"><?=htmlspecialchars($gift['gift_idea_description']) ?></p>
                     <small>Added by: <?=htmlspecialchars($gift['added_by']) ?></small>
+                    <?php if ($registry['organizer_member_id'] == $member_id || $is_admin): ?>
+                        <form method="POST" style="display: inline;">
+                            <input type="hidden" name="delete_idea" value="<?= $gift['gift_registry_ideas_id'] ?>">
+                            <button type="submit" class="delete-button">Delete</button>
+                        </form>
+                    <?php endif; ?>
                 </div>
             <?php endforeach; ?>
         </div>

@@ -764,7 +764,7 @@ insert into
     participant_member_id, 
     joined_group_id, 
     date_joined, 
-    role_of_member
+    group_member_status
   )
 values
   (
@@ -781,7 +781,7 @@ values
     participant_member_id, 
     joined_group_id, 
     date_joined, 
-    role_of_member
+    group_member_status
   )
 values
   (
@@ -798,7 +798,7 @@ values
     participant_member_id, 
     joined_group_id, 
     date_joined, 
-    role_of_member
+    group_member_status
   )
 values
   (
@@ -815,7 +815,7 @@ values
     participant_member_id, 
     joined_group_id, 
     date_joined, 
-    role_of_member
+    group_member_status
   )
 values
   (
@@ -862,3 +862,44 @@ INSERT INTO cosn.content_comment
   INSERT INTO cosn.content_comment
 	( content_comment_id, commenter_member_id, comment_text, target_content_id, datetime_comment) 
   VALUES ( 2, 9, "Hurry up, the food will get cold!", 9,  NOW());
+
+-- INIT_GIFT_REGISTRY
+INSERT INTO cosn.gift_registry (gift_registry_id, organizer_member_id) VALUES
+(1, 2),  -- Steve Colbert's registry
+(2, 9);  -- Evelyn's registry
+
+-- INIT_GIFT_REGISTRY_PARTICIPANTS
+INSERT INTO cosn.gift_registry_participants (gift_registry_participants_id, participant_member_id, target_gift_registry_id) VALUES
+(1, 2, 1),  -- Steve in his own registry
+(2, 9, 1),  -- Evelyn in Steve's registry
+(3, 5, 1),  -- Matt Bellamy in Steve's registry (friend)
+(4, 9, 2),  -- Evelyn in her own registry
+(5, 2, 2);  -- Steve in Evelyn's registry
+
+-- INIT_GIFT_REGISTRY_IDEAS
+INSERT INTO cosn.gift_registry_ideas (gift_registry_ideas_id, target_gift_registry_id, idea_owner_id, gift_idea_description) VALUES
+(1, 1, 2, 'New tie for The Late Show'),
+(2, 1, 9, 'Lord of the Rings Extended Edition Box Set'),
+(3, 1, 5, 'Vintage Captain America Comics'),
+(4, 2, 9, 'Cooking Class Gift Certificate'),
+(5, 2, 2, 'Garden Tools Set');
+
+UPDATE cosn.gift_registry 
+SET name = 'Steve\'s Birthday Wishlist',
+    description = 'Things I\'d love to get for my birthday this year'
+WHERE gift_registry_id = 1;
+
+UPDATE cosn.gift_registry 
+SET name = 'Evelyn\'s Christmas List',
+    description = 'Christmas gift ideas for 2024'
+WHERE gift_registry_id = 2;
+
+UPDATE cosn.gift_registry 
+SET name = 'Evelyn\'s Christmas List',
+    description = 'Christmas gift ideas for 2024'
+WHERE gift_registry_id = 3;
+
+UPDATE cosn.gift_registry 
+SET name = 'Evelyn\'s Christmas List',
+    description = 'Christmas gift ideas for 2024'
+WHERE gift_registry_id = 4;
