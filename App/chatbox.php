@@ -1,6 +1,8 @@
 <?php
 session_start();
 include 'db.php';
+include("sidebar.php");
+include("header.php");
 if (!isset($_SESSION['member_id'])) {
     echo "You must be logged in to view this page.";
     exit;
@@ -12,7 +14,7 @@ if (!isset($_SESSION['member_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatbox</title>
-    <link rel="stylesheet" type="text/css" href="../css/chatbox.css">
+    <link rel="stylesheet" type="text/css" href="./css/index.css">
 </head>
 <body>
     <h1>Chatbox</h1>
@@ -163,3 +165,4 @@ if (!isset($_SESSION['member_id'])) {
     </script>
 </body>
 </html>
+
