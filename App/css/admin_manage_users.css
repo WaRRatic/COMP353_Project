@@ -34,3 +34,14 @@ button {
 button:hover {
     background-color: #555;
 }
+.main-content {
+    margin-left: 200px; /* Match sidebar width */
+    padding: 20px;
+}
+
+/* Ensure proper spacing on smaller screens */
+@media screen and (max-width: 768px) {
+    .main-content {
+        margin-left: 0;
+    }
+}

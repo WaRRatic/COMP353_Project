@@ -1,6 +1,12 @@
+<?php
+include("db_config.php");
+include("header.php");
+include('sidebar.php'); 
+?>
+
 <!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" type = "text/css" href="./css/admin_edit_member.css"/>
+<link rel="stylesheet" type = "text/css" href="./css/admin_create_member.css"/>
 <head>
     <meta charset="UTF-8">
     <title>Admin Create users</title>
@@ -14,59 +20,58 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['privilege_level'] !== 'administr
     header("Location: homepage.php"); 
     exit;
 }
-    //set db connections variables
-    $dbServername = "localhost";
-    $dbUsername = "root";
-    $dbPassword = "";
-    $dbName = "cosn";
+
 
 // Create a database connection
-    $conn = new mysqli($dbServername, $dbUsername, $dbPassword, $dbName);  
+$conn = new mysqli($host, $user, $pass, $db);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Collect user data from the form
-    $member_id = $_POST['member_id'];
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+// If the form is submitted, update the member's data
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_signup'])) {
+    $new_username = $_POST['new_username'];
     $email = $_POST['email'];
-    $first_name = $_POST['first_name'];
-    $last_name = $_POST['last_name'];
-    $address = $_POST['address'];
-    $date_of_birth = $_POST['date_of_birth'];
-    $privilege_level = $_POST['privilege_level'];
-    $pseudonym = $_POST['pseudonym'];
-    $status = $_POST['status'];
+    $firstName = $_POST['firstName'];
+    $lastName = $_POST['lastName'];
+    $password = $_POST['password'];
 
-    // Begin a transaction, as not to lose the member data if an error due to data type mismatch is produced 
-    $conn->begin_transaction();
+    try {
+        $pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $stmt = $conn->prepare("INSERT INTO Members (username , password, email, first_name, last_name, address, date_of_birth, privilege_level, pseudonym, status, member_id) VALUES(?,?,?,?,?,?,?,?,?,?,?)");
-    //'i' is for integer, 's' is for string, each "letter" must match the data types of the parameter, thefore 12 letters = 12 parameters
-    $stmt->bind_param("ssssssssssi", $username, $password, $email, $first_name, $last_name, $address, $date_of_birth, $privilege_level, $pseudonym, $status,$member_id);
-    try{
-        if ($stmt->execute()) {
-            $conn->commit(); //if the update goes through without error, commit the transaction therefore saving the data
-            echo "<script>alert('Member updated successfully!');</script>";
-            header("Location: admin_manage_users.php"); // Redirect to the members list upon successful update
+        // Check if email already exists
+        $stmt = $pdo->prepare('SELECT * FROM members WHERE email = :email');
+        $stmt->execute(['email' => $email]);
+        $emailExists = $stmt->fetch();
+
+        // Check if username already exists
+        $stmt = $pdo->prepare('SELECT * FROM members WHERE username = :new_username');
+        $stmt->execute(['new_username' => $new_username]);
+        $usernameExists = $stmt->fetch();
+
+        //JavaScript <script> tag
+        if ($emailExists) {
+            echo "<script>alert('Email is already in use. Please use a different email address.');</script>";
+        } elseif($usernameExists) {
+            echo "<script>alert('Username is already in use. Please use a different username.');</script>";
         } else {
-            // Rollback the transaction if there's an error
-            $conn->rollback();
-            echo "<script>alert('Error updating the member! Check your datatypes and try again... $conn->error;');</script>";
-        }
-    } catch (Exception $e) {
-        // Rollback in case of ENUM validation error or any other failure
-        $conn->rollback();
-        // Output an alert and use JavaScript for redirection
-        echo "<script>alert('Error updating the member! Check your datatypes and try again: " . addslashes($e->getMessage()) . "');</script>";
-        echo "<script>window.location.href = 'admin_edit_member.php?member_id=" . $member_id . "&error=" . urlencode($e->getMessage()) . "';</script>";
-        exit;
-    }
+            // Proceed with inserting the new member if email is unique
+            $stmt = $pdo->prepare('INSERT INTO members (username,first_name, last_name, email, password,privilege_level,status) VALUES (:username,:firstName, :lastName, :email, :password,"junior","active")');
+            $stmt->execute([
+                'username' => $new_username,
+                'firstName' => $firstName,
+                'lastName' => $lastName,
+                'email' => $email,
+                'password' => $password // store the password in plaintext, like a retard
+            ]);
 
-    $stmt->close();
-    $conn->close();
-    exit;
+            echo "<script>alert('Sign-up successful!');</script>";
+            header("Location: admin_manage_users.php");
+        }
+    } catch (PDOException $e) {
+        echo "<script>alert('Database error: " . $e->getMessage() . "');</script>";
+    }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -74,43 +79,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Create Member</title>
 </head>
 <body>
+<div class="main-content">
     <h1>Create Member</h1>
     <p>This section is only visible to admin users.</p>
-    <form action="admin_create_member.php" method="POST">
-        <label for="member_id">Member ID:</label>
-        <input type="text" id="member_id" name="member_id" required><br>
-        
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username"  required><br>
-        
-        <label for="password">Password:</label>
-        <input type="text" id="password" name="password" required><br>
+<!-- Hidden part of the form for sign-up details -->
+<form id="signupForm"  method="POST">
+    <h2>Sign-Up Details</h2>
+    <label for="new_username">Username:</label>
+    <input type="text" id="new_username" name="new_username" required>
+    
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" name="firstName" required>
 
-        <label for="email">Email:</label>
-        <input type="text" id="email" name="email" required><br>
-        
-        <label for="first_name">First Name:</label>
-        <input type="text" id="first_name" name="first_name" required><br>
+    <label for="lastName">Last Name:</label>
+    <input type="text" id="lastName" name="lastName" required>
 
-        <label for="last_name">Last Name:</label>
-        <input type="text" id="last_name" name="last_name" required><br>
+    <label for="email">Email:</label>
+    <input type="text" id="email" name="email" required>
 
-        <label for="address">Address:</label>
-        <input type="text" id="address" name="address" required><br>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
 
-        <label for="date_of_birth">Date Of Birth:</label>
-        <input type="text" id="date_of_birth" name="date_of_birth" required><br>
+    <button type="submit" name="submit_signup">Sign Up</button>
+</form>
 
-        <label for="privilege_level">Privilege Level:</label>
-        <input type="text" id="privilege_level" name="privilege_level" required><br>
-
-        <label for="pseudonym">Pseudonym:</label>
-        <input type="text" id="pseudonym" name="pseudonym" required><br>
-        
-        <label for="status">Status:</label>
-        <input type="text" id="status" name="status" required><br>
-
-        <button type="submit" name="create_user">Create Member</button>
-    </form>
-
+</div>
 </html>

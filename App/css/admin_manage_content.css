@@ -1,12 +1,12 @@
-/* Night Mode Styles */
-body {
+ /* Night Mode Styles */
+ body {
     background-color: #1a1a1a;
     color: #e0e0e0;
     font-family: Arial, sans-serif;
     transition: background-color 0.3s, color 0.3s;
 }
 .container {
-    max-width: 400px;
+    max-width: 800px;
     margin: auto;
     padding: 20px;
     text-align: center;
@@ -39,9 +39,12 @@ button:hover {
     padding: 20px;
 }
 
-/* Ensure proper spacing on smaller screens */
-@media screen and (max-width: 768px) {
-    .main-content {
-        margin-left: 0;
-    }
+/* Hide edit buttons by default */
+button.hidden {
+    display: none;
+}
+
+/* Show edit buttons for admins */
+button.admin-only {
+    display: inline-block;
 }

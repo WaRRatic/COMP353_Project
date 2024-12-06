@@ -1,5 +1,5 @@
 <?php
-
+include("db_config.php");
 include("header.php");
 include('sidebar.php'); ?>
 
@@ -38,11 +38,6 @@ if (!isset($_GET['content_id'])) {
 $member_id = $_SESSION['member_id'];
 $content_id = $_GET['content_id'];
 
-// Database connection parameters
-$host = 'localhost';
-$db   = 'cosn';
-$user = 'root';
-$pass = '';
 
 
 // Set up DSN and options

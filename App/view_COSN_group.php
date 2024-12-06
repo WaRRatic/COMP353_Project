@@ -45,12 +45,7 @@ $user = 'root';
 $pass = '';
 
 
-$dbServername = "localhost";
-$dbUsername = "root";
-$dbPassword = "";
-$dbName = "cosn";
-
-$conn = new mysqli($dbServername, $dbUsername, $dbPassword, $dbName);
+$conn = new mysqli($host, $user, $pass, $db);
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);

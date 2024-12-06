@@ -1,3 +1,9 @@
+<?php
+include("db_config.php");
+include("header.php");
+include('sidebar.php'); 
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <link rel="stylesheet" type = "text/css" href="./css/admin_manage_users.css" />
@@ -15,17 +21,15 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['privilege_level'] !== 'administr
     exit;
 }
 
-//set db values for connections
-$dbServername = "localhost";
-$dbUsername = "root";
-$dbPassword = "";
-$dbName = "cosn";
 
 // Create a database connection
-$conn = new mysqli($dbServername, $dbUsername, $dbPassword, $dbName);
+$conn = new mysqli($host, $user, $pass, $db);
 
 // Query to get all members
-$sql = "SELECT member_id,username,password,email,first_name,last_name,address,date_of_birth,privilege_level,pseudonym,status FROM members;";
+$sql = "SELECT member_id,username,password,email,first_name,last_name,address,date_of_birth,privilege_level,pseudonym,status 
+FROM members
+where member_deleted_flag = false
+;";
 $result = $conn->query($sql);
 ?>
 
@@ -36,10 +40,12 @@ $result = $conn->query($sql);
     <title>Admin Page</title>
 </head>
 <body>
+<div class="main-content">
+<div class="view-content-container">
     <h1>Choose a Member to edit</h1>
-    <p>This section is only visible to admin users.</p>
+    <p>This section is only visible to admin user.</p>
     <div id="center_button">
-    <button><a href="admin_create_member.php">Create member</a></button>
+    <button onclick="location.href='admin_create_member.php'">Create member</button>
     </div>
     <table border="1">
         <tr>
@@ -76,11 +82,7 @@ $result = $conn->query($sql);
                 echo "<td>" . $row['pseudonym'] . "</td>";
                 echo "<td>" . $row['status'] . "</td>";
                 echo "<td>";
-                echo "<td><a href='admin_view_member.php?member_id=" . $row['member_id'] . "'><button>View member</button></a></td>";
-                echo "<td><form action='admin_delete_member.php' method='POST' style='display:inline;'>";
-                echo "<input type='hidden' name='member_id' value='" . $row['member_id'] . "'>";
-                echo "<button type='submit' onclick='return confirm(\"Are you sure you want to delete this member?\");'>Delete member</button>";
-                echo "</td></form>";
+                echo "</form>";
                 echo "</td>";
                 echo "</tr>";
             }
@@ -98,6 +100,9 @@ $result = $conn->query($sql);
         <ul>
             <li><a href="homepage.php">Back to Homepage</a></li>
         </ul>
+
+</div>
+</div>
 </body>
 </body>
 </html>

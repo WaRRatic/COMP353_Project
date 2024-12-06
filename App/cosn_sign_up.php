@@ -1,7 +1,8 @@
 <?php
-
+include("db_config.php");
 include("header.php");
 include('sidebar.php'); ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <link rel="stylesheet" type = "text/css" href="./css/cosn_sign_up.css" />
@@ -55,11 +56,7 @@ include('sidebar.php'); ?>
     ini_set('display_errors', 1);
 
 	session_start();
-	$dbServername = "localhost";
-    $dbUsername = "root";
-    $dbPassword = "";
-    $dbName = "cosn";
-	
+
 	
 	
 // Check if the form is submitted
@@ -69,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'], $_POST['m
     $member_id = $_POST['member_id'];
 
      
-    $pdo = new PDO("mysql:host=$dbServername;dbname=$dbName", $dbUsername, $dbPassword);
+    $pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
     //configure the error handling mode for the PDO (PHP Data Objects) database connection.
     //throw an exception when a database error occurs.
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -107,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'], $_POST['m
     $password = $_POST['password'];
 
     try {
-        $pdo = new PDO("mysql:host=$dbServername;dbname=$dbName", $dbUsername, $dbPassword);
+        $pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         // Check if email already exists

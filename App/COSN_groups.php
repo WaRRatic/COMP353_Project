@@ -1,5 +1,5 @@
 <?php
-
+include("db_config.php");
 include("header.php");
 include('sidebar.php');
 
@@ -13,12 +13,8 @@ if (!isset($_SESSION['loggedin'])) {
 
 $logged_in_member_id = $_SESSION['member_id'];
 
-$dbServername = "localhost";
-$dbUsername = "root";
-$dbPassword = "";
-$dbName = "cosn";
 
-$conn = new mysqli($dbServername, $dbUsername, $dbPassword, $dbName);
+$conn = new mysqli($host, $user, $pass, $db);
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
@@ -79,7 +75,7 @@ $result = $stmt->get_result();
                 echo "<td>" . $row['description'] . "</td>";
                 echo "<td>" . $row['creation_date'] . "</td>";
                 echo "<td>";
-                echo "<td><a href='view_COSN_group.php?group_id=" . $row['group_id'] . "'><button>View group</button></a></td>";
+                echo "<td><a href='view_COSN_group_public_page.php?group_id=" . $row['group_id'] . "'><button>View group</button></a></td>";
                 echo "</form>";
                 echo "</td>";
                 echo "</tr>";

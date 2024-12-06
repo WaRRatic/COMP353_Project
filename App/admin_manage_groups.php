@@ -17,13 +17,13 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['privilege_level'] !== 'administr
 }
 
 //set db values for connections
-$dbServername = "localhost";
-$dbUsername = "root";
-$dbPassword = "";
-$dbName = "cosn";
+$host = "localhost";
+$user = "root";
+$pass = "";
+$db = "cosn";
 
 // Create a database connection
-$conn = new mysqli($dbServername, $dbUsername, $dbPassword, $dbName);
+$conn = new mysqli($host, $user, $pass, $db);
 
 // Query to get all members
 $sql = "SELECT group_id, group_name, owner_id, description, creation_date FROM groups;";

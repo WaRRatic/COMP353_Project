@@ -1,5 +1,5 @@
 <?php
-
+include("db_config.php");
 include("header.php");
 include('sidebar.php'); ?>
 
@@ -27,12 +27,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 }
 
 
-// Database connection parameters
-$host = 'localhost';
-$db   = 'cosn';
-$user = 'root';
-$pass = '';
-
 
 // Set up DSN and options
 $dsn = "mysql:host=$host;dbname=$db";
@@ -40,6 +34,19 @@ $options = [
     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
 ];
+
+// Create a PDO instance to detrmine the member's status
+try {
+    $pdo_member_status = new PDO($dsn, $user, $pass, $options);
+} catch (\PDOException $e) {
+    exit('Database connection failed: ' . $e->getMessage());
+}
+
+// Query to get the member's status
+$sql_member_status = "SELECT privilege_level FROM cosn.members WHERE member_id = :logged_in_member_id";
+$stmt_member_status = $pdo_member_status->prepare($sql_member_status);
+$stmt_member_status->execute([':logged_in_member_id' => $logged_in_member_id]);
+$member_status = $stmt_member_status->fetchColumn();
 
 // Create a PDO instance
 try {
@@ -50,7 +57,7 @@ try {
 
 
 
-// QUERY explanation:
+// Content feed SQL QUERY explanation:
 // General conditions: (1) Get content the logged-in user has permissions on, (2) content that has passed moderation, (3) content that is not deleted, (4) exclude comments
 // Query to get Public content
 // UNION Query to get private content that the user has permission to view
@@ -167,24 +174,23 @@ function getYoutubeVideoId($url) {
 <div class="main-content">
 <h1>Welcome to <?php echo $_SESSION['member_username']; ?> homepage!</h1>
     <small>You are now logged in.</small>
-    <h2>Activities</h2>
-        <ul>
-            <li><a href="create_content_and_set_permissions.php">Post content to COSN</a></li>
-        </ul>
-        
-<!-- Display this element only if the role is "admin" -->
-<?php if ($_SESSION['privilege_level'] === 'administrator'): ?>
+    <br>
+    <small>Your status in COSN is: <?php echo $member_status; ?></small>
+    <hr>
+    <?php if ($_SESSION['privilege_level'] === 'administrator'): ?>
     <div style="border: 1px solid black; padding: 10px; margin: 10px;">
         <h2>Admin Panel</h2>
         <p>This section is only visible to admin users.</p>
         <ul>
             <li><a href="admin_manage_users.php">Manage COSN users</a></li>
             <li><a href="admin_manage_groups.php">Manage COSN groups</a></li>
-            <li><a href="admin_post_public.php">Make a public post</a></li>
+            <li><a href="admin_manage_content.php">Manage & moderate COSN content</a></li>
         </ul>
     </div>
 <?php endif; ?>
-    
+
+    <h2>Your content feed:</h2>
+
 <!-- Display public feed -->
 <!-- <h2><?php echo $_SESSION['member_username']; ?>'s Content Feed (most recent posts first)</h2> -->
 

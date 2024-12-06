@@ -1,3 +1,9 @@
+<?php
+include("db_config.php");
+include("header.php");
+include('sidebar.php');
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <link rel="stylesheet" type = "text/css" href="./css/comment_on_content.css" />
@@ -32,12 +38,6 @@ if (!isset($_GET['content_id'])) {
 
 $member_id = $_SESSION['member_id'];
 $content_id = $_GET['content_id'];
-
-// Database connection parameters
-$host = 'localhost';
-$db   = 'cosn';
-$user = 'root';
-$pass = '';
 
 
 // Set up DSN and options
@@ -195,6 +195,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_comment'])) {
     <title>Comment on Content</title>
 </head>
 <body>
+<div class="main-content">
     <h1>Comment on Content</h1>
     <p>This section is only visible to users that have appropriate permission to this content</p>
     <small>This content has passed moderation</small>
@@ -269,6 +270,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_comment'])) {
     
     <br><br>
     <hr>
-<a href="Homepage.php">Back to Homepage</a>
-
+</div>
 </html>

@@ -1,7 +1,9 @@
 <?php
 
 include("header.php");
+include("db_config.php");
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <link rel="stylesheet" type = "text/css" href="./css/index.css" />
@@ -13,10 +15,6 @@ include("header.php");
 
     <?php
 	session_start();
-	$dbServername = "localhost";
-    $dbUsername = "root";
-    $dbPassword = "";
-    $dbName = "cosn";
 	
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -24,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $inputPassword = $_POST['password'];
 
     // Create a database connection
-    $conn = new mysqli($dbServername, $dbUsername, $dbPassword, $dbName);
+    $conn = new mysqli($host, $user, $pass, $db);
 
     // Check the connection
     if ($conn->connect_error) {

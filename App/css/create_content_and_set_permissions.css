@@ -84,3 +84,15 @@ select {
     color: #333; /* Text color */
     margin-bottom: 10px; /* Add spacing below the select box */
 }
+
+.main-content {
+    margin-left: 200px; /* Match sidebar width */
+    padding: 20px;
+}
+
+/* Ensure proper spacing on smaller screens */
+@media screen and (max-width: 768px) {
+    .main-content {
+        margin-left: 0;
+    }
+}

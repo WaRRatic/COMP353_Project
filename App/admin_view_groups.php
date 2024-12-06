@@ -25,13 +25,13 @@ if (!isset($_GET['group_id'])) {
 $group_id = $_GET['group_id'];
 
 //set db connections variables
-$dbServername = "localhost";
-$dbUsername = "root";
-$dbPassword = "";
-$dbName = "cosn";
+$host = 'localhost';
+$db   = 'cosn';
+$user = 'root';
+$pass = '';
 
 // Create a database connection
-$conn = new mysqli($dbServername, $dbUsername, $dbPassword, $dbName);
+$conn = new mysqli($host, $user, $pass, $db);
 
 // Fetch group details for the form
 $stmt = $conn->prepare("SELECT group_id,group_name,owner_id,description,creation_date FROM groups WHERE group_id = ?");
