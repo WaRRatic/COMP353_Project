@@ -1,9 +1,3 @@
-<?php
-if (!isset($_SESSION['member_id'])) {
-    echo "You must be logged in to view this page.";
-    exit;
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 <link rel="stylesheet" type = "text/css" href="../css/index.css" />
