@@ -1,6 +1,8 @@
 <?php
 session_start();
 include("db.php");
+include('sidebar.php'); 
+include("header.php");
 
 if (!isset($_SESSION['loggedin']) || !isset($_GET['id'])) {
     header("Location: index.php");

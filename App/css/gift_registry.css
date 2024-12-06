@@ -123,3 +123,59 @@ button:hover {
     border: 1px solid #555;
     border-radius: 5px;
 }
+
+/* Registry info on creation form */
+.registry-info {
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #333;
+    color: #e0e0e0;
+    border: 1px solid #555;
+    border-radius: 5px;
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Registry display styling */
+.registry-item h3 {
+    margin: 0 0 10px 0;
+    color: #e0e0e0;
+}
+
+.registry-item p {
+    margin: 5px 0;
+}
+
+.delete-button {
+    background-color: #666;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    float: right;
+}
+
+.delete-button:hover {
+    background-color: #555;
+}
+
+.gift-item {
+    position: relative;
+    padding-right: 70px;  /* Make room for delete button */
+}

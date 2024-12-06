@@ -1,6 +1,8 @@
 <?php
 session_start();
 include 'db.php'; //include database connection
+include('sidebar.php'); 
+include("header.php");
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("Location: index.php");
@@ -43,7 +45,7 @@ $pdo = new PDO($dsn, $user, $pass, $options);
 
 
         //get registries where user is organizer
-        $sql = "SELECT gr.gift_registry_id, m.username, COUNT(gri.gift_registry_ideas_id) as idea_count 
+        $sql = "SELECT gr.gift_registry_id, gr.gift_registry_name, gr.gift_registry_description, m.username, COUNT(gri.gift_registry_ideas_id) as idea_count 
                 FROM gift_registry gr
                 JOIN members m ON gr.organizer_member_id = m.member_id
                 LEFT JOIN gift_registry_ideas gri ON gr.gift_registry_id = gri.target_gift_registry_id
@@ -55,7 +57,7 @@ $pdo = new PDO($dsn, $user, $pass, $options);
 
 
         //get registries where user is participant
-        $sql = "SELECT gr.gift_registry_id, m.username, COUNT(gri.gift_registry_ideas_id) as idea_count 
+        $sql = "SELECT gr.gift_registry_id, gr.gift_registry_name, gr.gift_registry_description, m.username, COUNT(gri.gift_registry_ideas_id) as idea_count 
                 FROM gift_registry gr 
                 JOIN members m ON gr.organizer_member_id = m.member_id
                 LEFT JOIN gift_registry_ideas gri ON gr.gift_registry_id = gri.target_gift_registry_id
@@ -78,6 +80,8 @@ $pdo = new PDO($dsn, $user, $pass, $options);
             <h2>My Registries</h2>
             <?php foreach ($my_registries as $registry): ?>
                 <div class="registry-item">
+                    <h3><?= htmlspecialchars($registry['gift_registry_name']) ?></h3>
+                    <p><?= htmlspecialchars($registry['gift_registry_description']) ?></p>
                     <p>Organizer: <?= htmlspecialchars($registry['username']) ?></p>
                     <p>Number of Items: <?= $registry['idea_count'] ?></p>
                     <div class="button-container">
