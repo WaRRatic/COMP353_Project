@@ -1,8 +1,8 @@
 <?php
-session_start();
 include 'db.php';
 include("sidebar.php");
 include("header.php");
+session_start();
 if (!isset($_SESSION['member_id'])) {
     echo "You must be logged in to view this page.";
     exit;
@@ -14,9 +14,10 @@ if (!isset($_SESSION['member_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatbox</title>
-    <link rel="stylesheet" type="text/css" href="./css/chatbox.css">
+    <link rel="stylesheet" type="text/css" href="./css/COSN_groups.css">
 </head>
 <body>
+<div class="main-content">
     <h1>Chatbox</h1>
     <div>
         <label for="friendSelect">Select a Friend:</label>
@@ -29,7 +30,7 @@ if (!isset($_SESSION['member_id'])) {
     <button onclick="sendMessage()">Send</button>
     <button onclick="unfriend()">Unfriend</button>
     <button onclick="block()">Block</button>
-
+    <div class="main-content">
     <script>
         const loggedInUserId = <?php echo $_SESSION['member_id']; ?>;
 
@@ -165,4 +166,3 @@ if (!isset($_SESSION['member_id'])) {
     </script>
 </body>
 </html>
-
