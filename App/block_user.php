@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'db.php'; //include database connection
+include 'db_config.php'; //include database connection
 
 if (isset($_POST['blocked_id'])) 
 {
