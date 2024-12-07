@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'db.php'; //include database connection
+include 'db_config.php'; //include database connection
 
 if (!isset($_GET['origin_member_id']) || !isset($_GET['target_member_id'])) {
     echo json_encode(['status' => 'error', 'message' => 'Missing parameters']);
