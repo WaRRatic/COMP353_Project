@@ -854,6 +854,14 @@ INSERT INTO kpc353_2.member_relationships
 	( relationship_id, origin_member_id, target_member_id, member_relationship_type, member_relationship_status) 
   VALUES ( 6, 2, 9, 'family', 'approved' );
 
+-- make it so admin is friends with user id 2 and user id 3 and vice versa
+INSERT INTO member_relationships (relationship_id, origin_member_id, target_member_id, member_relationship_type, member_relationship_status) 
+VALUES 
+(7, 1, 2, 'friend', 'approved'), 
+(8, 1, 3, 'friend', 'approved'),
+(9,2,1,'friend','approved'),
+(10,3,1,'friend','approved');
+
 -- INIT CONTENT_COMMENT
 INSERT INTO kpc353_2.content_comment
 	( content_comment_id, commenter_member_id, comment_text, target_content_id, datetime_comment) 
