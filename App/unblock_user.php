@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'db.php';
+include 'db_config.php';
 
 if (!isset($_SESSION['user_id'])) {
     echo "You must be logged in to perform this action.";
