@@ -1,17 +1,17 @@
--- truncate table cosn.member_relationships;
--- truncate table cosn.group_members;
--- truncate table cosn.content_public_permissions;
--- truncate table cosn.content_member_permission;
--- truncate table cosn.content_group_permissions;
--- truncate table cosn.groups;
--- truncate table cosn.content;
--- truncate table cosn.members;
+-- truncate table kpc353_2.member_relationships;
+-- truncate table kpc353_2.group_members;
+-- truncate table kpc353_2.content_public_permissions;
+-- truncate table kpc353_2.content_member_permission;
+-- truncate table kpc353_2.content_group_permissions;
+-- truncate table kpc353_2.groups;
+-- truncate table kpc353_2.content;
+-- truncate table kpc353_2.members;
 
 
 -- INIT_MEMBERS
 -- insert a "private" system member
 insert into 
-  cosn.members (
+  kpc353_2.members (
     member_id, 
     username, 
     password, 
@@ -43,7 +43,7 @@ values
 
 -- insert a "public" system member
   insert into 
-  cosn.members (
+  kpc353_2.members (
     member_id, 
     username, 
     password, 
@@ -75,7 +75,7 @@ values
 
   -- insert a "jimi hendrix" senior member, with status 'inactive'
     insert into 
-  cosn.members (
+  kpc353_2.members (
     member_id, 
     username, 
     password, 
@@ -107,7 +107,7 @@ values
 
   -- insert a "jim morrison" senior member, with status 'suspended'
   insert into 
-  cosn.members (
+  kpc353_2.members (
     member_id, 
     username, 
     password, 
@@ -140,7 +140,7 @@ values
   
   -- insert a "Matt Bellamy" senior member, with status 'active'
   insert into 
-  cosn.members (
+  kpc353_2.members (
     member_id, 
     username, 
     password, 
@@ -172,7 +172,7 @@ values
 
     -- insert a "Lana Del Rey" junior member, with status active
   insert into 
-  cosn.members (
+  kpc353_2.members (
     member_id, 
     username, 
     password, 
@@ -203,7 +203,7 @@ values
   );
 -- insert a "sharon den adel" senior member, with status 'active'
   insert into 
-  cosn.members (
+  kpc353_2.members (
     member_id, 
     username, 
     password, 
@@ -234,7 +234,7 @@ values
   );
   -- insert a "axl" senior member, with status 'inactive'
   insert into 
-  cosn.members (
+  kpc353_2.members (
     member_id, 
     username, 
     password, 
@@ -266,7 +266,7 @@ values
   
   -- evy mcgee-colbert, wife of steven colbert
  insert into 
-  cosn.members (
+  kpc353_2.members (
     member_id, 
     username, 
     password, 
@@ -298,7 +298,7 @@ values
 
 -- INIT_CONTENT
 insert into 
-  cosn.content (
+  kpc353_2.content (
     content_id, 
     creator_id, 
     content_type, 
@@ -319,7 +319,7 @@ values
   );
   
   insert into 
-    cosn.content (
+    kpc353_2.content (
       content_id,
       creator_id, 
       content_type, 
@@ -340,7 +340,7 @@ values
     );
 
     insert into 
-    cosn.content (
+    kpc353_2.content (
       content_id,
       creator_id, 
       content_type, 
@@ -357,7 +357,7 @@ values
     );
 
     insert into 
-    cosn.content (
+    kpc353_2.content (
       content_id,
       creator_id, 
       content_type, 
@@ -374,7 +374,7 @@ values
     );
 
 insert into 
-    cosn.content (
+    kpc353_2.content (
       content_id,
       creator_id, 
       content_type, 
@@ -391,7 +391,7 @@ insert into
     );
 
     insert into 
-    cosn.content (
+    kpc353_2.content (
       content_id,
       creator_id, 
       content_type, 
@@ -409,7 +409,7 @@ insert into
 
 
     insert into 
-    cosn.content (
+    kpc353_2.content (
       content_id,
       creator_id, 
       content_type, 
@@ -426,7 +426,7 @@ insert into
     );
 
     insert into 
-    cosn.content (
+    kpc353_2.content (
       content_id,
       creator_id, 
       content_type, 
@@ -442,29 +442,29 @@ insert into
       '2024-01-08'
     );
 
-INSERT INTO cosn.content 
+INSERT INTO kpc353_2.content 
 (content_id, creator_id, content_type, content_data, content_creation_date, content_title, moderation_status)
 VALUES 
 (9, 9, 'text', 'Steven Colbert, come eat - the dinner is ready', NOW(), 'Dinner Call', 'approved');
 
-INSERT INTO cosn.content 
+INSERT INTO kpc353_2.content 
 (content_id, creator_id, content_type, content_data, content_creation_date, content_title, moderation_status)
 VALUES 
 (10, 9, 'image', 'https://upload.wikimedia.org/wikipedia/commons/6/6b/American_Beaver.jpg', NOW(), 'American Beaver Image', 'approved');
 
-INSERT INTO cosn.content 
+INSERT INTO kpc353_2.content 
 (content_id, creator_id, content_type, content_data, content_creation_date, content_title, moderation_status)
 VALUES 
 (11, 9, 'video', 'https://www.youtube.com/watch?v=eAPqQFWEoKg&t=117s&ab_channel=BBCEarth', NOW(), 'Beaver Dam Video', 'approved');
 
-INSERT INTO cosn.content 
+INSERT INTO kpc353_2.content 
 (content_id, creator_id, content_type, content_data, content_creation_date, content_title, moderation_status)
 VALUES 
 (12, 8, 'image', 'https://upload.wikimedia.org/wikipedia/commons/2/2c/Obscured_jaguar.jpg', NOW(), 'Jaguar', 'approved');
 
 -- INIT_GROUPS
 insert into 
-  cosn.groups (
+  kpc353_2.groups (
     group_id, 
     group_name, 
     owner_id, 
@@ -481,7 +481,7 @@ values
   );
 
   insert into 
-  cosn.groups (
+  kpc353_2.groups (
     group_id, 
     group_name, 
     owner_id, 
@@ -498,7 +498,7 @@ values
   );
   
   insert into 
-  cosn.groups (
+  kpc353_2.groups (
     group_id, 
     group_name, 
     owner_id, 
@@ -515,7 +515,7 @@ values
   );
 
     insert into 
-  cosn.groups (
+  kpc353_2.groups (
     group_id, 
     group_name, 
     owner_id, 
@@ -533,7 +533,7 @@ values
 
   -- INIT_CONTENT_GROUP_PERMISSIONS
   insert into 
-    cosn.content_group_permissions (
+    kpc353_2.content_group_permissions (
       content_group_permission_id, 
       target_content_id, 
       target_group_id, 
@@ -548,7 +548,7 @@ values
     );
 
     insert into 
-    cosn.content_group_permissions (
+    kpc353_2.content_group_permissions (
       content_group_permission_id, 
       target_content_id, 
       target_group_id, 
@@ -563,7 +563,7 @@ values
     );
 
     insert into 
-    cosn.content_group_permissions (
+    kpc353_2.content_group_permissions (
       content_group_permission_id, 
       target_content_id, 
       target_group_id, 
@@ -578,7 +578,7 @@ values
     );
 
     insert into 
-    cosn.content_group_permissions (
+    kpc353_2.content_group_permissions (
       content_group_permission_id, 
       target_content_id, 
       target_group_id, 
@@ -592,7 +592,7 @@ values
       'link'
     );
     insert into 
-    cosn.content_group_permissions (
+    kpc353_2.content_group_permissions (
       content_group_permission_id, 
       target_content_id, 
       target_group_id, 
@@ -609,7 +609,7 @@ values
 -- INIT_CONTENT_MEMBER_PERMISSIONS
 
 insert into 
-  cosn.content_member_permission (
+  kpc353_2.content_member_permission (
     content_member_permission_id, 
     target_content_id, 
     authorized_member_id, 
@@ -624,7 +624,7 @@ values
   );
 
   insert into 
-  cosn.content_member_permission (
+  kpc353_2.content_member_permission (
     content_member_permission_id, 
     target_content_id, 
     authorized_member_id, 
@@ -639,7 +639,7 @@ values
   );
 
   insert into 
-  cosn.content_member_permission (
+  kpc353_2.content_member_permission (
     content_member_permission_id, 
     target_content_id, 
     authorized_member_id, 
@@ -654,7 +654,7 @@ values
   );
 
   insert into 
-  cosn.content_member_permission (
+  kpc353_2.content_member_permission (
     content_member_permission_id, 
     target_content_id, 
     authorized_member_id, 
@@ -669,7 +669,7 @@ values
   );
 
   insert into 
-  cosn.content_member_permission (
+  kpc353_2.content_member_permission (
     content_member_permission_id, 
     target_content_id, 
     authorized_member_id, 
@@ -684,7 +684,7 @@ values
   );
 
   insert into 
-  cosn.content_member_permission (
+  kpc353_2.content_member_permission (
     content_member_permission_id, 
     target_content_id, 
     authorized_member_id, 
@@ -699,7 +699,7 @@ values
   );
 
   insert into 
-  cosn.content_member_permission (
+  kpc353_2.content_member_permission (
     content_member_permission_id, 
     target_content_id, 
     authorized_member_id, 
@@ -714,7 +714,7 @@ values
   );
 
   insert into 
-  cosn.content_member_permission (
+  kpc353_2.content_member_permission (
     content_member_permission_id, 
     target_content_id, 
     authorized_member_id, 
@@ -729,42 +729,42 @@ values
   );
 
 
-INSERT INTO cosn.content_member_permission
+INSERT INTO kpc353_2.content_member_permission
 (content_member_permission_id, target_content_id, authorized_member_id, content_permission_type)
 VALUES
 (9,9, 2, 'comment');
 
-INSERT INTO cosn.content_member_permission
+INSERT INTO kpc353_2.content_member_permission
 	( target_content_id, authorized_member_id, content_permission_type) VALUES ( 9, 2, 'edit' );
-INSERT INTO cosn.content_member_permission
+INSERT INTO kpc353_2.content_member_permission
 	( target_content_id, authorized_member_id, content_permission_type) VALUES ( 10, 2, 'edit' );
-INSERT INTO cosn.content_member_permission
+INSERT INTO kpc353_2.content_member_permission
 	( target_content_id, authorized_member_id, content_permission_type) VALUES ( 11, 2, 'share' );
 
   -- INIT_CONTENT_PUBLIC_PERMISSIONS
  
-  INSERT INTO cosn.content_public_permissions
+  INSERT INTO kpc353_2.content_public_permissions
 	( content_public_permission_id, target_content_id, content_public_permission_type) VALUES ( 1, 2, 'read' );
 
-  INSERT INTO cosn.content_public_permissions
+  INSERT INTO kpc353_2.content_public_permissions
 	( content_public_permission_id, target_content_id, content_public_permission_type) VALUES ( 2, 3, 'comment' );
-  INSERT INTO cosn.content_public_permissions
+  INSERT INTO kpc353_2.content_public_permissions
 	( content_public_permission_id, target_content_id, content_public_permission_type) VALUES ( 3, 4, 'share' );
 
-  INSERT INTO cosn.content_public_permissions
+  INSERT INTO kpc353_2.content_public_permissions
 	( content_public_permission_id, target_content_id, content_public_permission_type) VALUES ( 4, 5, 'link' );
 
-    INSERT INTO cosn.content_public_permissions
+    INSERT INTO kpc353_2.content_public_permissions
 	( content_public_permission_id, target_content_id, content_public_permission_type) VALUES ( 5, 1, 'read' );
 
 -- INIT_MEMBERS_GROUPS
 insert into 
- cosn.group_members (
+ kpc353_2.group_members (
     group_membership_id, 
     participant_member_id, 
     joined_group_id, 
     date_joined, 
-    role_of_member
+    group_member_status
   )
 values
   (
@@ -772,16 +772,16 @@ values
     1, 
     2, 
     '2022-03-04', 
-    'owner'
+    'admin'
   );
 
   insert into 
-  cosn.group_members (
+  kpc353_2.group_members (
     group_membership_id, 
     participant_member_id, 
     joined_group_id, 
     date_joined, 
-    role_of_member
+    group_member_status
   )
 values
   (
@@ -789,16 +789,16 @@ values
     2, 
     1, 
     '2021-04-20', 
-    'owner'
+    'admin'
   );
 
   insert into 
-  cosn.group_members (
+  kpc353_2.group_members (
     group_membership_id, 
     participant_member_id, 
     joined_group_id, 
     date_joined, 
-    role_of_member
+    group_member_status
   )
 values
   (
@@ -810,12 +810,12 @@ values
   );
 
   insert into 
-  cosn.group_members (
+  kpc353_2.group_members (
     group_membership_id, 
     participant_member_id, 
     joined_group_id, 
     date_joined, 
-    role_of_member
+    group_member_status
   )
 values
   (
@@ -828,37 +828,37 @@ values
 
   -- INIT_MEMBERS_RELATIONSHIPS
 
-INSERT INTO cosn.member_relationships
+INSERT INTO kpc353_2.member_relationships
 	( relationship_id, origin_member_id, target_member_id, member_relationship_type, member_relationship_status) 
   VALUES ( 1, 2, 3, 'friend', 'requested' );
 
-INSERT INTO cosn.member_relationships
+INSERT INTO kpc353_2.member_relationships
 	( relationship_id, origin_member_id, target_member_id, member_relationship_type, member_relationship_status) 
   VALUES ( 2, 4, 5, 'family', 'approved' );
 
-INSERT INTO cosn.member_relationships
+INSERT INTO kpc353_2.member_relationships
 	( relationship_id, origin_member_id, target_member_id, member_relationship_type, member_relationship_status) 
   VALUES ( 3, 2, 6, 'colleague', 'rejected' );
 
-INSERT INTO cosn.member_relationships
+INSERT INTO kpc353_2.member_relationships
 	( relationship_id, origin_member_id, target_member_id, member_relationship_type, member_relationship_status) 
   VALUES ( 4, 1, 7, 'blocked', 'approved' );
 
 -- steven colbert is friends with Matt Bellamy
-  INSERT INTO cosn.member_relationships
+  INSERT INTO kpc353_2.member_relationships
 	( relationship_id, origin_member_id, target_member_id, member_relationship_type, member_relationship_status) 
   VALUES ( 5, 2, 5, 'friend', 'approved' );
 
 -- steven colbert has "family" relationship with evelyn mcgee-colbert
-    INSERT INTO cosn.member_relationships
+    INSERT INTO kpc353_2.member_relationships
 	( relationship_id, origin_member_id, target_member_id, member_relationship_type, member_relationship_status) 
   VALUES ( 6, 2, 9, 'family', 'approved' );
 
 -- INIT CONTENT_COMMENT
-INSERT INTO cosn.content_comment
+INSERT INTO kpc353_2.content_comment
 	( content_comment_id, commenter_member_id, comment_text, target_content_id, datetime_comment) 
   VALUES ( 1, 2, "ok, in 2 minutes!", 9,  NOW());
 
-  INSERT INTO cosn.content_comment
+  INSERT INTO kpc353_2.content_comment
 	( content_comment_id, commenter_member_id, comment_text, target_content_id, datetime_comment) 
   VALUES ( 2, 9, "Hurry up, the food will get cold!", 9,  NOW());

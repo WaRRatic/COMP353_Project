@@ -1,67 +1,59 @@
 <?php
-
+session_start();
 include("header.php");
 include("db_config.php");
-?>
 
-<!DOCTYPE html>
-<html lang="en">
-<link rel="stylesheet" type = "text/css" href="./css/index.css" />
-<body>
 
-<div class="container">
-    <h2>Welcome to COSN!</h2>
-    <h3>Please Login</h3>
-
-    <?php
-	session_start();
-	
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $inputUsername = $_POST['username'];
     $inputPassword = $_POST['password'];
+    
+    $sql = $pdo->prepare('SELECT member_id, password, privilege_level FROM kpc353_2.members WHERE username = :username');
+    $sql->execute(['username' => $inputUsername]);
+    $sql_result = $sql->fetch(PDO::FETCH_ASSOC);
 
-    // Create a database connection
-    $conn = new mysqli($host, $user, $pass, $db);
-
-    // Check the connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    // Prepare and execute a SQL query to fetch the user
-    $stmt = $conn->prepare("SELECT member_id, password, privilege_level FROM members WHERE username = ?");
-    $stmt->bind_param("s", $inputUsername);
-    $stmt->execute();
-    $stmt->store_result();
-
-    if ($stmt->num_rows > 0) {
+    if ($sql_result) {
         // Bind the result and fetch the user's ID and plain text password
-        $stmt->bind_result($member_id, $storedPassword,$privilegeLevel);
-        $stmt->fetch();
-
+        $member_id = $sql_result['member_id'];
+        $storedPassword = $sql_result['password'];
+        $privilegeLevel = $sql_result['privilege_level'];
+        
         // Directly compare the entered password with the stored password
         if ($inputPassword === $storedPassword) {
             $_SESSION['loggedin'] = true;
             $_SESSION['member_id'] = $member_id; // Store the user's ID in the session
             $_SESSION['member_username'] = $inputUsername; // Store the username in the session
             $_SESSION['privilege_level'] = $privilegeLevel; // Store the username in the session
-            header("Location: homepage.php");
+            
+            echo "<script>alert('Sign-in successful!');</script>";
+            echo "<script>window.location.href = 'homepage.php';</script>";
             exit;
         } else {
             // Javascript is generated on-the-fly by PHP, by using the echo(printing into HTMO document) the <script> HTML tag 
             // Javascript is used to be able to display the alert() popup, which is not possible to do in PHP -- yes, really
              echo "<script>alert('Invalid username or password!');</script>";
+             echo "<script>window.location.href = 'homepage.php';</script>";
+             exit;
         }
     } else {
         echo "<script>alert('Invalid username or password!');</script>";
+        echo "<script>window.location.href = 'homepage.php';</script>";
+        exit;
     }
 
-    // Close the statement and connection
-    $stmt->close();
-    $conn->close();
 }
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" type = "text/css" href="index.css" />
+<body>
+
+<div class="container">
+    <h2>Welcome to COSN!</h2>
+    <h3>Please Login</h3>
+
 
 <form method="POST" action="index.php">
     <label for="username">Username:</label>

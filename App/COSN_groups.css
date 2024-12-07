@@ -48,3 +48,15 @@ button.hidden {
 button.admin-only {
     display: inline-block;
 }
+/* Show edit buttons for member */
+button.member-only {
+    display: inline-block;
+}
+/* Show edit buttons for outsiders */
+button.outsider-only {
+    display: inline-block;
+}
+/* Show edit buttons for ousted */
+p.ousted-only {
+    display: inline-block;
+}

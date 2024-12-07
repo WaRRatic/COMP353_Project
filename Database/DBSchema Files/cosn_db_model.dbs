@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <project name="MariaDb" database="MariaDb" id="MariaDb-13d6" >
-	<schema name="cosn" >
+	<schema name="kpc353_2" >
 		<table name="content" prior="content_data" >
 			<comment><![CDATA[contains the content created by members]]></comment>
 			<column name="content_id" type="INT" jt="4" mandatory="y" unsigned="y" >
@@ -38,7 +38,7 @@
 			<index name="fk_content_members" unique="NORMAL" >
 				<column name="creator_id" />
 			</index>
-			<fk name="fk_content_members" to_schema="cosn" to_table="members" >
+			<fk name="fk_content_members" to_schema="kpc353_2" to_table="members" >
 				<fk_column name="creator_id" pk="member_id" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -63,10 +63,10 @@
 			<index name="pk_content_comment" unique="PRIMARY_KEY" >
 				<column name="content_comment_id" />
 			</index>
-			<fk name="fk_content_comment_members" to_schema="cosn" to_table="members" >
+			<fk name="fk_content_comment_members" to_schema="kpc353_2" to_table="members" >
 				<fk_column name="commenter_member_id" pk="member_id" />
 			</fk>
-			<fk name="fk_content_comment_content" to_schema="cosn" to_table="content" >
+			<fk name="fk_content_comment_content" to_schema="kpc353_2" to_table="content" >
 				<fk_column name="target_content_id" pk="content_id" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -95,10 +95,10 @@
 			<index name="fk_content_group_permissions_groups" unique="NORMAL" >
 				<column name="target_group_id" />
 			</index>
-			<fk name="fk_content_group_permissions_content" to_schema="cosn" to_table="content" >
+			<fk name="fk_content_group_permissions_content" to_schema="kpc353_2" to_table="content" >
 				<fk_column name="target_content_id" pk="content_id" />
 			</fk>
-			<fk name="fk_content_group_permissions_groups" to_schema="cosn" to_table="groups" >
+			<fk name="fk_content_group_permissions_groups" to_schema="kpc353_2" to_table="groups" >
 				<fk_column name="target_group_id" pk="group_id" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -123,10 +123,10 @@
 			<index name="fk_content_link_relationship_content_0" unique="NORMAL" >
 				<column name="target_content_id" />
 			</index>
-			<fk name="fk_content_link_relationship_content_1" to_schema="cosn" to_table="content" >
+			<fk name="fk_content_link_relationship_content_1" to_schema="kpc353_2" to_table="content" >
 				<fk_column name="origin_content_id" pk="content_id" />
 			</fk>
-			<fk name="fk_content_link_relationship_content_2" to_schema="cosn" to_table="content" >
+			<fk name="fk_content_link_relationship_content_2" to_schema="kpc353_2" to_table="content" >
 				<fk_column name="target_content_id" pk="content_id" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -160,10 +160,10 @@ can be
 			<index name="fk_content_permissions_members" unique="NORMAL" >
 				<column name="authorized_member_id" />
 			</index>
-			<fk name="fk_content_permissions_members" to_schema="cosn" to_table="members" >
+			<fk name="fk_content_permissions_members" to_schema="kpc353_2" to_table="members" >
 				<fk_column name="authorized_member_id" pk="member_id" />
 			</fk>
-			<fk name="fk_content_member_permission_content" to_schema="cosn" to_table="content" >
+			<fk name="fk_content_member_permission_content" to_schema="kpc353_2" to_table="content" >
 				<fk_column name="target_content_id" pk="content_id" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -194,13 +194,13 @@ can be
 			<index name="fk_content_moderation_warning_members" unique="NORMAL" >
 				<column name="moderator_member_id" />
 			</index>
-			<fk name="fk_content_moderation_warning_content" to_schema="cosn" to_table="content" >
+			<fk name="fk_content_moderation_warning_content" to_schema="kpc353_2" to_table="content" >
 				<fk_column name="target_content_id" pk="content_id" />
 			</fk>
-			<fk name="fk_content_moderation_warning_content_0" to_schema="cosn" to_table="content" >
+			<fk name="fk_content_moderation_warning_content_0" to_schema="kpc353_2" to_table="content" >
 				<fk_column name="owner_member_id" pk="creator_id" />
 			</fk>
-			<fk name="fk_content_moderation_warning_members" to_schema="cosn" to_table="members" >
+			<fk name="fk_content_moderation_warning_members" to_schema="kpc353_2" to_table="members" >
 				<fk_column name="moderator_member_id" pk="member_id" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -226,7 +226,7 @@ can be
 			<index name="fk_content_public_permissions_content" unique="NORMAL" >
 				<column name="target_content_id" />
 			</index>
-			<fk name="fk_content_public_permissions_content" to_schema="cosn" to_table="content" >
+			<fk name="fk_content_public_permissions_content" to_schema="kpc353_2" to_table="content" >
 				<fk_column name="target_content_id" pk="content_id" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -251,7 +251,7 @@ can be
 			<index name="fk_gift_registry_members" unique="NORMAL" >
 				<column name="organizer_member_id" />
 			</index>
-			<fk name="fk_gift_registry_members" to_schema="cosn" to_table="members" >
+			<fk name="fk_gift_registry_members" to_schema="kpc353_2" to_table="members" >
 				<fk_column name="organizer_member_id" pk="member_id" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -279,10 +279,10 @@ can be
 			<index name="fk_gift_registry_ideas_gift_registry_participants" unique="NORMAL" >
 				<column name="idea_owner_id" />
 			</index>
-			<fk name="fk_gift_registry_ideas_gift_registry_0" to_schema="cosn" to_table="gift_registry" >
+			<fk name="fk_gift_registry_ideas_gift_registry_0" to_schema="kpc353_2" to_table="gift_registry" >
 				<fk_column name="target_gift_registry_id" pk="gift_registry_id" />
 			</fk>
-			<fk name="fk_gift_registry_ideas_members" to_schema="cosn" to_table="members" >
+			<fk name="fk_gift_registry_ideas_members" to_schema="kpc353_2" to_table="members" >
 				<fk_column name="idea_owner_id" pk="member_id" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -307,10 +307,10 @@ can be
 			<index name="fk_gift_registry_participants_members" unique="NORMAL" >
 				<column name="participant_member_id" />
 			</index>
-			<fk name="fk_gift_registry_participants_members" to_schema="cosn" to_table="members" >
+			<fk name="fk_gift_registry_participants_members" to_schema="kpc353_2" to_table="members" >
 				<fk_column name="participant_member_id" pk="member_id" />
 			</fk>
-			<fk name="fk_gift_registry_participants_gift_registry" to_schema="cosn" to_table="gift_registry" >
+			<fk name="fk_gift_registry_participants_gift_registry" to_schema="kpc353_2" to_table="gift_registry" >
 				<fk_column name="target_gift_registry_id" pk="gift_registry_id" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -335,10 +335,10 @@ can be 'view', 'edit', 'add-item']]></comment>
 			<index name="pk_gift_registry_permissions" unique="PRIMARY_KEY" >
 				<column name="gift_registry_permissions_id" />
 			</index>
-			<fk name="fk_gift_registry_permissions_gift_registry" to_schema="cosn" to_table="gift_registry" >
+			<fk name="fk_gift_registry_permissions_gift_registry" to_schema="kpc353_2" to_table="gift_registry" >
 				<fk_column name="target_gift_registry_id" pk="gift_registry_id" />
 			</fk>
-			<fk name="fk_gift_registry_permissions_members" to_schema="cosn" to_table="members" >
+			<fk name="fk_gift_registry_permissions_members" to_schema="kpc353_2" to_table="members" >
 				<fk_column name="authorized_member_id" pk="member_id" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -366,10 +366,10 @@ can be 'view', 'edit', 'add-item']]></comment>
 			<index name="fk_group_event_members" unique="NORMAL" >
 				<column name="event_organizer_member_id" />
 			</index>
-			<fk name="fk_group_event_groups" to_schema="cosn" to_table="groups" >
+			<fk name="fk_group_event_groups" to_schema="kpc353_2" to_table="groups" >
 				<fk_column name="target_group_id" pk="group_id" />
 			</fk>
-			<fk name="fk_group_event_members" to_schema="cosn" to_table="members" >
+			<fk name="fk_group_event_members" to_schema="kpc353_2" to_table="members" >
 				<fk_column name="event_organizer_member_id" pk="member_id" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -397,10 +397,10 @@ can be 'view', 'edit', 'add-item']]></comment>
 			<index name="fk_group_event_option_vote_members" unique="NORMAL" >
 				<column name="option_voter_member_id" />
 			</index>
-			<fk name="fk_group_event_option_vote_group_event_options" to_schema="cosn" to_table="group_event_options" >
+			<fk name="fk_group_event_option_vote_group_event_options" to_schema="kpc353_2" to_table="group_event_options" >
 				<fk_column name="target_group_event_option_id" pk="group_event_options_id" />
 			</fk>
-			<fk name="fk_group_event_option_vote_members" to_schema="cosn" to_table="members" >
+			<fk name="fk_group_event_option_vote_members" to_schema="kpc353_2" to_table="members" >
 				<fk_column name="option_voter_member_id" pk="member_id" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -429,17 +429,19 @@ Ex: "Alaska, 2025-01-01, 07:00"]]></comment>
 			<index name="fk_group_event_options_members" unique="NORMAL" >
 				<column name="option_owner_member_id" />
 			</index>
-			<fk name="fk_group_event_options_group_event" to_schema="cosn" to_table="group_event" >
+			<fk name="fk_group_event_options_group_event" to_schema="kpc353_2" to_table="group_event" >
 				<fk_column name="target_group_event_id" pk="group_event_id" />
 			</fk>
-			<fk name="fk_group_event_options_members" to_schema="cosn" to_table="members" >
+			<fk name="fk_group_event_options_members" to_schema="kpc353_2" to_table="members" >
 				<fk_column name="option_owner_member_id" pk="member_id" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 		<table name="group_members" prior="tbl" >
 			<comment><![CDATA[Mapping between members and groups, each row telling us which member belongs to which group]]></comment>
-			<column name="group_membership_id" type="INT" jt="4" mandatory="y" unsigned="y" />
+			<column name="group_membership_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
+			</column>
 			<column name="participant_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[the member_id of the participant of this group]]></comment>
 			</column>
@@ -447,13 +449,14 @@ Ex: "Alaska, 2025-01-01, 07:00"]]></comment>
 				<comment><![CDATA[the ID of a particular group, that a particular member has joined]]></comment>
 			</column>
 			<column name="date_joined" type="DATE" jt="91" mandatory="y" >
+				<defo><![CDATA[CURRENT_DATE]]></defo>
 				<comment><![CDATA[the date when a particular member has joned a particular group]]></comment>
 			</column>
 			<column name="group_member_status" prior="role_of_member" type="ENUM" jt="12" >
 				<defo><![CDATA['member']]></defo>
-				<enumeration><![CDATA['member','owner','requested','ousted']]></enumeration>
+				<enumeration><![CDATA['member','admin','requested','ban']]></enumeration>
 				<comment><![CDATA[the status of a particular member in a particular group
-can be either 'owner', 'member', 'requested, 'ousted']]></comment>
+can be either 'owner', 'member', 'requested, 'ban']]></comment>
 			</column>
 			<index name="pk_group_members" unique="PRIMARY_KEY" >
 				<column name="group_membership_id" />
@@ -464,10 +467,10 @@ can be either 'owner', 'member', 'requested, 'ousted']]></comment>
 			<index name="fk_group_members_groups" unique="NORMAL" >
 				<column name="joined_group_id" />
 			</index>
-			<fk name="fk_group_members_members" to_schema="cosn" to_table="members" >
+			<fk name="fk_group_members_members" to_schema="kpc353_2" to_table="members" >
 				<fk_column name="participant_member_id" pk="member_id" />
 			</fk>
-			<fk name="fk_group_members_groups" to_schema="cosn" to_table="groups" >
+			<fk name="fk_group_members_groups" to_schema="kpc353_2" to_table="groups" >
 				<fk_column name="joined_group_id" pk="group_id" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -498,13 +501,13 @@ can be either 'owner', 'member', 'requested, 'ousted']]></comment>
 			<index name="fk_group_vote_plebiscite_members_0" unique="NORMAL" >
 				<column name="organizer_member_id" />
 			</index>
-			<fk name="fk_group_vote_plebiscite_groups" to_schema="cosn" to_table="groups" >
+			<fk name="fk_group_vote_plebiscite_groups" to_schema="kpc353_2" to_table="groups" >
 				<fk_column name="target_group_id" pk="group_id" />
 			</fk>
-			<fk name="fk_group_vote_plebiscite_members" to_schema="cosn" to_table="members" >
+			<fk name="fk_group_vote_plebiscite_members" to_schema="kpc353_2" to_table="members" >
 				<fk_column name="target_member_id" pk="member_id" />
 			</fk>
-			<fk name="fk_group_vote_plebiscite_members_0" to_schema="cosn" to_table="members" >
+			<fk name="fk_group_vote_plebiscite_members_0" to_schema="kpc353_2" to_table="members" >
 				<fk_column name="organizer_member_id" pk="member_id" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -532,17 +535,19 @@ can be either 'owner', 'member', 'requested, 'ousted']]></comment>
 			<index name="fk_group_vote_plebiscite_results_group_vote_plebiscite" unique="NORMAL" >
 				<column name="target_group_vote_plebiscite_id" />
 			</index>
-			<fk name="fk_group_vote_plebiscite_results_members" to_schema="cosn" to_table="members" >
+			<fk name="fk_group_vote_plebiscite_results_members" to_schema="kpc353_2" to_table="members" >
 				<fk_column name="voter_member_id" pk="member_id" />
 			</fk>
-			<fk name="fk_group_vote_plebiscite_results_group_vote_plebiscite" to_schema="cosn" to_table="group_vote_plebiscite" >
+			<fk name="fk_group_vote_plebiscite_results_group_vote_plebiscite" to_schema="kpc353_2" to_table="group_vote_plebiscite" >
 				<fk_column name="target_group_vote_plebiscite_id" pk="group_vote_plebiscite_id" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 		<table name="groups" spec="" >
 			<comment><![CDATA[Contains the information about the groups, such as their description, who created them, etc]]></comment>
-			<column name="group_id" type="INT" jt="4" mandatory="y" unsigned="y" />
+			<column name="group_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
+			</column>
 			<column name="group_name" type="VARCHAR" length="100" jt="12" mandatory="y" />
 			<column name="owner_id" type="INT" jt="4" unsigned="y" >
 				<comment><![CDATA[ID of the member who created a particular group]]></comment>
@@ -566,7 +571,7 @@ can be either 'owner', 'member', 'requested, 'ousted']]></comment>
 			<index name="fk_groups_members" unique="NORMAL" >
 				<column name="owner_id" />
 			</index>
-			<fk name="fk_groups_members" to_schema="cosn" to_table="members" >
+			<fk name="fk_groups_members" to_schema="kpc353_2" to_table="members" >
 				<fk_column name="owner_id" pk="member_id" />
 			</fk>
 			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci]]></options>
@@ -594,10 +599,10 @@ can be either 'owner', 'member', 'requested, 'ousted']]></comment>
 			<index name="fk_member_messages_members_0" unique="NORMAL" >
 				<column name="target_member_id" />
 			</index>
-			<fk name="fk_member_messages_members" to_schema="cosn" to_table="members" >
+			<fk name="fk_member_messages_members" to_schema="kpc353_2" to_table="members" >
 				<fk_column name="origin_member_id" pk="member_id" />
 			</fk>
-			<fk name="fk_member_messages_members_0" to_schema="cosn" to_table="members" >
+			<fk name="fk_member_messages_members_0" to_schema="kpc353_2" to_table="members" >
 				<fk_column name="target_member_id" pk="member_id" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -620,7 +625,7 @@ can be either 'owner', 'member', 'requested, 'ousted']]></comment>
 			<index name="fk_member_privilege_change_request_members" unique="NORMAL" >
 				<column name="target_member_id" />
 			</index>
-			<fk name="fk_member_privilege_change_request_members" to_schema="cosn" to_table="members" >
+			<fk name="fk_member_privilege_change_request_members" to_schema="kpc353_2" to_table="members" >
 				<fk_column name="target_member_id" pk="member_id" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -651,10 +656,10 @@ can be either 'owner', 'member', 'requested, 'ousted']]></comment>
 			<index name="fk_member_relationships_members_0" unique="NORMAL" >
 				<column name="target_member_id" />
 			</index>
-			<fk name="fk_member_relationships_members" to_schema="cosn" to_table="members" >
+			<fk name="fk_member_relationships_members" to_schema="kpc353_2" to_table="members" >
 				<fk_column name="origin_member_id" pk="member_id" />
 			</fk>
-			<fk name="fk_member_relationships_members_0" to_schema="cosn" to_table="members" >
+			<fk name="fk_member_relationships_members_0" to_schema="kpc353_2" to_table="members" >
 				<fk_column name="target_member_id" pk="member_id" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -745,10 +750,10 @@ authorized_member_id = 2, it is visible to the "public" system member]]></commen
 			<index name="fk_personal_info_visibility_member_0" unique="NORMAL" >
 				<column name="authorized_member_id" />
 			</index>
-			<fk name="fk_personal_info_visibility_members" to_schema="cosn" to_table="members" >
+			<fk name="fk_personal_info_visibility_members" to_schema="kpc353_2" to_table="members" >
 				<fk_column name="owner_member_id" pk="member_id" />
 			</fk>
-			<fk name="fk_personal_info_visibility_members_0" to_schema="cosn" to_table="members" >
+			<fk name="fk_personal_info_visibility_members_0" to_schema="kpc353_2" to_table="members" >
 				<fk_column name="authorized_member_id" pk="member_id" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -767,7 +772,7 @@ authorized_member_id = 2, it is visible to the "public" system member]]></commen
 			<index name="fk_personal_info_public_permissions_members" unique="NORMAL" >
 				<column name="owner_member_id" />
 			</index>
-			<fk name="fk_personal_info_public_permissions_members" to_schema="cosn" to_table="members" >
+			<fk name="fk_personal_info_public_permissions_members" to_schema="kpc353_2" to_table="members" >
 				<fk_column name="owner_member_id" pk="member_id" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -775,30 +780,30 @@ authorized_member_id = 2, it is visible to the "public" system member]]></commen
 	</schema>
 	<layout name="Main Layout" id="Layout-4cc" show_relation="columns" >
 		<comment><![CDATA[Main Layout]]></comment>
-		<entity schema="cosn" name="content" color="E5C1EE" x="864" y="352" />
-		<entity schema="cosn" name="content_comment" color="E5C1EE" x="1424" y="240" />
-		<entity schema="cosn" name="content_group_permissions" color="E5C1EE" x="672" y="160" />
-		<entity schema="cosn" name="content_link_relationship" color="E5C1EE" x="1152" y="144" />
-		<entity schema="cosn" name="content_member_permission" color="E5C1EE" x="1280" y="512" />
-		<entity schema="cosn" name="content_moderation_warning" color="E5C1EE" x="912" y="48" />
-		<entity schema="cosn" name="content_public_permissions" color="E5C1EE" x="1184" y="368" />
-		<entity schema="cosn" name="gift_registry" color="EED5C1" x="1296" y="672" />
-		<entity schema="cosn" name="gift_registry_ideas" color="EED5C1" x="1632" y="640" />
-		<entity schema="cosn" name="gift_registry_participants" color="EED5C1" x="1296" y="832" />
-		<entity schema="cosn" name="gift_registry_permissions" color="EED5C1" x="1632" y="864" />
-		<entity schema="cosn" name="group_event" color="C1D8EE" x="48" y="576" />
-		<entity schema="cosn" name="group_event_option_vote" color="C1D8EE" x="64" y="896" />
-		<entity schema="cosn" name="group_event_options" color="C1D8EE" x="64" y="736" />
-		<entity schema="cosn" name="group_members" color="C1D8EE" x="320" y="640" />
-		<entity schema="cosn" name="group_vote_plebiscite" color="C1D8EE" x="208" y="240" />
-		<entity schema="cosn" name="group_vote_plebiscite_results" color="C1D8EE" x="112" y="416" />
-		<entity schema="cosn" name="groups" color="C1D8EE" x="448" y="352" />
-		<entity schema="cosn" name="member_messages" color="E5EEC1" x="1024" y="864" />
-		<entity schema="cosn" name="member_privilege_change_request" color="E5EEC1" x="640" y="912" />
-		<entity schema="cosn" name="member_relationships" color="E5EEC1" x="336" y="816" />
-		<entity schema="cosn" name="members" color="E5EEC1" x="656" y="512" />
-		<entity schema="cosn" name="personal_info_permissions" color="E5EEC1" x="1008" y="608" />
-		<entity schema="cosn" name="personal_info_public_permissions" color="E5EEC1" x="1008" y="736" />
+		<entity schema="kpc353_2" name="content" color="E5C1EE" x="864" y="352" />
+		<entity schema="kpc353_2" name="content_comment" color="E5C1EE" x="1424" y="240" />
+		<entity schema="kpc353_2" name="content_group_permissions" color="E5C1EE" x="672" y="160" />
+		<entity schema="kpc353_2" name="content_link_relationship" color="E5C1EE" x="1152" y="144" />
+		<entity schema="kpc353_2" name="content_member_permission" color="E5C1EE" x="1280" y="512" />
+		<entity schema="kpc353_2" name="content_moderation_warning" color="E5C1EE" x="912" y="48" />
+		<entity schema="kpc353_2" name="content_public_permissions" color="E5C1EE" x="1184" y="368" />
+		<entity schema="kpc353_2" name="gift_registry" color="EED5C1" x="1296" y="672" />
+		<entity schema="kpc353_2" name="gift_registry_ideas" color="EED5C1" x="1632" y="640" />
+		<entity schema="kpc353_2" name="gift_registry_participants" color="EED5C1" x="1296" y="832" />
+		<entity schema="kpc353_2" name="gift_registry_permissions" color="EED5C1" x="1632" y="864" />
+		<entity schema="kpc353_2" name="group_event" color="C1D8EE" x="48" y="576" />
+		<entity schema="kpc353_2" name="group_event_option_vote" color="C1D8EE" x="64" y="896" />
+		<entity schema="kpc353_2" name="group_event_options" color="C1D8EE" x="64" y="736" />
+		<entity schema="kpc353_2" name="group_members" color="C1D8EE" x="320" y="640" />
+		<entity schema="kpc353_2" name="group_vote_plebiscite" color="C1D8EE" x="208" y="240" />
+		<entity schema="kpc353_2" name="group_vote_plebiscite_results" color="C1D8EE" x="112" y="416" />
+		<entity schema="kpc353_2" name="groups" color="C1D8EE" x="448" y="352" />
+		<entity schema="kpc353_2" name="member_messages" color="E5EEC1" x="1024" y="864" />
+		<entity schema="kpc353_2" name="member_privilege_change_request" color="E5EEC1" x="640" y="912" />
+		<entity schema="kpc353_2" name="member_relationships" color="E5EEC1" x="336" y="816" />
+		<entity schema="kpc353_2" name="members" color="E5EEC1" x="656" y="512" />
+		<entity schema="kpc353_2" name="personal_info_permissions" color="E5EEC1" x="1008" y="608" />
+		<entity schema="kpc353_2" name="personal_info_public_permissions" color="E5EEC1" x="1008" y="736" />
 		<script name="SQL_Editor" id="Editor-b3c" language="SQL" >
 			<string><![CDATA[CREATE SCHEMA cosn;
 

@@ -1,91 +1,117 @@
 <?php
+session_start();
 include("db_config.php");
 include("header.php");
 include('sidebar.php');
 
-session_start();
-
 // Check if the user is logged in
 if (!isset($_SESSION['loggedin'])) {
-    header("Location: homepage.php"); 
+    echo "<script>alert('Access denied - login first!');</script>";
+    echo "<script>window.location.href = 'index.php';</script>";
     exit;
 }
 
 $logged_in_member_id = $_SESSION['member_id'];
 
-
-$conn = new mysqli($host, $user, $pass, $db);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
 // Prepare the SQL statement
-$sql = "SELECT 
+$sql = "
+    SELECT 
     group_id, group_name, owner_id, description, creation_date,
-    CASE WHEN (owner_id = ?) || (1=?) THEN 'admin' ELSE 'member' END AS group_role
-    FROM groups
-    where group_deleted_flag = false";
+    COALESCE((CASE WHEN (1=:logged_in_member_id) || (gm.group_member_status = 'owner') THEN 'admin' ELSE gm.group_member_status END),'outsider') AS group_role
+    FROM kpc353_2.groups as g
+        left join kpc353_2.group_members as gm 
+            on g.group_id = gm.joined_group_id
+                and gm.participant_member_id = :logged_in_member_id
+    where
+    group_deleted_flag = false
+    ";
 
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("ii", $logged_in_member_id, $logged_in_member_id);
-$stmt->execute();
-$result = $stmt->get_result();
+$stmt = $pdo->prepare($sql);
+$stmt->execute([':logged_in_member_id' => $logged_in_member_id]);
+
+// Fetch all rows
+$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+//check if the Admin column is needed to print in the table, based on the user's role in the groups 
+$result_col_needed_check = $result;
+$adminColumn_needed = false;
+while($row = current($result_col_needed_check)) {
+    // Check for 'admin' role
+    if (!$adminColumn_needed && $row['group_role'] === 'admin') {
+        $adminColumn_needed = true;
+    }
+
+    next($result_col_needed_check);
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" type = "text/css" href="./css/COSN_groups.css" />
+<link rel="stylesheet" type = "text/css" href="COSN_groups.css" />
 <head>
     <meta charset="UTF-8">
     <title>COSN groups</title>
 </head>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>COSN Groups Page</title>
-</head>
 <body>
   <div class="main-content">
     <h1>COSN groups</h1>
-
+    <br>
+    <a href="COSN_create_group.php"><button style='background-color: teal; color: black;'>Create a new group</button></a>
+    <br><br>
     <table border="1">
         <tr>
-            <th></th>
-            <th>Group ID</th>
             <th>Group Name</th>
-            <th>Owner ID</th>
             <th>Description</th>
-            <th>Creation Date</th>
+            <th>Your status</th>
+            <th>Access group</th>
+
+            <!-- only show the admin column, if the user has Admin privelege to at least one group -->
+            <?php if ($adminColumn_needed) { ?>
+                <th>Admin page</th>
+            <?php } ?>
+
+
         </tr>
         
         <?php
         // Check if there are any results
-        if ($result->num_rows > 0) {
+        if ($row = $result) {
             // Output data of each row
-            while($row = $result->fetch_assoc()) {
-                $isAdmin = ($row['group_role'] === 'admin') ? 'admin-only' : 'hidden';
+            while($row = current($result)) {
                 echo "<tr>";
-                echo "<td><a href='edit_COSN_group.php?group_id=" . $row['group_id'] . "'><button class='" . $isAdmin . "'>Edit group </button></a></td>";
-                echo "<td>" . $row['group_id'] . "</td>";
                 echo "<td>" . $row['group_name'] . "</td>";
-                echo "<td>" . $row['owner_id'] . "</td>";
-                echo "<td>" . $row['description'] . "</td>";
-                echo "<td>" . $row['creation_date'] . "</td>";
-                echo "<td>";
-                echo "<td><a href='view_COSN_group_public_page.php?group_id=" . $row['group_id'] . "'><button>View group</button></a></td>";
+                echo "<td>" . $row['description'] ."</td>";
+                echo "<td>" . $row['group_role'] . "</td>";
+
+                //Access group column
+                if($row['group_role'] === 'outsider'){
+                    echo "<td><a href='COSN_group_request_access.php?group_id=" . $row['group_id'] . "'><button style='background-color: gray; color: white;'> Request Access</button></a></td>";
+                } elseif($row['group_role'] === 'requested'){
+                    echo "<td style='background-color: orange; color: black;'>Access requested</td>";
+                } elseif($row['group_role'] === 'member' || $row['group_role'] === 'admin'){
+                    echo "<td><a href='homepage.php?group_id=" . $row['group_id'] . "'><button style='background-color: green; color: black;'>Access group</button></a></td>";
+                } elseif($row['group_role'] === 'ousted'){
+                    echo "<td style='background-color: red; color: black;'>You've been banned!</td>";
+                }
+
+                //Admin page column
+                if($row['group_role'] === 'admin'){
+                    echo "<td><a href='COSN_group_admin.php?group_id=" . $row['group_id'] . "'><button> Admin page</button></a></td>";
+                } else {
+                    echo "<td style='background-color: black; color: yellow;'>Not an admin</td>";
+                }
+
                 echo "</form>";
                 echo "</td>";
                 echo "</tr>";
+                next($result);
+                
             }
         } else {
             echo "<tr><td colspan='4'>No groups found</td></tr>";
         }
 
-        // Close the database connection
-        $conn->close();
         ?>
     </table>
     <br>
