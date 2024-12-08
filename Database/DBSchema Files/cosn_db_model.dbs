@@ -248,6 +248,48 @@ can be
 				<fk_column name="organizer_member_id" pk="member_id" />
 			</fk>
 		</table>
+		<table name="gift_registry_gifts" prior="tbl" >
+			<comment><![CDATA[contains gifts sent from gift registry]]></comment>
+			<column name="gift_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
+			</column>
+			<column name="target_gift_registry_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[the gift registry from which the gift is taken]]></comment>
+			</column>
+			<column name="gift_registry_idea_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[target gift idea from a specific gift registry]]></comment>
+			</column>
+			<column name="sender_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[the member who is sending the gift]]></comment>
+			</column>
+			<column name="target_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[the member who will receive the gift]]></comment>
+			</column>
+			<column name="gift_status" type="ENUM" jt="12" mandatory="y" >
+				<defo><![CDATA['pending']]></defo>
+				<enumeration><![CDATA['pending','sent','received']]></enumeration>
+				<comment><![CDATA[the status of the gift transaction]]></comment>
+			</column>
+			<column name="gift_date" type="DATETIME" jt="93" mandatory="y" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+				<comment><![CDATA[the datetime when the gift was sent out]]></comment>
+			</column>
+			<index name="pk_gift_registry_gifts" unique="PRIMARY_KEY" >
+				<column name="gift_id" />
+			</index>
+			<fk name="fk_gift_registry_gifts_gift_registry" to_schema="kpc353_2" to_table="gift_registry" delete_action="cascade" >
+				<fk_column name="target_gift_registry_id" pk="gift_registry_id" />
+			</fk>
+			<fk name="fk_gift_registry_gifts_gift_registry_ideas" to_schema="kpc353_2" to_table="gift_registry_ideas" delete_action="cascade" >
+				<fk_column name="gift_registry_idea_id" pk="gift_registry_ideas_id" />
+			</fk>
+			<fk name="fk_gift_registry_gifts_members" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
+				<fk_column name="sender_member_id" pk="member_id" />
+			</fk>
+			<fk name="fk_gift_registry_gifts_members_0" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
+				<fk_column name="target_member_id" pk="member_id" />
+			</fk>
+		</table>
 		<table name="gift_registry_ideas" prior="gift_registr" >
 			<comment><![CDATA[describes gift ideas for a particular registry]]></comment>
 			<column name="gift_registry_ideas_id" type="INT" jt="4" mandatory="y" unsigned="y" >
@@ -758,6 +800,7 @@ authorized_member_id = 2, it is visible to the "public" system member]]></commen
 		<entity schema="kpc353_2" name="content_moderation_warning" color="E5C1EE" x="912" y="48" />
 		<entity schema="kpc353_2" name="content_public_permissions" color="E5C1EE" x="1184" y="368" />
 		<entity schema="kpc353_2" name="gift_registry" color="EED5C1" x="1296" y="672" />
+		<entity schema="kpc353_2" name="gift_registry_gifts" color="EED5C1" x="1392" y="960" />
 		<entity schema="kpc353_2" name="gift_registry_ideas" color="EED5C1" x="1632" y="640" />
 		<entity schema="kpc353_2" name="gift_registry_participants" color="EED5C1" x="1296" y="832" />
 		<entity schema="kpc353_2" name="gift_registry_permissions" color="EED5C1" x="1632" y="864" />

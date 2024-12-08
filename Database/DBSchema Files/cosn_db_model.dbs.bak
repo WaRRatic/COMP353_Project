@@ -248,6 +248,37 @@ can be
 				<fk_column name="organizer_member_id" pk="member_id" />
 			</fk>
 		</table>
+		<table name="gift_registry_gifts" prior="tbl" >
+			<comment><![CDATA[contains gifts sent from gift registry]]></comment>
+			<column name="gift_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
+			</column>
+			<column name="target_gift_registry_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[the gift registry from which the gift is taken]]></comment>
+			</column>
+			<column name="gift_registry_idea_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[target gift idea from a specific gift registry]]></comment>
+			</column>
+			<column name="sender_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[the member who is sending the gift]]></comment>
+			</column>
+			<column name="target_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[the member who will receive the gift]]></comment>
+			</column>
+			<column name="gift_status" type="ENUM" jt="12" mandatory="y" >
+				<defo><![CDATA['pending']]></defo>
+				<enumeration><![CDATA['pending','sent','received']]></enumeration>
+				<comment><![CDATA[the status of the gift transaction]]></comment>
+			</column>
+			<column name="gift_date" type="DATETIME" jt="93" mandatory="y" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+				<comment><![CDATA[the datetime when the gift was sent out]]></comment>
+			</column>
+			<index name="pk_gift_registry_gifts" unique="PRIMARY_KEY" >
+				<column name="gift_id" />
+			</index>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
 		<table name="gift_registry_ideas" prior="gift_registr" >
 			<comment><![CDATA[describes gift ideas for a particular registry]]></comment>
 			<column name="gift_registry_ideas_id" type="INT" jt="4" mandatory="y" unsigned="y" >
@@ -705,7 +736,7 @@ Allows a particular piece of personal information, for a particular member, to b
 				<comment><![CDATA[the membeer_id of the owner of this personal information]]></comment>
 			</column>
 			<column name="personal_info_type" type="ENUM" jt="12" mandatory="y" >
-				<enumeration><![CDATA['first_name','last_name','date_of_birth','address','pseudonym','email']]></enumeration>
+				<enumeration><![CDATA['first_name','last_name','date_of_birth','address','email']]></enumeration>
 			</column>
 			<column name="authorized_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[the member_id that is authorized to view this particular personal information, of a particular member
@@ -735,7 +766,7 @@ authorized_member_id = 2, it is visible to the "public" system member]]></commen
 			</column>
 			<column name="owner_member_id" type="INT" jt="4" mandatory="y" unsigned="y" />
 			<column name="personal_info_type" type="ENUM" jt="12" >
-				<enumeration><![CDATA['first_name','last_name','date_of_birth','address','pseudonym','email']]></enumeration>
+				<enumeration><![CDATA['first_name','last_name','date_of_birth','address','email']]></enumeration>
 			</column>
 			<index name="pk_personal_info_public_permissions" unique="PRIMARY_KEY" >
 				<column name="personal_info_public_permission_id" />
@@ -758,6 +789,7 @@ authorized_member_id = 2, it is visible to the "public" system member]]></commen
 		<entity schema="kpc353_2" name="content_moderation_warning" color="E5C1EE" x="912" y="48" />
 		<entity schema="kpc353_2" name="content_public_permissions" color="E5C1EE" x="1184" y="368" />
 		<entity schema="kpc353_2" name="gift_registry" color="EED5C1" x="1296" y="672" />
+		<entity schema="kpc353_2" name="gift_registry_gifts" color="EED5C1" x="1392" y="960" />
 		<entity schema="kpc353_2" name="gift_registry_ideas" color="EED5C1" x="1632" y="640" />
 		<entity schema="kpc353_2" name="gift_registry_participants" color="EED5C1" x="1296" y="832" />
 		<entity schema="kpc353_2" name="gift_registry_permissions" color="EED5C1" x="1632" y="864" />
@@ -4322,6 +4354,10 @@ ALTER TABLE cosn.content MODIFY moderation_status ENUM('pending', 'approved', 'r
 		<script name="personal_info_permissions" id="Editor-8ee" language="SQL" >
 			<string><![CDATA[INSERT INTO kpc353_2.personal_info_permissions
 	( personal_info_permission_id, owner_member_id, personal_info_type, authorized_member_id) VALUES ( ?, ?, ?, ? );]]></string>
+		</script>
+		<script name="personal_info_public_permissions" id="Editor-30" language="SQL" >
+			<string><![CDATA[INSERT INTO kpc353_2.personal_info_public_permissions
+	( personal_info_public_permission_id, owner_member_id, personal_info_type) VALUES ( ?, ?, ? );]]></string>
 		</script>
 	</layout>
 </project>

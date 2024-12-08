@@ -15,9 +15,9 @@ CREATE  TABLE kpc353_2.members (
  );
 
 CREATE  TABLE kpc353_2.personal_info_permissions ( 
-	personal_info_permission_id INT UNSIGNED   NOT NULL   PRIMARY KEY,
+	personal_info_permission_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
 	owner_member_id      INT UNSIGNED   NOT NULL   ,
-	personal_info_type   ENUM('first_name','last_name','date_of_birth','address','pseudonym','email')    NOT NULL   ,
+	personal_info_type   ENUM('first_name','last_name','date_of_birth','address','email')    NOT NULL   ,
 	authorized_member_id INT UNSIGNED   NOT NULL   ,
 	CONSTRAINT fk_personal_info_visibility_members FOREIGN KEY ( owner_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
 	CONSTRAINT fk_personal_info_visibility_members_0 FOREIGN KEY ( authorized_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION
@@ -30,7 +30,7 @@ CREATE INDEX fk_personal_info_visibility_member_0 ON kpc353_2.personal_info_perm
 CREATE  TABLE kpc353_2.personal_info_public_permissions ( 
 	personal_info_public_permission_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
 	owner_member_id      INT UNSIGNED   NOT NULL   ,
-	personal_info_type   ENUM('first_name','last_name','date_of_birth','address','pseudonym','email')       ,
+	personal_info_type   ENUM('first_name','last_name','date_of_birth','address','email')       ,
 	CONSTRAINT fk_personal_info_public_permissions_members FOREIGN KEY ( owner_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION
  );
 
@@ -192,7 +192,7 @@ CREATE  TABLE kpc353_2.member_relationships (
 	origin_member_id     INT UNSIGNED   NOT NULL   ,
 	target_member_id     INT UNSIGNED   NOT NULL   ,
 	member_relationship_type ENUM('friend','family','colleague','blocked')    NOT NULL   ,
-	member_relationship_status ENUM('requested','approved','rejected')       ,
+	member_relationship_status ENUM('requested','approved','rejected','blocked')       ,
 	CONSTRAINT fk_member_relationships_members FOREIGN KEY ( origin_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
 	CONSTRAINT fk_member_relationships_members_0 FOREIGN KEY ( target_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION
  );
@@ -213,6 +213,20 @@ CREATE  TABLE kpc353_2.content_group_permissions (
 CREATE INDEX fk_content_group_permissions_content ON kpc353_2.content_group_permissions ( target_content_id );
 
 CREATE INDEX fk_content_group_permissions_groups ON kpc353_2.content_group_permissions ( target_group_id );
+
+CREATE  TABLE kpc353_2.gift_registry_gifts ( 
+	gift_id              INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
+	target_gift_registry_id INT UNSIGNED   NOT NULL   ,
+	gift_registry_idea_id INT UNSIGNED   NOT NULL   ,
+	sender_member_id     INT UNSIGNED   NOT NULL   ,
+	target_member_id     INT UNSIGNED   NOT NULL   ,
+	gift_status          ENUM('pending','sent','received')  DEFAULT 'pending'  NOT NULL   ,
+	gift_date            DATETIME  DEFAULT CURRENT_TIMESTAMP  NOT NULL   ,
+	CONSTRAINT fk_gift_registry_gifts_gift_registry FOREIGN KEY ( target_gift_registry_id ) REFERENCES kpc353_2.gift_registry( gift_registry_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
+	CONSTRAINT fk_gift_registry_gifts_gift_registry_ideas FOREIGN KEY ( gift_registry_idea_id ) REFERENCES kpc353_2.gift_registry_ideas( gift_registry_ideas_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
+	CONSTRAINT fk_gift_registry_gifts_members FOREIGN KEY ( sender_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
+	CONSTRAINT fk_gift_registry_gifts_members_0 FOREIGN KEY ( target_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION
+ );
 
 CREATE  TABLE kpc353_2.group_event ( 
 	group_event_id       INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
@@ -461,13 +475,13 @@ ALTER TABLE kpc353_2.member_privilege_change_request MODIFY requested_privilege_
 
 ALTER TABLE kpc353_2.member_relationships COMMENT 'describes the relationships of the members, specifically if they are friends, family, colleagues or blocked';
 
-ALTER TABLE kpc353_2.member_relationships MODIFY origin_member_id INT UNSIGNED NOT NULL   COMMENT 'the member from whom the relationship originates';
+ALTER TABLE kpc353_2.member_relationships MODIFY origin_member_id INT UNSIGNED NOT NULL   COMMENT 'the member from whom the relationship originates, for example the origin_member_id has REQUESTED a target_member_id to be friends';
 
 ALTER TABLE kpc353_2.member_relationships MODIFY target_member_id INT UNSIGNED NOT NULL   COMMENT 'the member to whom the origin_member is connected';
 
 ALTER TABLE kpc353_2.member_relationships MODIFY member_relationship_type ENUM('friend','family','colleague','blocked')  NOT NULL   COMMENT 'The type of relationship can be ''friend, ''family'', ''colleague'' or ''blocked''';
 
-ALTER TABLE kpc353_2.member_relationships MODIFY member_relationship_status ENUM('requested','approved','rejected')     COMMENT 'used to represent the evolution of the relationship from, specifically from a friend/family/colleage request to an actual confirmed relationship';
+ALTER TABLE kpc353_2.member_relationships MODIFY member_relationship_status ENUM('requested','approved','rejected','blocked')     COMMENT 'used to represent the evolution of the relationship from, specifically from a friend/family/colleage request to an actual confirmed relationship';
 
 ALTER TABLE kpc353_2.content_group_permissions COMMENT 'table describing which groups can access to what content';
 
@@ -476,6 +490,20 @@ ALTER TABLE kpc353_2.content_group_permissions MODIFY target_content_id INT UNSI
 ALTER TABLE kpc353_2.content_group_permissions MODIFY target_group_id INT UNSIGNED NOT NULL   COMMENT 'the particular group which has a certain permission on a specific content';
 
 ALTER TABLE kpc353_2.content_group_permissions MODIFY content_group_permission_type ENUM('read','comment','share','link')     COMMENT 'the type of permission that a particular group has on a certain piece of content';
+
+ALTER TABLE kpc353_2.gift_registry_gifts COMMENT 'contains gifts sent from gift registry';
+
+ALTER TABLE kpc353_2.gift_registry_gifts MODIFY target_gift_registry_id INT UNSIGNED NOT NULL   COMMENT 'the gift registry from which the gift is taken';
+
+ALTER TABLE kpc353_2.gift_registry_gifts MODIFY gift_registry_idea_id INT UNSIGNED NOT NULL   COMMENT 'target gift idea from a specific gift registry';
+
+ALTER TABLE kpc353_2.gift_registry_gifts MODIFY sender_member_id INT UNSIGNED NOT NULL   COMMENT 'the member who is sending the gift';
+
+ALTER TABLE kpc353_2.gift_registry_gifts MODIFY target_member_id INT UNSIGNED NOT NULL   COMMENT 'the member who will receive the gift';
+
+ALTER TABLE kpc353_2.gift_registry_gifts MODIFY gift_status ENUM('pending','sent','received')  NOT NULL DEFAULT 'pending'  COMMENT 'the status of the gift transaction';
+
+ALTER TABLE kpc353_2.gift_registry_gifts MODIFY gift_date DATETIME  NOT NULL DEFAULT CURRENT_TIMESTAMP  COMMENT 'the datetime when the gift was sent out';
 
 ALTER TABLE kpc353_2.group_event COMMENT 'contains the events organized for particular groups';
 
