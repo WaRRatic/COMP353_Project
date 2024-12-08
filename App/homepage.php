@@ -41,6 +41,22 @@ if (isset($_GET['group_id'])) {
     
     $homepage_context = 'group';
     $homepage_context_group_id = $_GET['group_id'];
+    
+    // Check if the logged-in member is the group admin/owner
+    $sql = "
+    SELECT 
+        1
+    FROM 
+        kpc353_2.group_members
+    WHERE 
+        joined_group_id = :requested_group_id
+        AND participant_member_id = :logged_in_member_id
+        AND group_member_status = 'admin'
+    ";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':logged_in_member_id' => $logged_in_member_id, ':requested_group_id' => $homepage_context_group_id]);
+    $isGroupAdmin = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     //check if the user is a member of the group
     $sql_check_group_membership = 
@@ -57,27 +73,18 @@ if (isset($_GET['group_id'])) {
     $stmt_group_membership->execute([':group_id' => $homepage_context_group_id, ':logged_in_member_id' => $logged_in_member_id]);
     $isGroupMember = $stmt_group_membership->fetchColumn();
     
+    //if the logged-in member is the COSN admin, they can are treated as the group's admin
+    if($_SESSION['privilege_level'] === 'administrator'){
+        $isGroupAdmin = true;
+    }
+    
     //check if the member is a member of the group to view the group's homepage
-    if(!$isGroupMember){
+    if(!$isGroupMember && !$isGroupAdmin){
         echo "<script>alert('You don't have permission to view this group's homepage!');</script>";
         echo "<script>window.location.href = 'homepage.php';</script>";
         exit;}
 
-    // Check if the logged-in member is the group admin/owner
-    $sql = "
-    SELECT 
-        group_member_status
-    FROM 
-        kpc353_2.group_members
-    WHERE 
-        joined_group_id = :requested_group_id
-        AND participant_member_id = :logged_in_member_id
-        AND group_member_status = 'admin'
-    ";
 
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([':logged_in_member_id' => $logged_in_member_id, ':requested_group_id' => $homepage_context_group_id]);
-    $isGroupAdmin = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     //get group's name, description, category and creation date
     $sql = "
@@ -501,6 +508,10 @@ foreach ($content_feed as $row) {
     }
     
     if ($homepage_context === 'group') {
+
+        // Display the group name if the user is accessing the homepage in the context of a group
+        echo "<h1>You are viewing ". $homepage_context_group_name . " COSN Group homepage!</h1>";
+        echo "<hr>";
         // Display the group admin panel if the user is the admin of the group
         if($isGroupAdmin){
             echo "<div style='border: 2px solid orange; padding: 10px; margin-bottom: 20px; display: flex; flex-direction: column; align-items: center;'>"; // Admin panel container with border
@@ -508,9 +519,7 @@ foreach ($content_feed as $row) {
             echo "<a href='COSN_group_admin.php?group_id=". $homepage_context_group_id ."'><button style='background-color: orange; color: black;'>Manage group</button></a>";
             echo "</div>";
         }
-        // Display the group name if the user is accessing the homepage in the context of a group
-        echo "<h1>You are viewing ". $homepage_context_group_name . " COSN Group homepage!</h1>";
-        echo "<hr>";
+
         echo "<h3>COSN Group Information:</h3>";
        
         echo"<table border='1'>";
@@ -536,6 +545,11 @@ foreach ($content_feed as $row) {
         echo "</tr>";
 
         echo"</table>";
+
+        if($isGroupMember){
+            echo "<td><a href='COSN_group_remove_member.php?group_id=" . $homepage_context_group_id . "&member_id=" . $logged_in_member_id . "'><button style='background-color: pink; color: black;' 'onclick=\"return confirm('Leave group ?');\"> Leave group?</button></a></td>";
+        }
+
 
     //display normal Member homepage greeting, if the user is accessing the homepage in the context of a member
     } elseif($homepage_context === 'owner'){

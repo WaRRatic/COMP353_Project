@@ -43,10 +43,15 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 //check if the Admin column is needed to print in the table, based on the user's role in the groups 
 $result_col_needed_check = $result;
 $adminColumn_needed = false;
+$memberColumn_needed = false;
 while($row = current($result_col_needed_check)) {
-    // Check for 'admin' role
-    if (!$adminColumn_needed && $row['group_role'] === 'admin') {
+    // Check for 'admin' role or if the user is a COSN admin
+    if ((!$adminColumn_needed && $row['group_role'] === 'admin') || $isAdmin) {
         $adminColumn_needed = true;
+    }
+    // Check for 'member' role
+    if (!$memberColumn_needed && $row['group_role'] === 'member') {
+        $memberColumn_needed = true;
     }
 
     next($result_col_needed_check);
@@ -73,11 +78,18 @@ while($row = current($result_col_needed_check)) {
             <th>Description</th>
             <th>Your status</th>
             <th>Access group</th>
+            
+            <!-- only show the leave group?, if the user is a member in at least one group -->
+            <?php if ($memberColumn_needed) { ?>
+                <th>Leave group</th>
+            <?php } ?>
 
             <!-- only show the admin column, if the user has Admin privelege to at least one group -->
             <?php if ($adminColumn_needed) { ?>
                 <th>Admin page</th>
             <?php } ?>
+
+
 
 
         </tr>
@@ -99,18 +111,27 @@ while($row = current($result_col_needed_check)) {
                 if($row['group_role'] === 'outsider'){
                     echo "<td><a href='COSN_group_request_access.php?group_id=" . $row['group_id'] . "'><button style='background-color: gray; color: white;'> Request Access</button></a></td>";
                 } elseif($row['group_role'] === 'requested'){
-                    echo "<td> waiting for access </td>";
+                    echo "<td style='background-color: black; color: green;'> waiting for access </td>";
                 } elseif($row['group_role'] === 'member' || $row['group_role'] === 'admin'){
                     echo "<td><a href='homepage.php?group_id=" . $row['group_id'] . "'><button style='background-color: green; color: black;'>Access group</button></a></td>";
                 } elseif($row['group_role'] === 'ousted'){
                     echo "<td style='background-color: red; color: black;'>You've been banned!</td>";
                 }
+                if($memberColumn_needed){
+                    if($row['group_role'] === 'member'){
+                        echo "<td><a href='COSN_group_remove_member.php?group_id=" . $row['group_id'] . "&member_id=" . $logged_in_member_id . "'><button style='background-color: red; color: black;'> Leave group?</button></a></td>";
+                    }else{
+                        echo "<td style='background-color: black; color: yellow;'>Not a member</td>";
+                    }
+                }
 
                 //Admin page column
-                if($row['group_role'] === 'admin'){
-                    echo "<td><a href='COSN_group_admin.php?group_id=" . $row['group_id'] . "'><button> Admin page</button></a></td>";
-                } else {
-                    echo "<td style='background-color: black; color: yellow;'>Not an admin</td>";
+                if($adminColumn_needed){
+                    if($row['group_role'] === 'admin'){
+                        echo "<td><a href='COSN_group_admin.php?group_id=" . $row['group_id'] . "'><button> Admin page</button></a></td>";
+                    } else {
+                        echo "<td style='background-color: black; color: yellow;'>Not an admin</td>";
+                    }
                 }
 
                 //end row

@@ -52,7 +52,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 //terminate the transaction if the request does not have the appropriate privilege
 if(!$result && !$isAdmin){
-    echo "<script>alert('You must be the admin of the group to ban other members from this group!.);</script>";
+    echo "<script>alert('You must be the admin of the group to remove ban for members of this group!.);</script>";
     echo "<script>window.location.href = 'COSN_groups.php';</script>";
     exit;
 }
@@ -84,7 +84,7 @@ if($result){
 
 $sql_request_group_access = "
 UPDATE kpc353_2.group_members
-	SET group_member_status = 'ban'
+	SET group_member_status = 'member'
     WHERE 
         joined_group_id = :requested_group_id
         AND participant_member_id = :target_member_id
@@ -92,7 +92,7 @@ UPDATE kpc353_2.group_members
 
 $requestGroupAccessStmt = $pdo->prepare($sql_request_group_access);
 $requestGroupAccessStmt->execute(['target_member_id' => $target_member_id, 'requested_group_id' => $requested_group_id]);
-echo "<script>alert('User was succesfully banned from the COSN group!');</script>";
+echo "<script>alert('Ban removed and membership restored!');</script>";
 echo "<script>window.location.href = 'COSN_group_admin.php?group_id=". $requested_group_id ."';</script>";
 
 ?>

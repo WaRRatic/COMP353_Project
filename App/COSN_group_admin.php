@@ -190,6 +190,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
             <th>Member status in the group</th>
             <th>Accept request</th>
             <th>Ban member</th>
+            <th>Kick out member</th>
         </tr>
         
         <?php
@@ -205,22 +206,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
                 if($row['group_member_status'] === 'requested'){
                     echo "<td><a href='COSN_group_accept_request.php?group_id=" . $group_id . "&member_id=". $row['member_id'] ."'><button style='background-color: green; color: black;'>Accept join request</button></a></td>";
                 } elseif($row['group_member_status'] === 'member' ){
-                    echo "<td style='background-color: gray; color: white;'>Already a member</td>";
+                    echo "<td style='background-color: black; color: green;'>Already a member</td>";
                 } elseif($row['group_member_status'] === 'ousted'){
                     echo "<td style='background-color: gray; color: white;'>Member was banned!</td>";
                 } elseif($row['group_member_status'] === 'admin' || $row['member_id'] === 1){
                     echo "<td style='background-color: gray; color: white;'>Already admin</td>";
+                }
+                elseif($row['group_member_status'] === 'ban' || $row['member_id'] === 1){
+                    echo "<td style='background-color: gray; color: white;'>Member was banned.</td>";
                 }
 
                 //Ban (oust) member
                 if($row['group_member_status'] === 'requested'){
                     echo "<td><a href='COSN_group_ban_member.php?group_id=" . $group_id . "&member_id=". $row['member_id'] ."'><button style='background-color: orange; color: black;'>Reject join request and ban</button></a></td>";
                 } elseif($row['group_member_status'] === 'member' ){
-                    echo "<td><a href='COSN_group_ban_member.php?group_id=" . $group_id . "&member_id=". $row['member_id'] ."'><button style='text-align: center; vertical-align: middle; background-color: red; color: black;'>Ban member</button></a></td>";
+                    echo "<td><a href='COSN_group_ban_member.php?group_id=" . $group_id . "&member_id=". $row['member_id'] ."'><button style='text-align: center; vertical-align: middle; background-color: red; color: black; 'onclick=\"return confirm('Are you sure you want to ban this member? ');\">Ban member</button></a></td>";
                 } elseif($row['group_member_status'] === 'ban'){
-                    echo "<td style='background-color: gray; color: white;'>Member is already banned</td>";
+                    echo "<td><a href='COSN_group_unban_member.php?group_id=" . $group_id . "&member_id=". $row['member_id'] ."'><button style='text-align: center; vertical-align: middle; background-color: orange; color: black; 'onclick=\"return confirm('Restore ban and restore membership of this user? ');\">Remove ban</button></a></td>";
                 } elseif($row['group_member_status'] === 'admin' || $row['member_id'] === 1){
                     echo "<td style='background-color: gray; color: white;'>Cannot ban admin or owner!</td>";
+                }
+
+                //Kick out member
+                if($row['group_member_status'] === 'requested'){
+                    echo "<td style='background-color: gray; color: white;'>Not a member yet</td>";
+                } elseif($row['group_member_status'] === 'member' ){
+                    echo "<td><a href='COSN_group_remove_member.php?group_id=" . $group_id . "&member_id=" . $row['member_id'] . "'><button style='background-color: pink; color: black;'>Kick out from the group?</button></a></td>";
+                } elseif($row['group_member_status'] === 'ban'){
+                    echo "<td>Already banned</td>";
+                } elseif($row['group_member_status'] === 'admin' || $row['member_id'] === 1){
+                    echo "<td style='background-color: gray; color: white;'>Cannot kick out admin or owner!</td>";
                 }
 
                 echo "</tr>";
