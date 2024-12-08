@@ -18,8 +18,80 @@ if (!isset($_GET['group_id'])) {
     exit;
 }
 
+
 // Set group_id variable for both fetching and updating
 $group_id = $_GET['group_id'];
+
+//get the logged in member id
+$logged_in_member_id = $_SESSION['member_id'];
+
+// Check if the user is an admin
+$isAdmin = false;
+if ($_SESSION['privilege_level'] === 'administrator'){
+    $isAdmin = true;
+}
+
+if(!$isAdmin){
+    // Get the group data from the database
+    $sql = "
+    SELECT 
+        group_membership_id
+    FROM 
+        kpc353_2.group_members
+    WHERE 
+        joined_group_id = :group_id
+        AND participant_member_id = :logged_in_member_id
+        AND group_member_status = 'admin'
+    ";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':group_id' => $group_id]);
+    $isGroupOwner = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    if(!$isGroupOwner){
+        echo "<script>alert('You don't have admin privileges of this group!');</script>";
+        echo "<script>window.location.href = 'COSN_groups.php';</script>";
+        exit;
+    }
+}
+
+
+// Get the group data from the database
+$sql = "
+SELECT 
+    group_id,group_name,owner_id,description,creation_date,category
+FROM 
+    kpc353_2.groups 
+WHERE 
+    group_id = :group_id
+";
+$stmt = $pdo->prepare($sql);
+$stmt->execute([':group_id' => $group_id]);
+$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+//load the variables which will be used to populate the form
+$group_id = $result[0]['group_id'];
+$group_name = $result[0]['group_name'];
+$owner_id = $result[0]['owner_id'];
+$description = $result[0]['description'];
+$creation_date = $result[0]['creation_date'];
+$category = $result[0]['category'];
+
+// Get the group member data from database
+$sql = "
+SELECT 
+    m.member_id, m.username, gm.group_member_status 
+FROM 
+    kpc353_2.groups as g
+        LEFT JOIN kpc353_2.group_members as gm
+            ON g.group_id = gm.joined_group_id
+        LEFT JOIN kpc353_2.members as m
+            ON gm.participant_member_id = m.member_id
+WHERE 
+    group_id = :group_id
+";
+$stmt = $pdo->prepare($sql);
+$stmt->execute([':group_id' => $group_id]);
+$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // If the form is submitted, update the group's data
 if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
@@ -43,7 +115,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
         }
     // update the variables from the form, when the "Update Group" button is click and a POST request is sent
     }else{    
-        $group_id = $_POST['group_id'];
         $group_name = $_POST['group_name'];
         $owner_id = $_POST['owner_id'];
         $description = $_POST['description'];
@@ -79,44 +150,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
     }
 }
 
-// Get the group data from the database
-$sql = "
-SELECT 
-    group_id,group_name,owner_id,description,creation_date,category
-FROM 
-    kpc353_2.groups 
-WHERE 
-    group_id = :group_id
-";
-$stmt = $pdo->prepare($sql);
-$stmt->execute([':group_id' => $group_id]);
-$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-//load the variables which will be used to populate the form
-$group_id = $result[0]['group_id'];
-$group_name = $result[0]['group_name'];
-$owner_id = $result[0]['owner_id'];
-$description = $result[0]['description'];
-$creation_date = $result[0]['creation_date'];
-$category = $result[0]['category'];
-
-
-// Get the group member data from database
-$sql = "
-SELECT 
-    m.member_id, m.username, gm.group_member_status 
-FROM 
-    kpc353_2.groups as g
-        LEFT JOIN kpc353_2.group_members as gm
-            ON g.group_id = gm.joined_group_id
-        LEFT JOIN kpc353_2.members as m
-            ON gm.participant_member_id = m.member_id
-WHERE 
-    group_id = :group_id
-";
-$stmt = $pdo->prepare($sql);
-$stmt->execute([':group_id' => $group_id]);
-$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -131,8 +164,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <h1>Manage COSN Group</h1>
 
     <form method="POST">
-        <input type="text" id="group_id" name="group_id" value="<?php echo $group_id; ?>" hidden readonly><br>
-        
+
         <label for="group_name">Group name:</label>
         <input type="text" id="group_name" name="group_name" value="<?php echo $group_name; ?>" required><br>
         

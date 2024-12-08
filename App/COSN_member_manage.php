@@ -27,12 +27,15 @@ if ($_SESSION['privilege_level'] === 'administrator'){
 // Set member_id variable for both fetching and updating
 $member_id = $_GET['member_id'];
 
+// Check if the user is the account owner
 $isAccountOwner = ($member_id == $_SESSION['member_id']) ? true : false;
 // if the user is not an admin and is not the account owner, then notify them that can only manage their own account and redirect to their own modify account page
-if(!($isAccountOwner && !$isAdmin)){
-    echo "<script>alert('You can only manage your own account!');</script>";
-    echo "<script>window.location.href = 'COSN_member_manage.php?member_id=" . $_SESSION['member_id'] . "';</script>";
-    exit;
+if(!$isAdmin){
+    if(!$isAccountOwner){
+        echo "<script>alert('You can only manage your own account!');</script>";
+        echo "<script>window.location.href = 'COSN_member_manage.php?member_id=" . $_SESSION['member_id'] . "';</script>";
+        exit;
+    }
 }
 
 // Get the member personal data from the database
@@ -87,7 +90,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
         $original_email = $email;
         $original_username = $username;
         
-        $member_id = $_POST['member_id'];
         $username = $_POST['username'];
         $password = $_POST['password'];
         $email = $_POST['email'];
@@ -173,8 +175,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
     <h1>Manage COSN member</h1>
 
     <form method="POST">
-        <input type="text" id="member_id" name="member_id" value="<?php echo $member_id; ?>" readonly hidden><br>
-        
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" value="<?php echo $username; ?>" required><br>
         

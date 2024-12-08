@@ -11,13 +11,19 @@ if (!isset($_SESSION['loggedin'])) {
     exit;
 }
 
+$isAdmin=false;
+// Check if the user is a COSN admin
+if ($_SESSION['privilege_level'] === 'administrator'){
+    $isAdmin = true;
+}
+
 $logged_in_member_id = $_SESSION['member_id'];
 
 // Prepare the SQL statement
 $sql = "
     SELECT 
     group_id, group_name, owner_id, description, creation_date,
-    COALESCE((CASE WHEN (1=:logged_in_member_id) || (gm.group_member_status = 'owner') THEN 'admin' ELSE gm.group_member_status END),'outsider') AS group_role
+    COALESCE((CASE WHEN (m.privilege_level='administrator') || (gm.group_member_status = 'admin') THEN 'admin' ELSE gm.group_member_status END),'outsider') AS group_role
     FROM kpc353_2.groups as g
         LEFT JOIN 
             kpc353_2.group_members as gm 
