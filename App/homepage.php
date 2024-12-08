@@ -2,10 +2,9 @@
 session_start();
 include("db_config.php");
 include("header.php");
-include('sidebar.php');
-include('getYoutubeVideoId_function.php');
+include('sidebar.php'); 
 
-//set the logged in member id who is accessing the homepage
+//set the logged in member id
 $logged_in_member_id = $_SESSION['member_id'];
 
 // Check if the user is logged in
@@ -28,35 +27,13 @@ $stmt_member_status = $pdo->prepare($sql_member_status);
 $stmt_member_status->execute([':logged_in_member_id' => $logged_in_member_id]);
 $member_status = $stmt_member_status->fetchColumn();
 
-// Set the Homepage context, which can be 'owner', 'group' or 'member'
-// 'group' - the user is accessing the homepage of a group
-// 'member' - the user is accessing the homepage of another member
-// 'onwer' - the user is accessing their own homepage
-$homepage_context = null;
-$homepage_context_group_id = null;
-$homepage_context_member_id = null;
 
+// check if the Homepage is accessed in the context of a group or member
 // If the group_id is set, the user is accessing the homepage in the context of a group
+// If the group_id is not set (false), the user is accessing the homepage in the context of a member
+$group_id = null;
 if (isset($_GET['group_id'])) {
-    
-    $homepage_context = 'group';
-    $homepage_context_group_id = $_GET['group_id'];
-    
-    // Check if the logged-in member is the group admin/owner
-    $sql = "
-    SELECT 
-        1
-    FROM 
-        kpc353_2.group_members
-    WHERE 
-        joined_group_id = :requested_group_id
-        AND participant_member_id = :logged_in_member_id
-        AND group_member_status = 'admin'
-    ";
-
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([':logged_in_member_id' => $logged_in_member_id, ':requested_group_id' => $homepage_context_group_id]);
-    $isGroupAdmin = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $group_id = $_GET['group_id'];
 
     //check if the user is a member of the group
     $sql_check_group_membership = 
@@ -70,281 +47,51 @@ if (isset($_GET['group_id'])) {
         AND GROUP_MEMBER_STATUS NOT IN ('requested','ban')";
 
     $stmt_group_membership = $pdo->prepare($sql_check_group_membership);
-    $stmt_group_membership->execute([':group_id' => $homepage_context_group_id, ':logged_in_member_id' => $logged_in_member_id]);
+    $stmt_group_membership->execute([':group_id' => $group_id, ':logged_in_member_id' => $logged_in_member_id]);
     $isGroupMember = $stmt_group_membership->fetchColumn();
     
-    //if the logged-in member is the COSN admin, they can are treated as the group's admin
-    if($_SESSION['privilege_level'] === 'administrator'){
-        $isGroupAdmin = true;
-    }
-    
     //check if the member is a member of the group to view the group's homepage
-    if(!$isGroupMember && !$isGroupAdmin){
+    if(!$isGroupMember){
         echo "<script>alert('You don't have permission to view this group's homepage!');</script>";
         echo "<script>window.location.href = 'homepage.php';</script>";
-        exit;}
+        exit;
+    }
 
+    // Get the group name
+    $sql_group_name = "
+        SELECT 
+            group_name 
+        FROM 
+            kpc353_2.groups 
+        WHERE 
+            group_id = :group_id";
 
+    $stmt_group_name = $pdo->prepare($sql_group_name);
+    $stmt_group_name->execute([':group_id' => $group_id]);
+    $group_name = $stmt_group_name->fetchColumn();
 
-    //get group's name, description, category and creation date
+    // Check if the logged-in member is the group admin/owner
     $sql = "
     SELECT 
-        group_name, description, category, creation_date
-    FROM 
-        kpc353_2.groups
+        group_member_status
+    FROM kpc353_2.group_members
     WHERE 
-        group_id = :requested_group_id
+        joined_group_id = :requested_group_id
+        AND participant_member_id = :logged_in_member_id
+        AND group_member_status = 'admin'
     ";
 
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([':requested_group_id' => $homepage_context_group_id]);
-    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt->execute([':logged_in_member_id' => $logged_in_member_id, ':requested_group_id' => $group_id]);
+    $isGroupAdmin = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
-    //set the group name, description, category and creation date
-    $homepage_context_group_name = $result[0]['group_name'];
-    $homepage_context_group_description = $result[0]['description'];
-    $homepage_context_group_category = $result[0]['category'];
-    $homepage_context_group_creation_date = $result[0]['creation_date'];
-
-    }
-    // If the member_id is set, the user is accessing the homepage in the context of a member
-    elseif(isset($_GET['member_id'])){
-
-        $homepage_context = 'member';
-        $homepage_context_member_id = $_GET['member_id'];
-        
-        //check if the logged-in member has been blocked by the member whose homepage is being accessed
-        $sql_check_blocked_status = 
-        "SELECT 
-            relationship_id
-        FROM 
-            kpc353_2.member_relationships 
-        WHERE 
-            origin_member_id = :member_id 
-            AND target_member_id = :logged_in_member_id
-            AND member_relationship_type IN ('blocked')";
-
-        $stmt_blocked_check = $pdo->prepare($sql_check_blocked_status);
-        $stmt_blocked_check->execute([':member_id' => $homepage_context_member_id, ':logged_in_member_id' => $logged_in_member_id]);
-        $isRelationshipBlocked = $stmt_blocked_check->fetchColumn();
-
-        //check if the logged-in member has blocked the member whose homepage is being accessed
-        if($isRelationshipBlocked){
-            echo "<script>alert('This member has blocked you!');</script>";
-            echo "<script>window.location.href = 'homepage.php';</script>";
-            exit;}
-    
-        
-        //check if the logged-in member has a relationship with the member whose homepage is being accessed (friends, family, co-worker)
-        $sql_check_relationship_status = 
-        "SELECT 
-            member_relationship_type
-        FROM 
-            kpc353_2.member_relationships 
-        WHERE 
-            origin_member_id = :member_id 
-            AND target_member_id = :logged_in_member_id
-            AND member_relationship_type IN ('accepted')";
-
-        $stmt_relationship_status = $pdo->prepare($sql_check_relationship_status);
-        $stmt_relationship_status->execute([':member_id' => $homepage_context_member_id, ':logged_in_member_id' => $logged_in_member_id]);
-        $memberRelationshipStatus = $stmt_relationship_status->fetchColumn();
-        
-
-        // Get the member personal info on which permissions will be applied later
-        $sql = "
-        SELECT 
-            username,email,first_name,last_name,address,date_of_birth,privilege_level
-        FROM 
-            kpc353_2.members
-        WHERE 
-            member_id = :member_id
-        ";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([':member_id' => $homepage_context_member_id]);
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        //load the variables which will be used to populate the form
-        $homepage_context_member_username = $result[0]['username'];
-        $homepage_context_member_email = $result[0]['email'];
-        $homepage_context_member_first_name = $result[0]['first_name'];
-        $homepage_context_member_last_name = $result[0]['last_name'];
-        $homepage_context_member_address = $result[0]['address'];
-        $homepage_context_member_dob = $result[0]['date_of_birth'];
-        $homepage_context_member_privilege_level = $result[0]['privilege_level'];
-        
-        //Get the permissions of the logged-in member on the personal information of the member whose homepage is being accessed
-        //Get the pemission on EMAIL
-        $sql = "
-        SELECT 
-            personal_info_permission_id
-        FROM 
-            kpc353_2.personal_info_permissions
-        WHERE
-            personal_info_type = 'email'
-            AND authorized_member_id = :logged_in_member_id
-        UNION
-        SELECT
-            personal_info_public_permission_id
-        FROM 
-            kpc353_2.personal_info_public_permissions
-        WHERE
-            personal_info_type = 'email'
-        ";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([':logged_in_member_id' => $logged_in_member_id]);
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        if (count($result) > 0) {
-            $display_email_permission = true;
-        } else {
-            $display_email_permission = false;
-        }
-        
-        //Get the pemission on FIRST NAME
-        $sql = "
-        SELECT 
-            personal_info_permission_id
-        FROM 
-            kpc353_2.personal_info_permissions
-        WHERE
-            personal_info_type = 'first_name'
-            AND authorized_member_id = :logged_in_member_id
-        UNION
-        SELECT
-            personal_info_public_permission_id
-        FROM 
-            kpc353_2.personal_info_public_permissions
-        WHERE
-            personal_info_type = 'first_name'
-        ";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([':logged_in_member_id' => $logged_in_member_id]);
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        if (count($result) > 0) {
-            $display_first_name_permission = true;
-        } else {
-            $display_first_name_permission = false;
-        }
-
-        //Get the pemission on LAST NAME
-        $sql = "
-        SELECT 
-            personal_info_permission_id
-        FROM 
-            kpc353_2.personal_info_permissions
-        WHERE
-            personal_info_type = 'last_name'
-            AND authorized_member_id = :logged_in_member_id
-        UNION
-        SELECT
-            personal_info_public_permission_id
-        FROM 
-            kpc353_2.personal_info_public_permissions
-        WHERE
-            personal_info_type = 'last_name'
-        ";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([':logged_in_member_id' => $logged_in_member_id]);
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        if (count($result) > 0) {
-            $display_last_name_permission = true;
-        } else {
-            $display_last_name_permission = false;
-        }
-
-        //Get the pemission on ADDRESS
-        $sql = "
-        SELECT 
-            personal_info_permission_id
-        FROM 
-            kpc353_2.personal_info_permissions
-        WHERE
-            personal_info_type = 'address'
-            AND authorized_member_id = :logged_in_member_id
-        UNION
-        SELECT
-            personal_info_public_permission_id
-        FROM 
-            kpc353_2.personal_info_public_permissions
-        WHERE
-            personal_info_type = 'address'
-        ";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([':logged_in_member_id' => $logged_in_member_id]);
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        if (count($result) > 0) {
-            $display_address_permission = true;
-        } else {
-            $display_address_permission = false;
-        }
-
-        //Get the pemission on DATE OF BIRTH
-        $sql = "
-        SELECT 
-            personal_info_permission_id
-        FROM 
-            kpc353_2.personal_info_permissions
-        WHERE
-            personal_info_type = 'date_of_birth'
-            AND authorized_member_id = :logged_in_member_id
-        UNION
-        SELECT
-            personal_info_public_permission_id
-        FROM 
-            kpc353_2.personal_info_public_permissions
-        WHERE
-            personal_info_type = 'date_of_birth'
-        ";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([':logged_in_member_id' => $logged_in_member_id]);
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        if (count($result) > 0) {
-            $display_date_of_birth_permission = true;
-        } else {
-            $display_date_of_birth_permission = false;
-        }
-
-//if the context is not Group or Member, then the user is accessing their own homepage
-    }else{
-        $homepage_context = 'owner';
-        // Get the member personal info on which permissions will be applied later
-        $sql = "
-        SELECT 
-            username,email,first_name,last_name,address,date_of_birth,privilege_level
-        FROM 
-            kpc353_2.members
-        WHERE 
-            member_id = :member_id
-        ";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([':member_id' => $logged_in_member_id]);
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        //load the variables which will be used to populate the form
-        $homepage_context_owner_username = $result[0]['username'];
-        $homepage_context_owner_email = $result[0]['email'];
-        $homepage_context_owner_first_name = $result[0]['first_name'];
-        $homepage_context_owner_last_name = $result[0]['last_name'];
-        $homepage_context_owner_address = $result[0]['address'];
-        $homepage_context_owner_dob = $result[0]['date_of_birth'];
-        $homepage_context_owner_privilege_level = $result[0]['privilege_level'];
-
-    }
-
-
-
-
-
-// check if the Homepage is accessed in the context of a member
-// If the group_id is set, the user is accessing the homepage in the context of a group
-// If the group_id is not set (false), the user is accessing the homepage in the context of a member
-
+}
 
 //fetch the content feed based on MEMBER context of the homepage
-if($homepage_context === 'owner'){
+if(!$group_id){
     // Content feed SQL QUERY explanation:
-    // General conditions: (1) Get content the logged-in user has permissions on (2) content that has passed moderation
-    
+    // General conditions: (1) Get content the logged-in user has permissions on, (2) content that has passed moderation, (3) content that is not deleted, (4) exclude comments
+    // Query to get Public content
     // UNION Query to get private content that the user has permission to view
     // UNION Query to get content that the group the user is in has permission to view
     $sql = "
@@ -359,6 +106,7 @@ if($homepage_context === 'owner'){
             ON cont.creator_id = m.member_id
         WHERE 
             moderation_status = 'approved'
+            and content_deleted_flag <> true
         UNION
         SELECT
             content_id, m.username, content_type, content_data, content_creation_date, content_title, moderation_status, 
@@ -372,6 +120,7 @@ if($homepage_context === 'owner'){
         WHERE
             moderation_status = 'approved' AND
             cmp.authorized_member_id = :logged_in_member_id
+            and content_deleted_flag <> true
         UNION
         SELECT
             content_id, m.username, content_type, content_data, content_creation_date, content_title, moderation_status, 
@@ -388,13 +137,14 @@ if($homepage_context === 'owner'){
             ON m.member_id = gm.participant_member_id
         WHERE 
             moderation_status = 'approved'
-            AND m.member_id = :logged_in_member_id
+            and m.member_id = :logged_in_member_id
+            and content_deleted_flag <> true
         ORDER BY content_creation_date desc
     ";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute([':logged_in_member_id' => $logged_in_member_id]);
-}elseif($homepage_context === 'group'){
+}else{
     // Content feed SQL QUERY explanation:
     // General conditions: (1) Get content the logged-in user has permissions on, (2) content that has passed moderation, (3) content that is not deleted, (4) exclude comments
     // Get only the content for which this Group has permission 
@@ -414,45 +164,23 @@ if($homepage_context === 'owner'){
             ON m.member_id = gm.participant_member_id
         WHERE 
             moderation_status = 'approved'
-            AND m.member_id = :logged_in_member_id
+            and m.member_id = :logged_in_member_id
+            and content_deleted_flag <> true
         ORDER BY content_creation_date desc
     ";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute([':logged_in_member_id' => $logged_in_member_id]);
 
-}elseif($homepage_context === 'member'){
-    // Content feed SQL QUERY explanation:
-    // General conditions: (1) Get content the logged-in user has permissions on, (2) content that has passed moderation, (3) content that is not deleted, (4) exclude comments
-    // Get only the content for which this Member has permission 
-    $sql = "
-        SELECT
-            content_id, m.username, content_type, content_data, content_creation_date, content_title, moderation_status, 
-            cmp.content_permission_type AS content_permission_type, 'private' as content_feed_type, NULL as post_group_name
-        FROM
-            kpc353_2.content as cont
-        INNER JOIN kpc353_2.content_member_permission as cmp
-            ON cont.content_id = cmp.target_content_id
-        INNER JOIN kpc353_2.members as m
-            ON cont.creator_id = m.member_id
-        WHERE
-            moderation_status = 'approved'
-            AND cmp.authorized_member_id = :logged_in_member_id
-            AND cont.creator_id = :homepage_context_member_id
-        ORDER BY content_creation_date desc
-    ";
-
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([':homepage_context_member_id' => $homepage_context_member_id, ':logged_in_member_id' => $logged_in_member_id]);
 }
 
 
 
-// Fetch the content feed
-$content_feed = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// Fetch all rows as associative arrays
+$public_content = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Process each row to build the nested structure
-foreach ($content_feed as $row) {
+foreach ($public_content as $row) {
     $content_id = $row['content_id'];
     
     // If the post doesn't exist in the $posts array, add it
@@ -477,11 +205,23 @@ foreach ($content_feed as $row) {
         // Add more permission-related fields here if necessary
     ];
 }
+// Optional: Reindex the $posts array to have sequential keys
+$posts = array_values($posts);
 
-// // Optional: Reindex the $posts array to have sequential keys
-// if($posts){
-//     $posts = array_values($posts);
-// }
+// Function to extract YouTube video ID
+function getYoutubeVideoId($url) {
+    $video_id = '';
+    // youtube.com/watch?v=VIDEO_ID format
+    if (preg_match('/youtube\.com\/watch\?v=([^\&\?\/]+)/', $url, $matches)) {
+        $video_id = $matches[1];
+    }
+    // youtu.be/VIDEO_ID format
+    else if (preg_match('/youtu\.be\/([^\&\?\/]+)/', $url, $matches)) {
+        $video_id = $matches[1];
+    }
+    return $video_id;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -498,167 +238,43 @@ foreach ($content_feed as $row) {
     // Display the admin panel if the user is an administrator
     if ($_SESSION['privilege_level'] === 'administrator') {
         echo "<div style='border: 2px solid teal; padding: 10px; margin-bottom: 20px; display: flex; flex-direction: column; align-items: center;'>"; // Admin panel container with border
-        echo "<p style='font-weight: bold; text-align: center;'>COSN Admin panel</p>";
+        echo "<p style='font-weight: bold; text-align: center;'>ADMIN PANEL</p>";
         echo "<div style='display: flex; justify-content: space-around; gap: 20px;'>"; // Horizontal button container
-        echo "<a href='COSN_members.php'><button style='background-color: teal; color: black;'>Manage COSN users</button></a>";
-        echo "<a href='COSN_groups.php'><button style='background-color: teal; color: black;'>Manage COSN groups</button></a>";
+        echo "<a href='admin_manage_users.php'><button style='background-color: teal; color: black;'>Manage COSN users</button></a>";
+        echo "<a href='admin_manage_groups.php'><button style='background-color: teal; color: black;'>Manage COSN groups</button></a>";
         echo "<a href='admin_manage_content.php'><button style='background-color: teal; color: black;'>Manage & moderate COSN content</button></a>";
         echo "</div>";
         echo "</div>";
     }
-    
-    if ($homepage_context === 'group') {
-
-        // Display the group name if the user is accessing the homepage in the context of a group
-        echo "<h1>You are viewing ". $homepage_context_group_name . " COSN Group homepage!</h1>";
-        echo "<hr>";
+   
+    if ($group_id) {
         // Display the group admin panel if the user is the admin of the group
         if($isGroupAdmin){
             echo "<div style='border: 2px solid orange; padding: 10px; margin-bottom: 20px; display: flex; flex-direction: column; align-items: center;'>"; // Admin panel container with border
             echo "<p style='font-weight: bold; text-align: center;'>GROUP ADMIN PANEL</p>";
-            echo "<a href='COSN_group_admin.php?group_id=". $homepage_context_group_id ."'><button style='background-color: orange; color: black;'>Manage group</button></a>";
+            echo "<a href='COSN_group_admin.php?group_id=". $group_id ."'><button style='background-color: orange; color: black;'>Manage group</button></a>";
             echo "</div>";
         }
-
-        echo "<h3>COSN Group Information:</h3>";
-       
-        echo"<table border='1'>";
-        
-        echo "<tr>";
-        echo "<td>Group name: </td>";
-        echo "<td>". $homepage_context_group_name ."</td>";
-        echo "</tr>";
-
-        echo "<tr>";
-        echo "<td> Group description: </td>";
-        echo "<td>". $homepage_context_group_description ."</td>";
-        echo "</tr>";
-
-        echo "<tr>";
-        echo "<td> Group category: </td>";
-        echo "<td>". $homepage_context_group_category ."</td>";
-        echo "</tr>";
-
-        echo "<tr>";
-        echo "<td> Group creation date: </td>";
-        echo "<td>". $homepage_context_group_creation_date ."</td>";
-        echo "</tr>";
-
-        echo"</table>";
-
-        if($isGroupMember){
-            echo "<td><a href='COSN_group_remove_member.php?group_id=" . $homepage_context_group_id . "&member_id=" . $logged_in_member_id . "'><button style='background-color: pink; color: black;' 'onclick=\"return confirm('Leave group ?');\"> Leave group?</button></a></td>";
-        }
-
+        // Display the group name if the user is accessing the homepage in the context of a group
+        echo "<h1>Welcome to the ". $group_name . " COSN Group homepage!</h1>";
 
     //display normal Member homepage greeting, if the user is accessing the homepage in the context of a member
-    } elseif($homepage_context === 'owner'){
+    } else {
         // Display the member's username if the user is accessing the homepage in the context of a member
-        echo "<h1>Welcome to your homepage!</h1>";
-
-        echo"<table border='1'>";
-        
-        echo "<tr>";
-        echo "<td>Your username: </td>";
-        echo "<td>". $_SESSION['member_username'] ."</td>";
-        echo "</tr>";
-
-        echo "<tr>";
-        echo "<td>Your COSN privilege level: </td>";
-        echo "<td>". $homepage_context_owner_privilege_level ."</td>";
-        echo "</tr>";
-
-        echo "<tr>";
-        echo "<td> Your First Name: </td>";
-        echo "<td>". (($homepage_context_owner_first_name) ? $homepage_context_owner_first_name : "you haven't set your First Name yet") ."</td>";
-        echo "</tr>";
-
-        echo "<tr>";
-        echo "<td> Your Last Name: </td>";
-        echo "<td>". (($homepage_context_owner_last_name) ? $homepage_context_owner_last_name : "you haven't set your Last Name yet") ."</td>";
-        echo "</tr>";
-
-        echo "<tr>";
-        echo "<td> Your Email: </td>";
-        echo "<td>". (($homepage_context_owner_email) ? $homepage_context_owner_email : "you haven't set your Email yet") ."</td>";
-        echo "</tr>";
-
-        echo "<tr>";
-        echo "<td> Your Date of Birth: </td>";
-        echo "<td>". (($homepage_context_owner_dob) ? $homepage_context_owner_dob : "you haven't set your Date of Birth yet") ."</td>";
-        echo "</tr>";
-
-        echo "<tr>";
-        echo "<td> Your Address: </td>";
-        echo "<td>". (($homepage_context_owner_address) ? $homepage_context_owner_address : "you haven't set your Address yet") ."</td>";
-        echo "</tr>";
-
-        echo"</table>";
-        echo "<a href='COSN_member_manage.php?member_id=". $logged_in_member_id ."'><button style='background-color: green; color: white;'>Manage my COSN profile</button></a>";
-
-
-    }elseif($homepage_context === 'member'){
-        // Display the member's username if the user is accessing the homepage in the context of a member
-        echo "<h1>You are viewing ". $homepage_context_member_username ."'s COSN profile</h1>";
-        if($memberRelationshipStatus){
-            echo "<bold style='background-color: green; color: black;'>Your relationship with this member is: ".$memberRelationshipStatus." !</bold>";
-        }
-        echo "<hr>";
-        echo "<h3>COSN Member Information:</h3>";
-       
-        //Username is always visible as is public information
-        //new row
-        echo"<table border='1'>";
-        echo "<tr>";
-        //columns of that row
-        echo "<td>Username: </td>";
-        echo "<td>". $homepage_context_member_username ."</td>";
-        echo "</tr>";
-
-        echo "<tr>";
-        //columns of that row
-        echo "<td>COSN privilege level: </td>";
-        echo "<td>". $homepage_context_member_privilege_level ."</td>";
-        echo "</tr>";
-
-        if($display_email_permission){
-            echo "<tr>";
-            echo "<td> Email: </td>";
-            echo "<td>". $homepage_context_member_email ."</td>";
-            echo "</tr>";
-        }
-        
-        if($display_first_name_permission){
-            echo "<tr>";
-            echo "<td> First Name: </td>";
-            echo "<td>". $homepage_context_member_first_name ."</td>";
-            echo "</tr>";}
-        
-        if($display_last_name_permission){
-            echo "<tr>";
-            echo "<td> Last Name: </td>";
-            echo "<td>". $homepage_context_member_last_name ."</td>";
-            echo "</tr>";}
-        
-        if($display_date_of_birth_permission){
-            echo "<tr>";
-            echo "<td> Date of birth: </td>";
-            echo "<td>". $homepage_context_member_dob ."</td>";
-            echo "</tr>";}
-        
-        if($display_address_permission){
-            echo "<tr>";
-            echo "<td> Address: </td>";
-            echo "<td>". $homepage_context_member_address ."</td>";
-            echo "</tr>";}
-        
-        echo"</table>";
+        echo "<h1>Welcome to ". $_SESSION['member_username'] ." homepage!</h1>";
+        echo "<small>Your status in COSN is: ".$member_status." </small>";
     }
     ?>
 
-<br>
-<hr>
-<h2>Content feed:</h2>
+    <br>
+    <hr>
+
+
+    <h2>Content feed:</h2>
+
+<!-- Display public feed -->
+<!-- <h2><?php echo $_SESSION['member_username']; ?>'s Content Feed (most recent posts first)</h2> -->
+
 <div id="main_feed">
     <?php if (!empty($posts)): ?>
         <?php foreach ($posts as $post): ?>
@@ -716,9 +332,16 @@ foreach ($content_feed as $row) {
                        <hr><br> Content permission via group: <?php echo htmlspecialchars($post['post_group_name']); ?>
                     <?php endif; ?>
                 </small>
-                <br><br>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <a href="edit_content.php?content_id=<?php echo urlencode($post['content_id']); ?>" class="action-button edit-button">Edit</a>
+                    <a href="Content_Interact.php?state=share&content_id=<?php echo urlencode($post['content_id']); ?>" class="action-button share-button">Share</a>
+                    <a href="comment_on_content.php?content_id=<?php echo urlencode($post['content_id']); ?>" class="action-button comment-button">Comment</a>
+                    <a href="Content_Interact.php?state=link&content_id=<?php echo urlencode($post['content_id']); ?>" class="action-button link-button">Link</a>
+                </div>
                 <div class="view-post-button">
-                    <a href="COSN_content_view.php?content_id=<?php echo urlencode($post['content_id']); ?>" class="view-post-button">View Post</a>
+                    <a href="view_content.php?content_id=<?php echo urlencode($post['content_id']); ?>" class="view-post-button">View Post</a>
                 </div>
             </div>
             <br><br> <!-- Added double line break for spacing -->
@@ -729,6 +352,6 @@ foreach ($content_feed as $row) {
 </div>
 
 
-</div>
+    </div>
 </body>
 </html>

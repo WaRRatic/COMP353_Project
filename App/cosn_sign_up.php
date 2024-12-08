@@ -1,17 +1,17 @@
 <?php
-session_start();
 include("db_config.php");
 include("header.php");
-?>
-
+include('sidebar.php'); ?>
 
 <!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" type = "text/css" href="cosn_sign_up.css" />
+<link rel="stylesheet" type = "text/css" href="./css/cosn_sign_up.css" />
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
 </head>
+
+
 
 <body>
 
@@ -51,11 +51,25 @@ include("header.php");
 </form>
 
 <?php
+    //catch PHP errors
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+
+	session_start();
+
+	
+	
 // Check if the form is submitted
 //this is done by catching the "POST" request method and checking that 'username' and 'member_id' variables were POSTed
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'], $_POST['member_id'])) {
     $username = $_POST['username'];
     $member_id = $_POST['member_id'];
+
+     
+    $pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
+    //configure the error handling mode for the PDO (PHP Data Objects) database connection.
+    //throw an exception when a database error occurs.
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Query to check if member exists
     $stmt = $pdo->prepare('SELECT member_id, username FROM members WHERE username = :username AND member_id = :member_id');
@@ -80,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'], $_POST['m
     }
 }
 
-// Sign-up form logic to check for existing email
+ // Sign-up form logic to check for existing email
 //this is done by catching the "POST" request method and checking that the 'submit_signup' variable was POSTed
  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_signup'])) {
     $new_username = $_POST['new_username'];
@@ -90,6 +104,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'], $_POST['m
     $password = $_POST['password'];
 
     try {
+        $pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
         // Check if email already exists
         $stmt = $pdo->prepare('SELECT * FROM members WHERE email = :email');
         $stmt->execute(['email' => $email]);
@@ -117,13 +134,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'], $_POST['m
             ]);
 
             echo "<script>alert('Sign-up successful!');</script>";
-            echo "<script>window.location.href = 'index.php';</script>";
         }
     } catch (PDOException $e) {
         echo "<script>alert('Database error: " . $e->getMessage() . "');</script>";
     }
 }
+
 ?>
+
 
 </body>
 </html>

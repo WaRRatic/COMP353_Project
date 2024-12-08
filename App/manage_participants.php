@@ -1,91 +1,70 @@
 <?php
 session_start();
-include("db_config.php");
+include("db.php");
 include('sidebar.php'); 
 include("header.php");
 
-// Check if the user is logged in
-if (!isset($_SESSION['loggedin'])) {
-    echo "<script>alert('Access denied - login first!');</script>";
-    echo "<script>window.location.href = 'index.php';</script>";
+if (!isset($_SESSION['loggedin']) || !isset($_GET['id'])) {
+    header("Location: index.php");
     exit;
 }
-$logged_in_member_id = $_SESSION['member_id'];
 
-// Check if the ID is set
-if (!isset($_GET['id'])) {
-    echo "<script>alert('No registry ID is specified!');</script>";
-    echo "<script>window.location.href = 'gift_registry.php';</script>";
-    exit;
-}
+$member_id = $_SESSION['member_id'];
 $registry_id = $_GET['id'];
 
+$host = 'localhost';
+$db   = 'cosn';
+$user = 'root';
+$pass = '';
 
 $conn = new mysqli($host, $user, $pass, $db);
 // check if user is organizer or admin
-$sql = "SELECT 
-            gr.*, m.privilege_level 
-        FROM kpc353_2.gift_registry gr
-        INNER JOIN 
-            kpc353_2.members as m 
-                ON m.member_id = $logged_in_member_id
-        WHERE 
-            gr.gift_registry_id = $registry_id";
+$sql = "SELECT gr.*, m.privilege_level 
+        FROM gift_registry gr
+        JOIN members m ON m.member_id = $member_id
+        WHERE gr.gift_registry_id = $registry_id";
 
 $result = $conn->query($sql);
 $registry = $result->fetch_assoc();
 
-if ($registry['organizer_member_id'] != $logged_in_member_id && $registry['privilege_level'] != 'administrator') {
-    echo "<script>alert('You don't have appropriate permissions to manage participants of this registry!');</script>";
-    echo "<script>window.location.href = 'gift_registry.php';</script>";
+if ($registry['organizer_member_id'] != $member_id && $registry['privilege_level'] != 'administrator') {
+    header("Location: gift_registry.php");
     exit;
 }
 
 // adding new participant
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_participant'])) {
     $new_participant = $_POST['participant_id'];
-    $sql = "INSERT INTO kpc353_2.gift_registry_participants 
-                (participant_member_id, target_gift_registry_id) 
-            VALUES 
-                ($new_participant, $registry_id)";
+    $sql = "INSERT INTO gift_registry_participants 
+            (participant_member_id, target_gift_registry_id) 
+            VALUES ($new_participant, $registry_id)";
     $conn->query($sql);
 }
 
 // removing participant
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_participant'])) {
     $remove_id = $_POST['remove_id'];
-    $sql = "DELETE FROM kpc353_2.gift_registry_participants 
-            WHERE 
-                participant_member_id = $remove_id 
-                AND target_gift_registry_id = $registry_id";
+    $sql = "DELETE FROM gift_registry_participants 
+            WHERE participant_member_id = $remove_id 
+            AND target_gift_registry_id = $registry_id";
     $conn->query($sql);
 }
 
 // get current participants
-$sql = "SELECT 
-            grp.*, m.username 
-        FROM kpc353_2.gift_registry_participants grp
-            INNER JOIN kpc353_2.members as m 
-                ON grp.participant_member_id = m.member_id
-        WHERE 
-            grp.target_gift_registry_id = $registry_id";
+$sql = "SELECT grp.*, m.username 
+        FROM gift_registry_participants grp
+        JOIN members m ON grp.participant_member_id = m.member_id
+        WHERE grp.target_gift_registry_id = $registry_id";
 $result = $conn->query($sql);
 $participants = $result->fetch_all(MYSQLI_ASSOC);
 
 // get potential participants
-$sql = "SELECT 
-            member_id, username 
-        FROM 
-            kpc353_2.members 
-        WHERE 
-            member_id 
-                NOT IN (
-                    SELECT 
-                        participant_member_id 
-                    FROM kpc353_2.gift_registry_participants
-                    WHERE 
-                        target_gift_registry_id = $registry_id
-                        )";
+$sql = "SELECT member_id, username FROM members 
+        WHERE member_id NOT IN (
+            SELECT participant_member_id 
+            FROM gift_registry_participants
+            WHERE target_gift_registry_id = $registry_id
+        )";
 $result = $conn->query($sql);
 $potential_participants = $result->fetch_all(MYSQLI_ASSOC);
 ?>
@@ -95,7 +74,7 @@ $potential_participants = $result->fetch_all(MYSQLI_ASSOC);
 <head>
     <meta charset="UTF-8">
     <title>Manage Participants</title>
-    <link rel="stylesheet" type="text/css" href="gift_registry.css">
+    <link rel="stylesheet" type="text/css" href="./css/gift_registry.css">
 </head>
 <body>
     <div class="container">

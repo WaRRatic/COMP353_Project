@@ -14,7 +14,7 @@ $sql = "
         u.member_id AS friend_id,
         u.name AS friend_name
     FROM 
-        kpc353_2.member_relationships r
+        member_relationships r
     JOIN 
         users u
     ON 

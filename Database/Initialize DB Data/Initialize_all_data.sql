@@ -21,7 +21,7 @@ insert into
     address, 
     date_of_birth, 
     privilege_level, 
-     
+    pseudonym, 
     status,
     corporation_flag
   )
@@ -36,7 +36,7 @@ values
     '567 Road', 
     '1973-04-17', 
     'administrator', 
-     
+    'joshieboy', 
     'active',
     FALSE
   );
@@ -53,7 +53,7 @@ values
     address, 
     date_of_birth, 
     privilege_level, 
-     
+    pseudonym, 
     status,
     corporation_flag
   )
@@ -68,7 +68,7 @@ values
     '999 Roadblock', 
     '1964-04-13', 
     'senior', 
-   
+    'stevie', 
     'inactive',
     FALSE
   );
@@ -85,7 +85,7 @@ values
     address, 
     date_of_birth, 
     privilege_level, 
-     
+    pseudonym, 
     status,
     corporation_flag
   )
@@ -100,7 +100,7 @@ values
     '1524 Haight St', 
     '1942-11-27', 
     'senior', 
-   
+    'purple_haze69', 
     'inactive',
     FALSE
   );
@@ -117,7 +117,7 @@ values
     address, 
     date_of_birth, 
     privilege_level, 
-     
+    pseudonym, 
     status,
     corporation_flag
   )
@@ -132,7 +132,7 @@ values
     '8021 Rothdell Trail', 
     '1943-12-08', 
     'senior', 
-  
+    'lizard_king01', 
     'suspended',
     FALSE
   );
@@ -150,7 +150,7 @@ values
     address, 
     date_of_birth, 
     privilege_level, 
-     
+    pseudonym, 
     status,
     corporation_flag
   )
@@ -165,7 +165,7 @@ values
     '10250 Constellation Blvd', 
     '1978-06-09', 
     'senior', 
-  
+    'starlight78', 
     'active',
     FALSE
   );
@@ -182,7 +182,7 @@ values
     address, 
     date_of_birth, 
     privilege_level, 
-     
+    pseudonym, 
     status,
     corporation_flag
   )
@@ -197,7 +197,7 @@ values
     '3415 Coldwater Canyon Ave', 
     '1985-06-21', 
     'junior', 
-  
+    'deadly_nightshade7', 
     'active',
     FALSE
   );
@@ -213,7 +213,7 @@ values
     address, 
     date_of_birth, 
     privilege_level, 
-     
+    pseudonym, 
     status,
     corporation_flag
   )
@@ -228,7 +228,7 @@ values
     '123 Dublin', 
     '1960-10-25', 
     'senior', 
-     
+    'icequeen77', 
     'active',
     FALSE
   );
@@ -244,7 +244,7 @@ values
     address, 
     date_of_birth, 
     privilege_level, 
-     
+    pseudonym, 
     status,
     corporation_flag
   )
@@ -259,7 +259,7 @@ values
     '66 Drive', 
     '1962-02-06', 
     'senior', 
-     
+    'novemberrain 66', 
     'inactive'
     ,FALSE
   );
@@ -276,7 +276,7 @@ values
     address, 
     date_of_birth, 
     privilege_level, 
-     
+    pseudonym, 
     status,
     corporation_flag
   )
@@ -291,7 +291,7 @@ values
     'South Caroline', 
     '1963-07-03', 
     'senior', 
-  
+    'evyc', 
     'active'
     ,FALSE
   );
@@ -854,14 +854,6 @@ INSERT INTO kpc353_2.member_relationships
 	( relationship_id, origin_member_id, target_member_id, member_relationship_type, member_relationship_status) 
   VALUES ( 6, 2, 9, 'family', 'approved' );
 
--- make it so admin is friends with user id 2 and user id 3 and vice versa
-INSERT INTO kpc353_2.member_relationships (relationship_id, origin_member_id, target_member_id, member_relationship_type, member_relationship_status) 
-VALUES 
-(7, 1, 2, 'friend', 'approved'), 
-(8, 1, 3, 'friend', 'approved'),
-(9,2,1,'friend','approved'),
-(10,3,1,'friend','approved');
-
 -- INIT CONTENT_COMMENT
 INSERT INTO kpc353_2.content_comment
 	( content_comment_id, commenter_member_id, comment_text, target_content_id, datetime_comment) 
@@ -870,15 +862,3 @@ INSERT INTO kpc353_2.content_comment
   INSERT INTO kpc353_2.content_comment
 	( content_comment_id, commenter_member_id, comment_text, target_content_id, datetime_comment) 
   VALUES ( 2, 9, "Hurry up, the food will get cold!", 9,  NOW());
-
-
---INIT PERSONAL INFO PERMISSIONS
-INSERT INTO kpc353_2.personal_info_permissions
-	(owner_member_id, personal_info_type, authorized_member_id) VALUES (  3,'email', 2 );
-
--- INIT PERSONAL INFO PUBLIC PERMISSIONS
-INSERT INTO kpc353_2.personal_info_public_permissions
-	(owner_member_id, personal_info_type) VALUES ( 3,'first_name');
-  
-INSERT INTO kpc353_2.personal_info_public_permissions
-	(owner_member_id, personal_info_type) VALUES ( 3,'last_name');
