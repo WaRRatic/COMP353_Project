@@ -43,7 +43,7 @@ if(!$isAdmin){
         AND group_member_status = 'admin'
     ";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([':group_id' => $group_id]);
+    $stmt->execute([':group_id' => $group_id, ':logged_in_member_id' => $logged_in_member_id]);
     $isGroupOwner = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     if(!$isGroupOwner){
