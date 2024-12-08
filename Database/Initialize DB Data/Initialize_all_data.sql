@@ -862,3 +862,15 @@ INSERT INTO kpc353_2.content_comment
   INSERT INTO kpc353_2.content_comment
 	( content_comment_id, commenter_member_id, comment_text, target_content_id, datetime_comment) 
   VALUES ( 2, 9, "Hurry up, the food will get cold!", 9,  NOW());
+
+
+--INIT PERSONAL INFO PERMISSIONS
+INSERT INTO kpc353_2.personal_info_permissions
+	(owner_member_id, personal_info_type, authorized_member_id) VALUES (  3,'email', 2 );
+
+-- INIT PERSONAL INFO PUBLIC PERMISSIONS
+INSERT INTO kpc353_2.personal_info_public_permissions
+	(owner_member_id, personal_info_type) VALUES ( 3,'first_name');
+  
+INSERT INTO kpc353_2.personal_info_public_permissions
+	(owner_member_id, personal_info_type) VALUES ( 3,'last_name');

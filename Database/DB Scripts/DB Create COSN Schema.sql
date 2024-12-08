@@ -10,20 +10,18 @@ CREATE  TABLE kpc353_2.members (
 	address              VARCHAR(100)       ,
 	date_of_birth        DATE       ,
 	privilege_level      ENUM('administrator','senior','junior')  DEFAULT 'junior'  NOT NULL   ,
-	pseudonym            VARCHAR(50)       ,
 	`status`             ENUM('active','inactive','suspended')  DEFAULT 'active'  NOT NULL   ,
-	corporation_flag     BOOLEAN  DEFAULT false  NOT NULL   ,
-	member_deleted_flag  BOOLEAN  DEFAULT false     
- ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+	corporation_flag     BOOLEAN  DEFAULT false  NOT NULL   
+ );
 
 CREATE  TABLE kpc353_2.personal_info_permissions ( 
 	personal_info_permission_id INT UNSIGNED   NOT NULL   PRIMARY KEY,
 	owner_member_id      INT UNSIGNED   NOT NULL   ,
 	personal_info_type   ENUM('first_name','last_name','date_of_birth','address','pseudonym','email')    NOT NULL   ,
 	authorized_member_id INT UNSIGNED   NOT NULL   ,
-	CONSTRAINT fk_personal_info_visibility_members FOREIGN KEY ( owner_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	CONSTRAINT fk_personal_info_visibility_members_0 FOREIGN KEY ( authorized_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
- ) engine=InnoDB;
+	CONSTRAINT fk_personal_info_visibility_members FOREIGN KEY ( owner_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
+	CONSTRAINT fk_personal_info_visibility_members_0 FOREIGN KEY ( authorized_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION
+ );
 
 CREATE INDEX fk_personal_info_visibility_member ON kpc353_2.personal_info_permissions ( owner_member_id );
 
@@ -33,8 +31,8 @@ CREATE  TABLE kpc353_2.personal_info_public_permissions (
 	personal_info_public_permission_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
 	owner_member_id      INT UNSIGNED   NOT NULL   ,
 	personal_info_type   ENUM('first_name','last_name','date_of_birth','address','pseudonym','email')       ,
-	CONSTRAINT fk_personal_info_public_permissions_members FOREIGN KEY ( owner_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
- ) engine=InnoDB;
+	CONSTRAINT fk_personal_info_public_permissions_members FOREIGN KEY ( owner_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION
+ );
 
 CREATE INDEX fk_personal_info_public_permissions_members ON kpc353_2.personal_info_public_permissions ( owner_member_id );
 
@@ -47,10 +45,9 @@ CREATE  TABLE kpc353_2.content (
 	content_title        VARCHAR(100)       ,
 	moderation_status    ENUM('pending', 'approved', 'rejected')  DEFAULT 'pending'     ,
 	content_deleted_flag BOOLEAN  DEFAULT false  NOT NULL   ,
-	CONSTRAINT fk_content_members FOREIGN KEY ( creator_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
- ) engine=InnoDB;
-
-CREATE INDEX fk_content_members ON kpc353_2.content ( creator_id );
+	CONSTRAINT fk_content_members UNIQUE ( creator_id ) ,
+	CONSTRAINT fk_content_members FOREIGN KEY ( creator_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION
+ );
 
 CREATE  TABLE kpc353_2.content_comment ( 
 	content_comment_id   INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
@@ -58,17 +55,17 @@ CREATE  TABLE kpc353_2.content_comment (
 	comment_text         VARCHAR(250)       ,
 	target_content_id    INT UNSIGNED      ,
 	datetime_comment     DATETIME       ,
-	CONSTRAINT fk_content_comment_members FOREIGN KEY ( commenter_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	CONSTRAINT fk_content_comment_content FOREIGN KEY ( target_content_id ) REFERENCES kpc353_2.content( content_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
- ) engine=InnoDB;
+	CONSTRAINT fk_content_comment_members FOREIGN KEY ( commenter_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
+	CONSTRAINT fk_content_comment_content FOREIGN KEY ( target_content_id ) REFERENCES kpc353_2.content( content_id ) ON DELETE CASCADE ON UPDATE NO ACTION
+ );
 
 CREATE  TABLE kpc353_2.content_link_relationship ( 
 	content_link_rel_id  INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
 	origin_content_id    INT UNSIGNED      ,
 	target_content_id    INT UNSIGNED      ,
-	CONSTRAINT fk_content_link_relationship_content_1 FOREIGN KEY ( origin_content_id ) REFERENCES kpc353_2.content( content_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	CONSTRAINT fk_content_link_relationship_content_2 FOREIGN KEY ( target_content_id ) REFERENCES kpc353_2.content( content_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
- ) engine=InnoDB;
+	CONSTRAINT fk_content_link_relationship_content_1 FOREIGN KEY ( origin_content_id ) REFERENCES kpc353_2.content( content_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
+	CONSTRAINT fk_content_link_relationship_content_2 FOREIGN KEY ( target_content_id ) REFERENCES kpc353_2.content( content_id ) ON DELETE CASCADE ON UPDATE NO ACTION
+ );
 
 CREATE INDEX fk_content_link_relationship_content ON kpc353_2.content_link_relationship ( origin_content_id );
 
@@ -79,9 +76,9 @@ CREATE  TABLE kpc353_2.content_member_permission (
 	target_content_id    INT UNSIGNED      ,
 	authorized_member_id INT UNSIGNED      ,
 	content_permission_type ENUM('read','edit','comment','share','modify-permission','moderate','link')       ,
-	CONSTRAINT fk_content_permissions_members FOREIGN KEY ( authorized_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	CONSTRAINT fk_content_member_permission_content FOREIGN KEY ( target_content_id ) REFERENCES kpc353_2.content( content_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
- ) engine=InnoDB;
+	CONSTRAINT fk_content_permissions_members FOREIGN KEY ( authorized_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
+	CONSTRAINT fk_content_member_permission_content FOREIGN KEY ( target_content_id ) REFERENCES kpc353_2.content( content_id ) ON DELETE CASCADE ON UPDATE NO ACTION
+ );
 
 CREATE INDEX fk_content_permissions_content ON kpc353_2.content_member_permission ( target_content_id );
 
@@ -92,10 +89,10 @@ CREATE  TABLE kpc353_2.content_moderation_warning (
 	target_content_id    INT UNSIGNED   NOT NULL   ,
 	owner_member_id      INT UNSIGNED   NOT NULL   ,
 	moderator_member_id  INT UNSIGNED   NOT NULL   ,
-	CONSTRAINT fk_content_moderation_warning_content FOREIGN KEY ( target_content_id ) REFERENCES kpc353_2.content( content_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	CONSTRAINT fk_content_moderation_warning_content_0 FOREIGN KEY ( owner_member_id ) REFERENCES kpc353_2.content( creator_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	CONSTRAINT fk_content_moderation_warning_members FOREIGN KEY ( moderator_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
- ) engine=InnoDB;
+	CONSTRAINT fk_content_moderation_warning_content FOREIGN KEY ( target_content_id ) REFERENCES kpc353_2.content( content_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
+	CONSTRAINT fk_content_moderation_warning_content_0 FOREIGN KEY ( owner_member_id ) REFERENCES kpc353_2.content( creator_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
+	CONSTRAINT fk_content_moderation_warning_members FOREIGN KEY ( moderator_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION
+ );
 
 CREATE INDEX fk_content_moderation_warning_content ON kpc353_2.content_moderation_warning ( target_content_id );
 
@@ -107,8 +104,8 @@ CREATE  TABLE kpc353_2.content_public_permissions (
 	content_public_permission_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
 	target_content_id    INT UNSIGNED      ,
 	content_public_permission_type ENUM('read','comment','share','link')       ,
-	CONSTRAINT fk_content_public_permissions_content FOREIGN KEY ( target_content_id ) REFERENCES kpc353_2.content( content_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
- ) engine=InnoDB;
+	CONSTRAINT fk_content_public_permissions_content FOREIGN KEY ( target_content_id ) REFERENCES kpc353_2.content( content_id ) ON DELETE CASCADE ON UPDATE NO ACTION
+ );
 
 CREATE INDEX fk_content_public_permissions_content ON kpc353_2.content_public_permissions ( target_content_id );
 
@@ -117,8 +114,8 @@ CREATE  TABLE kpc353_2.gift_registry (
 	organizer_member_id  INT UNSIGNED   NOT NULL   ,
 	gift_registry_description VARCHAR(100)       ,
 	gift_registry_name   VARCHAR(100)       ,
-	CONSTRAINT fk_gift_registry_members FOREIGN KEY ( organizer_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
- ) engine=InnoDB;
+	CONSTRAINT fk_gift_registry_members FOREIGN KEY ( organizer_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION
+ );
 
 CREATE INDEX fk_gift_registry_members ON kpc353_2.gift_registry ( organizer_member_id );
 
@@ -127,9 +124,9 @@ CREATE  TABLE kpc353_2.gift_registry_ideas (
 	target_gift_registry_id INT UNSIGNED   NOT NULL   ,
 	idea_owner_id        INT UNSIGNED   NOT NULL   ,
 	gift_idea_description VARCHAR(200)    NOT NULL   ,
-	CONSTRAINT fk_gift_registry_ideas_gift_registry_0 FOREIGN KEY ( target_gift_registry_id ) REFERENCES kpc353_2.gift_registry( gift_registry_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	CONSTRAINT fk_gift_registry_ideas_members FOREIGN KEY ( idea_owner_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
- ) engine=InnoDB;
+	CONSTRAINT fk_gift_registry_ideas_gift_registry_0 FOREIGN KEY ( target_gift_registry_id ) REFERENCES kpc353_2.gift_registry( gift_registry_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
+	CONSTRAINT fk_gift_registry_ideas_members FOREIGN KEY ( idea_owner_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION
+ );
 
 CREATE INDEX fk_gift_registry_ideas_gift_registry ON kpc353_2.gift_registry_ideas ( target_gift_registry_id );
 
@@ -139,9 +136,9 @@ CREATE  TABLE kpc353_2.gift_registry_participants (
 	gift_registry_participants_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
 	participant_member_id INT UNSIGNED   NOT NULL   ,
 	target_gift_registry_id INT UNSIGNED   NOT NULL   ,
-	CONSTRAINT fk_gift_registry_participants_members FOREIGN KEY ( participant_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	CONSTRAINT fk_gift_registry_participants_gift_registry FOREIGN KEY ( target_gift_registry_id ) REFERENCES kpc353_2.gift_registry( gift_registry_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
- ) engine=InnoDB;
+	CONSTRAINT fk_gift_registry_participants_members FOREIGN KEY ( participant_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
+	CONSTRAINT fk_gift_registry_participants_gift_registry FOREIGN KEY ( target_gift_registry_id ) REFERENCES kpc353_2.gift_registry( gift_registry_id ) ON DELETE CASCADE ON UPDATE NO ACTION
+ );
 
 CREATE INDEX fk_gift_registry_participants_gift_registry ON kpc353_2.gift_registry_participants ( target_gift_registry_id );
 
@@ -152,9 +149,9 @@ CREATE  TABLE kpc353_2.gift_registry_permissions (
 	target_gift_registry_id INT UNSIGNED      ,
 	authorized_member_id INT UNSIGNED      ,
 	gift_registry_permission_type ENUM('view', 'edit', 'add-item')       ,
-	CONSTRAINT fk_gift_registry_permissions_gift_registry FOREIGN KEY ( target_gift_registry_id ) REFERENCES kpc353_2.gift_registry( gift_registry_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	CONSTRAINT fk_gift_registry_permissions_members FOREIGN KEY ( authorized_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
- ) engine=InnoDB;
+	CONSTRAINT fk_gift_registry_permissions_gift_registry FOREIGN KEY ( target_gift_registry_id ) REFERENCES kpc353_2.gift_registry( gift_registry_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
+	CONSTRAINT fk_gift_registry_permissions_members FOREIGN KEY ( authorized_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION
+ );
 
 CREATE  TABLE kpc353_2.groups ( 
 	group_id             INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
@@ -163,9 +160,8 @@ CREATE  TABLE kpc353_2.groups (
 	description          TEXT       ,
 	creation_date        DATE  DEFAULT current_timestamp()     ,
 	category             VARCHAR(100)       ,
-	group_deleted_flag   BOOLEAN  DEFAULT false     ,
-	CONSTRAINT fk_groups_members FOREIGN KEY ( owner_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
- ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+	CONSTRAINT fk_groups_members FOREIGN KEY ( owner_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION
+ );
 
 CREATE INDEX fk_groups_members ON kpc353_2.groups ( owner_id );
 
@@ -174,9 +170,9 @@ CREATE  TABLE kpc353_2.member_messages (
 	origin_member_id     INT UNSIGNED   NOT NULL   ,
 	target_member_id     INT UNSIGNED   NOT NULL   ,
 	message_content      TEXT       ,
-	CONSTRAINT fk_member_messages_members FOREIGN KEY ( origin_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	CONSTRAINT fk_member_messages_members_0 FOREIGN KEY ( target_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
- ) engine=InnoDB;
+	CONSTRAINT fk_member_messages_members FOREIGN KEY ( origin_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
+	CONSTRAINT fk_member_messages_members_0 FOREIGN KEY ( target_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION
+ );
 
 CREATE INDEX fk_member_messages_members ON kpc353_2.member_messages ( origin_member_id );
 
@@ -186,8 +182,8 @@ CREATE  TABLE kpc353_2.member_privilege_change_request (
 	member_privilege_change_request_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
 	target_member_id     INT UNSIGNED   NOT NULL   ,
 	requested_privilege_level ENUM('senior')       ,
-	CONSTRAINT fk_member_privilege_change_request_members FOREIGN KEY ( target_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
- ) engine=InnoDB;
+	CONSTRAINT fk_member_privilege_change_request_members FOREIGN KEY ( target_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION
+ );
 
 CREATE INDEX fk_member_privilege_change_request_members ON kpc353_2.member_privilege_change_request ( target_member_id );
 
@@ -197,9 +193,9 @@ CREATE  TABLE kpc353_2.member_relationships (
 	target_member_id     INT UNSIGNED   NOT NULL   ,
 	member_relationship_type ENUM('friend','family','colleague','blocked')    NOT NULL   ,
 	member_relationship_status ENUM('requested','approved','rejected')       ,
-	CONSTRAINT fk_member_relationships_members FOREIGN KEY ( origin_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	CONSTRAINT fk_member_relationships_members_0 FOREIGN KEY ( target_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
- ) engine=InnoDB;
+	CONSTRAINT fk_member_relationships_members FOREIGN KEY ( origin_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
+	CONSTRAINT fk_member_relationships_members_0 FOREIGN KEY ( target_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION
+ );
 
 CREATE INDEX fk_member_relationships_members ON kpc353_2.member_relationships ( origin_member_id );
 
@@ -210,9 +206,9 @@ CREATE  TABLE kpc353_2.content_group_permissions (
 	target_content_id    INT UNSIGNED      ,
 	target_group_id      INT UNSIGNED   NOT NULL   ,
 	content_group_permission_type ENUM('read','comment','share','link')       ,
-	CONSTRAINT fk_content_group_permissions_content FOREIGN KEY ( target_content_id ) REFERENCES kpc353_2.content( content_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	CONSTRAINT fk_content_group_permissions_groups FOREIGN KEY ( target_group_id ) REFERENCES kpc353_2.groups( group_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
- ) engine=InnoDB;
+	CONSTRAINT fk_content_group_permissions_content FOREIGN KEY ( target_content_id ) REFERENCES kpc353_2.content( content_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
+	CONSTRAINT fk_content_group_permissions_groups FOREIGN KEY ( target_group_id ) REFERENCES kpc353_2.groups( group_id ) ON DELETE CASCADE ON UPDATE NO ACTION
+ );
 
 CREATE INDEX fk_content_group_permissions_content ON kpc353_2.content_group_permissions ( target_content_id );
 
@@ -223,9 +219,9 @@ CREATE  TABLE kpc353_2.group_event (
 	target_group_id      INT UNSIGNED   NOT NULL   ,
 	event_organizer_member_id INT UNSIGNED   NOT NULL   ,
 	event_name           VARCHAR(100)    NOT NULL   ,
-	CONSTRAINT fk_group_event_groups FOREIGN KEY ( target_group_id ) REFERENCES kpc353_2.groups( group_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	CONSTRAINT fk_group_event_members FOREIGN KEY ( event_organizer_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
- ) engine=InnoDB;
+	CONSTRAINT fk_group_event_groups FOREIGN KEY ( target_group_id ) REFERENCES kpc353_2.groups( group_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
+	CONSTRAINT fk_group_event_members FOREIGN KEY ( event_organizer_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION
+ );
 
 CREATE INDEX fk_group_event_groups ON kpc353_2.group_event ( target_group_id );
 
@@ -236,9 +232,9 @@ CREATE  TABLE kpc353_2.group_event_options (
 	target_group_event_id INT UNSIGNED   NOT NULL   ,
 	option_owner_member_id INT UNSIGNED   NOT NULL   ,
 	option_description   VARCHAR(100)    NOT NULL   ,
-	CONSTRAINT fk_group_event_options_group_event FOREIGN KEY ( target_group_event_id ) REFERENCES kpc353_2.group_event( group_event_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	CONSTRAINT fk_group_event_options_members FOREIGN KEY ( option_owner_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
- ) engine=InnoDB;
+	CONSTRAINT fk_group_event_options_group_event FOREIGN KEY ( target_group_event_id ) REFERENCES kpc353_2.group_event( group_event_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
+	CONSTRAINT fk_group_event_options_members FOREIGN KEY ( option_owner_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION
+ );
 
 CREATE INDEX fk_group_event_options_group_event ON kpc353_2.group_event_options ( target_group_event_id );
 
@@ -250,9 +246,9 @@ CREATE  TABLE kpc353_2.group_members (
 	joined_group_id      INT UNSIGNED   NOT NULL   ,
 	date_joined          DATE  DEFAULT CURRENT_DATE  NOT NULL   ,
 	group_member_status  ENUM('member','admin','requested','ban')  DEFAULT 'member'     ,
-	CONSTRAINT fk_group_members_members FOREIGN KEY ( participant_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	CONSTRAINT fk_group_members_groups FOREIGN KEY ( joined_group_id ) REFERENCES kpc353_2.groups( group_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
- ) engine=InnoDB;
+	CONSTRAINT fk_group_members_members FOREIGN KEY ( participant_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
+	CONSTRAINT fk_group_members_groups FOREIGN KEY ( joined_group_id ) REFERENCES kpc353_2.groups( group_id ) ON DELETE CASCADE ON UPDATE NO ACTION
+ );
 
 CREATE INDEX fk_group_members_members ON kpc353_2.group_members ( participant_member_id );
 
@@ -263,10 +259,10 @@ CREATE  TABLE kpc353_2.group_vote_plebiscite (
 	target_member_id     INT UNSIGNED      ,
 	organizer_member_id  INT UNSIGNED      ,
 	target_group_id      INT UNSIGNED   NOT NULL   ,
-	CONSTRAINT fk_group_vote_plebiscite_groups FOREIGN KEY ( target_group_id ) REFERENCES kpc353_2.groups( group_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	CONSTRAINT fk_group_vote_plebiscite_members FOREIGN KEY ( target_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	CONSTRAINT fk_group_vote_plebiscite_members_0 FOREIGN KEY ( organizer_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
- ) engine=InnoDB;
+	CONSTRAINT fk_group_vote_plebiscite_groups FOREIGN KEY ( target_group_id ) REFERENCES kpc353_2.groups( group_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
+	CONSTRAINT fk_group_vote_plebiscite_members FOREIGN KEY ( target_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
+	CONSTRAINT fk_group_vote_plebiscite_members_0 FOREIGN KEY ( organizer_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION
+ );
 
 CREATE INDEX fk_group_vote_plebiscite_groups ON kpc353_2.group_vote_plebiscite ( target_group_id );
 
@@ -279,9 +275,9 @@ CREATE  TABLE kpc353_2.group_vote_plebiscite_results (
 	target_group_vote_plebiscite_id INT UNSIGNED   NOT NULL   ,
 	voter_member_id      INT UNSIGNED   NOT NULL   ,
 	voting_decision      BOOLEAN    NOT NULL   ,
-	CONSTRAINT fk_group_vote_plebiscite_results_members FOREIGN KEY ( voter_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	CONSTRAINT fk_group_vote_plebiscite_results_group_vote_plebiscite FOREIGN KEY ( target_group_vote_plebiscite_id ) REFERENCES kpc353_2.group_vote_plebiscite( group_vote_plebiscite_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
- ) engine=InnoDB;
+	CONSTRAINT fk_group_vote_plebiscite_results_members FOREIGN KEY ( voter_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
+	CONSTRAINT fk_group_vote_plebiscite_results_group_vote_plebiscite FOREIGN KEY ( target_group_vote_plebiscite_id ) REFERENCES kpc353_2.group_vote_plebiscite( group_vote_plebiscite_id ) ON DELETE CASCADE ON UPDATE NO ACTION
+ );
 
 CREATE INDEX fk_group_vote_plebiscite_results_members ON kpc353_2.group_vote_plebiscite_results ( voter_member_id );
 
@@ -292,9 +288,9 @@ CREATE  TABLE kpc353_2.group_event_option_vote (
 	target_group_event_option_id INT UNSIGNED   NOT NULL   ,
 	option_voter_member_id INT UNSIGNED   NOT NULL   ,
 	option_voting_decision BOOLEAN       ,
-	CONSTRAINT fk_group_event_option_vote_group_event_options FOREIGN KEY ( target_group_event_option_id ) REFERENCES kpc353_2.group_event_options( group_event_options_id ) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	CONSTRAINT fk_group_event_option_vote_members FOREIGN KEY ( option_voter_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE NO ACTION ON UPDATE NO ACTION
- ) engine=InnoDB;
+	CONSTRAINT fk_group_event_option_vote_group_event_options FOREIGN KEY ( target_group_event_option_id ) REFERENCES kpc353_2.group_event_options( group_event_options_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
+	CONSTRAINT fk_group_event_option_vote_members FOREIGN KEY ( option_voter_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION
+ );
 
 CREATE INDEX fk_group_event_option_vote_group_event_options ON kpc353_2.group_event_option_vote ( target_group_event_option_id );
 
@@ -304,6 +300,8 @@ ALTER TABLE kpc353_2.members COMMENT 'contains the info for every member of COSN
 
 ALTER TABLE kpc353_2.members MODIFY member_id INT UNSIGNED NOT NULL  AUTO_INCREMENT  COMMENT 'member_id = 1 is "private" system member
 member_id = 2 is "public" system member';
+
+ALTER TABLE kpc353_2.members MODIFY username VARCHAR(100)  NOT NULL   COMMENT 'public facing user''s name (pseudonym)';
 
 ALTER TABLE kpc353_2.members MODIFY password VARCHAR(50)  NOT NULL   COMMENT 'password of the user
 
@@ -327,13 +325,9 @@ ALTER TABLE kpc353_2.members MODIFY privilege_level ENUM('administrator','senior
 
 Mandatory (not null), for enabling the correct system functionality.';
 
-ALTER TABLE kpc353_2.members MODIFY pseudonym VARCHAR(50)     COMMENT 'name for internal interactions';
-
 ALTER TABLE kpc353_2.members MODIFY `status` ENUM('active','inactive','suspended')  NOT NULL DEFAULT 'active'  COMMENT 'the ''system'' status is used for internal backend representation of "public" and "private" members';
 
 ALTER TABLE kpc353_2.members MODIFY corporation_flag BOOLEAN  NOT NULL DEFAULT false  COMMENT 'Defines whether the member is a corporation (corporation_flag = true) or an actual person (corporation_flag = false).';
-
-ALTER TABLE kpc353_2.members MODIFY member_deleted_flag BOOLEAN   DEFAULT false  COMMENT 'indicates whether a member is deleted (true) or not (false)';
 
 ALTER TABLE kpc353_2.personal_info_permissions COMMENT 'Contains the mapping for ''member-specific'' permissions (visibility) of private information.
 
