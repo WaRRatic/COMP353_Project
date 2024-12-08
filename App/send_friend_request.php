@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'index.php'; //include database connection
+include 'db_config.php'; //include database connection
 
 if (isset($_POST['receiver_id'])) {
     $sender_id = $_SESSION['user_id']; // Current logged-in user

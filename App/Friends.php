@@ -1,14 +1,14 @@
 <?php
 session_start();
-include 'db.php';
+include 'db_config.php';
 
 
 $member_id = $_SESSION['member_id'];
 
 // Query to fetch friends
 $sql_friends = "SELECT m.user_id, m.username, m.first_name, m.last_name
-    FROM cosn.member_relationships mr
-    INNER JOIN cosn.members m 
+    FROM kpc353_2.member_relationships mr
+    INNER JOIN kpc353_2.members m 
     ON (m.user_id = mr.target_member_id AND mr.origin_member_id = ?)
     OR (m.user_id = mr.origin_member_id AND mr.target_member_id = ?)
     WHERE mr.member_relationship_type = 'friend' 
@@ -24,17 +24,17 @@ $stmt_friends->close();
 
 // Query to fetch potential friends
 $sql_potential_friends = "SELECT DISTINCT m.user_id, m.username, m.first_name, m.last_name
-        FROM cosn.members m
-        INNER JOIN cosn.group_members gm ON m.user_id = gm.participant_member_id
-        INNER JOIN cosn.group_members gm2 ON gm.joined_group_id = gm2.joined_group_id
+        FROM kpc353_2.members m
+        INNER JOIN kpc353_2.group_members gm ON m.user_id = gm.participant_member_id
+        INNER JOIN kpc353_2.group_members gm2 ON gm.joined_group_id = gm2.joined_group_id
         WHERE gm2.participant_member_id = ? 
         AND m.user_id != ?
         AND m.user_id NOT IN (
-        SELECT mr.target_member_id FROM cosn.member_relationships mr
+        SELECT mr.target_member_id FROM kpc353_2.member_relationships mr
         WHERE mr.origin_member_id = ? 
         AND (mr.member_relationship_type = 'friend' OR mr.member_relationship_status = 'requested')
         UNION
-        SELECT mr.origin_member_id FROM cosn.member_relationships mr
+        SELECT mr.origin_member_id FROM kpc353_2.member_relationships mr
         WHERE mr.target_member_id = ?
         AND (mr.member_relationship_type = 'friend' OR mr.member_relationship_status = 'requested')
     )

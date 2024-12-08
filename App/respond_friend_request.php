@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'db.php'; // Include database connection
+include 'db_config.php'; // Include database connection
 
 if (!isset($_SESSION['user_id'])) {
     echo "You need to log in first!";
