@@ -33,12 +33,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Javascript is generated on-the-fly by PHP, by using the echo(printing into HTMO document) the <script> HTML tag 
             // Javascript is used to be able to display the alert() popup, which is not possible to do in PHP -- yes, really
              echo "<script>alert('Invalid username or password!');</script>";
-             echo "<script>window.location.href = 'homepage.php';</script>";
+             echo "<script>window.location.href = 'index.php';</script>";
              exit;
         }
     } else {
         echo "<script>alert('Invalid username or password!');</script>";
-        echo "<script>window.location.href = 'homepage.php';</script>";
+        echo "<script>window.location.href = 'index.php';</script>";
         exit;
     }
 

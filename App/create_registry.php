@@ -1,25 +1,34 @@
 <?php
 session_start();
-include("db.php");
+include("db_config.php");
 include("header.php");
 include("sidebar.php");
 
-//check if user is logged in
+// Check if the user is logged in
 if (!isset($_SESSION['loggedin'])) {
-    header("Location: index.php");
+    echo "<script>alert('Access denied - login first!');</script>";
+    echo "<script>window.location.href = 'index.php';</script>";
     exit;
 }
 
-$member_id = $_SESSION['member_id'];
+
+$logged_in_member_id = $_SESSION['member_id'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
+        //begin the transaction
         $pdo->beginTransaction();
 
         // Insert into gift_registry
-        $stmt = $pdo->prepare("INSERT INTO gift_registry (organizer_member_id, gift_registry_name, gift_registry_description) VALUES (:member_id, :gift_registry_name, :gift_registry_description)");
+        $stmt = $pdo->prepare("
+            INSERT INTO 
+                kpc353_2.gift_registry 
+                    (organizer_member_id, gift_registry_name, gift_registry_description) 
+                VALUES 
+                    (:member_id, :gift_registry_name, :gift_registry_description)");
+        
         $stmt->execute([
-            'member_id' => $member_id,
+            'member_id' => $logged_in_member_id,
             'gift_registry_name' => $_POST['registry_name'],
             'gift_registry_description' => $_POST['registry_description']
         ]);
@@ -27,34 +36,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $registry_id = $pdo->lastInsertId();
 
         // Add creator as participant
-        $stmt = $pdo->prepare("INSERT INTO gift_registry_participants
-                              (participant_member_id, target_gift_registry_id)
-                              VALUES (:member_id, :registry_id)");
+        $stmt = $pdo->prepare("
+            INSERT INTO 
+                kpc353_2.gift_registry_participants
+                    (participant_member_id, target_gift_registry_id)
+                VALUES 
+                    (:member_id, :registry_id)");
         $stmt->execute([
-            'member_id' => $member_id,
+            'member_id' => $logged_in_member_id,
             'registry_id' => $registry_id
         ]);
 
         // Add gift ideas
         if (!empty($_POST['gift_ideas'])) {
-            $stmt = $pdo->prepare("INSERT INTO gift_registry_ideas
-                                  (target_gift_registry_id, idea_owner_id, gift_idea_description)
-                                  VALUES (:registry_id, :member_id, :idea)");
+            $stmt = $pdo->prepare("
+                INSERT INTO 
+                    kpc353_2.gift_registry_ideas
+                        (target_gift_registry_id, idea_owner_id, gift_idea_description)
+                    VALUES 
+                        (:registry_id, :member_id, :idea)");
             
             foreach ($_POST['gift_ideas'] as $idea) {
                 if (!empty($idea)) {
                     $stmt->execute([
                         'registry_id' => $registry_id,
-                        'member_id' => $member_id,
+                        'member_id' => $logged_in_member_id,
                         'idea' => $idea
                     ]);
                 }
             }
         }
-
+        
+        //commit the transaction
         $pdo->commit();
-        header("Location: gift_registry.php");
+
+        echo "<script>alert('Registry created successfully!');</script>";
+        echo "<script>window.location.href = 'gift_registry.php';</script>";
         exit;
+
     } catch(PDOException $e) {
         $pdo->rollBack();
         echo "<script>alert('Error creating registry: " . addslashes($e->getMessage()) . "');</script>";
@@ -67,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Create Gift Registry</title>
-    <link rel="stylesheet" type="text/css" href="./css/gift_registry.css">
+    <link rel="stylesheet" type="text/css" href="gift_registry.css">
 </head>
 
 <body>

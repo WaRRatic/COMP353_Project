@@ -33,6 +33,12 @@ if ($_SESSION['privilege_level'] === 'administrator'){
     $isAdmin = true;
 }
 
+// Check if user who initiated the request is the group member who wants to leave voluntarily
+// Prepare the SQL statement
+$isLeavingVoluntary = false;
+if($logged_in_member_id == $target_member_id){
+    $isLeavingVoluntary = true;
+}
 
 // Check user who initiated the request is the group admin/owner
 // Prepare the SQL statement
@@ -51,12 +57,11 @@ $stmt->execute([':logged_in_member_id' => $logged_in_member_id, ':requested_grou
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 //terminate the transaction if the request does not have the appropriate privilege
-if(!$result && !$isAdmin){
-    echo "<script>alert('You must be the admin of the group to ban other members from this group!.);</script>";
+if(!$result && !$isAdmin && !$isLeavingVoluntary){
+    echo "<script>alert('You don't have the privilege to remove this member from this group!.);</script>";
     echo "<script>window.location.href = 'COSN_groups.php';</script>";
     exit;
 }
-
 
 // Check if the user is the "admin" of the group
 // Prepare the SQL statement
@@ -83,8 +88,7 @@ if($result){
 
 
 $sql_request_group_access = "
-UPDATE kpc353_2.group_members
-	SET group_member_status = 'ban'
+DELETE FROM  kpc353_2.group_members
     WHERE 
         joined_group_id = :requested_group_id
         AND participant_member_id = :target_member_id
@@ -92,7 +96,6 @@ UPDATE kpc353_2.group_members
 
 $requestGroupAccessStmt = $pdo->prepare($sql_request_group_access);
 $requestGroupAccessStmt->execute(['target_member_id' => $target_member_id, 'requested_group_id' => $requested_group_id]);
-echo "<script>alert('User was succesfully banned from the COSN group!');</script>";
-echo "<script>window.location.href = 'COSN_group_admin.php?group_id=". $requested_group_id ."';</script>";
-
+echo "<script>alert('User was succesfully removed from the COSN group!');</script>";
+echo "<script>window.location.href = 'COSN_groups.php';</script>";
 ?>
