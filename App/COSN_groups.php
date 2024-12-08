@@ -19,11 +19,13 @@ $sql = "
     group_id, group_name, owner_id, description, creation_date,
     COALESCE((CASE WHEN (1=:logged_in_member_id) || (gm.group_member_status = 'owner') THEN 'admin' ELSE gm.group_member_status END),'outsider') AS group_role
     FROM kpc353_2.groups as g
-        left join kpc353_2.group_members as gm 
-            on g.group_id = gm.joined_group_id
-                and gm.participant_member_id = :logged_in_member_id
-    where
-    group_deleted_flag = false
+        LEFT JOIN 
+            kpc353_2.group_members as gm 
+            ON g.group_id = gm.joined_group_id
+                AND gm.participant_member_id = :logged_in_member_id
+        LEFT JOIN 
+            kpc353_2.members as m 
+                ON m.member_id = :logged_in_member_id
     ";
 
 $stmt = $pdo->prepare($sql);
@@ -57,7 +59,7 @@ while($row = current($result_col_needed_check)) {
   <div class="main-content">
     <h1>COSN groups</h1>
     <br>
-    <a href="COSN_create_group.php"><button style='background-color: teal; color: black;'>Create a new group</button></a>
+    <a href="COSN_create_group.php"><button style='background-color: yellow; color: black;'>Create a new group</button></a>
     <br><br>
     <table border="1">
         <tr>
@@ -79,7 +81,10 @@ while($row = current($result_col_needed_check)) {
         if ($row = $result) {
             // Output data of each row
             while($row = current($result)) {
+                //start row
                 echo "<tr>";
+                
+                //start columns
                 echo "<td>" . $row['group_name'] . "</td>";
                 echo "<td>" . $row['description'] ."</td>";
                 echo "<td>" . $row['group_role'] . "</td>";
@@ -88,7 +93,7 @@ while($row = current($result_col_needed_check)) {
                 if($row['group_role'] === 'outsider'){
                     echo "<td><a href='COSN_group_request_access.php?group_id=" . $row['group_id'] . "'><button style='background-color: gray; color: white;'> Request Access</button></a></td>";
                 } elseif($row['group_role'] === 'requested'){
-                    echo "<td style='background-color: orange; color: black;'>Access requested</td>";
+                    echo "<td> waiting for access </td>";
                 } elseif($row['group_role'] === 'member' || $row['group_role'] === 'admin'){
                     echo "<td><a href='homepage.php?group_id=" . $row['group_id'] . "'><button style='background-color: green; color: black;'>Access group</button></a></td>";
                 } elseif($row['group_role'] === 'ousted'){
@@ -102,9 +107,9 @@ while($row = current($result_col_needed_check)) {
                     echo "<td style='background-color: black; color: yellow;'>Not an admin</td>";
                 }
 
-                echo "</form>";
-                echo "</td>";
+                //end row
                 echo "</tr>";
+                //iterate to next result in the $result array
                 next($result);
                 
             }

@@ -23,15 +23,11 @@ $group_id = $_GET['group_id'];
 
 // If the form is submitted, update the group's data
 if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
-
     if (isset($_POST['delete_group'])) {
-
         try {
             $sql_delete = '
-            UPDATE 
+            DELETE FROM
                 kpc353_2.groups 
-            SET 
-                group_deleted_flag = true 
             WHERE
                 group_id = :group_id';
 
@@ -45,13 +41,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
             echo "<script>alert('Error deleting group: " . addslashes($e->getMessage()) . "');</script>";
             exit;
         }
-    
     // update the variables from the form, when the "Update Group" button is click and a POST request is sent
     }else{    
         $group_id = $_POST['group_id'];
         $group_name = $_POST['group_name'];
         $owner_id = $_POST['owner_id'];
         $description = $_POST['description'];
+        $category = $_POST['category'];
 
         try{
             // Fetch the selected group data from the database
@@ -61,13 +57,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
             SET
                 group_name = :group_name,
                 owner_id = :owner_id,
-                description = :description
+                description = :description,
+                category = :category
+
             WHERE 
                 group_id = :group_id
             ";
             $stmt = $pdo->prepare($sql);
 
-            $stmt->execute([':group_id' => $group_id, ':group_name' => $group_name, ':owner_id' => $owner_id, ':description' => $description]);
+            $stmt->execute([':group_id' => $group_id, ':group_name' => $group_name, ':owner_id' => $owner_id, ':description' => $description,':category' => $category]);
 
             echo "<script>alert('Group updated successfully!');</script>";
             echo "<script>window.location.href = 'COSN_groups.php';</script>"; 
@@ -78,14 +76,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
             echo "<script>window.location.href = 'edit_COSN_group.php?group_id=" . $group_id . "&error=" . urlencode($e->getMessage()) . "';</script>";
             exit;
         }
-
     }
 }
 
 // Get the group data from the database
 $sql = "
 SELECT 
-    group_id,group_name,owner_id,description,creation_date 
+    group_id,group_name,owner_id,description,creation_date,category
 FROM 
     kpc353_2.groups 
 WHERE 
@@ -101,6 +98,7 @@ $group_name = $result[0]['group_name'];
 $owner_id = $result[0]['owner_id'];
 $description = $result[0]['description'];
 $creation_date = $result[0]['creation_date'];
+$category = $result[0]['category'];
 
 
 // Get the group member data from database
@@ -133,20 +131,22 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <h1>Manage COSN Group</h1>
 
     <form method="POST">
-        <label for="group_id">Group ID:</label>
-        <input type="text" id="group_id" name="group_id" value="<?php echo $group_id; ?>" required><br>
+        <input type="text" id="group_id" name="group_id" value="<?php echo $group_id; ?>" hidden readonly><br>
         
         <label for="group_name">Group name:</label>
         <input type="text" id="group_name" name="group_name" value="<?php echo $group_name; ?>" required><br>
         
-        <label for="owner_id">Group owner ID:</label>
-        <input type="text" id="owner_id" name="owner_id" value="<?php echo $owner_id; ?>" required><br>
+        <label for="owner_id">Group owner ID (cannot be changed):</label>
+        <input type="text" id="owner_id" name="owner_id" value="<?php echo $owner_id; ?>" readonly><br>
 
         <label for="description">Description:</label>
         <input type="text" id="description" name="description" value="<?php echo $description; ?>" required><br>
+        
+        <label for="description">Category:</label>
+        <input type="text" id="Category" name="Category" value="<?php echo $category; ?>" ><br>
 
         <button type="submit">Update Group</button>
-        <button type="submit" name="delete_group" onclick="return confirm('Are you sure you want to delete this group? ');" style="background-color: #ff4444; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px;">    Delete COSN Group
+        <button type="submit" name="delete_group" onclick="return confirm('Are you sure you want to delete this group? ');" style="background-color: #ff4444; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px;"> Delete COSN Group
         </button>
     </form>
 
@@ -192,8 +192,6 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     echo "<td style='background-color: gray; color: white;'>Cannot ban admin or owner!</td>";
                 }
 
-                echo "</form>";
-                echo "</td>";
                 echo "</tr>";
                 next($result);
                 
