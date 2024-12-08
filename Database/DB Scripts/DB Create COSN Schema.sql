@@ -45,7 +45,6 @@ CREATE  TABLE kpc353_2.content (
 	content_title        VARCHAR(100)       ,
 	moderation_status    ENUM('pending', 'approved', 'rejected')  DEFAULT 'pending'     ,
 	content_deleted_flag BOOLEAN  DEFAULT false  NOT NULL   ,
-	CONSTRAINT fk_content_members UNIQUE ( creator_id ) ,
 	CONSTRAINT fk_content_members FOREIGN KEY ( creator_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION
  );
 

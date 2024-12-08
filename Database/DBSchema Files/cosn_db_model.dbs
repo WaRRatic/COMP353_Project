@@ -35,9 +35,6 @@
 			<index name="pk_content_data" unique="PRIMARY_KEY" >
 				<column name="content_id" />
 			</index>
-			<index name="fk_content_members" unique="UNIQUE_KEY" >
-				<column name="creator_id" />
-			</index>
 			<fk name="fk_content_members" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
 				<fk_column name="creator_id" pk="member_id" />
 			</fk>
