@@ -14,7 +14,7 @@ $member_id = $_SESSION['member_id'];
 
 <!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" type="text/css" href="./css/gift_registry.css">    
+<link rel="stylesheet" type="text/css" href="gift_registry.css">    
 <head>
     <meta charset="UTF-8">
     <title>Gift Registry</title>

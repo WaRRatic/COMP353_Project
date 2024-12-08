@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_idea'])) {
 <head> 
     <meta charset="UTF-8">
     <title>View Registry</title>
-    <link rel="stylesheet" type="text/css" href="./css/gift_registry.css">
+    <link rel="stylesheet" type="text/css" href="gift_registry.css">
 </head>
 <body>
     <div class="container">
@@ -118,6 +118,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_idea'])) {
                             <input type="hidden" name="delete_idea" value="<?= $gift['gift_registry_ideas_id'] ?>">
                             <button type="submit" class="delete-button">Delete</button>
                         </form>
+                    <?php endif; ?>
+                    <?php if ($registry['organizer_member_id'] != $member_id): ?>
+                        <a href="send_gift.php?idea_id=<?= $gift['gift_registry_ideas_id'] ?>" class="send-button">Send Gift</a>
+                    <?php endif; ?>
+                    <?php if ($is_participant): ?>
+                        <?php
+                        //check if gift is already sent
+                        $stmt = $pdo->prepare("SELECT gift_status FROM gift_registry_gifts
+                                               WHERE gift_registry_idea_id = :idea_id
+                                               AND sender_member_id = :sender_id");
+                        $stmt->execute(['idea_id' => $gift['gift_registry_ideas_id'], 'sender_id' => $member_id]);
+                        $gift_status = $stmt->fetch();
+                        if($gift_status_): ?>
+                            <span class="gift-status"><?= htmlspecialchars($gift_status['gift_status']) ?></span>
+                        <?php endif; ?>
                     <?php endif; ?>
                 </div>
             <?php endforeach; ?>

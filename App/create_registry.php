@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Create Gift Registry</title>
-    <link rel="stylesheet" type="text/css" href="./css/gift_registry.css">
+    <link rel="stylesheet" type="text/css" href="gift_registry.css">
 </head>
 
 <body>

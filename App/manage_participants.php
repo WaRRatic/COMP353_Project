@@ -74,7 +74,7 @@ $potential_participants = $result->fetch_all(MYSQLI_ASSOC);
 <head>
     <meta charset="UTF-8">
     <title>Manage Participants</title>
-    <link rel="stylesheet" type="text/css" href="./css/gift_registry.css">
+    <link rel="stylesheet" type="text/css" href="gift_registry.css">
 </head>
 <body>
     <div class="container">
