@@ -8,6 +8,7 @@ if (!isset($_SESSION['loggedin'])) {
     echo "<script>window.location.href = 'index.php';</script>";
     exit;
 }
+$logged_in_member_id = $_SESSION['member_id'];
 
 // Check if the Group ID is set
 if (!isset($_GET['group_id'])) {
@@ -15,7 +16,6 @@ if (!isset($_GET['group_id'])) {
     echo "<script>window.location.href = 'COSN_groups.php';</script>";
     exit;
 }
-
 $requested_group_id = $_GET['group_id'];
 
 // Check if the Member ID is set
@@ -24,9 +24,13 @@ if (!isset($_GET['member_id'])) {
     echo "<script>window.location.href = 'COSN_group_admin.php?group_id=". $requested_group_id ."';</script>";
     exit;
 }
-
 $target_member_id = $_GET['member_id'];
-$logged_in_member_id = $_SESSION['member_id'];
+
+// Check if the user is a COSN admin
+$isAdmin=false;
+if ($_SESSION['privilege_level'] === 'administrator'){
+    $isAdmin = true;
+}
 
 
 // Check if the user still has "requested" status in the group
@@ -68,8 +72,8 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute([':logged_in_member_id' => $logged_in_member_id, ':requested_group_id' => $requested_group_id]);
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-//alert the user if their request is no longer valid
-if(!$result){
+//terminate the transaction if the request does not have the appropriate privilege
+if(!$result && !$isAdmin){
     echo "<script>alert('You must be the admin of the group to accept other members into this group!.);</script>";
     echo "<script>window.location.href = 'COSN_groups.php';</script>";
     exit;
@@ -88,5 +92,4 @@ $requestGroupAccessStmt = $pdo->prepare($sql_request_group_access);
 $requestGroupAccessStmt->execute(['target_member_id' => $target_member_id, 'requested_group_id' => $requested_group_id]);
 echo "<script>alert('User was succesfully accepted into the COSN group!');</script>";
 echo "<script>window.location.href = 'COSN_group_admin.php?group_id=". $requested_group_id ."';</script>";
-
 ?>
