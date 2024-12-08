@@ -123,7 +123,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'], $_POST['m
         echo "<script>alert('Database error: " . $e->getMessage() . "');</script>";
     }
 }
+
 ?>
+<br><br>
+<hr>
+<a href="index.php"><button style='background-color: grey; color: white;'>Back to index</button></a>
 
 </body>
 </html>

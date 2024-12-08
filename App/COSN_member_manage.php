@@ -149,8 +149,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
             $stmt->execute([':member_id' => $member_id, ':username' => $username, ':password' => $password, ':email' => $email, ':first_name' => $first_name, ':last_name' => $last_name, ':address' => $address, ':dob' => $dob, ':privilege_level' => $privilege_level, ':status' => $cosn_status]);
 
             echo "<script>alert('Member updated successfully!');</script>";
-            echo "<script>window.location.href = 'COSN_members.php';</script>"; 
-            exit;
+            "<script>window.location.href = 'edit_COSN_group.php?member_id=" . $member_id . "';</script>";
         } catch (Exception $e) {
             // Output an alert and use JavaScript for redirection
             echo "<script>alert('Error updating the group! Check your datatypes and try again: " . addslashes($e->getMessage()) . "');</script>";
