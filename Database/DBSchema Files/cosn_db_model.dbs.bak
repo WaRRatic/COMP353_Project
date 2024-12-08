@@ -277,7 +277,18 @@ can be
 			<index name="pk_gift_registry_gifts" unique="PRIMARY_KEY" >
 				<column name="gift_id" />
 			</index>
-			<options><![CDATA[engine=InnoDB]]></options>
+			<fk name="fk_gift_registry_gifts_gift_registry" to_schema="kpc353_2" to_table="gift_registry" delete_action="cascade" >
+				<fk_column name="target_gift_registry_id" pk="gift_registry_id" />
+			</fk>
+			<fk name="fk_gift_registry_gifts_gift_registry_ideas" to_schema="kpc353_2" to_table="gift_registry_ideas" delete_action="cascade" >
+				<fk_column name="gift_registry_idea_id" pk="gift_registry_ideas_id" />
+			</fk>
+			<fk name="fk_gift_registry_gifts_members" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
+				<fk_column name="sender_member_id" pk="member_id" />
+			</fk>
+			<fk name="fk_gift_registry_gifts_members_0" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
+				<fk_column name="target_member_id" pk="member_id" />
+			</fk>
 		</table>
 		<table name="gift_registry_ideas" prior="gift_registr" >
 			<comment><![CDATA[describes gift ideas for a particular registry]]></comment>

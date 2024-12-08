@@ -2,7 +2,8 @@
 session_start();
 include("db_config.php");
 include("header.php");
-include('sidebar.php'); 
+include('sidebar.php');
+include('getYoutubeVideoId_function.php');
 
 //set the logged in member id who is accessing the homepage
 $logged_in_member_id = $_SESSION['member_id'];
@@ -474,22 +475,6 @@ foreach ($content_feed as $row) {
 // if($posts){
 //     $posts = array_values($posts);
 // }
-
-
-// Function to extract YouTube video ID
-function getYoutubeVideoId($url) {
-    $video_id = '';
-    // youtube.com/watch?v=VIDEO_ID format
-    if (preg_match('/youtube\.com\/watch\?v=([^\&\?\/]+)/', $url, $matches)) {
-        $video_id = $matches[1];
-    }
-    // youtu.be/VIDEO_ID format
-    else if (preg_match('/youtu\.be\/([^\&\?\/]+)/', $url, $matches)) {
-        $video_id = $matches[1];
-    }
-    return $video_id;
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -717,16 +702,9 @@ function getYoutubeVideoId($url) {
                        <hr><br> Content permission via group: <?php echo htmlspecialchars($post['post_group_name']); ?>
                     <?php endif; ?>
                 </small>
-
-                <!-- Action Buttons -->
-                <div class="action-buttons">
-                    <a href="edit_content.php?content_id=<?php echo urlencode($post['content_id']); ?>" class="action-button edit-button">Edit</a>
-                    <a href="Content_Interact.php?state=share&content_id=<?php echo urlencode($post['content_id']); ?>" class="action-button share-button">Share</a>
-                    <a href="comment_on_content.php?content_id=<?php echo urlencode($post['content_id']); ?>" class="action-button comment-button">Comment</a>
-                    <a href="Content_Interact.php?state=link&content_id=<?php echo urlencode($post['content_id']); ?>" class="action-button link-button">Link</a>
-                </div>
+                <br><br>
                 <div class="view-post-button">
-                    <a href="view_content.php?content_id=<?php echo urlencode($post['content_id']); ?>" class="view-post-button">View Post</a>
+                    <a href="COSN_content_view.php?content_id=<?php echo urlencode($post['content_id']); ?>" class="view-post-button">View Post</a>
                 </div>
             </div>
             <br><br> <!-- Added double line break for spacing -->

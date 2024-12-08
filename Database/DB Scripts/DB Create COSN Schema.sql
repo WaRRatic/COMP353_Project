@@ -51,9 +51,9 @@ CREATE  TABLE kpc353_2.content (
 
 CREATE  TABLE kpc353_2.content_comment ( 
 	content_comment_id   INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
-	commenter_member_id  INT UNSIGNED      ,
+	commenter_member_id  INT UNSIGNED   NOT NULL   ,
 	comment_text         VARCHAR(250)       ,
-	target_content_id    INT UNSIGNED      ,
+	target_content_id    INT UNSIGNED   NOT NULL   ,
 	datetime_comment     DATETIME       ,
 	CONSTRAINT fk_content_comment_members FOREIGN KEY ( commenter_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
 	CONSTRAINT fk_content_comment_content FOREIGN KEY ( target_content_id ) REFERENCES kpc353_2.content( content_id ) ON DELETE CASCADE ON UPDATE NO ACTION
@@ -61,8 +61,8 @@ CREATE  TABLE kpc353_2.content_comment (
 
 CREATE  TABLE kpc353_2.content_link_relationship ( 
 	content_link_rel_id  INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
-	origin_content_id    INT UNSIGNED      ,
-	target_content_id    INT UNSIGNED      ,
+	origin_content_id    INT UNSIGNED   NOT NULL   ,
+	target_content_id    INT UNSIGNED   NOT NULL   ,
 	CONSTRAINT fk_content_link_relationship_content_1 FOREIGN KEY ( origin_content_id ) REFERENCES kpc353_2.content( content_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
 	CONSTRAINT fk_content_link_relationship_content_2 FOREIGN KEY ( target_content_id ) REFERENCES kpc353_2.content( content_id ) ON DELETE CASCADE ON UPDATE NO ACTION
  );
@@ -73,8 +73,8 @@ CREATE INDEX fk_content_link_relationship_content_0 ON kpc353_2.content_link_rel
 
 CREATE  TABLE kpc353_2.content_member_permission ( 
 	content_member_permission_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
-	target_content_id    INT UNSIGNED      ,
-	authorized_member_id INT UNSIGNED      ,
+	target_content_id    INT UNSIGNED   NOT NULL   ,
+	authorized_member_id INT UNSIGNED   NOT NULL   ,
 	content_permission_type ENUM('read','edit','comment','share','modify-permission','moderate','link')       ,
 	CONSTRAINT fk_content_permissions_members FOREIGN KEY ( authorized_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
 	CONSTRAINT fk_content_member_permission_content FOREIGN KEY ( target_content_id ) REFERENCES kpc353_2.content( content_id ) ON DELETE CASCADE ON UPDATE NO ACTION
@@ -102,7 +102,7 @@ CREATE INDEX fk_content_moderation_warning_members ON kpc353_2.content_moderatio
 
 CREATE  TABLE kpc353_2.content_public_permissions ( 
 	content_public_permission_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
-	target_content_id    INT UNSIGNED      ,
+	target_content_id    INT UNSIGNED   NOT NULL   ,
 	content_public_permission_type ENUM('read','comment','share','link')       ,
 	CONSTRAINT fk_content_public_permissions_content FOREIGN KEY ( target_content_id ) REFERENCES kpc353_2.content( content_id ) ON DELETE CASCADE ON UPDATE NO ACTION
  );
@@ -146,8 +146,8 @@ CREATE INDEX fk_gift_registry_participants_members ON kpc353_2.gift_registry_par
 
 CREATE  TABLE kpc353_2.gift_registry_permissions ( 
 	gift_registry_permissions_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
-	target_gift_registry_id INT UNSIGNED      ,
-	authorized_member_id INT UNSIGNED      ,
+	target_gift_registry_id INT UNSIGNED   NOT NULL   ,
+	authorized_member_id INT UNSIGNED   NOT NULL   ,
 	gift_registry_permission_type ENUM('view', 'edit', 'add-item')       ,
 	CONSTRAINT fk_gift_registry_permissions_gift_registry FOREIGN KEY ( target_gift_registry_id ) REFERENCES kpc353_2.gift_registry( gift_registry_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
 	CONSTRAINT fk_gift_registry_permissions_members FOREIGN KEY ( authorized_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION
@@ -156,7 +156,7 @@ CREATE  TABLE kpc353_2.gift_registry_permissions (
 CREATE  TABLE kpc353_2.groups ( 
 	group_id             INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
 	group_name           VARCHAR(100)    NOT NULL   ,
-	owner_id             INT UNSIGNED      ,
+	owner_id             INT UNSIGNED   NOT NULL   ,
 	description          TEXT       ,
 	creation_date        DATE  DEFAULT current_timestamp()     ,
 	category             VARCHAR(100)       ,
@@ -203,7 +203,7 @@ CREATE INDEX fk_member_relationships_members_0 ON kpc353_2.member_relationships 
 
 CREATE  TABLE kpc353_2.content_group_permissions ( 
 	content_group_permission_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
-	target_content_id    INT UNSIGNED      ,
+	target_content_id    INT UNSIGNED   NOT NULL   ,
 	target_group_id      INT UNSIGNED   NOT NULL   ,
 	content_group_permission_type ENUM('read','comment','share','link')       ,
 	CONSTRAINT fk_content_group_permissions_content FOREIGN KEY ( target_content_id ) REFERENCES kpc353_2.content( content_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
@@ -270,8 +270,8 @@ CREATE INDEX fk_group_members_groups ON kpc353_2.group_members ( joined_group_id
 
 CREATE  TABLE kpc353_2.group_vote_plebiscite ( 
 	group_vote_plebiscite_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
-	target_member_id     INT UNSIGNED      ,
-	organizer_member_id  INT UNSIGNED      ,
+	target_member_id     INT UNSIGNED   NOT NULL   ,
+	organizer_member_id  INT UNSIGNED   NOT NULL   ,
 	target_group_id      INT UNSIGNED   NOT NULL   ,
 	CONSTRAINT fk_group_vote_plebiscite_groups FOREIGN KEY ( target_group_id ) REFERENCES kpc353_2.groups( group_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
 	CONSTRAINT fk_group_vote_plebiscite_members FOREIGN KEY ( target_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
@@ -372,25 +372,25 @@ ALTER TABLE kpc353_2.content MODIFY content_deleted_flag BOOLEAN  NOT NULL DEFAU
 
 ALTER TABLE kpc353_2.content_comment COMMENT 'table containing comments on content from members';
 
-ALTER TABLE kpc353_2.content_comment MODIFY commenter_member_id INT UNSIGNED    COMMENT 'the member who made the content';
+ALTER TABLE kpc353_2.content_comment MODIFY commenter_member_id INT UNSIGNED NOT NULL   COMMENT 'the member who made the content';
 
 ALTER TABLE kpc353_2.content_comment MODIFY comment_text VARCHAR(250)     COMMENT 'the actual text of the comment on a certain piece of content';
 
-ALTER TABLE kpc353_2.content_comment MODIFY target_content_id INT UNSIGNED    COMMENT 'the content which is the target of the comment';
+ALTER TABLE kpc353_2.content_comment MODIFY target_content_id INT UNSIGNED NOT NULL   COMMENT 'the content which is the target of the comment';
 
 ALTER TABLE kpc353_2.content_comment MODIFY datetime_comment DATETIME     COMMENT 'the datetime of when the comment was created';
 
 ALTER TABLE kpc353_2.content_link_relationship COMMENT 'Describes the way that content s linked between each other such as a comment to a post';
 
-ALTER TABLE kpc353_2.content_link_relationship MODIFY origin_content_id INT UNSIGNED    COMMENT 'ContendID of the piece of content to which another piece of content is linked';
+ALTER TABLE kpc353_2.content_link_relationship MODIFY origin_content_id INT UNSIGNED NOT NULL   COMMENT 'ContendID of the piece of content to which another piece of content is linked';
 
-ALTER TABLE kpc353_2.content_link_relationship MODIFY target_content_id INT UNSIGNED    COMMENT 'Identifies the piece of content that is linked to the origin contentID';
+ALTER TABLE kpc353_2.content_link_relationship MODIFY target_content_id INT UNSIGNED NOT NULL   COMMENT 'Identifies the piece of content that is linked to the origin contentID';
 
 ALTER TABLE kpc353_2.content_member_permission COMMENT 'allows for setting the granular permissions to a particular piece of content, targeted at a particular member';
 
-ALTER TABLE kpc353_2.content_member_permission MODIFY target_content_id INT UNSIGNED    COMMENT 'the specific piece of conent, defined by content_id on which a particular member has a certain permission';
+ALTER TABLE kpc353_2.content_member_permission MODIFY target_content_id INT UNSIGNED NOT NULL   COMMENT 'the specific piece of conent, defined by content_id on which a particular member has a certain permission';
 
-ALTER TABLE kpc353_2.content_member_permission MODIFY authorized_member_id INT UNSIGNED    COMMENT 'which member_id has a specific permission to do something with a specific content_id
+ALTER TABLE kpc353_2.content_member_permission MODIFY authorized_member_id INT UNSIGNED NOT NULL   COMMENT 'which member_id has a specific permission to do something with a specific content_id
 
 authorized_member_id = 1 is "private" system member
 authorized_member_id = 2 is "public" system member';
@@ -411,7 +411,7 @@ ALTER TABLE kpc353_2.content_public_permissions COMMENT 'Defines which content i
 
 ALTER TABLE kpc353_2.content_public_permissions MODIFY content_public_permission_id INT UNSIGNED NOT NULL  AUTO_INCREMENT  COMMENT 'The synthetic PK (surrogate key)';
 
-ALTER TABLE kpc353_2.content_public_permissions MODIFY target_content_id INT UNSIGNED    COMMENT 'the specific piece of conent, defined by content_id on which the public has certain permission';
+ALTER TABLE kpc353_2.content_public_permissions MODIFY target_content_id INT UNSIGNED NOT NULL   COMMENT 'the specific piece of conent, defined by content_id on which the public has certain permission';
 
 ALTER TABLE kpc353_2.content_public_permissions MODIFY content_public_permission_type ENUM('read','comment','share','link')     COMMENT 'the type of permission that the public has on this particular piece of content
 can be
@@ -441,9 +441,9 @@ ALTER TABLE kpc353_2.gift_registry_participants MODIFY target_gift_registry_id I
 
 ALTER TABLE kpc353_2.gift_registry_permissions COMMENT 'contains the permissions that members have on a gift registry';
 
-ALTER TABLE kpc353_2.gift_registry_permissions MODIFY target_gift_registry_id INT UNSIGNED    COMMENT 'The target ID of the gift registry on which a particular members pemission is defined';
+ALTER TABLE kpc353_2.gift_registry_permissions MODIFY target_gift_registry_id INT UNSIGNED NOT NULL   COMMENT 'The target ID of the gift registry on which a particular members pemission is defined';
 
-ALTER TABLE kpc353_2.gift_registry_permissions MODIFY authorized_member_id INT UNSIGNED    COMMENT 'the ID of the member that has a certain permission on a certain gift registry';
+ALTER TABLE kpc353_2.gift_registry_permissions MODIFY authorized_member_id INT UNSIGNED NOT NULL   COMMENT 'the ID of the member that has a certain permission on a certain gift registry';
 
 ALTER TABLE kpc353_2.gift_registry_permissions MODIFY gift_registry_permission_type ENUM('view', 'edit', 'add-item')     COMMENT 'the type of permission that a certain member has on a certain gift registry
 
@@ -451,7 +451,7 @@ can be ''view'', ''edit'', ''add-item''';
 
 ALTER TABLE kpc353_2.groups COMMENT 'Contains the information about the groups, such as their description, who created them, etc';
 
-ALTER TABLE kpc353_2.groups MODIFY owner_id INT UNSIGNED    COMMENT 'ID of the member who created a particular group';
+ALTER TABLE kpc353_2.groups MODIFY owner_id INT UNSIGNED NOT NULL   COMMENT 'ID of the member who created a particular group';
 
 ALTER TABLE kpc353_2.groups MODIFY description TEXT     COMMENT 'Description of the group, their interests, etc';
 
@@ -485,7 +485,7 @@ ALTER TABLE kpc353_2.member_relationships MODIFY member_relationship_status ENUM
 
 ALTER TABLE kpc353_2.content_group_permissions COMMENT 'table describing which groups can access to what content';
 
-ALTER TABLE kpc353_2.content_group_permissions MODIFY target_content_id INT UNSIGNED    COMMENT 'the specific piece of conent, defined by content_id on which a particular group has certain permission';
+ALTER TABLE kpc353_2.content_group_permissions MODIFY target_content_id INT UNSIGNED NOT NULL   COMMENT 'the specific piece of conent, defined by content_id on which a particular group has certain permission';
 
 ALTER TABLE kpc353_2.content_group_permissions MODIFY target_group_id INT UNSIGNED NOT NULL   COMMENT 'the particular group which has a certain permission on a specific content';
 
@@ -531,13 +531,13 @@ ALTER TABLE kpc353_2.group_members MODIFY joined_group_id INT UNSIGNED NOT NULL 
 ALTER TABLE kpc353_2.group_members MODIFY date_joined DATE  NOT NULL DEFAULT CURRENT_DATE  COMMENT 'the date when a particular member has joned a particular group';
 
 ALTER TABLE kpc353_2.group_members MODIFY group_member_status ENUM('member','admin','requested','ban')   DEFAULT 'member'  COMMENT 'the status of a particular member in a particular group
-can be either ''owner'', ''member'', ''requested, ''ban''';
+can be either ''admin'', ''member'', ''requested, ''ban''';
 
 ALTER TABLE kpc353_2.group_vote_plebiscite COMMENT 'Contains the plebiscite organized to oust a non-person (corporate) member.';
 
-ALTER TABLE kpc353_2.group_vote_plebiscite MODIFY target_member_id INT UNSIGNED    COMMENT 'ID of a member being ousted';
+ALTER TABLE kpc353_2.group_vote_plebiscite MODIFY target_member_id INT UNSIGNED NOT NULL   COMMENT 'ID of a member being ousted';
 
-ALTER TABLE kpc353_2.group_vote_plebiscite MODIFY organizer_member_id INT UNSIGNED    COMMENT 'ID of the organizer of the plebiscite';
+ALTER TABLE kpc353_2.group_vote_plebiscite MODIFY organizer_member_id INT UNSIGNED NOT NULL   COMMENT 'ID of the organizer of the plebiscite';
 
 ALTER TABLE kpc353_2.group_vote_plebiscite MODIFY target_group_id INT UNSIGNED NOT NULL   COMMENT 'Group from which the non-person member is being ousted.';
 

@@ -18,7 +18,6 @@ if (!isset($_GET['group_id'])) {
     exit;
 }
 
-
 // Set group_id variable for both fetching and updating
 $group_id = $_GET['group_id'];
 

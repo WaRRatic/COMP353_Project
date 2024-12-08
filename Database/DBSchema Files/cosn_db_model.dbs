@@ -47,13 +47,13 @@
 			<column name="content_comment_id" prior="content_comment" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
 			</column>
-			<column name="commenter_member_id" type="INT" jt="4" unsigned="y" >
+			<column name="commenter_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[the member who made the content]]></comment>
 			</column>
 			<column name="comment_text" type="VARCHAR" length="250" jt="12" >
 				<comment><![CDATA[the actual text of the comment on a certain piece of content]]></comment>
 			</column>
-			<column name="target_content_id" type="INT" jt="4" unsigned="y" >
+			<column name="target_content_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[the content which is the target of the comment]]></comment>
 			</column>
 			<column name="datetime_comment" type="DATETIME" jt="93" >
@@ -74,7 +74,7 @@
 			<column name="content_group_permission_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
 			</column>
-			<column name="target_content_id" type="INT" jt="4" unsigned="y" >
+			<column name="target_content_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[the specific piece of conent, defined by content_id on which a particular group has certain permission]]></comment>
 			</column>
 			<column name="target_group_id" type="INT" jt="4" mandatory="y" unsigned="y" >
@@ -105,10 +105,10 @@
 			<column name="content_link_rel_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
 			</column>
-			<column name="origin_content_id" type="INT" jt="4" unsigned="y" >
+			<column name="origin_content_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[ContendID of the piece of content to which another piece of content is linked]]></comment>
 			</column>
-			<column name="target_content_id" prior="targrt_content_id" type="INT" jt="4" unsigned="y" >
+			<column name="target_content_id" prior="targrt_content_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[Identifies the piece of content that is linked to the origin contentID]]></comment>
 			</column>
 			<index name="pk_content_link_relationship" unique="PRIMARY_KEY" >
@@ -132,10 +132,10 @@
 			<column name="content_member_permission_id" prior="content_permission_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
 			</column>
-			<column name="target_content_id" type="INT" jt="4" unsigned="y" >
+			<column name="target_content_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[the specific piece of conent, defined by content_id on which a particular member has a certain permission]]></comment>
 			</column>
-			<column name="authorized_member_id" type="INT" jt="4" unsigned="y" >
+			<column name="authorized_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[which member_id has a specific permission to do something with a specific content_id
 
 authorized_member_id = 1 is "private" system member
@@ -205,7 +205,7 @@ can be
 				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
 				<comment><![CDATA[The synthetic PK (surrogate key)]]></comment>
 			</column>
-			<column name="target_content_id" type="INT" jt="4" unsigned="y" >
+			<column name="target_content_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[the specific piece of conent, defined by content_id on which the public has certain permission]]></comment>
 			</column>
 			<column name="content_public_permission_type" type="ENUM" jt="12" >
@@ -352,10 +352,10 @@ can be
 			<column name="gift_registry_permissions_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
 			</column>
-			<column name="target_gift_registry_id" type="INT" jt="4" unsigned="y" >
+			<column name="target_gift_registry_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[The target ID of the gift registry on which a particular members pemission is defined]]></comment>
 			</column>
-			<column name="authorized_member_id" type="INT" jt="4" unsigned="y" >
+			<column name="authorized_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[the ID of the member that has a certain permission on a certain gift registry]]></comment>
 			</column>
 			<column name="gift_registry_permission_type" type="ENUM" jt="12" >
@@ -484,7 +484,7 @@ Ex: "Alaska, 2025-01-01, 07:00"]]></comment>
 				<defo><![CDATA['member']]></defo>
 				<enumeration><![CDATA['member','admin','requested','ban']]></enumeration>
 				<comment><![CDATA[the status of a particular member in a particular group
-can be either 'owner', 'member', 'requested, 'ban']]></comment>
+can be either 'admin', 'member', 'requested, 'ban']]></comment>
 			</column>
 			<index name="pk_group_members" unique="PRIMARY_KEY" >
 				<column name="group_membership_id" />
@@ -507,10 +507,10 @@ can be either 'owner', 'member', 'requested, 'ban']]></comment>
 			<column name="group_vote_plebiscite_id" prior="gropup_vote_plebiscite_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
 			</column>
-			<column name="target_member_id" type="INT" jt="4" unsigned="y" >
+			<column name="target_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[ID of a member being ousted]]></comment>
 			</column>
-			<column name="organizer_member_id" type="INT" jt="4" unsigned="y" >
+			<column name="organizer_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[ID of the organizer of the plebiscite]]></comment>
 			</column>
 			<column name="target_group_id" type="INT" jt="4" mandatory="y" unsigned="y" >
@@ -574,7 +574,7 @@ can be either 'owner', 'member', 'requested, 'ban']]></comment>
 				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
 			</column>
 			<column name="group_name" type="VARCHAR" length="100" jt="12" mandatory="y" />
-			<column name="owner_id" type="INT" jt="4" unsigned="y" >
+			<column name="owner_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[ID of the member who created a particular group]]></comment>
 			</column>
 			<column name="description" type="TEXT" jt="-1" >
