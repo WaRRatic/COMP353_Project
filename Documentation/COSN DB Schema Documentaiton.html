@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang='en-us' xmlns='http://www.w3.org/1999/xhtml' data-bs-theme='dark' >
 <head>
-<title>COSN DB Schema</title>
+<title>COSN schema</title>
 <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
 <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no' />
 <link rel='shortcut icon' href='https://dbschema.com/img/favicons/favicon.ico'>
@@ -319,13 +319,21 @@ a {
   <rect x='10' y='10' width='360' height='70' rx='7' ry='7' class='legend'/> 
   <use x='349' y='28' xlink:href='#bulb' width='24' height='24'><title>Read column and table comments by hovering the columns and tables.
 Zoom with CTRL+whell mouse button, pan by dragging the diagram with the right-mouse button</title></use>
-  <use id='logo' x='20' y='40' xlink:href='#logo'><title>DbSchema Database Designer </title></use>  <text x='20' y='30' class='legendTitle' >COSN DB Schema</text> 
+  <use id='logo' x='20' y='40' xlink:href='#logo'><title>DbSchema Database Designer </title></use>  <text x='20' y='30' class='legendTitle' >COSN schema</text> 
   <text x='57' y='47' class='legendSubTitle'><tspan>Interactive docs: mouse-over comments, zoom and pan</tspan></text>
   <a xlink:href='https%3A%2F%2Fdbschema.com'><text x='57' y='61' class='legendSubTitle'><tspan>DbSchema.com © 2024-12-08 Wise Coders<title>DbSchema is an universal database designer.
 DbSchema has a free Community Edition.</title></tspan></text></a> 
 </g>
 
 <g transform='translate(0,110)'>
+<!-- == Fk 'content_fk_content_members' == -->
+<path id='content_fk_content_members'  onmouseover="hghl(['content_fk_content_members','kpc353_2.content.creator_id','kpc353_2.members.member_id'])" onmouseout="uhghl(['content_fk_content_members','kpc353_2.content.creator_id','kpc353_2.members.member_id'])" transform='translate(8,0)' class='unhighlight' d='M 848,480L 744,480Q 736,480 736,488L 736,496' >
+	<title>&#x1F517;  Foreign Key fk_content_members
+content ref members ( creator_id -&gt; member_id )</title>
+</path>
+<path transform='translate(8,0)' marker-start='url(#OneMore)' marker-end='url(#Arrow)'    d='M 848,480L 744,480Q 736,480 736,488L 736,496' ><title>&#x1F517;  Foreign Key fk_content_members
+content ref members ( creator_id -&gt; member_id )</title></path>
+<text x='801' y='475' transform='rotate(0 801,475)' class='relName'>creator&#95;id</text>
 <!-- == Fk 'content_comment_fk_content_comment_members' == -->
 <path id='content_comment_fk_content_comment_members'  onmouseover="hghl(['content_comment_fk_content_comment_members','kpc353_2.content_comment.commenter_member_id','kpc353_2.members.member_id'])" onmouseout="uhghl(['content_comment_fk_content_comment_members','kpc353_2.content_comment.commenter_member_id','kpc353_2.members.member_id'])" transform='translate(8,0)' class='unhighlight' d='M 1408,320L 792,320Q 784,320 784,328L 784,496' >
 	<title>&#x1F517;  Foreign Key fk_content_comment_members
@@ -494,6 +502,22 @@ gift_registry_participants ref gift_registry ( target_gift_registry_id -&gt; gif
 <path transform='translate(8,0)' marker-start='url(#OneMore)' marker-end='url(#Arrow)'    d='M 1312,816L 1312,784' ><title>&#x1F517;  Foreign Key fk_gift_registry_participants_gift_registry
 gift_registry_participants ref gift_registry ( target_gift_registry_id -&gt; gift_registry_id )</title></path>
 <text x='1315' y='814' transform='rotate(270 1315,814)' class='relName'>target&#95;gift&#95;registry&#95;id</text>
+<!-- == Fk 'gift_registry_permissions_fk_gift_registry_permissions_gift_registry' == -->
+<path id='gift_registry_permissions_fk_gift_registry_permissions_gift_registry'  onmouseover="hghl(['gift_registry_permissions_fk_gift_registry_permissions_gift_registry','kpc353_2.gift_registry_permissions.target_gift_registry_id','kpc353_2.gift_registry.gift_registry_id'])" onmouseout="uhghl(['gift_registry_permissions_fk_gift_registry_permissions_gift_registry','kpc353_2.gift_registry_permissions.target_gift_registry_id','kpc353_2.gift_registry.gift_registry_id'])" transform='translate(8,0)' class='unhighlight' d='M 1616,864L 1560,864Q 1552,864 1552,856L 1552,808Q 1552,800 1544,800L 1464,800Q 1456,800 1456,792L 1456,784' >
+	<title>&#x1F517;  Foreign Key fk_gift_registry_permissions_gift_registry
+gift_registry_permissions ref gift_registry ( target_gift_registry_id -&gt; gift_registry_id )</title>
+</path>
+<path transform='translate(8,0)' marker-start='url(#OneMore)' marker-end='url(#Arrow)'    d='M 1616,864L 1560,864Q 1552,864 1552,856L 1552,808Q 1552,800 1544,800L 1464,800Q 1456,800 1456,792L 1456,784' ><title>&#x1F517;  Foreign Key fk_gift_registry_permissions_gift_registry
+gift_registry_permissions ref gift_registry ( target_gift_registry_id -&gt; gift_registry_id )</title></path>
+<text x='1502' y='859' transform='rotate(0 1502,859)' class='relName'>target&#95;gift&#95;registry&#95;id</text>
+<!-- == Fk 'gift_registry_permissions_fk_gift_registry_permissions_members' == -->
+<path id='gift_registry_permissions_fk_gift_registry_permissions_members'  onmouseover="hghl(['gift_registry_permissions_fk_gift_registry_permissions_members','kpc353_2.gift_registry_permissions.authorized_member_id','kpc353_2.members.member_id'])" onmouseout="uhghl(['gift_registry_permissions_fk_gift_registry_permissions_members','kpc353_2.gift_registry_permissions.authorized_member_id','kpc353_2.members.member_id'])" transform='translate(8,0)' class='unhighlight' d='M 1648,976L 1648,1128Q 1648,1136 1640,1136L 936,1136Q 928,1136 928,1128L 928,712Q 928,704 920,704L 800,704' >
+	<title>&#x1F517;  Foreign Key fk_gift_registry_permissions_members
+gift_registry_permissions ref members ( authorized_member_id -&gt; member_id )</title>
+</path>
+<path transform='translate(8,0)' marker-start='url(#OneMore)' marker-end='url(#Arrow)'    d='M 1648,976L 1648,1128Q 1648,1136 1640,1136L 936,1136Q 928,1136 928,1128L 928,712Q 928,704 920,704L 800,704' ><title>&#x1F517;  Foreign Key fk_gift_registry_permissions_members
+gift_registry_permissions ref members ( authorized_member_id -&gt; member_id )</title></path>
+<text x='1660' y='977' transform='rotate(90 1660,977)' class='relName'>authorized&#95;member&#95;id</text>
 <!-- == Fk 'group_event_fk_group_event_groups' == -->
 <path id='group_event_fk_group_event_groups'  onmouseover="hghl(['group_event_fk_group_event_groups','kpc353_2.group_event.target_group_id','kpc353_2.groups.group_id'])" onmouseout="uhghl(['group_event_fk_group_event_groups','kpc353_2.group_event.target_group_id','kpc353_2.groups.group_id'])" transform='translate(8,0)' class='unhighlight' d='M 80,560L 80,392Q 80,384 88,384L 432,384' >
 	<title>&#x1F517;  Foreign Key fk_group_event_groups
@@ -670,30 +694,62 @@ personal_info_public_permissions ref members ( owner_member_id -&gt; member_id )
 <path transform='translate(8,0)' marker-start='url(#OneMore)' marker-end='url(#Arrow)'    d='M 992,752L 760,752Q 752,752 752,744L 752,736' ><title>&#x1F517;  Foreign Key fk_personal_info_public_permissions_members
 personal_info_public_permissions ref members ( owner_member_id -&gt; member_id )</title></path>
 <text x='896' y='747' transform='rotate(0 896,747)' class='relName'>owner&#95;member&#95;id</text>
-<!-- == Fk 'content_fk_content_members' == -->
-<path id='content_fk_content_members'  onmouseover="hghl(['content_fk_content_members','kpc353_2.content.creator_id','kpc353_2.members.member_id'])" onmouseout="uhghl(['content_fk_content_members','kpc353_2.content.creator_id','kpc353_2.members.member_id'])" transform='translate(8,0)' class='unhighlight' d='M 848,480L 744,480Q 736,480 736,488L 736,496' >
-	<title>&#x1F517;  Foreign Key fk_content_members
-content ref members ( creator_id -&gt; member_id )</title>
-</path>
-<path transform='translate(8,0)' marker-start='url(#OneMore)' marker-end='url(#Arrow)'    d='M 848,480L 744,480Q 736,480 736,488L 736,496' ><title>&#x1F517;  Foreign Key fk_content_members
-content ref members ( creator_id -&gt; member_id )</title></path>
-<text x='801' y='475' transform='rotate(0 801,475)' class='relName'>creator&#95;id</text>
-<!-- == Fk 'gift_registry_permissions_fk_gift_registry_permissions_gift_registry' == -->
-<path id='gift_registry_permissions_fk_gift_registry_permissions_gift_registry'  onmouseover="hghl(['gift_registry_permissions_fk_gift_registry_permissions_gift_registry','kpc353_2.gift_registry_permissions.target_gift_registry_id','kpc353_2.gift_registry.gift_registry_id'])" onmouseout="uhghl(['gift_registry_permissions_fk_gift_registry_permissions_gift_registry','kpc353_2.gift_registry_permissions.target_gift_registry_id','kpc353_2.gift_registry.gift_registry_id'])" transform='translate(8,0)' class='unhighlight' d='M 1616,864L 1560,864Q 1552,864 1552,856L 1552,808Q 1552,800 1544,800L 1464,800Q 1456,800 1456,792L 1456,784' >
-	<title>&#x1F517;  Foreign Key fk_gift_registry_permissions_gift_registry
-gift_registry_permissions ref gift_registry ( target_gift_registry_id -&gt; gift_registry_id )</title>
-</path>
-<path transform='translate(8,0)' marker-start='url(#OneMore)' marker-end='url(#Arrow)'    d='M 1616,864L 1560,864Q 1552,864 1552,856L 1552,808Q 1552,800 1544,800L 1464,800Q 1456,800 1456,792L 1456,784' ><title>&#x1F517;  Foreign Key fk_gift_registry_permissions_gift_registry
-gift_registry_permissions ref gift_registry ( target_gift_registry_id -&gt; gift_registry_id )</title></path>
-<text x='1502' y='859' transform='rotate(0 1502,859)' class='relName'>target&#95;gift&#95;registry&#95;id</text>
-<!-- == Fk 'gift_registry_permissions_fk_gift_registry_permissions_members' == -->
-<path id='gift_registry_permissions_fk_gift_registry_permissions_members'  onmouseover="hghl(['gift_registry_permissions_fk_gift_registry_permissions_members','kpc353_2.gift_registry_permissions.authorized_member_id','kpc353_2.members.member_id'])" onmouseout="uhghl(['gift_registry_permissions_fk_gift_registry_permissions_members','kpc353_2.gift_registry_permissions.authorized_member_id','kpc353_2.members.member_id'])" transform='translate(8,0)' class='unhighlight' d='M 1648,976L 1648,1128Q 1648,1136 1640,1136L 936,1136Q 928,1136 928,1128L 928,712Q 928,704 920,704L 800,704' >
-	<title>&#x1F517;  Foreign Key fk_gift_registry_permissions_members
-gift_registry_permissions ref members ( authorized_member_id -&gt; member_id )</title>
-</path>
-<path transform='translate(8,0)' marker-start='url(#OneMore)' marker-end='url(#Arrow)'    d='M 1648,976L 1648,1128Q 1648,1136 1640,1136L 936,1136Q 928,1136 928,1128L 928,712Q 928,704 920,704L 800,704' ><title>&#x1F517;  Foreign Key fk_gift_registry_permissions_members
-gift_registry_permissions ref members ( authorized_member_id -&gt; member_id )</title></path>
-<text x='1660' y='977' transform='rotate(90 1660,977)' class='relName'>authorized&#95;member&#95;id</text>
+<!-- == Table 'content' == -->
+<rect id='depict_kpc353&#95;2&#46;content' class='entity' style='stroke:#AB76B9' x='864' y='344' width='176' height='176' />
+<rect x='864' y='344' width='176' height='28' style='stroke-width:0; fill:#242025'/>
+<line class='topLine' style='stroke:#8C489D;' stroke-linecap='round' x1='864' y1='344' x2='1040' y2='344'/>
+<a xlink:href='#kpc353_2.content'><text x='924' y='363' class='tableHeader'>content</text><title>Table kpc353_2.content
+ ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+      contains the content created by members</title></a>
+  <use id='nn' x='866' y='381' xlink:href='#nn'/><use id='pk' x='866' y='380' xlink:href='#pk'><title>&#x1F511;  Pk pk_content_data ( content_id ) </title></use><a xlink:href='#kpc353_2.content.content_id'><text id='kpc353&#95;2&#46;content&#46;content&#95;id' x='883' y='391' onmouseover="hghl(['content_comment_fk_content_comment_content','kpc353_2.content_comment.target_content_id','content_group_permissions_fk_content_group_permissions_content','kpc353_2.content_group_permissions.target_content_id','content_link_relationship_fk_content_link_relationship_content_1','kpc353_2.content_link_relationship.origin_content_id','content_link_relationship_fk_content_link_relationship_content_2','kpc353_2.content_link_relationship.target_content_id','content_member_permission_fk_content_member_permission_content','kpc353_2.content_member_permission.target_content_id','content_moderation_warning_fk_content_moderation_warning_content','kpc353_2.content_moderation_warning.target_content_id','content_public_permissions_fk_content_public_permissions_content','kpc353_2.content_public_permissions.target_content_id'])" onmouseout="uhghl(['content_comment_fk_content_comment_content','kpc353_2.content_comment.target_content_id','content_group_permissions_fk_content_group_permissions_content','kpc353_2.content_group_permissions.target_content_id','content_link_relationship_fk_content_link_relationship_content_1','kpc353_2.content_link_relationship.origin_content_id','content_link_relationship_fk_content_link_relationship_content_2','kpc353_2.content_link_relationship.target_content_id','content_member_permission_fk_content_member_permission_content','kpc353_2.content_member_permission.target_content_id','content_moderation_warning_fk_content_moderation_warning_content','kpc353_2.content_moderation_warning.target_content_id','content_public_permissions_fk_content_public_permissions_content','kpc353_2.content_public_permissions.target_content_id'])">content&#95;id</text><title>&#10697;  content_id
+     * int
+ &#8601; content_comment( content_id )
+ &#8601; content_group_permissions( content_id )
+ &#8601; content_link_relationship( content_id )
+ &#8601; content_link_relationship( content_id )
+ &#8601; content_member_permission( content_id )
+ &#8601; content_moderation_warning( content_id )
+ &#8601; content_public_permissions( content_id )</title></a>
+<a xlink:href='#kpc353_2.content.content_id'><use id='ref' x='1028' y='380' xlink:href='#ref'/><title>&#x1F517;  Referred by content_comment ( target_content_id -&gt; content_id ) 
+Referred by content_group_permissions ( target_content_id -&gt; content_id ) 
+Referred by content_link_relationship ( origin_content_id -&gt; content_id ) 
+Referred by content_link_relationship ( target_content_id -&gt; content_id ) 
+Referred by content_member_permission ( target_content_id -&gt; content_id ) 
+Referred by content_moderation_warning ( target_content_id -&gt; content_id ) 
+Referred by content_public_permissions ( target_content_id -&gt; content_id ) </title></a>
+  <use id='nn' x='866' y='397' xlink:href='#nn'/><use id='idx' x='866' y='396' xlink:href='#idx'><title>&#x1F50D;  fk_content_members ( creator_id ) </title></use><a xlink:href='#kpc353_2.content.creator_id'><text id='kpc353&#95;2&#46;content&#46;creator&#95;id' x='883' y='407' onmouseover="hghl(['content_fk_content_members','kpc353_2.members.member_id','content_moderation_warning_fk_content_moderation_warning_content_0','kpc353_2.content_moderation_warning.owner_member_id'])" onmouseout="uhghl(['content_fk_content_members','kpc353_2.members.member_id','content_moderation_warning_fk_content_moderation_warning_content_0','kpc353_2.content_moderation_warning.owner_member_id'])">creator&#95;id</text><title>&#10697;  creator_id
+     * int
+ &#8599; content( member_id )
+ &#8601; content_moderation_warning( creator_id )
+ ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+      member who created this particular piece of content</title></a>
+<a xlink:href='#kpc353_2.content.creator_id'><use id='fk' x='1028' y='396' xlink:href='#fk'/><title>&#x1F517;  References members ( creator_id -&gt; member_id ) 
+Referred by content_moderation_warning ( owner_member_id -&gt; creator_id ) </title></a>
+  <use id='nn' x='866' y='413' xlink:href='#nn'/><a xlink:href='#kpc353_2.content.content_type'><text id='kpc353&#95;2&#46;content&#46;content&#95;type' x='883' y='423'>content&#95;type</text><title>&#10697;  content_type
+     * enum(&apos;text&apos;,&apos;image&apos;,&apos;video&apos;)
+ ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+      what kind of content was produced</title></a>
+<text x='1037' y='420' text-anchor='end' class='colType'>t</text>  <use id='nn' x='866' y='429' xlink:href='#nn'/><a xlink:href='#kpc353_2.content.content_data'><text id='kpc353&#95;2&#46;content&#46;content&#95;data' x='883' y='439'>content&#95;data</text><title>&#10697;  content_data
+     * text
+ ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+      text or URL link to the data of the content</title></a>
+<text x='1037' y='436' text-anchor='end' class='colType'>t</text>  <use id='nn' x='866' y='445' xlink:href='#nn'/><a xlink:href='#kpc353_2.content.content_creation_date'><text id='kpc353&#95;2&#46;content&#46;content&#95;creation&#95;date' x='883' y='455'>content&#95;creation&#95;date</text><title>&#10697;  content_creation_date
+     * date default curdate()
+ ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+      when was the content created</title></a>
+<text x='1037' y='452' text-anchor='end' class='colType'>d</text>  <a xlink:href='#kpc353_2.content.content_title'><text id='kpc353&#95;2&#46;content&#46;content&#95;title' x='883' y='471'>content&#95;title</text><title>&#10697;  content_title
+     varchar(100)
+ ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+      title of the post of the content</title></a>
+<text x='1037' y='468' text-anchor='end' class='colType'>t</text>  <a xlink:href='#kpc353_2.content.moderation_status'><text id='kpc353&#95;2&#46;content&#46;moderation&#95;status' x='883' y='487'>moderation&#95;status</text><title>&#10697;  moderation_status
+     enum(&apos;pending&apos;, &apos;approved&apos;, &apos;rejected&apos;) default &apos;pending&apos;
+ ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+      status of the piece of content in terms of moderation</title></a>
+<text x='1037' y='484' text-anchor='end' class='colType'>t</text>  <use id='nn' x='866' y='493' xlink:href='#nn'/><a xlink:href='#kpc353_2.content.content_deleted_flag'><text id='kpc353&#95;2&#46;content&#46;content&#95;deleted&#95;flag' x='883' y='503'>content&#95;deleted&#95;flag</text><title>&#10697;  content_deleted_flag
+     * boolean default false
+ ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+      used to &quot;delete&quot; content by users</title></a>
+<text x='1037' y='500' text-anchor='end' class='colType'>b</text>
 <!-- == Table 'content_comment' == -->
 <rect id='depict_kpc353&#95;2&#46;content&#95;comment' class='entity' style='stroke:#AB76B9' x='1424' y='232' width='176' height='128' />
 <rect x='1424' y='232' width='176' height='28' style='stroke-width:0; fill:#242025'/>
@@ -862,16 +918,16 @@ gift_registry_permissions ref members ( authorized_member_id -&gt; member_id )</
 <a xlink:href='#kpc353_2.gift_registry'><text x='1342' y='683' class='tableHeader'>gift&#95;registry</text><title>Table kpc353_2.gift_registry
  ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
       Describes gift registry entity that different members can attach gift ideas to.</title></a>
-  <use id='nn' x='1298' y='701' xlink:href='#nn'/><use id='pk' x='1298' y='700' xlink:href='#pk'><title>&#x1F511;  Pk pk_gift_registry ( gift_registry_id ) </title></use><a xlink:href='#kpc353_2.gift_registry.gift_registry_id'><text id='kpc353&#95;2&#46;gift&#95;registry&#46;gift&#95;registry&#95;id' x='1315' y='711' onmouseover="hghl(['gift_registry_gifts_fk_gift_registry_gifts_gift_registry','kpc353_2.gift_registry_gifts.target_gift_registry_id','gift_registry_ideas_fk_gift_registry_ideas_gift_registry_0','kpc353_2.gift_registry_ideas.target_gift_registry_id','gift_registry_participants_fk_gift_registry_participants_gift_registry','kpc353_2.gift_registry_participants.target_gift_registry_id','gift_registry_permissions_fk_gift_registry_permissions_gift_registry','kpc353_2.gift_registry_permissions.target_gift_registry_id'])" onmouseout="uhghl(['gift_registry_gifts_fk_gift_registry_gifts_gift_registry','kpc353_2.gift_registry_gifts.target_gift_registry_id','gift_registry_ideas_fk_gift_registry_ideas_gift_registry_0','kpc353_2.gift_registry_ideas.target_gift_registry_id','gift_registry_participants_fk_gift_registry_participants_gift_registry','kpc353_2.gift_registry_participants.target_gift_registry_id','gift_registry_permissions_fk_gift_registry_permissions_gift_registry','kpc353_2.gift_registry_permissions.target_gift_registry_id'])">gift&#95;registry&#95;id</text><title>&#10697;  gift_registry_id
+  <use id='nn' x='1298' y='701' xlink:href='#nn'/><use id='pk' x='1298' y='700' xlink:href='#pk'><title>&#x1F511;  Pk pk_gift_registry ( gift_registry_id ) </title></use><a xlink:href='#kpc353_2.gift_registry.gift_registry_id'><text id='kpc353&#95;2&#46;gift&#95;registry&#46;gift&#95;registry&#95;id' x='1315' y='711' onmouseover="hghl(['gift_registry_ideas_fk_gift_registry_ideas_gift_registry_0','kpc353_2.gift_registry_ideas.target_gift_registry_id','gift_registry_participants_fk_gift_registry_participants_gift_registry','kpc353_2.gift_registry_participants.target_gift_registry_id','gift_registry_permissions_fk_gift_registry_permissions_gift_registry','kpc353_2.gift_registry_permissions.target_gift_registry_id','gift_registry_gifts_fk_gift_registry_gifts_gift_registry','kpc353_2.gift_registry_gifts.target_gift_registry_id'])" onmouseout="uhghl(['gift_registry_ideas_fk_gift_registry_ideas_gift_registry_0','kpc353_2.gift_registry_ideas.target_gift_registry_id','gift_registry_participants_fk_gift_registry_participants_gift_registry','kpc353_2.gift_registry_participants.target_gift_registry_id','gift_registry_permissions_fk_gift_registry_permissions_gift_registry','kpc353_2.gift_registry_permissions.target_gift_registry_id','gift_registry_gifts_fk_gift_registry_gifts_gift_registry','kpc353_2.gift_registry_gifts.target_gift_registry_id'])">gift&#95;registry&#95;id</text><title>&#10697;  gift_registry_id
      * int
- &#8601; gift_registry_gifts( gift_registry_id )
  &#8601; gift_registry_ideas( gift_registry_id )
  &#8601; gift_registry_participants( gift_registry_id )
- &#8601; gift_registry_permissions( gift_registry_id )</title></a>
-<a xlink:href='#kpc353_2.gift_registry.gift_registry_id'><use id='ref' x='1460' y='700' xlink:href='#ref'/><title>&#x1F517;  Referred by gift_registry_gifts ( target_gift_registry_id -&gt; gift_registry_id ) 
-Referred by gift_registry_ideas ( target_gift_registry_id -&gt; gift_registry_id ) 
+ &#8601; gift_registry_permissions( gift_registry_id )
+ &#8601; gift_registry_gifts( gift_registry_id )</title></a>
+<a xlink:href='#kpc353_2.gift_registry.gift_registry_id'><use id='ref' x='1460' y='700' xlink:href='#ref'/><title>&#x1F517;  Referred by gift_registry_ideas ( target_gift_registry_id -&gt; gift_registry_id ) 
 Referred by gift_registry_participants ( target_gift_registry_id -&gt; gift_registry_id ) 
-Referred by gift_registry_permissions ( target_gift_registry_id -&gt; gift_registry_id ) </title></a>
+Referred by gift_registry_permissions ( target_gift_registry_id -&gt; gift_registry_id ) 
+Referred by gift_registry_gifts ( target_gift_registry_id -&gt; gift_registry_id ) </title></a>
   <use id='nn' x='1298' y='717' xlink:href='#nn'/><use id='idx' x='1298' y='716' xlink:href='#idx'><title>&#x1F50D;  fk_gift_registry_members ( organizer_member_id ) </title></use><a xlink:href='#kpc353_2.gift_registry.organizer_member_id'><text id='kpc353&#95;2&#46;gift&#95;registry&#46;organizer&#95;member&#95;id' x='1315' y='727' onmouseover="hghl(['gift_registry_fk_gift_registry_members','kpc353_2.members.member_id'])" onmouseout="uhghl(['gift_registry_fk_gift_registry_members','kpc353_2.members.member_id'])">organizer&#95;member&#95;id</text><title>&#10697;  organizer_member_id
      * int
  &#8599; gift_registry( member_id )
@@ -979,6 +1035,34 @@ Referred by gift_registry_permissions ( target_gift_registry_id -&gt; gift_regis
       describes a particular gift registry that a member is part of</title></a>
 <a xlink:href='#kpc353_2.gift_registry_participants.target_gift_registry_id'><use id='fk' x='1492' y='892' xlink:href='#fk'/><title>&#x1F517;  References gift_registry ( target_gift_registry_id -&gt; gift_registry_id ) </title></a>
 
+<!-- == Table 'gift_registry_permissions' == -->
+<rect id='depict_kpc353&#95;2&#46;gift&#95;registry&#95;permissions' class='entity' style='stroke:#B99376' x='1632' y='856' width='208' height='112' />
+<rect x='1632' y='856' width='208' height='28' style='stroke-width:0; fill:#252220'/>
+<line class='topLine' style='stroke:#9D6D48;' stroke-linecap='round' x1='1632' y1='856' x2='1840' y2='856'/>
+<a xlink:href='#kpc353_2.gift_registry_permissions'><text x='1654' y='875' class='tableHeader'>gift&#95;registry&#95;permissions</text><title>Table kpc353_2.gift_registry_permissions
+ ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+      contains the permissions that members have on a gift registry</title></a>
+  <use id='nn' x='1634' y='893' xlink:href='#nn'/><use id='pk' x='1634' y='892' xlink:href='#pk'><title>&#x1F511;  Pk pk_gift_registry_permissions ( gift_registry_permissions_id ) </title></use><a xlink:href='#kpc353_2.gift_registry_permissions.gift_registry_permissions_id'><text id='kpc353&#95;2&#46;gift&#95;registry&#95;permissions&#46;gift&#95;registry&#95;permissions&#95;id' x='1651' y='903'>gift&#95;registry&#95;permissions&#95;id</text><title>&#10697;  gift_registry_permissions_id
+     * int</title></a>
+<text x='1837' y='900' text-anchor='end' class='colType'>&#35;</text>  <use id='nn' x='1634' y='909' xlink:href='#nn'/><a xlink:href='#kpc353_2.gift_registry_permissions.target_gift_registry_id'><text id='kpc353&#95;2&#46;gift&#95;registry&#95;permissions&#46;target&#95;gift&#95;registry&#95;id' x='1651' y='919' onmouseover="hghl(['gift_registry_permissions_fk_gift_registry_permissions_gift_registry','kpc353_2.gift_registry.gift_registry_id'])" onmouseout="uhghl(['gift_registry_permissions_fk_gift_registry_permissions_gift_registry','kpc353_2.gift_registry.gift_registry_id'])">target&#95;gift&#95;registry&#95;id</text><title>&#10697;  target_gift_registry_id
+     * int
+ &#8599; gift_registry_permissions( gift_registry_id )
+ ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+      The target ID of the gift registry on which a particular members pemission is defined</title></a>
+<a xlink:href='#kpc353_2.gift_registry_permissions.target_gift_registry_id'><use id='fk' x='1828' y='908' xlink:href='#fk'/><title>&#x1F517;  References gift_registry ( target_gift_registry_id -&gt; gift_registry_id ) </title></a>
+  <use id='nn' x='1634' y='925' xlink:href='#nn'/><a xlink:href='#kpc353_2.gift_registry_permissions.authorized_member_id'><text id='kpc353&#95;2&#46;gift&#95;registry&#95;permissions&#46;authorized&#95;member&#95;id' x='1651' y='935' onmouseover="hghl(['gift_registry_permissions_fk_gift_registry_permissions_members','kpc353_2.members.member_id'])" onmouseout="uhghl(['gift_registry_permissions_fk_gift_registry_permissions_members','kpc353_2.members.member_id'])">authorized&#95;member&#95;id</text><title>&#10697;  authorized_member_id
+     * int
+ &#8599; gift_registry_permissions( member_id )
+ ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+      the ID of the member that has a certain permission on a certain gift registry</title></a>
+<a xlink:href='#kpc353_2.gift_registry_permissions.authorized_member_id'><use id='fk' x='1828' y='924' xlink:href='#fk'/><title>&#x1F517;  References members ( authorized_member_id -&gt; member_id ) </title></a>
+  <a xlink:href='#kpc353_2.gift_registry_permissions.gift_registry_permission_type'><text id='kpc353&#95;2&#46;gift&#95;registry&#95;permissions&#46;gift&#95;registry&#95;permission&#95;type' x='1651' y='951'>gift&#95;registry&#95;permission&#95;type</text><title>&#10697;  gift_registry_permission_type
+     enum(&apos;view&apos;, &apos;edit&apos;, &apos;add-item&apos;)
+ ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+      the type of permission that a certain member has on a certain gift registry
+      
+      can be &apos;view&apos;, &apos;edit&apos;, &apos;add-item&apos;</title></a>
+<text x='1837' y='948' text-anchor='end' class='colType'>t</text>
 <!-- == Table 'group_event' == -->
 <rect id='depict_kpc353&#95;2&#46;group&#95;event' class='entity' style='stroke:#7698B9' x='48' y='568' width='208' height='112' />
 <rect x='48' y='568' width='208' height='28' style='stroke-width:0; fill:#202225'/>
@@ -1270,15 +1354,13 @@ Referred by group_vote_plebiscite ( target_group_id -&gt; group_id ) </title></a
 <a xlink:href='#kpc353_2.members'><text x='695' y='523' class='tableHeader'>members</text><title>Table kpc353_2.members
  ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
       contains the info for every member of COSN</title></a>
-  <use id='nn' x='658' y='541' xlink:href='#nn'/><use id='pk' x='658' y='540' xlink:href='#pk'><title>&#x1F511;  Pk pk_member ( member_id ) </title></use><a xlink:href='#kpc353_2.members.member_id'><text id='kpc353&#95;2&#46;members&#46;member&#95;id' x='675' y='551' onmouseover="hghl(['content_fk_content_members','kpc353_2.content.creator_id','content_comment_fk_content_comment_members','kpc353_2.content_comment.commenter_member_id','content_member_permission_fk_content_permissions_members','kpc353_2.content_member_permission.authorized_member_id','content_moderation_warning_fk_content_moderation_warning_members','kpc353_2.content_moderation_warning.moderator_member_id','gift_registry_fk_gift_registry_members','kpc353_2.gift_registry.organizer_member_id','gift_registry_gifts_fk_gift_registry_gifts_members','kpc353_2.gift_registry_gifts.sender_member_id','gift_registry_gifts_fk_gift_registry_gifts_members_0','kpc353_2.gift_registry_gifts.target_member_id','gift_registry_ideas_fk_gift_registry_ideas_members','kpc353_2.gift_registry_ideas.idea_owner_id','gift_registry_participants_fk_gift_registry_participants_members','kpc353_2.gift_registry_participants.participant_member_id','gift_registry_permissions_fk_gift_registry_permissions_members','kpc353_2.gift_registry_permissions.authorized_member_id','group_event_fk_group_event_members','kpc353_2.group_event.event_organizer_member_id','group_event_option_vote_fk_group_event_option_vote_members','kpc353_2.group_event_option_vote.option_voter_member_id','group_event_options_fk_group_event_options_members','kpc353_2.group_event_options.option_owner_member_id','group_members_fk_group_members_members','kpc353_2.group_members.participant_member_id','group_vote_plebiscite_fk_group_vote_plebiscite_members','kpc353_2.group_vote_plebiscite.target_member_id','group_vote_plebiscite_fk_group_vote_plebiscite_members_0','kpc353_2.group_vote_plebiscite.organizer_member_id','group_vote_plebiscite_results_fk_group_vote_plebiscite_results_members','kpc353_2.group_vote_plebiscite_results.voter_member_id','groups_fk_groups_members','kpc353_2.groups.owner_id','member_messages_fk_member_messages_members','kpc353_2.member_messages.origin_member_id','member_messages_fk_member_messages_members_0','kpc353_2.member_messages.target_member_id','member_privilege_change_request_fk_member_privilege_change_request_members','kpc353_2.member_privilege_change_request.target_member_id','member_relationships_fk_member_relationships_members','kpc353_2.member_relationships.origin_member_id','member_relationships_fk_member_relationships_members_0','kpc353_2.member_relationships.target_member_id','personal_info_permissions_fk_personal_info_visibility_members','kpc353_2.personal_info_permissions.owner_member_id','personal_info_permissions_fk_personal_info_visibility_members_0','kpc353_2.personal_info_permissions.authorized_member_id','personal_info_public_permissions_fk_personal_info_public_permissions_members','kpc353_2.personal_info_public_permissions.owner_member_id'])" onmouseout="uhghl(['content_fk_content_members','kpc353_2.content.creator_id','content_comment_fk_content_comment_members','kpc353_2.content_comment.commenter_member_id','content_member_permission_fk_content_permissions_members','kpc353_2.content_member_permission.authorized_member_id','content_moderation_warning_fk_content_moderation_warning_members','kpc353_2.content_moderation_warning.moderator_member_id','gift_registry_fk_gift_registry_members','kpc353_2.gift_registry.organizer_member_id','gift_registry_gifts_fk_gift_registry_gifts_members','kpc353_2.gift_registry_gifts.sender_member_id','gift_registry_gifts_fk_gift_registry_gifts_members_0','kpc353_2.gift_registry_gifts.target_member_id','gift_registry_ideas_fk_gift_registry_ideas_members','kpc353_2.gift_registry_ideas.idea_owner_id','gift_registry_participants_fk_gift_registry_participants_members','kpc353_2.gift_registry_participants.participant_member_id','gift_registry_permissions_fk_gift_registry_permissions_members','kpc353_2.gift_registry_permissions.authorized_member_id','group_event_fk_group_event_members','kpc353_2.group_event.event_organizer_member_id','group_event_option_vote_fk_group_event_option_vote_members','kpc353_2.group_event_option_vote.option_voter_member_id','group_event_options_fk_group_event_options_members','kpc353_2.group_event_options.option_owner_member_id','group_members_fk_group_members_members','kpc353_2.group_members.participant_member_id','group_vote_plebiscite_fk_group_vote_plebiscite_members','kpc353_2.group_vote_plebiscite.target_member_id','group_vote_plebiscite_fk_group_vote_plebiscite_members_0','kpc353_2.group_vote_plebiscite.organizer_member_id','group_vote_plebiscite_results_fk_group_vote_plebiscite_results_members','kpc353_2.group_vote_plebiscite_results.voter_member_id','groups_fk_groups_members','kpc353_2.groups.owner_id','member_messages_fk_member_messages_members','kpc353_2.member_messages.origin_member_id','member_messages_fk_member_messages_members_0','kpc353_2.member_messages.target_member_id','member_privilege_change_request_fk_member_privilege_change_request_members','kpc353_2.member_privilege_change_request.target_member_id','member_relationships_fk_member_relationships_members','kpc353_2.member_relationships.origin_member_id','member_relationships_fk_member_relationships_members_0','kpc353_2.member_relationships.target_member_id','personal_info_permissions_fk_personal_info_visibility_members','kpc353_2.personal_info_permissions.owner_member_id','personal_info_permissions_fk_personal_info_visibility_members_0','kpc353_2.personal_info_permissions.authorized_member_id','personal_info_public_permissions_fk_personal_info_public_permissions_members','kpc353_2.personal_info_public_permissions.owner_member_id'])">member&#95;id</text><title>&#10697;  member_id
+  <use id='nn' x='658' y='541' xlink:href='#nn'/><use id='pk' x='658' y='540' xlink:href='#pk'><title>&#x1F511;  Pk pk_member ( member_id ) </title></use><a xlink:href='#kpc353_2.members.member_id'><text id='kpc353&#95;2&#46;members&#46;member&#95;id' x='675' y='551' onmouseover="hghl(['content_fk_content_members','kpc353_2.content.creator_id','content_comment_fk_content_comment_members','kpc353_2.content_comment.commenter_member_id','content_member_permission_fk_content_permissions_members','kpc353_2.content_member_permission.authorized_member_id','content_moderation_warning_fk_content_moderation_warning_members','kpc353_2.content_moderation_warning.moderator_member_id','gift_registry_fk_gift_registry_members','kpc353_2.gift_registry.organizer_member_id','gift_registry_ideas_fk_gift_registry_ideas_members','kpc353_2.gift_registry_ideas.idea_owner_id','gift_registry_participants_fk_gift_registry_participants_members','kpc353_2.gift_registry_participants.participant_member_id','gift_registry_permissions_fk_gift_registry_permissions_members','kpc353_2.gift_registry_permissions.authorized_member_id','group_event_fk_group_event_members','kpc353_2.group_event.event_organizer_member_id','group_event_option_vote_fk_group_event_option_vote_members','kpc353_2.group_event_option_vote.option_voter_member_id','group_event_options_fk_group_event_options_members','kpc353_2.group_event_options.option_owner_member_id','group_members_fk_group_members_members','kpc353_2.group_members.participant_member_id','group_vote_plebiscite_fk_group_vote_plebiscite_members','kpc353_2.group_vote_plebiscite.target_member_id','group_vote_plebiscite_fk_group_vote_plebiscite_members_0','kpc353_2.group_vote_plebiscite.organizer_member_id','group_vote_plebiscite_results_fk_group_vote_plebiscite_results_members','kpc353_2.group_vote_plebiscite_results.voter_member_id','groups_fk_groups_members','kpc353_2.groups.owner_id','member_messages_fk_member_messages_members','kpc353_2.member_messages.origin_member_id','member_messages_fk_member_messages_members_0','kpc353_2.member_messages.target_member_id','member_privilege_change_request_fk_member_privilege_change_request_members','kpc353_2.member_privilege_change_request.target_member_id','member_relationships_fk_member_relationships_members','kpc353_2.member_relationships.origin_member_id','member_relationships_fk_member_relationships_members_0','kpc353_2.member_relationships.target_member_id','personal_info_permissions_fk_personal_info_visibility_members','kpc353_2.personal_info_permissions.owner_member_id','personal_info_permissions_fk_personal_info_visibility_members_0','kpc353_2.personal_info_permissions.authorized_member_id','personal_info_public_permissions_fk_personal_info_public_permissions_members','kpc353_2.personal_info_public_permissions.owner_member_id','gift_registry_gifts_fk_gift_registry_gifts_members','kpc353_2.gift_registry_gifts.sender_member_id','gift_registry_gifts_fk_gift_registry_gifts_members_0','kpc353_2.gift_registry_gifts.target_member_id'])" onmouseout="uhghl(['content_fk_content_members','kpc353_2.content.creator_id','content_comment_fk_content_comment_members','kpc353_2.content_comment.commenter_member_id','content_member_permission_fk_content_permissions_members','kpc353_2.content_member_permission.authorized_member_id','content_moderation_warning_fk_content_moderation_warning_members','kpc353_2.content_moderation_warning.moderator_member_id','gift_registry_fk_gift_registry_members','kpc353_2.gift_registry.organizer_member_id','gift_registry_ideas_fk_gift_registry_ideas_members','kpc353_2.gift_registry_ideas.idea_owner_id','gift_registry_participants_fk_gift_registry_participants_members','kpc353_2.gift_registry_participants.participant_member_id','gift_registry_permissions_fk_gift_registry_permissions_members','kpc353_2.gift_registry_permissions.authorized_member_id','group_event_fk_group_event_members','kpc353_2.group_event.event_organizer_member_id','group_event_option_vote_fk_group_event_option_vote_members','kpc353_2.group_event_option_vote.option_voter_member_id','group_event_options_fk_group_event_options_members','kpc353_2.group_event_options.option_owner_member_id','group_members_fk_group_members_members','kpc353_2.group_members.participant_member_id','group_vote_plebiscite_fk_group_vote_plebiscite_members','kpc353_2.group_vote_plebiscite.target_member_id','group_vote_plebiscite_fk_group_vote_plebiscite_members_0','kpc353_2.group_vote_plebiscite.organizer_member_id','group_vote_plebiscite_results_fk_group_vote_plebiscite_results_members','kpc353_2.group_vote_plebiscite_results.voter_member_id','groups_fk_groups_members','kpc353_2.groups.owner_id','member_messages_fk_member_messages_members','kpc353_2.member_messages.origin_member_id','member_messages_fk_member_messages_members_0','kpc353_2.member_messages.target_member_id','member_privilege_change_request_fk_member_privilege_change_request_members','kpc353_2.member_privilege_change_request.target_member_id','member_relationships_fk_member_relationships_members','kpc353_2.member_relationships.origin_member_id','member_relationships_fk_member_relationships_members_0','kpc353_2.member_relationships.target_member_id','personal_info_permissions_fk_personal_info_visibility_members','kpc353_2.personal_info_permissions.owner_member_id','personal_info_permissions_fk_personal_info_visibility_members_0','kpc353_2.personal_info_permissions.authorized_member_id','personal_info_public_permissions_fk_personal_info_public_permissions_members','kpc353_2.personal_info_public_permissions.owner_member_id','gift_registry_gifts_fk_gift_registry_gifts_members','kpc353_2.gift_registry_gifts.sender_member_id','gift_registry_gifts_fk_gift_registry_gifts_members_0','kpc353_2.gift_registry_gifts.target_member_id'])">member&#95;id</text><title>&#10697;  member_id
      * int
  &#8601; content( member_id )
  &#8601; content_comment( member_id )
  &#8601; content_member_permission( member_id )
  &#8601; content_moderation_warning( member_id )
  &#8601; gift_registry( member_id )
- &#8601; gift_registry_gifts( member_id )
- &#8601; gift_registry_gifts( member_id )
  &#8601; gift_registry_ideas( member_id )
  &#8601; gift_registry_participants( member_id )
  &#8601; gift_registry_permissions( member_id )
@@ -1298,6 +1380,8 @@ Referred by group_vote_plebiscite ( target_group_id -&gt; group_id ) </title></a
  &#8601; personal_info_permissions( member_id )
  &#8601; personal_info_permissions( member_id )
  &#8601; personal_info_public_permissions( member_id )
+ &#8601; gift_registry_gifts( member_id )
+ &#8601; gift_registry_gifts( member_id )
  ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
       member_id = 1 is &quot;private&quot; system member
       member_id = 2 is &quot;public&quot; system member</title></a>
@@ -1306,8 +1390,6 @@ Referred by content_comment ( commenter_member_id -&gt; member_id )
 Referred by content_member_permission ( authorized_member_id -&gt; member_id ) 
 Referred by content_moderation_warning ( moderator_member_id -&gt; member_id ) 
 Referred by gift_registry ( organizer_member_id -&gt; member_id ) 
-Referred by gift_registry_gifts ( sender_member_id -&gt; member_id ) 
-Referred by gift_registry_gifts ( target_member_id -&gt; member_id ) 
 Referred by gift_registry_ideas ( idea_owner_id -&gt; member_id ) 
 Referred by gift_registry_participants ( participant_member_id -&gt; member_id ) 
 Referred by gift_registry_permissions ( authorized_member_id -&gt; member_id ) 
@@ -1326,7 +1408,9 @@ Referred by member_relationships ( origin_member_id -&gt; member_id )
 Referred by member_relationships ( target_member_id -&gt; member_id ) 
 Referred by personal_info_permissions ( owner_member_id -&gt; member_id ) 
 Referred by personal_info_permissions ( authorized_member_id -&gt; member_id ) 
-Referred by personal_info_public_permissions ( owner_member_id -&gt; member_id ) </title></a>
+Referred by personal_info_public_permissions ( owner_member_id -&gt; member_id ) 
+Referred by gift_registry_gifts ( sender_member_id -&gt; member_id ) 
+Referred by gift_registry_gifts ( target_member_id -&gt; member_id ) </title></a>
   <use id='nn' x='658' y='557' xlink:href='#nn'/><a xlink:href='#kpc353_2.members.username'><text id='kpc353&#95;2&#46;members&#46;username' x='675' y='567'>username</text><title>&#10697;  username
      * varchar(100)
  ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
@@ -1419,90 +1503,6 @@ Referred by personal_info_public_permissions ( owner_member_id -&gt; member_id )
   <a xlink:href='#kpc353_2.personal_info_public_permissions.personal_info_type'><text id='kpc353&#95;2&#46;personal&#95;info&#95;public&#95;permissions&#46;personal&#95;info&#95;type' x='1027' y='807'>personal&#95;info&#95;type</text><title>&#10697;  personal_info_type
      enum(&apos;first_name&apos;,&apos;last_name&apos;,&apos;date_of_birth&apos;,&apos;address&apos;,&apos;email&apos;)</title></a>
 <text x='1245' y='804' text-anchor='end' class='colType'>t</text>
-<!-- == Table 'content' == -->
-<rect id='depict_kpc353&#95;2&#46;content' class='entity' style='stroke:#AB76B9' x='864' y='344' width='176' height='176' />
-<rect x='864' y='344' width='176' height='28' style='stroke-width:0; fill:#242025'/>
-<line class='topLine' style='stroke:#8C489D;' stroke-linecap='round' x1='864' y1='344' x2='1040' y2='344'/>
-<a xlink:href='#kpc353_2.content'><text x='924' y='363' class='tableHeader'>content</text><title>Table kpc353_2.content
- ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
-      contains the content created by members</title></a>
-  <use id='nn' x='866' y='381' xlink:href='#nn'/><use id='pk' x='866' y='380' xlink:href='#pk'><title>&#x1F511;  Pk pk_content_data ( content_id ) </title></use><a xlink:href='#kpc353_2.content.content_id'><text id='kpc353&#95;2&#46;content&#46;content&#95;id' x='883' y='391' onmouseover="hghl(['content_comment_fk_content_comment_content','kpc353_2.content_comment.target_content_id','content_group_permissions_fk_content_group_permissions_content','kpc353_2.content_group_permissions.target_content_id','content_link_relationship_fk_content_link_relationship_content_1','kpc353_2.content_link_relationship.origin_content_id','content_link_relationship_fk_content_link_relationship_content_2','kpc353_2.content_link_relationship.target_content_id','content_member_permission_fk_content_member_permission_content','kpc353_2.content_member_permission.target_content_id','content_moderation_warning_fk_content_moderation_warning_content','kpc353_2.content_moderation_warning.target_content_id','content_public_permissions_fk_content_public_permissions_content','kpc353_2.content_public_permissions.target_content_id'])" onmouseout="uhghl(['content_comment_fk_content_comment_content','kpc353_2.content_comment.target_content_id','content_group_permissions_fk_content_group_permissions_content','kpc353_2.content_group_permissions.target_content_id','content_link_relationship_fk_content_link_relationship_content_1','kpc353_2.content_link_relationship.origin_content_id','content_link_relationship_fk_content_link_relationship_content_2','kpc353_2.content_link_relationship.target_content_id','content_member_permission_fk_content_member_permission_content','kpc353_2.content_member_permission.target_content_id','content_moderation_warning_fk_content_moderation_warning_content','kpc353_2.content_moderation_warning.target_content_id','content_public_permissions_fk_content_public_permissions_content','kpc353_2.content_public_permissions.target_content_id'])">content&#95;id</text><title>&#10697;  content_id
-     * int
- &#8601; content_comment( content_id )
- &#8601; content_group_permissions( content_id )
- &#8601; content_link_relationship( content_id )
- &#8601; content_link_relationship( content_id )
- &#8601; content_member_permission( content_id )
- &#8601; content_moderation_warning( content_id )
- &#8601; content_public_permissions( content_id )</title></a>
-<a xlink:href='#kpc353_2.content.content_id'><use id='ref' x='1028' y='380' xlink:href='#ref'/><title>&#x1F517;  Referred by content_comment ( target_content_id -&gt; content_id ) 
-Referred by content_group_permissions ( target_content_id -&gt; content_id ) 
-Referred by content_link_relationship ( origin_content_id -&gt; content_id ) 
-Referred by content_link_relationship ( target_content_id -&gt; content_id ) 
-Referred by content_member_permission ( target_content_id -&gt; content_id ) 
-Referred by content_moderation_warning ( target_content_id -&gt; content_id ) 
-Referred by content_public_permissions ( target_content_id -&gt; content_id ) </title></a>
-  <use id='nn' x='866' y='397' xlink:href='#nn'/><a xlink:href='#kpc353_2.content.creator_id'><text id='kpc353&#95;2&#46;content&#46;creator&#95;id' x='883' y='407' onmouseover="hghl(['content_fk_content_members','kpc353_2.members.member_id','content_moderation_warning_fk_content_moderation_warning_content_0','kpc353_2.content_moderation_warning.owner_member_id'])" onmouseout="uhghl(['content_fk_content_members','kpc353_2.members.member_id','content_moderation_warning_fk_content_moderation_warning_content_0','kpc353_2.content_moderation_warning.owner_member_id'])">creator&#95;id</text><title>&#10697;  creator_id
-     * int
- &#8599; content( member_id )
- &#8601; content_moderation_warning( creator_id )
- ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
-      member who created this particular piece of content</title></a>
-<a xlink:href='#kpc353_2.content.creator_id'><use id='fk' x='1028' y='396' xlink:href='#fk'/><title>&#x1F517;  References members ( creator_id -&gt; member_id ) 
-Referred by content_moderation_warning ( owner_member_id -&gt; creator_id ) </title></a>
-  <use id='nn' x='866' y='413' xlink:href='#nn'/><a xlink:href='#kpc353_2.content.content_type'><text id='kpc353&#95;2&#46;content&#46;content&#95;type' x='883' y='423'>content&#95;type</text><title>&#10697;  content_type
-     * enum(&apos;text&apos;,&apos;image&apos;,&apos;video&apos;)
- ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
-      what kind of content was produced</title></a>
-<text x='1037' y='420' text-anchor='end' class='colType'>t</text>  <use id='nn' x='866' y='429' xlink:href='#nn'/><a xlink:href='#kpc353_2.content.content_data'><text id='kpc353&#95;2&#46;content&#46;content&#95;data' x='883' y='439'>content&#95;data</text><title>&#10697;  content_data
-     * text
- ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
-      text or URL link to the data of the content</title></a>
-<text x='1037' y='436' text-anchor='end' class='colType'>t</text>  <use id='nn' x='866' y='445' xlink:href='#nn'/><a xlink:href='#kpc353_2.content.content_creation_date'><text id='kpc353&#95;2&#46;content&#46;content&#95;creation&#95;date' x='883' y='455'>content&#95;creation&#95;date</text><title>&#10697;  content_creation_date
-     * date default curdate()
- ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
-      when was the content created</title></a>
-<text x='1037' y='452' text-anchor='end' class='colType'>d</text>  <a xlink:href='#kpc353_2.content.content_title'><text id='kpc353&#95;2&#46;content&#46;content&#95;title' x='883' y='471'>content&#95;title</text><title>&#10697;  content_title
-     varchar(100)
- ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
-      title of the post of the content</title></a>
-<text x='1037' y='468' text-anchor='end' class='colType'>t</text>  <a xlink:href='#kpc353_2.content.moderation_status'><text id='kpc353&#95;2&#46;content&#46;moderation&#95;status' x='883' y='487'>moderation&#95;status</text><title>&#10697;  moderation_status
-     enum(&apos;pending&apos;, &apos;approved&apos;, &apos;rejected&apos;) default &apos;pending&apos;
- ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
-      status of the piece of content in terms of moderation</title></a>
-<text x='1037' y='484' text-anchor='end' class='colType'>t</text>  <use id='nn' x='866' y='493' xlink:href='#nn'/><a xlink:href='#kpc353_2.content.content_deleted_flag'><text id='kpc353&#95;2&#46;content&#46;content&#95;deleted&#95;flag' x='883' y='503'>content&#95;deleted&#95;flag</text><title>&#10697;  content_deleted_flag
-     * boolean default false
- ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
-      used to &quot;delete&quot; content by users</title></a>
-<text x='1037' y='500' text-anchor='end' class='colType'>b</text>
-<!-- == Table 'gift_registry_permissions' == -->
-<rect id='depict_kpc353&#95;2&#46;gift&#95;registry&#95;permissions' class='entity' style='stroke:#B99376' x='1632' y='856' width='208' height='112' />
-<rect x='1632' y='856' width='208' height='28' style='stroke-width:0; fill:#252220'/>
-<line class='topLine' style='stroke:#9D6D48;' stroke-linecap='round' x1='1632' y1='856' x2='1840' y2='856'/>
-<a xlink:href='#kpc353_2.gift_registry_permissions'><text x='1654' y='875' class='tableHeader'>gift&#95;registry&#95;permissions</text><title>Table kpc353_2.gift_registry_permissions
- ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
-      contains the permissions that members have on a gift registry</title></a>
-  <use id='nn' x='1634' y='893' xlink:href='#nn'/><use id='pk' x='1634' y='892' xlink:href='#pk'><title>&#x1F511;  Pk pk_gift_registry_permissions ( gift_registry_permissions_id ) </title></use><a xlink:href='#kpc353_2.gift_registry_permissions.gift_registry_permissions_id'><text id='kpc353&#95;2&#46;gift&#95;registry&#95;permissions&#46;gift&#95;registry&#95;permissions&#95;id' x='1651' y='903'>gift&#95;registry&#95;permissions&#95;id</text><title>&#10697;  gift_registry_permissions_id
-     * int</title></a>
-<text x='1837' y='900' text-anchor='end' class='colType'>&#35;</text>  <use id='nn' x='1634' y='909' xlink:href='#nn'/><a xlink:href='#kpc353_2.gift_registry_permissions.target_gift_registry_id'><text id='kpc353&#95;2&#46;gift&#95;registry&#95;permissions&#46;target&#95;gift&#95;registry&#95;id' x='1651' y='919' onmouseover="hghl(['gift_registry_permissions_fk_gift_registry_permissions_gift_registry','kpc353_2.gift_registry.gift_registry_id'])" onmouseout="uhghl(['gift_registry_permissions_fk_gift_registry_permissions_gift_registry','kpc353_2.gift_registry.gift_registry_id'])">target&#95;gift&#95;registry&#95;id</text><title>&#10697;  target_gift_registry_id
-     * int
- &#8599; gift_registry_permissions( gift_registry_id )
- ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
-      The target ID of the gift registry on which a particular members pemission is defined</title></a>
-<a xlink:href='#kpc353_2.gift_registry_permissions.target_gift_registry_id'><use id='fk' x='1828' y='908' xlink:href='#fk'/><title>&#x1F517;  References gift_registry ( target_gift_registry_id -&gt; gift_registry_id ) </title></a>
-  <use id='nn' x='1634' y='925' xlink:href='#nn'/><a xlink:href='#kpc353_2.gift_registry_permissions.authorized_member_id'><text id='kpc353&#95;2&#46;gift&#95;registry&#95;permissions&#46;authorized&#95;member&#95;id' x='1651' y='935' onmouseover="hghl(['gift_registry_permissions_fk_gift_registry_permissions_members','kpc353_2.members.member_id'])" onmouseout="uhghl(['gift_registry_permissions_fk_gift_registry_permissions_members','kpc353_2.members.member_id'])">authorized&#95;member&#95;id</text><title>&#10697;  authorized_member_id
-     * int
- &#8599; gift_registry_permissions( member_id )
- ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
-      the ID of the member that has a certain permission on a certain gift registry</title></a>
-<a xlink:href='#kpc353_2.gift_registry_permissions.authorized_member_id'><use id='fk' x='1828' y='924' xlink:href='#fk'/><title>&#x1F517;  References members ( authorized_member_id -&gt; member_id ) </title></a>
-  <a xlink:href='#kpc353_2.gift_registry_permissions.gift_registry_permission_type'><text id='kpc353&#95;2&#46;gift&#95;registry&#95;permissions&#46;gift&#95;registry&#95;permission&#95;type' x='1651' y='951'>gift&#95;registry&#95;permission&#95;type</text><title>&#10697;  gift_registry_permission_type
-     enum(&apos;view&apos;, &apos;edit&apos;, &apos;add-item&apos;)
- ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
-      the type of permission that a certain member has on a certain gift registry
-      
-      can be &apos;view&apos;, &apos;edit&apos;, &apos;add-item&apos;</title></a>
-<text x='1837' y='948' text-anchor='end' class='colType'>t</text>
 </g></svg></div>
 <script type='text/javascript'>
 var svgContainers = document.getElementsByClassName("svgContainer");
@@ -1632,7 +1632,7 @@ function installListeners( svgContainer, svgImage ){
 		<td>  </td>
 	</tr>
 	<tr>
-		<td><span class='text-danger'>*</span><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><span class='text-danger'>*</span><svg width='14' height='14'><use xlink:href='#idx'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
 		<td><a name='kpc353_2.content.creator_id'>creator&#95;id</a></td>
 		<td> INT UNSIGNED  </td>
 		<td> member who created this particular piece of content </td>
@@ -1676,6 +1676,10 @@ function installListeners( svgContainer, svgImage ){
 <tr><th colspan='4'>Indexes</th></tr>
 	<tr>		<td><svg width='14' height='14'><use xlink:href='#pk'/></svg></td><td>pk&#95;content&#95;data</td>
 		<td>Primary Key ON content&#95;id</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#idx'/></svg></td><td>fk&#95;content&#95;members</td>
+		<td>Index ON creator&#95;id</td>
 		<td>  </td>
 	</tr>
 <tr><th colspan='4'>Foreign Key</th></tr>
@@ -2117,11 +2121,6 @@ function installListeners( svgContainer, svgImage ){
 	</tr>
 <tr><th colspan='4'>Referring Foreign Key</th></tr>
 	<tr>
-		<td><svg width='14' height='14'><use xlink:href='#ref'/></svg></td><td>fk_gift_registry_gifts_gift_registry</td>
-		<td > gift&#95;registry&#95;id &#8601; <a href='#kpc353&#95;2&#46;gift&#95;registry&#95;gifts'  onclick="window.scrollTo(1192, 960);var nodes = document.getElementsByClassName('palpable');for (var i = 0; i < nodes.length; i++) { nodes[i].classList.remove('palpable');}; document.getElementById('depict_kpc353_2.gift_registry_gifts').classList.add('palpable'); return false;">&#10063; gift&#95;registry&#95;gifts</a>(target&#95;gift&#95;registry&#95;id) </td>
-		<td>  </td>
-	</tr>
-	<tr>
 		<td><svg width='14' height='14'><use xlink:href='#ref'/></svg></td><td>fk_gift_registry_ideas_gift_registry_0</td>
 		<td > gift&#95;registry&#95;id &#8601; <a href='#kpc353&#95;2&#46;gift&#95;registry&#95;ideas'  onclick="window.scrollTo(1432, 640);var nodes = document.getElementsByClassName('palpable');for (var i = 0; i < nodes.length; i++) { nodes[i].classList.remove('palpable');}; document.getElementById('depict_kpc353_2.gift_registry_ideas').classList.add('palpable'); return false;">&#10063; gift&#95;registry&#95;ideas</a>(target&#95;gift&#95;registry&#95;id) </td>
 		<td>  </td>
@@ -2134,6 +2133,11 @@ function installListeners( svgContainer, svgImage ){
 	<tr>
 		<td><svg width='14' height='14'><use xlink:href='#ref'/></svg></td><td>fk_gift_registry_permissions_gift_registry</td>
 		<td > gift&#95;registry&#95;id &#8601; <a href='#kpc353&#95;2&#46;gift&#95;registry&#95;permissions'  onclick="window.scrollTo(1432, 864);var nodes = document.getElementsByClassName('palpable');for (var i = 0; i < nodes.length; i++) { nodes[i].classList.remove('palpable');}; document.getElementById('depict_kpc353_2.gift_registry_permissions').classList.add('palpable'); return false;">&#10063; gift&#95;registry&#95;permissions</a>(target&#95;gift&#95;registry&#95;id) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#ref'/></svg></td><td>fk_gift_registry_gifts_gift_registry</td>
+		<td > gift&#95;registry&#95;id &#8601; <a href='#kpc353&#95;2&#46;gift&#95;registry&#95;gifts'  onclick="window.scrollTo(1192, 960);var nodes = document.getElementsByClassName('palpable');for (var i = 0; i < nodes.length; i++) { nodes[i].classList.remove('palpable');}; document.getElementById('depict_kpc353_2.gift_registry_gifts').classList.add('palpable'); return false;">&#10063; gift&#95;registry&#95;gifts</a>(target&#95;gift&#95;registry&#95;id) </td>
 		<td>  </td>
 	</tr>
 </tbody>
@@ -2971,7 +2975,7 @@ function installListeners( svgContainer, svgImage ){
 	<tr>
 		<td><span class='text-danger'>*</span><svg width='14' height='14'><use xlink:href='#pk'/></svg></td>
 		<td><a name='kpc353_2.member_relationships.relationship_id'>relationship&#95;id</a></td>
-		<td> INT UNSIGNED  </td>
+		<td> INT UNSIGNED AUTO_INCREMENT  </td>
 		<td>  </td>
 	</tr>
 	<tr>
@@ -3131,16 +3135,6 @@ function installListeners( svgContainer, svgImage ){
 		<td>  </td>
 	</tr>
 	<tr>
-		<td><svg width='14' height='14'><use xlink:href='#ref'/></svg></td><td>fk_gift_registry_gifts_members</td>
-		<td > member&#95;id &#8601; <a href='#kpc353&#95;2&#46;gift&#95;registry&#95;gifts'  onclick="window.scrollTo(1192, 960);var nodes = document.getElementsByClassName('palpable');for (var i = 0; i < nodes.length; i++) { nodes[i].classList.remove('palpable');}; document.getElementById('depict_kpc353_2.gift_registry_gifts').classList.add('palpable'); return false;">&#10063; gift&#95;registry&#95;gifts</a>(sender&#95;member&#95;id) </td>
-		<td>  </td>
-	</tr>
-	<tr>
-		<td><svg width='14' height='14'><use xlink:href='#ref'/></svg></td><td>fk_gift_registry_gifts_members_0</td>
-		<td > member&#95;id &#8601; <a href='#kpc353&#95;2&#46;gift&#95;registry&#95;gifts'  onclick="window.scrollTo(1192, 960);var nodes = document.getElementsByClassName('palpable');for (var i = 0; i < nodes.length; i++) { nodes[i].classList.remove('palpable');}; document.getElementById('depict_kpc353_2.gift_registry_gifts').classList.add('palpable'); return false;">&#10063; gift&#95;registry&#95;gifts</a>(target&#95;member&#95;id) </td>
-		<td>  </td>
-	</tr>
-	<tr>
 		<td><svg width='14' height='14'><use xlink:href='#ref'/></svg></td><td>fk_gift_registry_ideas_members</td>
 		<td > member&#95;id &#8601; <a href='#kpc353&#95;2&#46;gift&#95;registry&#95;ideas'  onclick="window.scrollTo(1432, 640);var nodes = document.getElementsByClassName('palpable');for (var i = 0; i < nodes.length; i++) { nodes[i].classList.remove('palpable');}; document.getElementById('depict_kpc353_2.gift_registry_ideas').classList.add('palpable'); return false;">&#10063; gift&#95;registry&#95;ideas</a>(idea&#95;owner&#95;id) </td>
 		<td>  </td>
@@ -3233,6 +3227,16 @@ function installListeners( svgContainer, svgImage ){
 	<tr>
 		<td><svg width='14' height='14'><use xlink:href='#ref'/></svg></td><td>fk_personal_info_public_permissions_members</td>
 		<td > member&#95;id &#8601; <a href='#kpc353&#95;2&#46;personal&#95;info&#95;public&#95;permissions'  onclick="window.scrollTo(808, 736);var nodes = document.getElementsByClassName('palpable');for (var i = 0; i < nodes.length; i++) { nodes[i].classList.remove('palpable');}; document.getElementById('depict_kpc353_2.personal_info_public_permissions').classList.add('palpable'); return false;">&#10063; personal&#95;info&#95;public&#95;permissions</a>(owner&#95;member&#95;id) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#ref'/></svg></td><td>fk_gift_registry_gifts_members</td>
+		<td > member&#95;id &#8601; <a href='#kpc353&#95;2&#46;gift&#95;registry&#95;gifts'  onclick="window.scrollTo(1192, 960);var nodes = document.getElementsByClassName('palpable');for (var i = 0; i < nodes.length; i++) { nodes[i].classList.remove('palpable');}; document.getElementById('depict_kpc353_2.gift_registry_gifts').classList.add('palpable'); return false;">&#10063; gift&#95;registry&#95;gifts</a>(sender&#95;member&#95;id) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#ref'/></svg></td><td>fk_gift_registry_gifts_members_0</td>
+		<td > member&#95;id &#8601; <a href='#kpc353&#95;2&#46;gift&#95;registry&#95;gifts'  onclick="window.scrollTo(1192, 960);var nodes = document.getElementsByClassName('palpable');for (var i = 0; i < nodes.length; i++) { nodes[i].classList.remove('palpable');}; document.getElementById('depict_kpc353_2.gift_registry_gifts').classList.add('palpable'); return false;">&#10063; gift&#95;registry&#95;gifts</a>(target&#95;member&#95;id) </td>
 		<td>  </td>
 	</tr>
 </tbody>

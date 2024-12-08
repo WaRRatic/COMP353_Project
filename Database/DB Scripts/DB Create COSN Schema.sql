@@ -48,6 +48,8 @@ CREATE  TABLE kpc353_2.content (
 	CONSTRAINT fk_content_members FOREIGN KEY ( creator_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION
  );
 
+CREATE INDEX fk_content_members ON kpc353_2.content ( creator_id );
+
 CREATE  TABLE kpc353_2.content_comment ( 
 	content_comment_id   INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
 	commenter_member_id  INT UNSIGNED   NOT NULL   ,
@@ -187,7 +189,7 @@ CREATE  TABLE kpc353_2.member_privilege_change_request (
 CREATE INDEX fk_member_privilege_change_request_members ON kpc353_2.member_privilege_change_request ( target_member_id );
 
 CREATE  TABLE kpc353_2.member_relationships ( 
-	relationship_id      INT UNSIGNED   NOT NULL   PRIMARY KEY,
+	relationship_id      INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
 	origin_member_id     INT UNSIGNED   NOT NULL   ,
 	target_member_id     INT UNSIGNED   NOT NULL   ,
 	member_relationship_type ENUM('friend','family','colleague','blocked')    NOT NULL   ,

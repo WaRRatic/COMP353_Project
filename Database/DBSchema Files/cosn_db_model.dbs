@@ -35,6 +35,9 @@
 			<index name="pk_content_data" unique="PRIMARY_KEY" >
 				<column name="content_id" />
 			</index>
+			<index name="fk_content_members" unique="NORMAL" >
+				<column name="creator_id" />
+			</index>
 			<fk name="fk_content_members" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
 				<fk_column name="creator_id" pk="member_id" />
 			</fk>
@@ -648,7 +651,9 @@ can be either 'admin', 'member', 'requested, 'ban']]></comment>
 		</table>
 		<table name="member_relationships" prior="tbl" >
 			<comment><![CDATA[describes the relationships of the members, specifically if they are friends, family, colleagues or blocked]]></comment>
-			<column name="relationship_id" type="INT" jt="4" mandatory="y" unsigned="y" />
+			<column name="relationship_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
+			</column>
 			<column name="origin_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[the member from whom the relationship originates, for example the origin_member_id has REQUESTED a target_member_id to be friends]]></comment>
 			</column>
