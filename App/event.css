@@ -10,8 +10,24 @@ h1 {
     margin-bottom: 20px;
     margin-left: 200px;
 }
-table{
-    margin-left: 200px;
+table {
+    width: 80%; /* Adjust width as needed */
+    margin: auto; /* Center the table */
+    border-collapse: collapse; /* Remove extra spacing */
+    background-color: #222; /* Match background color */
+    color: white; /* Ensure text is visible */
+}
+th, td {
+    border: 1px solid #555; /* Border around cells */
+    padding: 10px; /* Space within cells */
+    text-align: left; /* Align text */
+}
+button {
+    background-color: #666; /* Match button color */
+    color: white; /* Button text color */
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
 }
 
 .form-container {

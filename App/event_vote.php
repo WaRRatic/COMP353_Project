@@ -38,12 +38,11 @@ $result = $conn->query($sql);
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type = "text/css" href="event.css"/>
+    <link rel="stylesheet" type = "text/css" href="COSN_members.css"/>
     <title>Vote on Event</title>
 </head>
 <body>
 <div class="main-content">
-<div class="view-content-container">
     <h1>Dates</h1>
     <table border="1">
         <tr>
@@ -57,7 +56,7 @@ $result = $conn->query($sql);
             // Output data of each row
             while($row = $result->fetch_assoc()) {
                 echo "<tr>";
-                echo "<td><a href='event_suggest.php?group_event_id=" . $row['group_event_id'] . "'><button>Vote for this date</button></a></td>";
+                echo "<td><button onclick=\"alert('Your votes has been submited!')\">Vote for this date</button></td>";
                 echo "<td>" . $row['option_description'] . "</td>";
                 echo "</td>";
                 echo "</tr>";
@@ -70,7 +69,6 @@ $result = $conn->query($sql);
         $conn->close();
         ?>
     </table>
-</div>
 </div>
 </body>
 </html>

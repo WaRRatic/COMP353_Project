@@ -40,7 +40,7 @@ LEFT JOIN
 ON 
     group_event.target_group_id = group_members.group_membership_id
 WHERE 
-    group_members.group_membership_id = $memberId
+    group_members.participant_member_id = $memberId
 ;";
 $result = $conn->query($sql);
 ?>
@@ -49,14 +49,14 @@ $result = $conn->query($sql);
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type = "text/css" href="COSN_members.css"/>
     <title>Events Page</title>
 </head>
 <body>
 <div class="main-content">
-<div class="view-content-container">
     <h1>Events</h1>
     <div id="center_button">
-    <button> <a href='Organize_event.php' >Organize an event</a></button>
+    <button onclick=" location.href='Organize_event.php'" >Organize an event</button>
     </div>
     <table border="1">
         <tr>
@@ -97,7 +97,6 @@ $result = $conn->query($sql);
             <li><a href="homepage.php">Back to Homepage</a></li>
         </ul>
 
-</div>
 </div>
 </body>
 </body>
