@@ -179,3 +179,24 @@ button:hover {
     position: relative;
     padding-right: 70px;  /* Make room for delete button */
 }
+
+.status {
+    padding: 3px 8px;
+    border-radius: 3px;
+    margin-left: 10px;
+}
+
+.status.pending {
+    background-color: #ffc107;
+    color: black;
+}
+
+.status.sent {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.status.received {
+    background-color: #28a745;
+    color: white;
+}

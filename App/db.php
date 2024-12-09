@@ -4,7 +4,7 @@
 $host = "localhost";
 $user = "root";
 $pass = "";
-$db = "cosn";
+$db = "kpc353_2";
 
 try {
     // Create a PDO connection

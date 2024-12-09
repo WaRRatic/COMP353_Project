@@ -34,11 +34,30 @@
         exit;
     }
 
+    //check for duplicate gifts
+    $sql = "SELECT gift_id
+            FROM gift_registry_gifts
+            WHERE gift_registry_idea_id = :idea_id
+            AND sender_member_id = :sender_id
+            AND gift_status != 'received'";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'idea_id' => $idea_id,
+        'sender_id' => $member_id
+    ]);
+
+    if ($stmt->fetch()) {
+        echo "<script>alert('You have already sent this gift and it hasn\'t been received yet.');</script>";
+        echo "<script>window.location.href='view_registry.php?id=" . $gift_idea['target_gift_registry_id'] . "';</script>";
+        exit;
+    }
+
     //handle form submission
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $sql = "INSERT INTO gift_registry_gifts
-                (target_gift_registry_id, gift_registry_idea_id, sender_member_id)
-                VALUES (:registry_id, :idea_id, :sender_id)";
+                (target_gift_registry_id, gift_registry_idea_id, sender_member_id, gift_status)
+                VALUES (:registry_id, :idea_id, :sender_id, 'sent')";
         
         $stmt = $pdo->prepare($sql);
         if ($stmt->execute([
@@ -46,6 +65,18 @@
             'idea_id' => $idea_id,
             'sender_id' => $member_id
         ])) {
+            //notification message
+            $message = "sent you a gift from your registry: " . $gift_idea['gift_idea_description'];
+            $sql = "INSERT INTO member_messages
+                    (origin_member_id, target_member_id, message_content)
+                    VALUES (:sender_id, :recipient_id, :message)";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([
+                'sender_id' => $member_id,
+                'recipient_id' => $gift_idea['organizer_member_id'],
+                'message' => $message 
+            ]);
+
             header("Location: view_registry.php?id=" . $gift_idea['target_gift_registry_id']);
             exit;
         }
