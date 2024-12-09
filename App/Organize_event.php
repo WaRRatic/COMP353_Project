@@ -172,7 +172,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
     </form>
     <?php else: ?>
-    <p>You are not part of any groups. Please join a group to create an event.</p>
+    <p style = "margin-left: 200px;">You are not part of any groups. Please join a group to create an event.</p>
     <?php endif; ?>
 
 
