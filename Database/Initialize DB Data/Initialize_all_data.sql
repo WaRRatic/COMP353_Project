@@ -683,36 +683,9 @@ values
     'share'
   );
 
-  insert into 
-  kpc353_2.content_member_permission (
-    content_member_permission_id, 
-    target_content_id, 
-    authorized_member_id, 
-    content_permission_type
-  )
-values
-  (
-    6, 
-    6, 
-    2, 
-    'modify-permission'
-  );
+  
 
-  insert into 
-  kpc353_2.content_member_permission (
-    content_member_permission_id, 
-    target_content_id, 
-    authorized_member_id, 
-    content_permission_type
-  )
-values
-  (
-    7, 
-    2, 
-    1, 
-    'moderate'
-  );
-
+  
   insert into 
   kpc353_2.content_member_permission (
     content_member_permission_id, 
