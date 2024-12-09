@@ -10,6 +10,9 @@ h1 {
     margin-bottom: 20px;
     margin-left: 200px;
 }
+table{
+    margin-left: 200px;
+}
 
 .form-container {
     max-width: 400px;

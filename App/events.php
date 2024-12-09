@@ -1,18 +1,9 @@
 <?php
+session_start();
 include("db_config.php");
 include("header.php");
 include('sidebar.php'); 
-?>
 
-<!DOCTYPE html>
-<html lang="en">
-<link rel="stylesheet" type = "text/css" href="./css/admin_manage_users.css" />
-<head>
-    <meta charset="UTF-8">
-    <title>Events</title>
-</head>
-<?php
-session_start();
 
 if (!isset($_SESSION['loggedin'])) {
     echo "<script>alert('Access denied - login first!');</script>";
