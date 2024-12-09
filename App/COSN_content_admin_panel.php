@@ -36,7 +36,7 @@ $result = $stmt->get_result();
 
 <!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" type = "text/css" href="./css/admin_manage_content.css" />
+<link rel="stylesheet" type = "text/css" href="admin_manage_content.css" />
 <head>
     <meta charset="UTF-8">
     <title>COSN content moderation</title>

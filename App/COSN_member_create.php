@@ -1,19 +1,8 @@
 <?php
+session_start();
 include("db_config.php");
 include("header.php");
 include('sidebar.php'); 
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-<link rel="stylesheet" type = "text/css" href="./css/admin_create_member.css"/>
-<head>
-    <meta charset="UTF-8">
-    <title>Admin Create users</title>
-</head>
-<?php
-session_start();
-
 // Check if the user is logged in and has the "admin" role
 if (!isset($_SESSION['loggedin']) || $_SESSION['privilege_level'] !== 'administrator') {
     // Redirect to an error page or homepage if not authorized
@@ -21,9 +10,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['privilege_level'] !== 'administr
     exit;
 }
 
-
-// Create a database connection
-$conn = new mysqli($host, $user, $pass, $db);
 
 // If the form is submitted, update the member's data
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_signup'])) {
@@ -34,8 +20,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_signup'])) {
     $password = $_POST['password'];
 
     try {
-        $pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         // Check if email already exists
         $stmt = $pdo->prepare('SELECT * FROM members WHERE email = :email');
@@ -63,8 +47,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_signup'])) {
                 'password' => $password // store the password in plaintext, like a retard
             ]);
 
-            echo "<script>alert('Sign-up successful!');</script>";
-            header("Location: admin_manage_users.php");
+            echo "<script>alert('Member creation succesful!');</script>";
+            echo "<script>window.location.href = 'COSN_members.php';</script>";
         }
     } catch (PDOException $e) {
         echo "<script>alert('Database error: " . $e->getMessage() . "');</script>";
@@ -74,9 +58,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_signup'])) {
 
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+<link rel="stylesheet" type = "text/css" href="admin_create_member.css"/>
+<head>
     <meta charset="UTF-8">
-    <title>Create Member</title>
+    <title>Admin Create users</title>
 </head>
 <body>
 <div class="main-content">
