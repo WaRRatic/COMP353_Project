@@ -1,4 +1,5 @@
 <?php
+session_start();
 include("db_config.php");
 include("header.php");
 include('sidebar.php'); 
@@ -9,29 +10,35 @@ include('sidebar.php');
 <link rel="stylesheet" type = "text/css" href="./css/admin_manage_users.css" />
 <head>
     <meta charset="UTF-8">
-    <title>Vote on Events</title>
+    <title>Suggest Events</title>
 </head>
 <?php
-session_start();
+
 
 if (!isset($_SESSION['loggedin'])) {
     echo "<script>alert('Access denied - login first!');</script>";
     echo "<script>window.location.href = 'index.php';</script>";
     exit;
 }
-$group_event_id = $_GET['group_event_id'];
+
+if (isset($_GET['group_event_id'])) {
+    $group_event_id = intval($_GET['group_event_id']);
+} else {
+    echo "No group_event_id received.";
+}
 
 // Create a database connection
 $conn = new mysqli('localhost', 'root', '', 'kpc353_2');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $target_group_event_id = $_POST['group_event_id'];
+    $group_event_options_id = $_POST['group_event_options_id'];
+    $target_group_event_id = $_POST['group_id'];
     $option_owner_member_id = $_SESSION['member_id'];
     $option_description = $_POST['option_description'];
 
     if ($option_owner_member_id > 0 && !empty($option_description)) {
         $query = $conn->prepare("INSERT INTO group_event_options (group_event_options_id, target_group_event_id, option_owner_member_id, option_description) VALUES (?, ?, ?, ?)");
-        $query->bind_param("iis", $target_group_event_id, $option_owner_member_id, $option_description);
+        $query->bind_param("iiis", $group_event_options_id, $target_group_event_id, $option_owner_member_id, $option_description);
 
     if ($query->execute()) {
         echo "Your suggestion has been submitted successfully.";
@@ -83,7 +90,7 @@ $conn->close();
         }
 
         textarea {
-            width: 92%;
+            width: 95%;
             padding: 10px;
             border-radius: 5px;
             border: none;
@@ -109,6 +116,7 @@ $conn->close();
 <body>
     <h1>Suggest for Event</h1>
     <form method="POST" action="event_suggest.php">
+        <input type="hidden" id="group_id" name="group_id" value="<?= htmlspecialchars($group_event_id); ?>">
         <label for="suggestion">Your Suggestion (Date, Time, Location):</label>
         <textarea id="option_description" name="option_description" rows="3" placeholder="Suggest a date, time, and location for this event..." required></textarea>
         <button type="submit">Submit Suggestion</button>
