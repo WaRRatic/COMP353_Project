@@ -79,6 +79,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <th>Username</th>
             <th>Privilege level</th>
             <th>View profile</th>
+            <th>Manage relationship</th>
             <!-- display the additional "Manage user" column if the user is an admin -->
             <?php if ($isAdmin){ echo "<th style='border: 2px solid teal;'>Member status</th>"; } ?>
             <?php if ($isAdmin){ echo "<th style='border: 2px solid teal;'>Manage member</th>"; } ?>
@@ -92,11 +93,11 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 //start row
                 echo "<tr>";
 
-                //
                 echo "<td>" . $row['member_id'] . "</td>";
                 echo "<td>" . $row['username'] ."</td>";
                 echo "<td>" . $row['privilege_level'] ."</td>";
                 echo "<td><a href='homepage.php?member_id=" . $row['member_id'] . "'><button style='background-color: green; color: black;'>View member profile</button></a></td>";
+                echo "<td><a href='COSN_member_relationship_manage.php?target_member_id=" . $row['member_id'] . "'><button style='background-color: grey; color: white;'>Manage relationship</button></a></td>";
 
                 if($isAdmin){
                 echo "<td style='border: 2px solid teal;'>". $row['status'] ."</td>";}

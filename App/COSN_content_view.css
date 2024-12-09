@@ -137,7 +137,7 @@ img {
 }
 
 .action-button {
-    display: none; /* Hide all buttons by default */
+    display: inline-block; /* Hide all buttons by default */
     margin-right: 10px;
     padding: 5px 10px;
     background-color: #444;
@@ -159,8 +159,14 @@ img {
 }
 
 .comment-form{
-    display: none;
-}
-.comment-form[data-permission-type~="comment"] {
     display: block;
+}
+input[type="text"], input[type="password"],select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #333;
+    color: #e0e0e0;
+    border: 1px solid #555;
+    border-radius: 5px;
 }

@@ -16,8 +16,8 @@
 			<column name="content_data" prior="content_data_url" type="TEXT" jt="-1" mandatory="y" >
 				<comment><![CDATA[text or URL link to the data of the content]]></comment>
 			</column>
-			<column name="content_creation_date" prior="creation_date" type="DATE" jt="91" mandatory="y" >
-				<defo><![CDATA[curdate()]]></defo>
+			<column name="content_creation_date" prior="creation_date" type="DATETIME" jt="93" mandatory="y" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
 				<comment><![CDATA[when was the content created]]></comment>
 			</column>
 			<column name="content_title" type="VARCHAR" length="100" jt="12" >
@@ -28,12 +28,11 @@
 				<enumeration><![CDATA['pending', 'approved', 'rejected']]></enumeration>
 				<comment><![CDATA[status of the piece of content in terms of moderation]]></comment>
 			</column>
-			<column name="content_deleted_flag" type="BOOLEAN" jt="-7" mandatory="y" >
-				<defo><![CDATA[false]]></defo>
-				<comment><![CDATA[used to "delete" content by users]]></comment>
-			</column>
 			<index name="pk_content_data" unique="PRIMARY_KEY" >
 				<column name="content_id" />
+			</index>
+			<index name="fk_content_members" unique="NORMAL" >
+				<column name="creator_id" />
 			</index>
 			<fk name="fk_content_members" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
 				<fk_column name="creator_id" pk="member_id" />
@@ -139,10 +138,10 @@ authorized_member_id = 1 is "private" system member
 authorized_member_id = 2 is "public" system member]]></comment>
 			</column>
 			<column name="content_permission_type" type="ENUM" jt="12" >
-				<enumeration><![CDATA['read','edit','comment','share','modify-permission','moderate','link']]></enumeration>
+				<enumeration><![CDATA['read','edit','comment','share','link']]></enumeration>
 				<comment><![CDATA[the type of permission that the authorized_member_id has on this particular piece of content
 can be
-'read','edit','comment','share','modify-permission','moderate','link']]></comment>
+'read','edit','comment','share','link']]></comment>
 			</column>
 			<index name="pk_content_permissions" unique="PRIMARY_KEY" >
 				<column name="content_member_permission_id" />
@@ -608,6 +607,10 @@ can be either 'admin', 'member', 'requested, 'ban']]></comment>
 			<column name="message_content" type="TEXT" jt="-1" >
 				<comment><![CDATA[the actual content of the message]]></comment>
 			</column>
+			<column name="message_datetime" type="DATETIME" jt="93" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+				<comment><![CDATA[the datetime of when the message was sent out]]></comment>
+			</column>
 			<index name="pk_member_messages" unique="PRIMARY_KEY" >
 				<column name="member_message_id" />
 			</index>
@@ -648,7 +651,9 @@ can be either 'admin', 'member', 'requested, 'ban']]></comment>
 		</table>
 		<table name="member_relationships" prior="tbl" >
 			<comment><![CDATA[describes the relationships of the members, specifically if they are friends, family, colleagues or blocked]]></comment>
-			<column name="relationship_id" type="INT" jt="4" mandatory="y" unsigned="y" />
+			<column name="relationship_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
+			</column>
 			<column name="origin_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[the member from whom the relationship originates, for example the origin_member_id has REQUESTED a target_member_id to be friends]]></comment>
 			</column>

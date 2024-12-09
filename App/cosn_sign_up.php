@@ -107,7 +107,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'], $_POST['m
             echo "<script>alert('Username is already in use. Please use a different username.');</script>";
         } else {
             // Proceed with inserting the new member if email is unique
-            $stmt = $pdo->prepare('INSERT INTO members (username,first_name, last_name, email, password,privilege_level,status) VALUES (:username,:firstName, :lastName, :email, :password,"junior","active")');
+            $stmt = $pdo->prepare('INSERT INTO kpc353_2.members 
+                            (username,first_name, last_name, email, password,privilege_level,status) 
+                                VALUES (:username,:firstName, :lastName, :email, :password,"junior","active")');
             $stmt->execute([
                 'username' => $new_username,
                 'firstName' => $firstName,
@@ -123,7 +125,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'], $_POST['m
         echo "<script>alert('Database error: " . $e->getMessage() . "');</script>";
     }
 }
+
 ?>
+<br><br>
+<hr>
+<a href="index.php"><button style='background-color: grey; color: white;'>Back to index</button></a>
 
 </body>
 </html>

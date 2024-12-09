@@ -502,7 +502,7 @@ foreach ($content_feed as $row) {
         echo "<div style='display: flex; justify-content: space-around; gap: 20px;'>"; // Horizontal button container
         echo "<a href='COSN_members.php'><button style='background-color: teal; color: black;'>Manage COSN users</button></a>";
         echo "<a href='COSN_groups.php'><button style='background-color: teal; color: black;'>Manage COSN groups</button></a>";
-        echo "<a href='admin_manage_content.php'><button style='background-color: teal; color: black;'>Manage & moderate COSN content</button></a>";
+        echo "<a href='COSN_content_admin_panel.php?content_id=.php'><button style='background-color: teal; color: black;'>Manage & moderate COSN content</button></a>";
         echo "</div>";
         echo "</div>";
     }

@@ -69,7 +69,7 @@ values
     '1964-04-13', 
     'senior', 
    
-    'inactive',
+    'active',
     FALSE
   );
 
@@ -93,7 +93,7 @@ values
   (
     3, 
     'purple_haze', 
-    'jh3333', 
+    '3', 
     'jhendrix@email.com', 
     'Jimi', 
     'Hendrix', 
@@ -125,7 +125,7 @@ values
   (
     4, 
     'lizard_king', 
-    'pw4444', 
+    '4', 
     'jmorrison@email.com', 
     'Jim', 
     'Morrison', 
@@ -683,36 +683,9 @@ values
     'share'
   );
 
-  insert into 
-  kpc353_2.content_member_permission (
-    content_member_permission_id, 
-    target_content_id, 
-    authorized_member_id, 
-    content_permission_type
-  )
-values
-  (
-    6, 
-    6, 
-    2, 
-    'modify-permission'
-  );
+  
 
-  insert into 
-  kpc353_2.content_member_permission (
-    content_member_permission_id, 
-    target_content_id, 
-    authorized_member_id, 
-    content_permission_type
-  )
-values
-  (
-    7, 
-    2, 
-    1, 
-    'moderate'
-  );
-
+  
   insert into 
   kpc353_2.content_member_permission (
     content_member_permission_id, 
@@ -883,75 +856,3 @@ INSERT INTO kpc353_2.personal_info_public_permissions
 INSERT INTO kpc353_2.personal_info_public_permissions
 	(owner_member_id, personal_info_type) VALUES ( 3,'last_name');
 
--- Add test members with categories
-
-
-INSERT INTO kpc353_2.member_categories (category_type, category_name) VALUES
-('interest', 'Gaming'),
-('interest', 'Music'),
-('interest', 'Sports'),
-('interest', 'Technology'),
-('interest', 'Art'),
-('age_group', '18-24'),
-('age_group', '25-34'),
-('age_group', '35-44'),
-('age_group', '45+'),
-('profession', 'Technology'),
-('profession', 'Healthcare'),
-('profession', 'Education'),
-('profession', 'Business'),
-('profession', 'Arts'),
-('region', 'North America'),
-('region', 'Europe'),
-('region', 'Asia'),
-('region', 'South America'),
-('region', 'Africa'),
-('region', 'Oceania');
-
-
-INSERT INTO kpc353_2.member_category_assignments (member_id, category_id) VALUES
-(1, 1), (1, 7), (1, 11), (1, 16), -- Admin: Gaming, 25-34, Technology, North America
-(2, 2), (2, 8), (2, 12), (2, 16), -- Steve: Music, 35-44, Healthcare, North America 
-(3, 3), (3, 7), (3, 13), (3, 17), -- Jimi: Sports, 25-34, Education, Europe
-(4, 4), (4, 9), (4, 14), (4, 18), -- Jim: Technology, 45+, Business, Asia
-(5, 5), (5, 7), (5, 15), (5, 16); -- Matt: Art, 25-34, Arts, North America
-
--- Add gift registries
-INSERT INTO kpc353_2.gift_registry (gift_registry_id, organizer_member_id, gift_registry_name, gift_registry_description) VALUES
-(1, 2, 'Steve\'s Birthday', 'Birthday wishlist for September'),
-(2, 3, 'Jimi\'s Wedding', 'Wedding registry for summer wedding'),
-(3, 4, 'Jim\'s Housewarming', 'New house celebration gifts'),
-(4, 5, 'Matt\'s Graduation', 'PhD graduation celebration');
-
-SELECT member_id, username FROM kpc353_2.members;
-
--- Add participants
-INSERT INTO kpc353_2.gift_registry_participants (participant_member_id, target_gift_registry_id) VALUES
-(1, 1), (3, 1), (4, 1), (5, 1), -- Steve's registry participants
-(1, 2), (2, 2), (4, 2), (5, 2), -- Jimi's registry participants
-(1, 3), (2, 3), (3, 3), (5, 3), -- Jim's registry participants
-(1, 4), (2, 4), (3, 4), (4, 4); -- Matt's registry participants
-
--- Add gift ideas
-INSERT INTO kpc353_2.gift_registry_ideas (target_gift_registry_id, idea_owner_id, gift_idea_description) VALUES
-(1, 2, 'Vintage Record Player'),
-(1, 3, 'Concert Tickets'),
-(1, 4, 'Vinyl Collection'),
-(2, 3, 'Kitchen Aid Mixer'),
-(2, 4, 'Wine Glass Set'),
-(2, 5, 'Cooking Class Voucher'),
-(3, 4, 'House Plants'),
-(3, 2, 'Art Piece'),
-(3, 5, 'Coffee Machine'),
-(4, 5, 'Professional Camera'),
-(4, 1, 'Photography Books'),
-(4, 3, 'Camera Lens Set');
-
--- Add some gifts
-INSERT INTO kpc353_2.gift_registry_gifts (target_gift_registry_id, gift_registry_idea_id, sender_member_id, target_member_id, gift_status, gift_date) VALUES
-(1, 1, 3, 2, 'received', '2024-01-15'),  -- to Steve
-(1, 2, 4, 2, 'sent', '2024-02-01'),      -- to Steve
-(2, 4, 2, 3, 'received', '2024-02-10'),   -- to Jimi
-(2, 5, 5, 3, 'sent', '2024-02-15'),      -- to Jimi
-(3, 7, 2, 4, 'pending', '2024-02-20'),    -- to Jim
-(4, 10, 1, 5, 'received', '2024-02-25');  -- to Matt
