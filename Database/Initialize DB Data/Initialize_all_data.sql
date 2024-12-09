@@ -69,7 +69,7 @@ values
     '1964-04-13', 
     'senior', 
    
-    'inactive',
+    'active',
     FALSE
   );
 
@@ -93,7 +93,7 @@ values
   (
     3, 
     'purple_haze', 
-    'jh3333', 
+    '3', 
     'jhendrix@email.com', 
     'Jimi', 
     'Hendrix', 
@@ -125,7 +125,7 @@ values
   (
     4, 
     'lizard_king', 
-    'pw4444', 
+    '4', 
     'jmorrison@email.com', 
     'Jim', 
     'Morrison', 
@@ -877,4 +877,28 @@ insert into kpc353_2.member_messages
     values
     (2, 9, 'coming!');
 
+-- INIT Private and Public permissions
+--everyone can see Steve's email
+insert into kpc353_2.personal_info_public_permissions
+(owner_member_id, personal_info_type)
+values ( 2, 'email');
 
+--only Jimi Hendrix can see Steve's address
+insert into kpc353_2.personal_info_permissions
+(owner_member_id, personal_info_type,authorized_member_id)
+values ( 2, 'address',3);
+
+--only Jim Morrison can see Steve's DOB
+insert into kpc353_2.personal_info_permissions
+(owner_member_id, personal_info_type,authorized_member_id)
+values ( 2, 'date_of_birth',4);
+
+
+
+select personal_info_type
+FROM kpc353_2.personal_info_public_permissions
+where owner_member_id = 2;
+
+SELECT owner_member_id, personal_info_type,authorized_member_id
+FROM kpc353_2.personal_info_permissions
+where owner_member_id = 2;

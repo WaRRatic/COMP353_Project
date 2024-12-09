@@ -38,6 +38,42 @@ if(!$isAdmin){
     }
 }
 
+
+
+// Get the member public permissions from the database
+$sql = "SELECT 
+            personal_info_type
+        FROM 
+            kpc353_2.personal_info_public_permissions
+        WHERE 
+            owner_member_id = :member_id";
+$stmt = $pdo->prepare($sql);
+$stmt->execute([':member_id' => $member_id]);
+$public_permissions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Get the member private permissions from the database
+$sql = "SELECT 
+            personal_info_type, authorized_member_id, m.username
+        FROM 
+            kpc353_2.personal_info_permissions as pim
+                LEFT JOIN kpc353_2.members as m
+                    ON pim.authorized_member_id = m.member_id
+        WHERE 
+            owner_member_id = :member_id";
+
+$stmt = $pdo->prepare($sql);
+$stmt->execute([':member_id' => $member_id]);
+$private_permissions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+//get COSN users to which a permission can apply
+$sql = "SELECT 
+            m.username, m.member_id as target_member_id
+        FROM  kpc353_2.members as m";
+
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+$members_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 // Get the member personal data from the database
 $sql = "
     SELECT 
@@ -86,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
             exit;
         }
     // update the variables from the form, when the "Update member" button is click and a POST request is sent
-    }else{
+    }elseif(isset($_POST['update_member'])){
         $original_email = $email;
         $original_username = $username;
         
@@ -156,6 +192,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
             echo "<script>window.location.href = 'edit_COSN_group.php?member_id=" . $member_id . "&error=" . urlencode($e->getMessage()) . "';</script>";
             exit;
         }
+    }elseif(isset($_POST['add_public_permission'])){
+        // update the variables from the form
+        $content_permission_type = $_POST['permission_type'];
+
+        echo "<script>window.location.href = 'COSN_member_personal_info_permission_change.php?member_id=" . $member_id . "&level=public&type=" . $content_permission_type ."&action=add';</script>";
+    }elseif(isset($_POST['add_private_permission'])){
+        // update the variables from the form
+        $content_permission_type = $_POST['permission_type'];
+        $target_member_id = $_POST['target_member_id'];
+
+        echo "<script>window.location.href = 'COSN_member_personal_info_permission_change.php?member_id=" . $member_id . "&level=private&type=" . $content_permission_type ."&target_member_id=" . $target_member_id . "&action=add';</script>";
     }
 }
 
@@ -208,14 +255,113 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
             <option value="Inactive" <?php echo $cosn_status === 'inactive' ? 'selected' : ''; ?>>Inactive</option>
             <option value="Suspended" <?php echo $cosn_status === 'suspended' ? 'selected' : ''; ?>>Suspended</option>
         </select><br>
+
+
         <br>
         <br>
         <br>
 
-        <button type="submit" style="background-color: green; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px;">Update member</button>
+        <button type="submit" name="update_member" style="background-color: green; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px;">Update member</button>
         <button type="submit" name="delete_member" <?php echo ($isAdmin) ? : 'class="hidden"' ?> onclick="return confirm('Are you sure you want to delete this COSN member? ');" style="background-color: #ff4444; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px;">    Delete COSN Member
         </button>
     </form>
+
+    <br><br>
+    <hr>
+    <h2>Manage permissions on member's personal information</h3>
+    <?php
+        if(empty($public_permissions)&& empty($private_permissions)){
+            echo "<h1>There are no permissions set -- all the personal information is private (except for the admin who can see everything) !</h1>";
+        }
+        elseif(!empty($public_permissions)){
+            echo "<br><br>";
+            echo "<h2>Public permissions</h2>";
+            echo "<table border='1'>";
+            echo "<tr>";
+            echo "<th>Personal information visible</th>";
+            echo "<th>Permission explanation</th>";
+            echo "</tr>";
+            // Output data of each row
+            while($row = current($public_permissions)) {
+                //start row
+                echo "<tr>";
+                echo "<td>" . $row['personal_info_type'] . "</td>";
+                echo "<td> public can see \"". $row['personal_info_type'] . "\" of " .$username . " </td>";
+                
+                echo "<td><a href='COSN_member_personal_info_permission_change.php?member_id=" . $member_id . "&level=public&type=" . $row['personal_info_type'] ."&action=remove'><button>Remove permission</button></a></td>";
+
+                echo "</tr>";
+                next($public_permissions);
+            }
+            echo "</table>";
+            echo "<br><br><hr>";
+        }
+        ?>
+        <h3>Add new public permission</h3>
+        <form method="POST">
+            <label for="permission_type">Personal info permission:</label>
+            <select id="permission_type" name="permission_type" required>
+                <option value="first_name">First Name</option>    
+                <option value="last_name">Last Name</option>
+                <option value="dob">Date of Birth</option>
+                <option value="email">Email</option>
+                <option value="address">Address</option>
+            </select>
+
+            <br><br>
+            <button type="submit" name="add_public_permission" style="background-color: green; color: black; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px;">
+            Add public permission
+            </button>
+        </form>
+        
+        <?php
+        if(!empty($private_permissions)){
+            echo "<br><br>";
+            echo "<h3>Private permissions</h3>";
+            echo "<table border='1'>";
+            echo "<tr>";
+            echo "<th>Personal information visible</th>";
+            echo "<th>Authorized member</th>";
+            echo "<th>Permission explanation</th>";
+            echo "</tr>";
+            // Output data of each row
+            while($row = current($private_permissions)) {
+                //start row
+                echo "<tr>";
+                echo "<td>" . $row['personal_info_type'] . "</td>";
+                echo "<td>" . $row['username'] . "</td>";
+                echo "<td> ".$row['username'] ." is authorized to see \"". $row['personal_info_type'] . "\" of " . $username . " </td>";
+                echo "<td><a href='COSN_member_personal_info_permission_change.php?member_id=" . $member_id . "&level=private&type=" . $row['personal_info_type'] ."&target_member_id=" . $row['authorized_member_id'] . "&action=remove'><button>Remove permission</button></a></td>";
+                echo "</tr>";
+                next($private_permissions);
+            }
+            echo "</table>";
+            echo "<br><br><hr>";
+        }
+    ?>
+        <h3>Add new authorized member permission</h3>
+        <form method="POST">
+            <label for="permission_type">Personal info permission:</label>
+            <select id="permission_type" name="permission_type" required>
+                <option value="first_name">First Name</option>    
+                <option value="last_name">Last Name</option>
+                <option value="date_of_birth">Date of Birth</option>
+                <option value="email">Email</option>
+                <option value="address">Address</option>
+            </select>
+
+            <label for="target_member_id">Member authorized:</label>
+            <select id="target_member_id" name="target_member_id" required>
+                <?php foreach($members_list as $member): ?>
+                    <option value= <?php echo $member['target_member_id']; ?> > <?php echo $member['username']; ?> </option>
+                <?php endforeach; ?>
+            </select>
+
+            <br><br>
+            <button type="submit" name="add_private_permission" style="background-color: green; color: black; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px;">
+            Add authorized member permission
+            </button>
+        </form>
 
 
 </div>
