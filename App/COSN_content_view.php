@@ -20,6 +20,14 @@ if (!isset($_GET['content_id'])) {
     exit;
 }
 
+// Check if the user is an admin
+if ($_SESSION['privilege_level'] === 'administrator'){
+    $isAdmin = true;
+}else{
+    $isAdmin = false;
+}
+
+
 
 
 $logged_in_member_id = $_SESSION['member_id'];
@@ -86,6 +94,34 @@ if (!$contentPermissions) {
     exit;
 }
 
+
+$content_comment_permission = false;
+$content_edit_permission = false;
+$content_share_permission = false;
+$content_link_permission = false;
+while($row = current($contentPermissions)) {
+    // Check for comment permission or allow it if the user is an admin
+    if ((!$content_comment_permission && $row['content_permission_type'] === 'comment') || $isAdmin) {
+        $content_comment_permission = true;
+    }
+    // Check for edit permission or allow it if the user is an admin
+    if ((!$content_edit_permission && $row['content_permission_type'] === 'edit') || $isAdmin) {
+        $content_edit_permission = true;
+    }
+    // Check for share permission or allow it if the user is an admin
+    if ((!$content_share_permission && $row['content_permission_type'] === 'share') || $isAdmin) {
+        $content_share_permission = true;
+    }
+    // Check for link permission or allow it if the user is an admin
+    if ((!$content_link_permission && $row['content_permission_type'] === 'link') || $isAdmin) {
+        $content_link_permission = true;
+    }
+
+    next($contentPermissions);
+}
+
+
+
 // Process each row to build the nested structure
 foreach ($contentPermissions as $row) {
     $content_id = $row['content_id'];
@@ -121,13 +157,22 @@ $permission_types_string = implode(' ', array_map('strtolower', $permission_type
 // Check if comment privilege are set for the post, str_contains() outputs a boolean True if the string contains the word 'comment'
 $hasCommentPrivilege = str_contains($permission_types_string, 'comment');
 
-$sqlContent = $pdo->prepare('SELECT content_type, content_title, content_data FROM content WHERE content_id = :content_id');
+$sqlContent = $pdo->prepare('SELECT 
+                            content_type, content_title, content_data, m.username, content_creation_date
+                            FROM 
+                                kpc353_2.content as c
+                                LEFT JOIN kpc353_2.members as m
+                                    on c.creator_id = m.member_id
+                            WHERE 
+                                content_id = :content_id');
 $sqlContent->execute(['content_id' => $content_id]);
 $contentDetails = $sqlContent->fetch(PDO::FETCH_ASSOC);
 
 $content_type = $contentDetails['content_type'];
 $content_title = $contentDetails['content_title'];
 $content_data = $contentDetails['content_data'];
+$content_creator = $contentDetails['username'];
+$content_creation_datetime = $contentDetails['content_creation_date'];
 
 
 
@@ -221,17 +266,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_comment']) && $ha
             ?>
             <hr>
             <small>
-                <br>Creator: <?php echo htmlspecialchars($contentPermissions['username']); ?>
-                <br>Creation Date: <?php echo htmlspecialchars($contentPermissions['content_creation_date']); ?>
+                <br>Creator: <?php echo $content_creator; ?>
+                <br>Creation Date: <?php echo $content_creation_datetime; ?>
                 <br>
                 Content Type: <?php echo htmlspecialchars($content_type); ?>
             </small>
 
             <!-- Action Buttons -->
             <div class="action-buttons">
-                <a href="edit_content.php?content_id=<?php echo urlencode($post['content_id']); ?>" class="action-button edit-button">Edit</a>
-                <a href="Content_Interact.php?state=share&content_id=<?php echo urlencode($post['content_id']); ?>" class="action-button share-button">Share</a>
-                <a href="Content_Interact.php?state=link&content_id=<?php echo urlencode($post['content_id']); ?>" class="action-button link-button">Link</a>
+
+                <?php if ($content_edit_permission): ?>
+                    <a href="COSN_content_edit.php?content_id=<?php echo urlencode($content_id); ?>" class="action-button edit-button">EDIT</a>
+                <?php else: ?>
+                    <p>You don't have permission to EDIT this content</p>
+                <?php endif; ?>
+
+                <?php if ($content_share_permission): ?>
+                    <a href="edit_content.php?content_id=<?php echo urlencode($content_id); ?>" class="action-button share-button">SHARE</a>
+                <?php else: ?>
+                    <p>You don't have permission to SHARE this content</p>
+                <?php endif; ?>
+
+                <?php if ($content_link_permission): ?>
+                    <a href="edit_content.php?content_id=<?php echo urlencode($content_id); ?>" class="action-button link-button">LINK</a>
+                <?php else: ?>
+                    <p>You don't have permission to LINK this content</p>
+                <?php endif; ?>
+
+
             </div>
         </div>
     </div>
@@ -252,12 +314,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_comment']) && $ha
     
     <br><br>
     <hr>
-    
-    <form class="comment-form" data-permission-type="<?php echo htmlspecialchars($permission_types_string); ?>" method="POST">
-        <h2>Add comment on this content</h2>
-            <label for="comment">Comment:</label>
-            <input type="text" id="comment" name="comment" required>
-        <button type="submit" name="add_comment">Add comment</button>
-    </form>
+    <?php if ($hasCommentPrivilege): ?>
+        <form class="comment-form" data-permission-type="<?php echo htmlspecialchars($permission_types_string); ?>" method="POST">
+            <h2>Add comment on this content</h2>
+                <label for="comment">Comment:</label>
+                <input type="text" id="comment" name="comment" required>
+            <button type="submit" name="add_comment">Add comment</button>
+        </form>
+    <?php else: ?>
+        <p>You don't have permission to comment on this content</p>
+    <?php endif; ?>
 
 </html>

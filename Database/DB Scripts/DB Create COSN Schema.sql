@@ -41,10 +41,9 @@ CREATE  TABLE kpc353_2.content (
 	creator_id           INT UNSIGNED   NOT NULL   ,
 	content_type         ENUM('text','image','video')    NOT NULL   ,
 	content_data         TEXT    NOT NULL   ,
-	content_creation_date DATE  DEFAULT curdate()  NOT NULL   ,
+	content_creation_date DATETIME  DEFAULT CURRENT_TIMESTAMP  NOT NULL   ,
 	content_title        VARCHAR(100)       ,
 	moderation_status    ENUM('pending', 'approved', 'rejected')  DEFAULT 'pending'     ,
-	content_deleted_flag BOOLEAN  DEFAULT false  NOT NULL   ,
 	CONSTRAINT fk_content_members FOREIGN KEY ( creator_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION
  );
 
@@ -76,7 +75,7 @@ CREATE  TABLE kpc353_2.content_member_permission (
 	content_member_permission_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
 	target_content_id    INT UNSIGNED   NOT NULL   ,
 	authorized_member_id INT UNSIGNED   NOT NULL   ,
-	content_permission_type ENUM('read','edit','comment','share','modify-permission','moderate','link')       ,
+	content_permission_type ENUM('read','edit','comment','share','link')       ,
 	CONSTRAINT fk_content_permissions_members FOREIGN KEY ( authorized_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
 	CONSTRAINT fk_content_member_permission_content FOREIGN KEY ( target_content_id ) REFERENCES kpc353_2.content( content_id ) ON DELETE CASCADE ON UPDATE NO ACTION
  );
@@ -364,13 +363,11 @@ ALTER TABLE kpc353_2.content MODIFY content_type ENUM('text','image','video')  N
 
 ALTER TABLE kpc353_2.content MODIFY content_data TEXT  NOT NULL   COMMENT 'text or URL link to the data of the content';
 
-ALTER TABLE kpc353_2.content MODIFY content_creation_date DATE  NOT NULL DEFAULT curdate()  COMMENT 'when was the content created';
+ALTER TABLE kpc353_2.content MODIFY content_creation_date DATETIME  NOT NULL DEFAULT CURRENT_TIMESTAMP  COMMENT 'when was the content created';
 
 ALTER TABLE kpc353_2.content MODIFY content_title VARCHAR(100)     COMMENT 'title of the post of the content';
 
 ALTER TABLE kpc353_2.content MODIFY moderation_status ENUM('pending', 'approved', 'rejected')   DEFAULT 'pending'  COMMENT 'status of the piece of content in terms of moderation';
-
-ALTER TABLE kpc353_2.content MODIFY content_deleted_flag BOOLEAN  NOT NULL DEFAULT false  COMMENT 'used to "delete" content by users';
 
 ALTER TABLE kpc353_2.content_comment COMMENT 'table containing comments on content from members';
 
@@ -397,9 +394,9 @@ ALTER TABLE kpc353_2.content_member_permission MODIFY authorized_member_id INT U
 authorized_member_id = 1 is "private" system member
 authorized_member_id = 2 is "public" system member';
 
-ALTER TABLE kpc353_2.content_member_permission MODIFY content_permission_type ENUM('read','edit','comment','share','modify-permission','moderate','link')     COMMENT 'the type of permission that the authorized_member_id has on this particular piece of content
+ALTER TABLE kpc353_2.content_member_permission MODIFY content_permission_type ENUM('read','edit','comment','share','link')     COMMENT 'the type of permission that the authorized_member_id has on this particular piece of content
 can be
-''read'',''edit'',''comment'',''share'',''modify-permission'',''moderate'',''link''';
+''read'',''edit'',''comment'',''share'',''link''';
 
 ALTER TABLE kpc353_2.content_moderation_warning COMMENT 'Contains the moderation warning for content posted by a member (if the content was "flagged" by a moderator';
 
