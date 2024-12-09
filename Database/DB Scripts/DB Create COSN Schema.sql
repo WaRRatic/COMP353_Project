@@ -1,5 +1,11 @@
 CREATE SCHEMA kpc353_2;
 
+CREATE  TABLE kpc353_2.member_categories ( 
+	category_id          INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
+	category_type        ENUM('interest', 'age_group', 'profession', 'region')       ,
+	category_name        VARCHAR(100)    NOT NULL   
+ );
+
 CREATE  TABLE kpc353_2.members ( 
 	member_id            INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
 	username             VARCHAR(100)    NOT NULL   ,
@@ -165,6 +171,14 @@ CREATE  TABLE kpc353_2.groups (
 
 CREATE INDEX fk_groups_members ON kpc353_2.groups ( owner_id );
 
+CREATE  TABLE kpc353_2.member_category_assignments ( 
+	assignment_id        INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
+	member_id            INT UNSIGNED   NOT NULL   ,
+	category_id          INT UNSIGNED   NOT NULL   ,
+	CONSTRAINT fk_member_category_assignments_members FOREIGN KEY ( member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
+	CONSTRAINT fk_member_category_assignments_member_categories FOREIGN KEY ( category_id ) REFERENCES kpc353_2.member_categories( category_id ) ON DELETE CASCADE ON UPDATE NO ACTION
+ );
+
 CREATE  TABLE kpc353_2.member_messages ( 
 	member_message_id    INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
 	origin_member_id     INT UNSIGNED   NOT NULL   ,
@@ -206,7 +220,7 @@ CREATE  TABLE kpc353_2.content_group_permissions (
 	content_group_permission_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
 	target_content_id    INT UNSIGNED   NOT NULL   ,
 	target_group_id      INT UNSIGNED   NOT NULL   ,
-	content_group_permission_type ENUM('read','comment','share','link')       ,
+	content_group_permission_type ENUM('read','comment','share','link','edit')       ,
 	CONSTRAINT fk_content_group_permissions_content FOREIGN KEY ( target_content_id ) REFERENCES kpc353_2.content( content_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
 	CONSTRAINT fk_content_group_permissions_groups FOREIGN KEY ( target_group_id ) REFERENCES kpc353_2.groups( group_id ) ON DELETE CASCADE ON UPDATE NO ACTION
  );
@@ -311,19 +325,7 @@ CREATE INDEX fk_group_event_option_vote_group_event_options ON kpc353_2.group_ev
 
 CREATE INDEX fk_group_event_option_vote_members ON kpc353_2.group_event_option_vote ( option_voter_member_id );
 
-CREATE TABLE kpc353_2.member_categories (
-    category_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    category_type ENUM('interest', 'age_group', 'profession', 'region') NOT NULL,
-    category_name VARCHAR(100) NOT NULL
-);
-
-CREATE TABLE kpc353_2.member_category_assignments (
-    assignment_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    member_id INT UNSIGNED NOT NULL,
-    category_id INT UNSIGNED NOT NULL,
-    FOREIGN KEY (member_id) REFERENCES members(member_id),
-    FOREIGN KEY (category_id) REFERENCES member_categories(category_id)
-);
+ALTER TABLE kpc353_2.member_categories COMMENT 'contains categories for the interests of the members';
 
 ALTER TABLE kpc353_2.members COMMENT 'contains the info for every member of COSN';
 
@@ -504,7 +506,7 @@ ALTER TABLE kpc353_2.content_group_permissions MODIFY target_content_id INT UNSI
 
 ALTER TABLE kpc353_2.content_group_permissions MODIFY target_group_id INT UNSIGNED NOT NULL   COMMENT 'the particular group which has a certain permission on a specific content';
 
-ALTER TABLE kpc353_2.content_group_permissions MODIFY content_group_permission_type ENUM('read','comment','share','link')     COMMENT 'the type of permission that a particular group has on a certain piece of content';
+ALTER TABLE kpc353_2.content_group_permissions MODIFY content_group_permission_type ENUM('read','comment','share','link','edit')     COMMENT 'the type of permission that a particular group has on a certain piece of content';
 
 ALTER TABLE kpc353_2.gift_registry_gifts COMMENT 'contains gifts sent from gift registry';
 
