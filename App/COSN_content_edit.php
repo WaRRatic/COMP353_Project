@@ -200,7 +200,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         echo "<script>alert('Content approved successfully!');";
         echo "window.location.href = 'COSN_content_edit.php?content_id='" . $content_id . ";</script>";
-        exit;
+
     }
 
     // Reject content
@@ -216,7 +216,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pdo->commit();
         echo "<script>alert('Content rejected successfully!');";
         echo "window.location.href = 'COSN_content_edit.php?content_id='" . $content_id . ";</script>";
-        exit;
+
     }
     elseif(isset($_POST['update_content'])){    
         // update the variables from the form
@@ -393,6 +393,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "<th>Permission Level</th>";
             echo "<th>Authorized Group</th>";
             echo "<th>Authorized Member</th>";
+            echo "<th>Remove permission?</th>";
 
             echo "</tr>";
             // Output data of each row
@@ -400,7 +401,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 //start row
                 echo "<tr>";
                 echo "<td>" . $row['content_permission_type'] . "</td>";
-                echo "<td>" . $row['content_feed_type'] ."</td>";
+                if($row['content_feed_type'] === 'private'){
+                    echo "<td> member </td>";
+                }
+                else{echo "<td>" . $row['content_feed_type'] ."</td>";}
                 if($row['content_feed_type'] === 'group'){
                     echo "<td>" . $row['authorized_group_name'] ."</td>";
                 }else{
