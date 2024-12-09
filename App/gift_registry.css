@@ -236,3 +236,32 @@ textarea {
     border-radius: 3px;
     font-size: 0.9em;
 }
+
+
+.gifts-section {
+    margin: 20px 0;
+    padding: 20px;
+    background-color: #2a2a2a;
+    border-radius: 5px;
+}
+
+.gift_info {
+    margin-bottom: 10px;
+}
+
+.gift-info p {
+    margin: 5px 0;
+}
+
+.receive-button {
+    background-color: #28a745;
+    color:whote;
+    border:none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.receive-button:hover {
+    background-color: #218838
+}

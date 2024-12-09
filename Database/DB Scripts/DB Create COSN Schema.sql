@@ -311,6 +311,20 @@ CREATE INDEX fk_group_event_option_vote_group_event_options ON kpc353_2.group_ev
 
 CREATE INDEX fk_group_event_option_vote_members ON kpc353_2.group_event_option_vote ( option_voter_member_id );
 
+CREATE TABLE kpc353_2.member_categories (
+    category_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    category_type ENUM('interest', 'age_group', 'profession', 'region') NOT NULL,
+    category_name VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE kpc353_2.member_category_assignments (
+    assignment_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    member_id INT UNSIGNED NOT NULL,
+    category_id INT UNSIGNED NOT NULL,
+    FOREIGN KEY (member_id) REFERENCES members(member_id),
+    FOREIGN KEY (category_id) REFERENCES member_categories(category_id)
+);
+
 ALTER TABLE kpc353_2.members COMMENT 'contains the info for every member of COSN';
 
 ALTER TABLE kpc353_2.members MODIFY member_id INT UNSIGNED NOT NULL  AUTO_INCREMENT  COMMENT 'member_id = 1 is "private" system member
