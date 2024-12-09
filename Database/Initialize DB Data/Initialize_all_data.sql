@@ -882,3 +882,26 @@ INSERT INTO kpc353_2.personal_info_public_permissions
   
 INSERT INTO kpc353_2.personal_info_public_permissions
 	(owner_member_id, personal_info_type) VALUES ( 3,'last_name');
+
+-- INIT MEMBER MESSAGES
+insert into kpc353_2.member_messages 
+    (origin_member_id, target_member_id, message_content)
+    values
+    (2, 1, 'wassup');
+
+insert into kpc353_2.member_messages 
+    (origin_member_id, target_member_id, message_content)
+    values
+    (1, 2, 'all good and you?');
+
+insert into kpc353_2.member_messages 
+    (origin_member_id, target_member_id, message_content)
+    values
+    (9, 2, 'dinner is readyyyy!');
+
+insert into kpc353_2.member_messages 
+    (origin_member_id, target_member_id, message_content)
+    values
+    (2, 9, 'coming!');
+
+

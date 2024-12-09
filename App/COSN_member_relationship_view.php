@@ -71,6 +71,7 @@ $result_friend_requests = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php
             if(empty($result_friends)){
                 echo "<h1>You don't have any confirmed relationships yet.</h1>";
+                echo "<br><br><hr>";
             }
             else{
                 // confirmed relationships table
@@ -96,7 +97,8 @@ $result_friend_requests = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
             
             if(empty($result_pending_friends)){
-                echo "<h1>You don't have any pending relationship requests that you've sent out.</h1>";}
+                echo "<h1>You don't have any pending relationship requests that you've sent out.</h1>";
+                echo "<br><br><hr>";}
             else{
                 // Pending relationships table
                 echo "<h1>Your pending relationships requests:</h1>";
