@@ -122,41 +122,6 @@ while($row = current($contentPermissions)) {
 
 
 
-// Process each row to build the nested structure
-foreach ($contentPermissions as $row) {
-    $content_id = $row['content_id'];
-    
-    // If the post doesn't exist in the $posts array, add it
-    if (!isset($posts[$content_id])) {
-        $posts[$content_id] = [
-            'content_id' => $row['content_id'],
-            'username' => $row['username'],
-            'content_type' => $row['content_type'],
-            'content_data' => $row['content_data'],
-            'content_creation_date' => $row['content_creation_date'],
-            'content_title' => $row['content_title'],
-            'moderation_status' => $row['moderation_status'],
-            'content_feed_type' => $row['content_feed_type'],
-            'post_group_name' => $row['post_group_name'],
-            'permissions' => [] // Initialize the permissions array
-        ];
-    }
-    
-    // Add the permission to the post's permissions array
-    $posts[$content_id]['permissions'][] = [
-        'content_permission_type' => $row['content_permission_type']
-        // Add more permission-related fields here if necessary
-    ];
-}
-
-// Extract permission types into an array
-$permission_types = array_column($posts[$content_id]['permissions'], 'content_permission_type');
-// Create a space-separated string of permission types
-$permission_types_string = implode(' ', array_map('strtolower', $permission_types));
-
-// Check if comment privilege are set for the post, str_contains() outputs a boolean True if the string contains the word 'comment'
-$hasCommentPrivilege = str_contains($permission_types_string, 'comment');
-
 $sqlContent = $pdo->prepare('SELECT 
                             content_type, content_title, content_data, m.username, content_creation_date
                             FROM 
@@ -314,8 +279,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_comment']) && $ha
     
     <br><br>
     <hr>
-    <?php if ($hasCommentPrivilege): ?>
-        <form class="comment-form" data-permission-type="<?php echo htmlspecialchars($permission_types_string); ?>" method="POST">
+    <?php if ($content_comment_permission): ?>
+        <form class="comment-form" method="POST">
             <h2>Add comment on this content</h2>
                 <label for="comment">Comment:</label>
                 <input type="text" id="comment" name="comment" required>

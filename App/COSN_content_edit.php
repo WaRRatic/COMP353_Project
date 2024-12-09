@@ -426,7 +426,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <label for="permission_type">Permission Type:</label>
         <select id="permission_type" name="permission_type" required>
             <option value="read">Read</option>
-            <option value="edit">Edit</option>
             <option value="comment">Comment</option>
             <option value="share">Share</option>
             <option value="link">Link</option>
@@ -446,6 +445,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <label for="permission_type">Permission Type:</label>
         <select id="permission_type" name="permission_type" required>
             <option value="read">Read</option>
+            <option value="edit">Edit</option>
             <option value="comment">Comment</option>
             <option value="share">Share</option>
             <option value="link">Link</option>
