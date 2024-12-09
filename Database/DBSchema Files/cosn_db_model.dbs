@@ -611,6 +611,10 @@ can be either 'admin', 'member', 'requested, 'ban']]></comment>
 			<column name="message_content" type="TEXT" jt="-1" >
 				<comment><![CDATA[the actual content of the message]]></comment>
 			</column>
+			<column name="message_datetime" type="DATETIME" jt="93" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+				<comment><![CDATA[the datetime of when the message was sent out]]></comment>
+			</column>
 			<index name="pk_member_messages" unique="PRIMARY_KEY" >
 				<column name="member_message_id" />
 			</index>

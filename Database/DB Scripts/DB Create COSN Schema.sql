@@ -171,6 +171,7 @@ CREATE  TABLE kpc353_2.member_messages (
 	origin_member_id     INT UNSIGNED   NOT NULL   ,
 	target_member_id     INT UNSIGNED   NOT NULL   ,
 	message_content      TEXT       ,
+	message_datetime     DATETIME  DEFAULT CURRENT_TIMESTAMP     ,
 	CONSTRAINT fk_member_messages_members FOREIGN KEY ( origin_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION,
 	CONSTRAINT fk_member_messages_members_0 FOREIGN KEY ( target_member_id ) REFERENCES kpc353_2.members( member_id ) ON DELETE CASCADE ON UPDATE NO ACTION
  );
@@ -467,6 +468,8 @@ ALTER TABLE kpc353_2.member_messages MODIFY origin_member_id INT UNSIGNED NOT NU
 ALTER TABLE kpc353_2.member_messages MODIFY target_member_id INT UNSIGNED NOT NULL   COMMENT 'member_id that receives the message';
 
 ALTER TABLE kpc353_2.member_messages MODIFY message_content TEXT     COMMENT 'the actual content of the message';
+
+ALTER TABLE kpc353_2.member_messages MODIFY message_datetime DATETIME   DEFAULT CURRENT_TIMESTAMP  COMMENT 'the datetime of when the message was sent out';
 
 ALTER TABLE kpc353_2.member_privilege_change_request COMMENT 'Contains the privilege change request of a member, for example - a junior to senior member';
 
