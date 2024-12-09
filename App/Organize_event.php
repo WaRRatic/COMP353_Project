@@ -95,6 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="en">
 <link rel="stylesheet" type = "text/css" href="event.css" />
+<link rel="stylesheet" type = "text/css" href="COSN_members.css" />
 <head>
 <meta charset="UTF-8">
     <title>Create Event</title>
@@ -102,11 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
 <div class="main-content">
-<div class="view-content-container">
     <h1>Events accessible to you</h1>
-    <div id="center_button">
-    <button> <a href='Organize_event.php' >Organize an event</a></button>
-    </div>
     <table border="1">
         <tr>
             <th>View existing time and location options</th>
@@ -140,8 +137,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <ul>
             <li><a href="homepage.php">Back to Homepage</a></li>
         </ul>
-
-</div>
 </div>
 
 <hr>
