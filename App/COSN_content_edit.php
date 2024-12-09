@@ -338,8 +338,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <h3>Manage & Moderate Content</h3>
     <form method="POST">
-        <label for="content_type">Content Type:</label>
-        <input type="text" id="content_type" name="content_type" value="<?php echo $content_type; ?>" required><br>
+        <select name="content_type">
+            <option value="text" <?php echo ($content_type === 'text') ? 'selected' : ''; ?>>Text</option>
+            <option value="image" <?php echo ($content_type === 'image') ? 'selected' : ''; ?>>Image</option>
+            <option value="video" <?php echo ($content_type === 'video') ? 'selected' : ''; ?>>Video</option>
+        </select>
         
         <label for="content_title">Content Title:</label>
         <input type="text" id="content_title" name="content_title" value="<?php echo $content_title; ?>" ><br>
