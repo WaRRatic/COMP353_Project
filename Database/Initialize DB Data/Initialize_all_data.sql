@@ -69,7 +69,7 @@ values
     '1964-04-13', 
     'senior', 
    
-    'inactive',
+    'active',
     FALSE
   );
 
@@ -93,7 +93,7 @@ values
   (
     3, 
     'purple_haze', 
-    'jh3333', 
+    '3', 
     'jhendrix@email.com', 
     'Jimi', 
     'Hendrix', 
@@ -125,7 +125,7 @@ values
   (
     4, 
     'lizard_king', 
-    'pw4444', 
+    '4', 
     'jmorrison@email.com', 
     'Jim', 
     'Morrison', 
@@ -683,36 +683,9 @@ values
     'share'
   );
 
-  insert into 
-  kpc353_2.content_member_permission (
-    content_member_permission_id, 
-    target_content_id, 
-    authorized_member_id, 
-    content_permission_type
-  )
-values
-  (
-    6, 
-    6, 
-    2, 
-    'modify-permission'
-  );
+  
 
-  insert into 
-  kpc353_2.content_member_permission (
-    content_member_permission_id, 
-    target_content_id, 
-    authorized_member_id, 
-    content_permission_type
-  )
-values
-  (
-    7, 
-    2, 
-    1, 
-    'moderate'
-  );
-
+  
   insert into 
   kpc353_2.content_member_permission (
     content_member_permission_id, 
@@ -882,3 +855,50 @@ INSERT INTO kpc353_2.personal_info_public_permissions
   
 INSERT INTO kpc353_2.personal_info_public_permissions
 	(owner_member_id, personal_info_type) VALUES ( 3,'last_name');
+
+-- INIT MEMBER MESSAGES
+insert into kpc353_2.member_messages 
+    (origin_member_id, target_member_id, message_content)
+    values
+    (2, 1, 'wassup');
+
+insert into kpc353_2.member_messages 
+    (origin_member_id, target_member_id, message_content)
+    values
+    (1, 2, 'all good and you?');
+
+insert into kpc353_2.member_messages 
+    (origin_member_id, target_member_id, message_content)
+    values
+    (9, 2, 'dinner is readyyyy!');
+
+insert into kpc353_2.member_messages 
+    (origin_member_id, target_member_id, message_content)
+    values
+    (2, 9, 'coming!');
+
+-- INIT Private and Public permissions
+--everyone can see Steve's email
+insert into kpc353_2.personal_info_public_permissions
+(owner_member_id, personal_info_type)
+values ( 2, 'email');
+
+--only Jimi Hendrix can see Steve's address
+insert into kpc353_2.personal_info_permissions
+(owner_member_id, personal_info_type,authorized_member_id)
+values ( 2, 'address',3);
+
+--only Jim Morrison can see Steve's DOB
+insert into kpc353_2.personal_info_permissions
+(owner_member_id, personal_info_type,authorized_member_id)
+values ( 2, 'date_of_birth',4);
+
+
+
+select personal_info_type
+FROM kpc353_2.personal_info_public_permissions
+where owner_member_id = 2;
+
+SELECT owner_member_id, personal_info_type,authorized_member_id
+FROM kpc353_2.personal_info_permissions
+where owner_member_id = 2;
