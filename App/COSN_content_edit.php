@@ -198,9 +198,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $pdo->commit();
 
-        echo "<script>alert('Content approved successfully!');";
-        echo "window.location.href = 'COSN_content_edit.php?content_id='" . $content_id . ";</script>";
-
+        echo "<script>
+        alert('Content approved successfully!');
+        window.location.href = 'COSN_content_edit.php?content_id=$content_id';
+        </script>";
     }
 
     // Reject content
@@ -214,8 +215,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute(['content_id' => $content_id]);
 
         $pdo->commit();
-        echo "<script>alert('Content rejected successfully!');";
-        echo "window.location.href = 'COSN_content_edit.php?content_id='" . $content_id . ";</script>";
+        echo "<script>
+        alert('Content rejected successfully!');
+        window.location.href = 'COSN_content_edit.php?content_id=$content_id';
+        </script>";
 
     }
     elseif(isset($_POST['update_content'])){    
