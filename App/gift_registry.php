@@ -106,6 +106,21 @@ $participating_registries = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php endforeach; ?>
         <?php endif; ?>
 
+        <?php if ($participating_registries): ?>
+            <h2>Participating Registries</h2>
+            <?php foreach ($participating_registries as $registry): ?>
+                <div class="registry-item">
+                    <h3><?= htmlspecialchars($registry['gift_registry_name']) ?></h3>
+                    <p><?= htmlspecialchars($registry['gift_registry_description']) ?></p>
+                    <p>Organizer: <?= htmlspecialchars($registry['username']) ?></p>
+                    <p>Number of Items: <?= $registry['idea_count'] ?></p>
+                    <div class="button-container">
+                        <a href="view_registry.php?id=<?=$registry['gift_registry_id']?>" class="view-button">View Registry</a>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+
         <?php if (!$my_registries && !$participating_registries): ?>
             <p> You aren't part of any gift registries yet. Create one or ask to be added to an existing registry! </p>
         <?php endif; ?>
