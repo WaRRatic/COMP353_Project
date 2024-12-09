@@ -1,5 +1,5 @@
 insert into 
-  cosn.members (
+  kpc353_2.members (
     member_id, 
     username, 
     password, 
@@ -8,8 +8,7 @@ insert into
     last_name, 
     address, 
     date_of_birth, 
-    privilege_level, 
-    pseudonym, 
+    privilege_level,
     status
   )
 values
@@ -18,11 +17,10 @@ values
     'admin', 
     'admin', 
     'admin@email.com', 
-    'Josh', 
-    'Homme', 
+    'Albert', 
+    'Einstein', 
     '567 Road', 
-    '1973-04-17', 
+    '1879-03-14', 
     'administrator', 
-    'admin', 
     'active'
   );

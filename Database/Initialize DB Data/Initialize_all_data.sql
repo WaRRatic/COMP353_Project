@@ -1,46 +1,6 @@
--- truncate table kpc353_2.member_relationships;
--- truncate table kpc353_2.group_members;
--- truncate table kpc353_2.content_public_permissions;
--- truncate table kpc353_2.content_member_permission;
--- truncate table kpc353_2.content_group_permissions;
--- truncate table kpc353_2.groups;
--- truncate table kpc353_2.content;
--- truncate table kpc353_2.members;
 
 
 -- INIT_MEMBERS
--- insert a "private" system member
-insert into 
-  kpc353_2.members (
-    member_id, 
-    username, 
-    password, 
-    email, 
-    first_name, 
-    last_name, 
-    address, 
-    date_of_birth, 
-    privilege_level, 
-     
-    status,
-    corporation_flag
-  )
-values
-  (
-    1, 
-    'admin', 
-    'admin', 
-    'jhomme@email.com', 
-    'Josh', 
-    'Homme', 
-    '567 Road', 
-    '1973-04-17', 
-    'administrator', 
-     
-    'active',
-    FALSE
-  );
-
 -- insert a "public" system member
   insert into 
   kpc353_2.members (
