@@ -113,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_idea'])) {
         exit;
     }
 }
-
+//TODO: check if a gift is already marked as received before showing the 'send gift' button
 ?>
 
 <!DOCTYPE html>
@@ -140,9 +140,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_idea'])) {
                             <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete this gift idea? ');">Delete Gift idea</button>
                         </form>
                     <?php endif; ?>
+                    
                     <?php if ($registry['organizer_member_id'] != $logged_in_member_id): ?>
-                        <a href="send_gift.php?idea_id=<?= $gift['gift_registry_ideas_id'] ?>" class="send-button">Send Gift</a>
+                        <?php
+                        $stmt = $pdo->prepare("SELECT gift_status 
+                                               FROM gift_registry_gifts 
+                                               WHERE gift_registry_idea_id = :idea_id 
+                                               AND gift_status = 'received'");
+                        $stmt->execute(['idea_id' => $gift['gift_registry_ideas_id']]);
+                        $is_received = $stmt->fetch();
+                        if (!$is_received): ?>
+                            <a href="send_gift.php?idea_id=<?= $gift['gift_registry_ideas_id'] ?>" class="send-button">Send Gift</a>
+                        <?php endif; ?>
                     <?php endif; ?>
+
                     <?php if ($is_participant): ?>
                         <?php
                         //check if gift is already sent
