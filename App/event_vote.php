@@ -19,18 +19,26 @@ $memberId = $_SESSION['member_id'];
 $event_id = $_GET['group_event_id'];
 
 $sql = "SELECT 
-    group_event_options.option_description,
-    group_event_options.target_group_event_id,
-    group_event.group_event_id
-FROM 
-    group_event_options
-INNER JOIN
-    group_event
-ON 
-    group_event_options.target_group_event_id = group_event.group_event_id
-WHERE
-    group_event_options.target_group_event_id = $event_id
-;";
+    geo.option_description,
+    ge.event_name,
+    geo.target_group_event_id,
+    ge.group_event_id,
+    geo.group_event_options_id,
+    COALESCE(sum(option_voting_decision),0) as vote_count
+    FROM 
+        kpc353_2.group_event_options as geo
+            INNER JOIN kpc353_2.group_event as ge
+                ON geo.target_group_event_id = ge.group_event_id
+            LEFT JOIN kpc353_2.group_event_option_vote as geo_v
+                ON geo_v.target_group_event_option_id = geo.group_event_options_id
+    WHERE
+    geo.target_group_event_id = $event_id
+    GROUP BY    
+        geo.option_description,
+        ge.event_name,
+        geo.target_group_event_id,
+        geo.group_event_options_id,
+        ge.group_event_id;";
 $result = $conn->query($sql);
 ?>
 
@@ -38,16 +46,20 @@ $result = $conn->query($sql);
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type = "text/css" href="COSN_members.css"/>
+    <link rel="stylesheet" type = "text/css" href="event.css"/>
     <title>Vote on Event</title>
 </head>
 <body>
 <div class="main-content">
+<div class="view-content-container">
     <h1>Dates</h1>
     <table border="1">
         <tr>
+            <th>Vote action</th>
+            <th>Vote counter</th>
+            <th>Option: Suggested Date, Time, Location</th>
+            <th>Event Name</th>
             <th></th>
-            <th>Suggested Date, Time, Location</th>
         </tr>
         
         <?php
@@ -56,8 +68,10 @@ $result = $conn->query($sql);
             // Output data of each row
             while($row = $result->fetch_assoc()) {
                 echo "<tr>";
-                echo "<td><button onclick=\"alert('Your votes has been submited!')\">Vote for this date</button></td>";
+                echo "<td><a href='COSN_group_event_option_vote.php?group_event_id=" . $row['group_event_id'] . "&group_event_option_id=".$row['group_event_options_id'] ."'><button>Vote for this date</button></a></td>";
+                echo "<td>" . $row['vote_count'] . "</td>";
                 echo "<td>" . $row['option_description'] . "</td>";
+                echo "<td>" . $row['event_name'] . "</td>";
                 echo "</td>";
                 echo "</tr>";
             }
@@ -69,6 +83,7 @@ $result = $conn->query($sql);
         $conn->close();
         ?>
     </table>
+</div>
 </div>
 </body>
 </html>

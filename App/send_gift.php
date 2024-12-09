@@ -1,6 +1,6 @@
 <?php
     session_start();
-    include("db.php");
+    include("db_config.php");
     include("header.php");
     include('sidebar.php');
 
@@ -14,9 +14,9 @@
 
     //get gift details
     $sql = "SELECT gri.gift_registry_ideas_id, gri.target_gift_registry_id, gri.gift_idea_description, gr.gift_registry_name, gr.organizer_member_id, m.username as recipient_name
-            FROM gift_registry_ideas gri
-            JOIN gift_registry gr ON gri.target_gift_registry_id = gr.gift_registry_id
-            JOIN members m ON gr.organizer_member_id = m.member_id
+            FROM kpc353_2.gift_registry_ideas gri
+            JOIN kpc353_2.gift_registry gr ON gri.target_gift_registry_id = gr.gift_registry_id
+            JOIN kpc353_2.members m ON gr.organizer_member_id = m.member_id
             WHERE gri.gift_registry_ideas_id = :idea_id";
     
     $stmt = $pdo->prepare($sql);
@@ -36,7 +36,7 @@
 
     //check for duplicate gifts
     $sql = "SELECT gift_id
-            FROM gift_registry_gifts
+            FROM kpc353_2.gift_registry_gifts
             WHERE gift_registry_idea_id = :idea_id
             AND sender_member_id = :sender_id
             AND gift_status != 'received'";
@@ -55,7 +55,7 @@
 
     //handle form submission
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $sql = "INSERT INTO gift_registry_gifts
+        $sql = "INSERT INTO kpc353_2.gift_registry_gifts
                 (target_gift_registry_id, gift_registry_idea_id, sender_member_id, gift_status)
                 VALUES (:registry_id, :idea_id, :sender_id, 'sent')";
         
@@ -67,7 +67,7 @@
         ])) {
             //notification message
             $message = "sent you a gift from your registry: " . $gift_idea['gift_idea_description'];
-            $sql = "INSERT INTO member_messages
+            $sql = "INSERT INTO kpc353_2.member_messages
                     (origin_member_id, target_member_id, message_content)
                     VALUES (:sender_id, :recipient_id, :message)";
             $stmt = $pdo->prepare($sql);
