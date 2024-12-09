@@ -59,10 +59,10 @@ $sql = $pdo->prepare("
         content_id, m.username, content_type, content_data, content_creation_date, content_title, moderation_status, 
         cpp.content_public_permission_type AS content_permission_type, 'public' as content_feed_type
     FROM
-        cosn.content as cont
-    INNER JOIN cosn.content_public_permissions as cpp
+        kpc353_2.content as cont
+    INNER JOIN kpc353_2.content_public_permissions as cpp
         ON cont.content_id = cpp.target_content_id
-    INNER JOIN cosn.members as m
+    INNER JOIN kpc353_2.members as m
         ON cont.creator_id = m.member_id
     WHERE 
         content_id = :content_id AND
@@ -73,10 +73,10 @@ $sql = $pdo->prepare("
         content_id, m.username, content_type, content_data, content_creation_date, content_title, moderation_status, 
         cmp.content_permission_type AS content_permission_type, 'private' as content_feed_type
     FROM
-        cosn.content as cont
-    INNER JOIN cosn.content_member_permission as cmp
+        kpc353_2.content as cont
+    INNER JOIN kpc353_2.content_member_permission as cmp
         ON cont.content_id = cmp.target_content_id
-    INNER JOIN cosn.members as m
+    INNER JOIN kpc353_2.members as m
         ON cont.creator_id = m.member_id
     WHERE
         content_id = :content_id AND

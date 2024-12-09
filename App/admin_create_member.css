@@ -1,13 +1,12 @@
- /* Night Mode Styles */
- body {
+/* Night Mode Styles */
+body {
     background-color: #1a1a1a;
     color: #e0e0e0;
     font-family: Arial, sans-serif;
     transition: background-color 0.3s, color 0.3s;
 }
 .container {
-    max-width: 800px;
-    
+    max-width: 400px;
     margin: auto;
     padding: 20px;
     text-align: center;

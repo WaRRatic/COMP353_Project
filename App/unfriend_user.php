@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'db_config.php';
+include 'db.php';
 
 if (!isset($_SESSION['member_id'])) {
     echo json_encode(['status' => 'error', 'message' => 'User not logged in']);

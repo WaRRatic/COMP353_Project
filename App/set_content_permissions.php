@@ -2,14 +2,14 @@
 //include("header.php");
 //include('sidebar.php'); ?>
 <!-- 
-CREATE  TABLE cosn.content_member_permission ( 
+CREATE  TABLE kpc353_2.content_member_permission ( 
 	content_member_permission_id INT UNSIGNED   NOT NULL   PRIMARY KEY,
 	target_content_id    INT UNSIGNED      ,
 	authorized_member_id INT UNSIGNED      ,
 	content_permission_type ENUM('read','edit','comment','share','modify-permission','moderate','link')       
  ) engine=InnoDB; -->
 
- <!-- CREATE  TABLE cosn.content_public_permissions ( 
+ <!-- CREATE  TABLE kpc353_2.content_public_permissions ( 
 	content_public_permission_id INT UNSIGNED   NOT NULL AUTO_INCREMENT   PRIMARY KEY,
 	target_content_id    INT UNSIGNED      ,
 	content_public_permission_type ENUM('read','comment','share','link')       

@@ -9,8 +9,8 @@ $member_id = $_SESSION['member_id'];
 $sql = "
     SELECT g.group_id, g.group_name, g.description, g.creation_date, g.cathegory, 
            gm.role_of_member AS role
-    FROM cosn.groups g
-    INNER JOIN cosn.group_members gm ON g.group_id = gm.joined_group_id
+    FROM kpc353_2.groups g
+    INNER JOIN kpc353_2.group_members gm ON g.group_id = gm.joined_group_id
     WHERE gm.participant_member_id = ? 
     ORDER BY g.creation_date DESC";
 

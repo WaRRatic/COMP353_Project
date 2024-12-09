@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'db_config.php'; //include database connection
+include 'db.php'; //include database connection
 
 if (!isset($_SESSION['member_id'])) {
     echo json_encode(['status' => 'error', 'message' => 'User not logged in']);
@@ -14,7 +14,7 @@ $sql = "
         u.member_id AS friend_id,
         u.name AS friend_name
     FROM 
-        kpc353_2.member_relationships r
+        member_relationships r
     JOIN 
         users u
     ON 

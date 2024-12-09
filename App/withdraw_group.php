@@ -17,7 +17,7 @@ if (isset($_POST['group_id']))
     $group_id = $_POST['group_id'];
 
     // Prepare the SQL query to check if the user is a member of the group
-    $stmt = $conn->prepare("SELECT * FROM cosn.group_members WHERE participant_member_id = ? AND joined_group_id = ?");
+    $stmt = $conn->prepare("SELECT * FROM kpc353_2.group_members WHERE participant_member_id = ? AND joined_group_id = ?");
     $stmt->bind_param("ii", $member_id, $group_id);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -26,7 +26,7 @@ if (isset($_POST['group_id']))
     if ($result->num_rows > 0) 
     {
         // SQL to remove the user from the group
-        $stmt = $conn->prepare("DELETE FROM cosn.group_members WHERE participant_member_id = ? AND joined_group_id = ?");
+        $stmt = $conn->prepare("DELETE FROM kpc353_2.group_members WHERE participant_member_id = ? AND joined_group_id = ?");
         $stmt->bind_param("ii", $member_id, $group_id);
 
         if ($stmt->execute()) {

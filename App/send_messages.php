@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'db_config.php'; //include database connection
+include 'db.php'; //include database connection
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode(['status' => 'error', 'message' => 'Invalid request']);

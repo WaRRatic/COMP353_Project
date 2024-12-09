@@ -62,10 +62,10 @@ $sql = $pdo->prepare("
         content_id, m.username, content_type, content_data, content_creation_date, content_title, moderation_status, 
         cpp.content_public_permission_type AS content_permission_type, 'public' as content_feed_type
     FROM
-        cosn.content as cont
-    INNER JOIN cosn.content_public_permissions as cpp
+        kpc353_2.content as cont
+    INNER JOIN kpc353_2.content_public_permissions as cpp
         ON cont.content_id = cpp.target_content_id
-    INNER JOIN cosn.members as m
+    INNER JOIN kpc353_2.members as m
         ON cont.creator_id = m.member_id
     WHERE 
         content_id = :content_id AND  
@@ -76,10 +76,10 @@ $sql = $pdo->prepare("
         content_id, m.username, content_type, content_data, content_creation_date, content_title, moderation_status, 
         cmp.content_permission_type AS content_permission_type, 'private' as content_feed_type
     FROM
-        cosn.content as cont
-    INNER JOIN cosn.content_member_permission as cmp
+        kpc353_2.content as cont
+    INNER JOIN kpc353_2.content_member_permission as cmp
         ON cont.content_id = cmp.target_content_id
-    INNER JOIN cosn.members as m
+    INNER JOIN kpc353_2.members as m
         ON cont.creator_id = m.member_id
     WHERE
         content_id = :content_id AND
@@ -91,14 +91,14 @@ $sql = $pdo->prepare("
         content_id, m.username, content_type, content_data, content_creation_date, content_title, moderation_status, 
         cgp.content_group_permission_type AS content_permission_type, 'group' as content_feed_type
     FROM
-        cosn.content as cont
-    INNER JOIN cosn.content_group_permissions as cgp
+        kpc353_2.content as cont
+    INNER JOIN kpc353_2.content_group_permissions as cgp
         ON cont.content_id = cgp.target_content_id
-    INNER JOIN cosn.groups as g
+    INNER JOIN kpc353_2.groups as g
         ON g.group_id = cgp.target_group_id
-    INNER JOIN cosn.group_members as gm
+    INNER JOIN kpc353_2.group_members as gm
         on gm.joined_group_id = g.group_id
-    INNER JOIN cosn.members as m
+    INNER JOIN kpc353_2.members as m
         ON m.member_id = gm.participant_member_id
     WHERE 
         content_id = :content_id AND
@@ -109,10 +109,10 @@ $sql = $pdo->prepare("
     ");
 
 $sql->execute(['logged_in_member_id' => $member_id, 'content_id'=>$content_id]);
-$readPermissionExists = $sql->fetch();
+$contentPermission = $sql->fetch();
 
 // Check if the member has Edit privilege on the content
-if (!$readPermissionExists) {
+if (!$contentPermission) {
     echo "<script>alert('You don't have permission to comment on this content or it was not moderated yet');</script>";
     header("Location: homepage.php"); 
     exit;
@@ -241,8 +241,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_comment'])) {
             ?>
             <hr>
             <small>
-                <br>Creator: <?php echo htmlspecialchars($readPermissionExists['username']); ?>
-                <br>Creation Date: <?php echo htmlspecialchars($readPermissionExists['content_creation_date']); ?>
+                <br>Creator: <?php echo htmlspecialchars($contentPermission['username']); ?>
+                <br>Creation Date: <?php echo htmlspecialchars($contentPermission['content_creation_date']); ?>
                 <br>
                 Content Type: <?php echo htmlspecialchars($content_type); ?>
             </small>

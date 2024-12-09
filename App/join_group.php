@@ -13,7 +13,7 @@ if (isset($_POST['group_id'])) {
     $group_id = $_POST['group_id'];
 
     // Insert the user into the group
-    $stmt = $conn->prepare("INSERT INTO cosn.group_members (participant_member_id, joined_group_id, role_of_member) 
+    $stmt = $conn->prepare("INSERT INTO kpc353_2.group_members (participant_member_id, joined_group_id, role_of_member) 
                             VALUES (?, ?, 'member')");
     $stmt->bind_param("ii", $member_id, $group_id);
     $stmt->execute();

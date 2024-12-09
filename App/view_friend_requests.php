@@ -1,14 +1,14 @@
 <?php
 session_start();
-include 'db_config.php'; // Include database connection
+include 'db.php'; // Include database connection
 
 
 $user_id = $_SESSION['user_id'];
 
 // Fetch friend requests sent to the logged-in user (receiver)
 $stmt = $conn->prepare("SELECT mr.relationship_id, mm1.member_id AS sender_id, mm1.username AS sender_name
-                        FROM cosn.member_relationships mr
-                        JOIN cosn.members mm1 ON mm1.member_id = mr.origin_member_id
+                        FROM kpc353_2.member_relationships mr
+                        JOIN kpc353_2.members mm1 ON mm1.member_id = mr.origin_member_id
                         WHERE mr.target_member_id = ? AND mr.member_relationship_type = 'friend' AND mr.member_relationship_status = 'requested'");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();

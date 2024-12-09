@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'db_config.php'; //include database connection
+include 'db.php'; //include database connection
 
 if (isset($_POST['blocked_id'])) 
 {
@@ -8,7 +8,7 @@ if (isset($_POST['blocked_id']))
     $blocked_id = $_POST['blocked_id'];
 
     $stmt = $conn->prepare("SELECT * 
-                            FROM cosn.member_realtionships
+                            FROM kpc353_2.member_realtionships
                             WHERE (origin_member_id = ? AND target_member_id = ?
                             OR origin_member_id = ? AND target_member_id = ?)
                             AND member_relationshp_type = 'blocked'");

@@ -20,7 +20,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['privilege_level'] !== 'administr
 $host = "localhost";
 $user = "root";
 $pass = "";
-$db = "kpc353_2";
+$db = "cosn";
 
 // Create a database connection
 $conn = new mysqli($host, $user, $pass, $db);

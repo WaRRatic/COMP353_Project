@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("db_config.php");
+include("db.php");
 
 
 $member_id = $_SESSION['member_id'];
@@ -8,8 +8,8 @@ $member_id = $_SESSION['member_id'];
 // Query to fetch blocked users
 $sql = "
     SELECT m.user_id, m.username, m.first_name, m.last_name
-    FROM cosn.member_realtionships mr
-    INNER JOIN cosn.members m ON m.user_id = mr.target_member_id
+    FROM kpc353_2.member_realtionships mr
+    INNER JOIN kpc353_2.members m ON m.user_id = mr.target_member_id
     WHERE mr.origin_member_id = ? AND mr.member_relationship_type = 'blocked' 
     AND mr.member_relationship_status = 'approved'";
 

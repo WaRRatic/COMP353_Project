@@ -26,10 +26,14 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['privilege_level'] !== 'administr
 $conn = new mysqli($host, $user, $pass, $db);
 
 // Query to get all members
-$sql = "SELECT member_id,username,password,email,first_name,last_name,address,date_of_birth,privilege_level,pseudonym,status 
-FROM members
-where member_deleted_flag = false
-;";
+$sql = "
+    SELECT 
+        member_id,username,password,email,first_name,last_name,address,date_of_birth,privilege_level,status 
+    FROM 
+        members
+    WHERE 
+        member_deleted_flag = false
+    ;";
 $result = $conn->query($sql);
 ?>
 
@@ -59,7 +63,7 @@ $result = $conn->query($sql);
             <th>Address</th>
             <th>Date of Birth</th>
             <th>Privilege level</th>
-            <th>Pseudonym</th>
+
             <th>Status</th>
         </tr>
         
@@ -79,7 +83,7 @@ $result = $conn->query($sql);
                 echo "<td>" . $row['address'] . "</td>";
                 echo "<td>" . $row['date_of_birth'] . "</td>";
                 echo "<td>" . $row['privilege_level'] . "</td>";
-                echo "<td>" . $row['pseudonym'] . "</td>";
+
                 echo "<td>" . $row['status'] . "</td>";
                 echo "<td>";
                 echo "</form>";

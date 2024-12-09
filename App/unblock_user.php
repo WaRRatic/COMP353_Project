@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'db_config.php';
+include 'db.php';
 
 if (!isset($_SESSION['user_id'])) {
     echo "You must be logged in to perform this action.";
@@ -14,7 +14,7 @@ if (isset($_POST['blocked_id'])) {
 
     // Delete the blocking relationship from the database
     $stmt = $conn->prepare("
-        DELETE FROM cosn.member_realtionships
+        DELETE FROM kpc353_2.member_realtionships
         WHERE origin_member_id = ? AND target_member_id = ? 
         AND member_relationship_type = 'blocked' AND member_relationship_status = 'approved'
     ");
