@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<project name="MariaDb" database="MySql" id="MySql-2236" >
+<project name="MariaDb" database="MySql" id="MySql-245a" >
 	<schema name="kpc353_2" >
 		<table name="content" prior="content_data" >
 			<comment><![CDATA[contains the content created by members]]></comment>
@@ -16,8 +16,8 @@
 			<column name="content_data" prior="content_data_url" type="TEXT" jt="-1" mandatory="y" >
 				<comment><![CDATA[text or URL link to the data of the content]]></comment>
 			</column>
-			<column name="content_creation_date" prior="creation_date" type="DATE" jt="91" mandatory="y" >
-				<defo><![CDATA[curdate()]]></defo>
+			<column name="content_creation_date" prior="creation_date" type="DATETIME" jt="93" mandatory="y" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
 				<comment><![CDATA[when was the content created]]></comment>
 			</column>
 			<column name="content_title" type="VARCHAR" length="100" jt="12" >
@@ -28,33 +28,28 @@
 				<enumeration><![CDATA['pending', 'approved', 'rejected']]></enumeration>
 				<comment><![CDATA[status of the piece of content in terms of moderation]]></comment>
 			</column>
-			<column name="content_deleted_flag" type="BOOLEAN" jt="16" mandatory="y" >
-				<defo><![CDATA[false]]></defo>
-				<comment><![CDATA[used to "delete" content by users]]></comment>
-			</column>
 			<index name="pk_content_data" unique="PRIMARY_KEY" >
 				<column name="content_id" />
 			</index>
 			<index name="fk_content_members" unique="NORMAL" >
 				<column name="creator_id" />
 			</index>
-			<fk name="fk_content_members" to_schema="kpc353_2" to_table="members" >
+			<fk name="fk_content_members" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
 				<fk_column name="creator_id" pk="member_id" />
 			</fk>
-			<options><![CDATA[Qengine=InnoDBE]]></options>
 		</table>
 		<table name="content_comment" prior="tbl" >
 			<comment><![CDATA[table containing comments on content from members]]></comment>
 			<column name="content_comment_id" prior="content_comment" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
 			</column>
-			<column name="commenter_member_id" type="INT" jt="4" unsigned="y" >
+			<column name="commenter_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[the member who made the content]]></comment>
 			</column>
 			<column name="comment_text" type="VARCHAR" length="250" jt="12" >
 				<comment><![CDATA[the actual text of the comment on a certain piece of content]]></comment>
 			</column>
-			<column name="target_content_id" type="INT" jt="4" unsigned="y" >
+			<column name="target_content_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[the content which is the target of the comment]]></comment>
 			</column>
 			<column name="datetime_comment" type="DATETIME" jt="93" >
@@ -63,27 +58,26 @@
 			<index name="pk_content_comment" unique="PRIMARY_KEY" >
 				<column name="content_comment_id" />
 			</index>
-			<fk name="fk_content_comment_members" to_schema="kpc353_2" to_table="members" >
+			<fk name="fk_content_comment_members" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
 				<fk_column name="commenter_member_id" pk="member_id" />
 			</fk>
-			<fk name="fk_content_comment_content" to_schema="kpc353_2" to_table="content" >
+			<fk name="fk_content_comment_content" to_schema="kpc353_2" to_table="content" delete_action="cascade" >
 				<fk_column name="target_content_id" pk="content_id" />
 			</fk>
-			<options><![CDATA[Qengine=InnoDBE]]></options>
 		</table>
 		<table name="content_group_permissions" prior="tbl" >
 			<comment><![CDATA[table describing which groups can access to what content]]></comment>
 			<column name="content_group_permission_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
 			</column>
-			<column name="target_content_id" type="INT" jt="4" unsigned="y" >
+			<column name="target_content_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[the specific piece of conent, defined by content_id on which a particular group has certain permission]]></comment>
 			</column>
 			<column name="target_group_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[the particular group which has a certain permission on a specific content]]></comment>
 			</column>
 			<column name="content_group_permission_type" type="ENUM" jt="12" >
-				<enumeration><![CDATA['read','comment','share','link']]></enumeration>
+				<enumeration><![CDATA['read','comment','share','link','edit']]></enumeration>
 				<comment><![CDATA[the type of permission that a particular group has on a certain piece of content]]></comment>
 			</column>
 			<index name="pk_content_group_permissions" unique="PRIMARY_KEY" >
@@ -95,23 +89,22 @@
 			<index name="fk_content_group_permissions_groups" unique="NORMAL" >
 				<column name="target_group_id" />
 			</index>
-			<fk name="fk_content_group_permissions_content" to_schema="kpc353_2" to_table="content" >
+			<fk name="fk_content_group_permissions_content" to_schema="kpc353_2" to_table="content" delete_action="cascade" >
 				<fk_column name="target_content_id" pk="content_id" />
 			</fk>
-			<fk name="fk_content_group_permissions_groups" to_schema="kpc353_2" to_table="groups" >
+			<fk name="fk_content_group_permissions_groups" to_schema="kpc353_2" to_table="groups" delete_action="cascade" >
 				<fk_column name="target_group_id" pk="group_id" />
 			</fk>
-			<options><![CDATA[Qengine=InnoDBE]]></options>
 		</table>
 		<table name="content_link_relationship" prior="content_" >
 			<comment><![CDATA[Describes the way that content s linked between each other such as a comment to a post]]></comment>
 			<column name="content_link_rel_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
 			</column>
-			<column name="origin_content_id" type="INT" jt="4" unsigned="y" >
+			<column name="origin_content_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[ContendID of the piece of content to which another piece of content is linked]]></comment>
 			</column>
-			<column name="target_content_id" prior="targrt_content_id" type="INT" jt="4" unsigned="y" >
+			<column name="target_content_id" prior="targrt_content_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[Identifies the piece of content that is linked to the origin contentID]]></comment>
 			</column>
 			<index name="pk_content_link_relationship" unique="PRIMARY_KEY" >
@@ -123,33 +116,32 @@
 			<index name="fk_content_link_relationship_content_0" unique="NORMAL" >
 				<column name="target_content_id" />
 			</index>
-			<fk name="fk_content_link_relationship_content_1" to_schema="kpc353_2" to_table="content" >
+			<fk name="fk_content_link_relationship_content_1" to_schema="kpc353_2" to_table="content" delete_action="cascade" >
 				<fk_column name="origin_content_id" pk="content_id" />
 			</fk>
-			<fk name="fk_content_link_relationship_content_2" to_schema="kpc353_2" to_table="content" >
+			<fk name="fk_content_link_relationship_content_2" to_schema="kpc353_2" to_table="content" delete_action="cascade" >
 				<fk_column name="target_content_id" pk="content_id" />
 			</fk>
-			<options><![CDATA[Qengine=InnoDBE]]></options>
 		</table>
 		<table name="content_member_permission" prior="content_permissions" >
 			<comment><![CDATA[allows for setting the granular permissions to a particular piece of content, targeted at a particular member]]></comment>
 			<column name="content_member_permission_id" prior="content_permission_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
 			</column>
-			<column name="target_content_id" type="INT" jt="4" unsigned="y" >
+			<column name="target_content_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[the specific piece of conent, defined by content_id on which a particular member has a certain permission]]></comment>
 			</column>
-			<column name="authorized_member_id" type="INT" jt="4" unsigned="y" >
+			<column name="authorized_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[which member_id has a specific permission to do something with a specific content_id
 
 authorized_member_id = 1 is "private" system member
 authorized_member_id = 2 is "public" system member]]></comment>
 			</column>
 			<column name="content_permission_type" type="ENUM" jt="12" >
-				<enumeration><![CDATA['read','edit','comment','share','modify-permission','moderate','link']]></enumeration>
+				<enumeration><![CDATA['read','edit','comment','share','link']]></enumeration>
 				<comment><![CDATA[the type of permission that the authorized_member_id has on this particular piece of content
 can be
-'read','edit','comment','share','modify-permission','moderate','link']]></comment>
+'read','edit','comment','share','link']]></comment>
 			</column>
 			<index name="pk_content_permissions" unique="PRIMARY_KEY" >
 				<column name="content_member_permission_id" />
@@ -160,13 +152,12 @@ can be
 			<index name="fk_content_permissions_members" unique="NORMAL" >
 				<column name="authorized_member_id" />
 			</index>
-			<fk name="fk_content_permissions_members" to_schema="kpc353_2" to_table="members" >
+			<fk name="fk_content_permissions_members" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
 				<fk_column name="authorized_member_id" pk="member_id" />
 			</fk>
-			<fk name="fk_content_member_permission_content" to_schema="kpc353_2" to_table="content" >
+			<fk name="fk_content_member_permission_content" to_schema="kpc353_2" to_table="content" delete_action="cascade" >
 				<fk_column name="target_content_id" pk="content_id" />
 			</fk>
-			<options><![CDATA[Qengine=InnoDBE]]></options>
 		</table>
 		<table name="content_moderation_warning" prior="content_moderation_" >
 			<comment><![CDATA[Contains the moderation warning for content posted by a member (if the content was "flagged" by a moderator]]></comment>
@@ -194,16 +185,15 @@ can be
 			<index name="fk_content_moderation_warning_members" unique="NORMAL" >
 				<column name="moderator_member_id" />
 			</index>
-			<fk name="fk_content_moderation_warning_content" to_schema="kpc353_2" to_table="content" >
+			<fk name="fk_content_moderation_warning_content" to_schema="kpc353_2" to_table="content" delete_action="cascade" >
 				<fk_column name="target_content_id" pk="content_id" />
 			</fk>
-			<fk name="fk_content_moderation_warning_content_0" to_schema="kpc353_2" to_table="content" >
+			<fk name="fk_content_moderation_warning_content_0" to_schema="kpc353_2" to_table="content" delete_action="cascade" >
 				<fk_column name="owner_member_id" pk="creator_id" />
 			</fk>
-			<fk name="fk_content_moderation_warning_members" to_schema="kpc353_2" to_table="members" >
+			<fk name="fk_content_moderation_warning_members" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
 				<fk_column name="moderator_member_id" pk="member_id" />
 			</fk>
-			<options><![CDATA[Qengine=InnoDBE]]></options>
 		</table>
 		<table name="content_public_permissions" prior="content_public_permission" >
 			<comment><![CDATA[Defines which content is public]]></comment>
@@ -211,7 +201,7 @@ can be
 				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
 				<comment><![CDATA[The synthetic PK (surrogate key)]]></comment>
 			</column>
-			<column name="target_content_id" type="INT" jt="4" unsigned="y" >
+			<column name="target_content_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[the specific piece of conent, defined by content_id on which the public has certain permission]]></comment>
 			</column>
 			<column name="content_public_permission_type" type="ENUM" jt="12" >
@@ -226,10 +216,9 @@ can be
 			<index name="fk_content_public_permissions_content" unique="NORMAL" >
 				<column name="target_content_id" />
 			</index>
-			<fk name="fk_content_public_permissions_content" to_schema="kpc353_2" to_table="content" >
+			<fk name="fk_content_public_permissions_content" to_schema="kpc353_2" to_table="content" delete_action="cascade" >
 				<fk_column name="target_content_id" pk="content_id" />
 			</fk>
-			<options><![CDATA[Qengine=InnoDBE]]></options>
 		</table>
 		<table name="gift_registry" prior="tbl" >
 			<comment><![CDATA[Describes gift registry entity that different members can attach gift ideas to.]]></comment>
@@ -239,16 +228,63 @@ can be
 			<column name="organizer_member_id" prior="organized_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[ID of a particular gift registry organizer]]></comment>
 			</column>
+			<column name="gift_registry_description" type="VARCHAR" length="100" jt="12" >
+				<comment><![CDATA[Description for the particular gift registry]]></comment>
+			</column>
+			<column name="gift_registry_name" type="VARCHAR" length="100" jt="12" >
+				<comment><![CDATA[name of the particular registry]]></comment>
+			</column>
 			<index name="pk_gift_registry" unique="PRIMARY_KEY" >
 				<column name="gift_registry_id" />
 			</index>
 			<index name="fk_gift_registry_members" unique="NORMAL" >
 				<column name="organizer_member_id" />
 			</index>
-			<fk name="fk_gift_registry_members" to_schema="kpc353_2" to_table="members" >
+			<fk name="fk_gift_registry_members" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
 				<fk_column name="organizer_member_id" pk="member_id" />
 			</fk>
-			<options><![CDATA[Qengine=InnoDBE]]></options>
+		</table>
+		<table name="gift_registry_gifts" prior="tbl" >
+			<comment><![CDATA[contains gifts sent from gift registry]]></comment>
+			<column name="gift_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
+			</column>
+			<column name="target_gift_registry_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[the gift registry from which the gift is taken]]></comment>
+			</column>
+			<column name="gift_registry_idea_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[target gift idea from a specific gift registry]]></comment>
+			</column>
+			<column name="sender_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[the member who is sending the gift]]></comment>
+			</column>
+			<column name="target_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<comment><![CDATA[the member who will receive the gift]]></comment>
+			</column>
+			<column name="gift_status" type="ENUM" jt="12" mandatory="y" >
+				<defo><![CDATA['pending']]></defo>
+				<enumeration><![CDATA['pending','sent','received']]></enumeration>
+				<comment><![CDATA[the status of the gift transaction]]></comment>
+			</column>
+			<column name="gift_date" type="DATETIME" jt="93" mandatory="y" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+				<comment><![CDATA[the datetime when the gift was sent out]]></comment>
+			</column>
+			<index name="pk_gift_registry_gifts" unique="PRIMARY_KEY" >
+				<column name="gift_id" />
+			</index>
+			<fk name="fk_gift_registry_gifts_gift_registry" to_schema="kpc353_2" to_table="gift_registry" delete_action="cascade" >
+				<fk_column name="target_gift_registry_id" pk="gift_registry_id" />
+			</fk>
+			<fk name="fk_gift_registry_gifts_gift_registry_ideas" to_schema="kpc353_2" to_table="gift_registry_ideas" delete_action="cascade" >
+				<fk_column name="gift_registry_idea_id" pk="gift_registry_ideas_id" />
+			</fk>
+			<fk name="fk_gift_registry_gifts_members" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
+				<fk_column name="sender_member_id" pk="member_id" />
+			</fk>
+			<fk name="fk_gift_registry_gifts_members_0" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
+				<fk_column name="target_member_id" pk="member_id" />
+			</fk>
 		</table>
 		<table name="gift_registry_ideas" prior="gift_registr" >
 			<comment><![CDATA[describes gift ideas for a particular registry]]></comment>
@@ -273,13 +309,12 @@ can be
 			<index name="fk_gift_registry_ideas_gift_registry_participants" unique="NORMAL" >
 				<column name="idea_owner_id" />
 			</index>
-			<fk name="fk_gift_registry_ideas_gift_registry_0" to_schema="kpc353_2" to_table="gift_registry" >
+			<fk name="fk_gift_registry_ideas_gift_registry_0" to_schema="kpc353_2" to_table="gift_registry" delete_action="cascade" >
 				<fk_column name="target_gift_registry_id" pk="gift_registry_id" />
 			</fk>
-			<fk name="fk_gift_registry_ideas_members" to_schema="kpc353_2" to_table="members" >
+			<fk name="fk_gift_registry_ideas_members" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
 				<fk_column name="idea_owner_id" pk="member_id" />
 			</fk>
-			<options><![CDATA[Qengine=InnoDBE]]></options>
 		</table>
 		<table name="gift_registry_participants" prior="tbl" >
 			<comment><![CDATA[Contains the participants of a particular gift registry]]></comment>
@@ -301,23 +336,22 @@ can be
 			<index name="fk_gift_registry_participants_members" unique="NORMAL" >
 				<column name="participant_member_id" />
 			</index>
-			<fk name="fk_gift_registry_participants_members" to_schema="kpc353_2" to_table="members" >
+			<fk name="fk_gift_registry_participants_members" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
 				<fk_column name="participant_member_id" pk="member_id" />
 			</fk>
-			<fk name="fk_gift_registry_participants_gift_registry" to_schema="kpc353_2" to_table="gift_registry" >
+			<fk name="fk_gift_registry_participants_gift_registry" to_schema="kpc353_2" to_table="gift_registry" delete_action="cascade" >
 				<fk_column name="target_gift_registry_id" pk="gift_registry_id" />
 			</fk>
-			<options><![CDATA[Qengine=InnoDBE]]></options>
 		</table>
 		<table name="gift_registry_permissions" prior="gifr_registry_permissions" >
 			<comment><![CDATA[contains the permissions that members have on a gift registry]]></comment>
 			<column name="gift_registry_permissions_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
 			</column>
-			<column name="target_gift_registry_id" type="INT" jt="4" unsigned="y" >
+			<column name="target_gift_registry_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[The target ID of the gift registry on which a particular members pemission is defined]]></comment>
 			</column>
-			<column name="authorized_member_id" type="INT" jt="4" unsigned="y" >
+			<column name="authorized_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[the ID of the member that has a certain permission on a certain gift registry]]></comment>
 			</column>
 			<column name="gift_registry_permission_type" type="ENUM" jt="12" >
@@ -329,13 +363,12 @@ can be 'view', 'edit', 'add-item']]></comment>
 			<index name="pk_gift_registry_permissions" unique="PRIMARY_KEY" >
 				<column name="gift_registry_permissions_id" />
 			</index>
-			<fk name="fk_gift_registry_permissions_gift_registry" to_schema="kpc353_2" to_table="gift_registry" >
+			<fk name="fk_gift_registry_permissions_gift_registry" to_schema="kpc353_2" to_table="gift_registry" delete_action="cascade" >
 				<fk_column name="target_gift_registry_id" pk="gift_registry_id" />
 			</fk>
-			<fk name="fk_gift_registry_permissions_members" to_schema="kpc353_2" to_table="members" >
+			<fk name="fk_gift_registry_permissions_members" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
 				<fk_column name="authorized_member_id" pk="member_id" />
 			</fk>
-			<options><![CDATA[Qengine=InnoDBE]]></options>
 		</table>
 		<table name="group_event" prior="event" >
 			<comment><![CDATA[contains the events organized for particular groups]]></comment>
@@ -360,13 +393,12 @@ can be 'view', 'edit', 'add-item']]></comment>
 			<index name="fk_group_event_members" unique="NORMAL" >
 				<column name="event_organizer_member_id" />
 			</index>
-			<fk name="fk_group_event_groups" to_schema="kpc353_2" to_table="groups" >
+			<fk name="fk_group_event_groups" to_schema="kpc353_2" to_table="groups" delete_action="cascade" >
 				<fk_column name="target_group_id" pk="group_id" />
 			</fk>
-			<fk name="fk_group_event_members" to_schema="kpc353_2" to_table="members" >
+			<fk name="fk_group_event_members" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
 				<fk_column name="event_organizer_member_id" pk="member_id" />
 			</fk>
-			<options><![CDATA[Qengine=InnoDBE]]></options>
 		</table>
 		<table name="group_event_option_vote" prior="tbl" >
 			<comment><![CDATA[contains the voting results of a particular member for a particular event option proposed]]></comment>
@@ -391,13 +423,12 @@ can be 'view', 'edit', 'add-item']]></comment>
 			<index name="fk_group_event_option_vote_members" unique="NORMAL" >
 				<column name="option_voter_member_id" />
 			</index>
-			<fk name="fk_group_event_option_vote_group_event_options" to_schema="kpc353_2" to_table="group_event_options" >
+			<fk name="fk_group_event_option_vote_group_event_options" to_schema="kpc353_2" to_table="group_event_options" delete_action="cascade" >
 				<fk_column name="target_group_event_option_id" pk="group_event_options_id" />
 			</fk>
-			<fk name="fk_group_event_option_vote_members" to_schema="kpc353_2" to_table="members" >
+			<fk name="fk_group_event_option_vote_members" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
 				<fk_column name="option_voter_member_id" pk="member_id" />
 			</fk>
-			<options><![CDATA[Qengine=InnoDBE]]></options>
 		</table>
 		<table name="group_event_options" prior="group_event_" >
 			<comment><![CDATA[describes the proposed options for a particular group event]]></comment>
@@ -423,17 +454,18 @@ Ex: "Alaska, 2025-01-01, 07:00"]]></comment>
 			<index name="fk_group_event_options_members" unique="NORMAL" >
 				<column name="option_owner_member_id" />
 			</index>
-			<fk name="fk_group_event_options_group_event" to_schema="kpc353_2" to_table="group_event" >
+			<fk name="fk_group_event_options_group_event" to_schema="kpc353_2" to_table="group_event" delete_action="cascade" >
 				<fk_column name="target_group_event_id" pk="group_event_id" />
 			</fk>
-			<fk name="fk_group_event_options_members" to_schema="kpc353_2" to_table="members" >
+			<fk name="fk_group_event_options_members" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
 				<fk_column name="option_owner_member_id" pk="member_id" />
 			</fk>
-			<options><![CDATA[Qengine=InnoDBE]]></options>
 		</table>
 		<table name="group_members" prior="tbl" >
 			<comment><![CDATA[Mapping between members and groups, each row telling us which member belongs to which group]]></comment>
-			<column name="group_membership_id" type="INT" jt="4" mandatory="y" unsigned="y" />
+			<column name="group_membership_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
+			</column>
 			<column name="participant_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[the member_id of the participant of this group]]></comment>
 			</column>
@@ -441,13 +473,14 @@ Ex: "Alaska, 2025-01-01, 07:00"]]></comment>
 				<comment><![CDATA[the ID of a particular group, that a particular member has joined]]></comment>
 			</column>
 			<column name="date_joined" type="DATE" jt="91" mandatory="y" >
+				<defo><![CDATA[CURRENT_DATE]]></defo>
 				<comment><![CDATA[the date when a particular member has joned a particular group]]></comment>
 			</column>
 			<column name="group_member_status" prior="role_of_member" type="ENUM" jt="12" >
 				<defo><![CDATA['member']]></defo>
-				<enumeration><![CDATA['member','owner','requested','ousted']]></enumeration>
+				<enumeration><![CDATA['member','admin','requested','ban']]></enumeration>
 				<comment><![CDATA[the status of a particular member in a particular group
-can be either 'owner', 'member', 'requested, 'ousted']]></comment>
+can be either 'admin', 'member', 'requested, 'ban']]></comment>
 			</column>
 			<index name="pk_group_members" unique="PRIMARY_KEY" >
 				<column name="group_membership_id" />
@@ -458,23 +491,22 @@ can be either 'owner', 'member', 'requested, 'ousted']]></comment>
 			<index name="fk_group_members_groups" unique="NORMAL" >
 				<column name="joined_group_id" />
 			</index>
-			<fk name="fk_group_members_members" to_schema="kpc353_2" to_table="members" >
+			<fk name="fk_group_members_members" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
 				<fk_column name="participant_member_id" pk="member_id" />
 			</fk>
-			<fk name="fk_group_members_groups" to_schema="kpc353_2" to_table="groups" >
+			<fk name="fk_group_members_groups" to_schema="kpc353_2" to_table="groups" delete_action="cascade" >
 				<fk_column name="joined_group_id" pk="group_id" />
 			</fk>
-			<options><![CDATA[Qengine=InnoDBE]]></options>
 		</table>
 		<table name="group_vote_plebiscite" prior="group_vote_plebicsite" >
 			<comment><![CDATA[Contains the plebiscite organized to oust a non-person (corporate) member.]]></comment>
 			<column name="group_vote_plebiscite_id" prior="gropup_vote_plebiscite_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
 			</column>
-			<column name="target_member_id" type="INT" jt="4" unsigned="y" >
+			<column name="target_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[ID of a member being ousted]]></comment>
 			</column>
-			<column name="organizer_member_id" type="INT" jt="4" unsigned="y" >
+			<column name="organizer_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[ID of the organizer of the plebiscite]]></comment>
 			</column>
 			<column name="target_group_id" type="INT" jt="4" mandatory="y" unsigned="y" >
@@ -492,16 +524,15 @@ can be either 'owner', 'member', 'requested, 'ousted']]></comment>
 			<index name="fk_group_vote_plebiscite_members_0" unique="NORMAL" >
 				<column name="organizer_member_id" />
 			</index>
-			<fk name="fk_group_vote_plebiscite_groups" to_schema="kpc353_2" to_table="groups" >
+			<fk name="fk_group_vote_plebiscite_groups" to_schema="kpc353_2" to_table="groups" delete_action="cascade" >
 				<fk_column name="target_group_id" pk="group_id" />
 			</fk>
-			<fk name="fk_group_vote_plebiscite_members" to_schema="kpc353_2" to_table="members" >
+			<fk name="fk_group_vote_plebiscite_members" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
 				<fk_column name="target_member_id" pk="member_id" />
 			</fk>
-			<fk name="fk_group_vote_plebiscite_members_0" to_schema="kpc353_2" to_table="members" >
+			<fk name="fk_group_vote_plebiscite_members_0" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
 				<fk_column name="organizer_member_id" pk="member_id" />
 			</fk>
-			<options><![CDATA[Qengine=InnoDBE]]></options>
 		</table>
 		<table name="group_vote_plebiscite_results" prior="group_vote" >
 			<comment><![CDATA[Results of the plebiscite]]></comment>
@@ -526,19 +557,20 @@ can be either 'owner', 'member', 'requested, 'ousted']]></comment>
 			<index name="fk_group_vote_plebiscite_results_group_vote_plebiscite" unique="NORMAL" >
 				<column name="target_group_vote_plebiscite_id" />
 			</index>
-			<fk name="fk_group_vote_plebiscite_results_members" to_schema="kpc353_2" to_table="members" >
+			<fk name="fk_group_vote_plebiscite_results_members" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
 				<fk_column name="voter_member_id" pk="member_id" />
 			</fk>
-			<fk name="fk_group_vote_plebiscite_results_group_vote_plebiscite" to_schema="kpc353_2" to_table="group_vote_plebiscite" >
+			<fk name="fk_group_vote_plebiscite_results_group_vote_plebiscite" to_schema="kpc353_2" to_table="group_vote_plebiscite" delete_action="cascade" >
 				<fk_column name="target_group_vote_plebiscite_id" pk="group_vote_plebiscite_id" />
 			</fk>
-			<options><![CDATA[Qengine=InnoDBE]]></options>
 		</table>
 		<table name="groups" spec="" >
 			<comment><![CDATA[Contains the information about the groups, such as their description, who created them, etc]]></comment>
-			<column name="group_id" type="INT" jt="4" mandatory="y" unsigned="y" />
+			<column name="group_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
+			</column>
 			<column name="group_name" type="VARCHAR" length="100" jt="12" mandatory="y" />
-			<column name="owner_id" type="INT" jt="4" unsigned="y" >
+			<column name="owner_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[ID of the member who created a particular group]]></comment>
 			</column>
 			<column name="description" type="TEXT" jt="-1" >
@@ -551,19 +583,44 @@ can be either 'owner', 'member', 'requested, 'ousted']]></comment>
 			<column name="category" prior="cathegory" type="VARCHAR" length="100" jt="12" >
 				<comment><![CDATA[defines the different categories]]></comment>
 			</column>
-			<column name="group_deleted_flag" type="BOOLEAN" jt="16" >
-				<defo><![CDATA[false]]></defo>
-			</column>
 			<index name="pk_groups" unique="PRIMARY_KEY" >
 				<column name="group_id" />
 			</index>
 			<index name="fk_groups_members" unique="NORMAL" >
 				<column name="owner_id" />
 			</index>
-			<fk name="fk_groups_members" to_schema="kpc353_2" to_table="members" >
+			<fk name="fk_groups_members" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
 				<fk_column name="owner_id" pk="member_id" />
 			</fk>
-			<options><![CDATA[QENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ciE]]></options>
+		</table>
+		<table name="member_categories" prior="member_categories " >
+			<comment><![CDATA[contains categories for the interests of the members]]></comment>
+			<column name="category_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
+			</column>
+			<column name="category_type" type="ENUM" jt="12" >
+				<enumeration><![CDATA['interest', 'age_group', 'profession', 'region']]></enumeration>
+			</column>
+			<column name="category_name" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<index name="pk_member_categories " unique="PRIMARY_KEY" >
+				<column name="category_id" />
+			</index>
+		</table>
+		<table name="member_category_assignments" prior="tbl" >
+			<column name="assignment_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
+			</column>
+			<column name="member_id" type="INT" jt="4" mandatory="y" unsigned="y" />
+			<column name="category_id" type="INT" jt="4" mandatory="y" unsigned="y" />
+			<index name="pk_member_category_assignments" unique="PRIMARY_KEY" >
+				<column name="assignment_id" />
+			</index>
+			<fk name="fk_member_category_assignments_members" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
+				<fk_column name="member_id" pk="member_id" />
+			</fk>
+			<fk name="fk_member_category_assignments_member_categories" to_schema="kpc353_2" to_table="member_categories" delete_action="cascade" >
+				<fk_column name="category_id" pk="category_id" />
+			</fk>
 		</table>
 		<table name="member_messages" prior="tbl" >
 			<comment><![CDATA[table containing the messages that members send between each others]]></comment>
@@ -579,6 +636,10 @@ can be either 'owner', 'member', 'requested, 'ousted']]></comment>
 			<column name="message_content" type="TEXT" jt="-1" >
 				<comment><![CDATA[the actual content of the message]]></comment>
 			</column>
+			<column name="message_datetime" type="DATETIME" jt="93" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+				<comment><![CDATA[the datetime of when the message was sent out]]></comment>
+			</column>
 			<index name="pk_member_messages" unique="PRIMARY_KEY" >
 				<column name="member_message_id" />
 			</index>
@@ -588,13 +649,12 @@ can be either 'owner', 'member', 'requested, 'ousted']]></comment>
 			<index name="fk_member_messages_members_0" unique="NORMAL" >
 				<column name="target_member_id" />
 			</index>
-			<fk name="fk_member_messages_members" to_schema="kpc353_2" to_table="members" >
+			<fk name="fk_member_messages_members" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
 				<fk_column name="origin_member_id" pk="member_id" />
 			</fk>
-			<fk name="fk_member_messages_members_0" to_schema="kpc353_2" to_table="members" >
+			<fk name="fk_member_messages_members_0" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
 				<fk_column name="target_member_id" pk="member_id" />
 			</fk>
-			<options><![CDATA[Qengine=InnoDBE]]></options>
 		</table>
 		<table name="member_privilege_change_request" prior="member_privilege" >
 			<comment><![CDATA[Contains the privilege change request of a member, for example - a junior to senior member]]></comment>
@@ -614,16 +674,17 @@ can be either 'owner', 'member', 'requested, 'ousted']]></comment>
 			<index name="fk_member_privilege_change_request_members" unique="NORMAL" >
 				<column name="target_member_id" />
 			</index>
-			<fk name="fk_member_privilege_change_request_members" to_schema="kpc353_2" to_table="members" >
+			<fk name="fk_member_privilege_change_request_members" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
 				<fk_column name="target_member_id" pk="member_id" />
 			</fk>
-			<options><![CDATA[Qengine=InnoDBE]]></options>
 		</table>
 		<table name="member_relationships" prior="tbl" >
 			<comment><![CDATA[describes the relationships of the members, specifically if they are friends, family, colleagues or blocked]]></comment>
-			<column name="relationship_id" type="INT" jt="4" mandatory="y" unsigned="y" />
+			<column name="relationship_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
+			</column>
 			<column name="origin_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
-				<comment><![CDATA[the member from whom the relationship originates]]></comment>
+				<comment><![CDATA[the member from whom the relationship originates, for example the origin_member_id has REQUESTED a target_member_id to be friends]]></comment>
 			</column>
 			<column name="target_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[the member to whom the origin_member is connected]]></comment>
@@ -633,7 +694,7 @@ can be either 'owner', 'member', 'requested, 'ousted']]></comment>
 				<comment><![CDATA[The type of relationship can be 'friend, 'family', 'colleague' or 'blocked']]></comment>
 			</column>
 			<column name="member_relationship_status" type="ENUM" jt="12" >
-				<enumeration><![CDATA['requested','approved','rejected']]></enumeration>
+				<enumeration><![CDATA['requested','approved','rejected','blocked']]></enumeration>
 				<comment><![CDATA[used to represent the evolution of the relationship from, specifically from a friend/family/colleage request to an actual confirmed relationship]]></comment>
 			</column>
 			<index name="pk_member_relationships" unique="PRIMARY_KEY" >
@@ -645,13 +706,12 @@ can be either 'owner', 'member', 'requested, 'ousted']]></comment>
 			<index name="fk_member_relationships_members_0" unique="NORMAL" >
 				<column name="target_member_id" />
 			</index>
-			<fk name="fk_member_relationships_members" to_schema="kpc353_2" to_table="members" >
+			<fk name="fk_member_relationships_members" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
 				<fk_column name="origin_member_id" pk="member_id" />
 			</fk>
-			<fk name="fk_member_relationships_members_0" to_schema="kpc353_2" to_table="members" >
+			<fk name="fk_member_relationships_members_0" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
 				<fk_column name="target_member_id" pk="member_id" />
 			</fk>
-			<options><![CDATA[Qengine=InnoDBE]]></options>
 		</table>
 		<table name="members" prior="member" spec="" >
 			<comment><![CDATA[contains the info for every member of COSN]]></comment>
@@ -660,7 +720,9 @@ can be either 'owner', 'member', 'requested, 'ousted']]></comment>
 				<comment><![CDATA[member_id = 1 is "private" system member
 member_id = 2 is "public" system member]]></comment>
 			</column>
-			<column name="username" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="username" type="VARCHAR" length="100" jt="12" mandatory="y" >
+				<comment><![CDATA[public facing user's name (pseudonym)]]></comment>
+			</column>
 			<column name="password" type="VARCHAR" length="50" jt="12" mandatory="y" >
 				<comment><![CDATA[password of the user
 
@@ -692,9 +754,6 @@ Mandatory (not null), for identity verification purpose.]]></comment>
 
 Mandatory (not null), for enabling the correct system functionality.]]></comment>
 			</column>
-			<column name="pseudonym" type="VARCHAR" length="50" jt="12" >
-				<comment><![CDATA[name for internal interactions]]></comment>
-			</column>
 			<column name="status" type="ENUM" jt="12" mandatory="y" >
 				<defo><![CDATA['active']]></defo>
 				<enumeration><![CDATA['active','inactive','suspended']]></enumeration>
@@ -704,25 +763,22 @@ Mandatory (not null), for enabling the correct system functionality.]]></comment
 				<defo><![CDATA[false]]></defo>
 				<comment><![CDATA[Defines whether the member is a corporation (corporation_flag = true) or an actual person (corporation_flag = false).]]></comment>
 			</column>
-			<column name="member_deleted_flag" type="BOOLEAN" jt="16" >
-				<defo><![CDATA[false]]></defo>
-				<comment><![CDATA[indicates whether a member is deleted (true) or not (false)]]></comment>
-			</column>
 			<index name="pk_member" unique="PRIMARY_KEY" >
 				<column name="member_id" />
 			</index>
-			<options><![CDATA[QENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ciE]]></options>
 		</table>
 		<table name="personal_info_permissions" prior="personal_info_visibility" >
 			<comment><![CDATA[Contains the mapping for 'member-specific' permissions (visibility) of private information.
 
 Allows a particular piece of personal information, for a particular member, to be rendered visible to a particular set of other members. The set of other members can be constructed by the applicaton in the "shape" of a family, friends or groups, by simply inserting the needed member_id to the authorized_member_id.]]></comment>
-			<column name="personal_info_permission_id" prior="personal_info_visiblity_id" type="INT" length="10" jt="4" mandatory="y" unsigned="y" />
+			<column name="personal_info_permission_id" prior="personal_info_visiblity_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
+			</column>
 			<column name="owner_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[the membeer_id of the owner of this personal information]]></comment>
 			</column>
 			<column name="personal_info_type" type="ENUM" jt="12" mandatory="y" >
-				<enumeration><![CDATA['first_name','last_name','date_of_birth','address','pseudonym','email']]></enumeration>
+				<enumeration><![CDATA['first_name','last_name','date_of_birth','address','email']]></enumeration>
 			</column>
 			<column name="authorized_member_id" type="INT" jt="4" mandatory="y" unsigned="y" >
 				<comment><![CDATA[the member_id that is authorized to view this particular personal information, of a particular member
@@ -739,13 +795,12 @@ authorized_member_id = 2, it is visible to the "public" system member]]></commen
 			<index name="fk_personal_info_visibility_member_0" unique="NORMAL" >
 				<column name="authorized_member_id" />
 			</index>
-			<fk name="fk_personal_info_visibility_members" to_schema="kpc353_2" to_table="members" >
+			<fk name="fk_personal_info_visibility_members" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
 				<fk_column name="owner_member_id" pk="member_id" />
 			</fk>
-			<fk name="fk_personal_info_visibility_members_0" to_schema="kpc353_2" to_table="members" >
+			<fk name="fk_personal_info_visibility_members_0" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
 				<fk_column name="authorized_member_id" pk="member_id" />
 			</fk>
-			<options><![CDATA[Qengine=InnoDBE]]></options>
 		</table>
 		<table name="personal_info_public_permissions" prior="tbl" >
 			<column name="personal_info_public_permission_id" type="INT" jt="4" mandatory="y" unsigned="y" >
@@ -753,7 +808,7 @@ authorized_member_id = 2, it is visible to the "public" system member]]></commen
 			</column>
 			<column name="owner_member_id" type="INT" jt="4" mandatory="y" unsigned="y" />
 			<column name="personal_info_type" type="ENUM" jt="12" >
-				<enumeration><![CDATA['first_name','last_name','date_of_birth','address','pseudonym','email']]></enumeration>
+				<enumeration><![CDATA['first_name','last_name','date_of_birth','address','email']]></enumeration>
 			</column>
 			<index name="pk_personal_info_public_permissions" unique="PRIMARY_KEY" >
 				<column name="personal_info_public_permission_id" />
@@ -761,13 +816,12 @@ authorized_member_id = 2, it is visible to the "public" system member]]></commen
 			<index name="fk_personal_info_public_permissions_members" unique="NORMAL" >
 				<column name="owner_member_id" />
 			</index>
-			<fk name="fk_personal_info_public_permissions_members" to_schema="kpc353_2" to_table="members" >
+			<fk name="fk_personal_info_public_permissions_members" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
 				<fk_column name="owner_member_id" pk="member_id" />
 			</fk>
-			<options><![CDATA[Qengine=InnoDBE]]></options>
 		</table>
 	</schema>
-	<layout name="Main Layout" id="Layout-1c2f" confirmed="y" show_relation="columns" >
+	<layout name="Main Layout" id="Layout-165c" confirmed="y" show_relation="columns" >
 		<entity schema="kpc353_2" name="content" color="E5C1EE" x="864" y="352" />
 		<entity schema="kpc353_2" name="content_comment" color="E5C1EE" x="1424" y="240" />
 		<entity schema="kpc353_2" name="content_group_permissions" color="E5C1EE" x="672" y="160" />
@@ -776,6 +830,7 @@ authorized_member_id = 2, it is visible to the "public" system member]]></commen
 		<entity schema="kpc353_2" name="content_moderation_warning" color="E5C1EE" x="912" y="48" />
 		<entity schema="kpc353_2" name="content_public_permissions" color="E5C1EE" x="1184" y="368" />
 		<entity schema="kpc353_2" name="gift_registry" color="EED5C1" x="1296" y="672" />
+		<entity schema="kpc353_2" name="gift_registry_gifts" color="EED5C1" x="1392" y="960" />
 		<entity schema="kpc353_2" name="gift_registry_ideas" color="EED5C1" x="1632" y="640" />
 		<entity schema="kpc353_2" name="gift_registry_participants" color="EED5C1" x="1296" y="832" />
 		<entity schema="kpc353_2" name="gift_registry_permissions" color="EED5C1" x="1632" y="864" />
@@ -786,6 +841,8 @@ authorized_member_id = 2, it is visible to the "public" system member]]></commen
 		<entity schema="kpc353_2" name="group_vote_plebiscite" color="C1D8EE" x="208" y="240" />
 		<entity schema="kpc353_2" name="group_vote_plebiscite_results" color="C1D8EE" x="112" y="416" />
 		<entity schema="kpc353_2" name="groups" color="C1D8EE" x="448" y="352" />
+		<entity schema="kpc353_2" name="member_categories" color="E5EEC1" x="400" y="1104" />
+		<entity schema="kpc353_2" name="member_category_assignments" color="E5EEC1" x="672" y="1104" />
 		<entity schema="kpc353_2" name="member_messages" color="E5EEC1" x="1024" y="864" />
 		<entity schema="kpc353_2" name="member_privilege_change_request" color="E5EEC1" x="640" y="912" />
 		<entity schema="kpc353_2" name="member_relationships" color="E5EEC1" x="336" y="816" />

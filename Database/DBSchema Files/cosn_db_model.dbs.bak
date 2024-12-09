@@ -16,8 +16,8 @@
 			<column name="content_data" prior="content_data_url" type="TEXT" jt="-1" mandatory="y" >
 				<comment><![CDATA[text or URL link to the data of the content]]></comment>
 			</column>
-			<column name="content_creation_date" prior="creation_date" type="DATE" jt="91" mandatory="y" >
-				<defo><![CDATA[curdate()]]></defo>
+			<column name="content_creation_date" prior="creation_date" type="DATETIME" jt="93" mandatory="y" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
 				<comment><![CDATA[when was the content created]]></comment>
 			</column>
 			<column name="content_title" type="VARCHAR" length="100" jt="12" >
@@ -28,14 +28,10 @@
 				<enumeration><![CDATA['pending', 'approved', 'rejected']]></enumeration>
 				<comment><![CDATA[status of the piece of content in terms of moderation]]></comment>
 			</column>
-			<column name="content_deleted_flag" type="BOOLEAN" jt="-7" mandatory="y" >
-				<defo><![CDATA[false]]></defo>
-				<comment><![CDATA[used to "delete" content by users]]></comment>
-			</column>
 			<index name="pk_content_data" unique="PRIMARY_KEY" >
 				<column name="content_id" />
 			</index>
-			<index name="fk_content_members" unique="UNIQUE_KEY" >
+			<index name="fk_content_members" unique="NORMAL" >
 				<column name="creator_id" />
 			</index>
 			<fk name="fk_content_members" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
@@ -81,7 +77,7 @@
 				<comment><![CDATA[the particular group which has a certain permission on a specific content]]></comment>
 			</column>
 			<column name="content_group_permission_type" type="ENUM" jt="12" >
-				<enumeration><![CDATA['read','comment','share','link']]></enumeration>
+				<enumeration><![CDATA['read','comment','share','link','edit']]></enumeration>
 				<comment><![CDATA[the type of permission that a particular group has on a certain piece of content]]></comment>
 			</column>
 			<index name="pk_content_group_permissions" unique="PRIMARY_KEY" >
@@ -142,10 +138,10 @@ authorized_member_id = 1 is "private" system member
 authorized_member_id = 2 is "public" system member]]></comment>
 			</column>
 			<column name="content_permission_type" type="ENUM" jt="12" >
-				<enumeration><![CDATA['read','edit','comment','share','modify-permission','moderate','link']]></enumeration>
+				<enumeration><![CDATA['read','edit','comment','share','link']]></enumeration>
 				<comment><![CDATA[the type of permission that the authorized_member_id has on this particular piece of content
 can be
-'read','edit','comment','share','modify-permission','moderate','link']]></comment>
+'read','edit','comment','share','link']]></comment>
 			</column>
 			<index name="pk_content_permissions" unique="PRIMARY_KEY" >
 				<column name="content_member_permission_id" />
@@ -597,6 +593,35 @@ can be either 'admin', 'member', 'requested, 'ban']]></comment>
 				<fk_column name="owner_id" pk="member_id" />
 			</fk>
 		</table>
+		<table name="member_categories" prior="member_categories " >
+			<comment><![CDATA[contains categories for the interests of the members]]></comment>
+			<column name="category_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
+			</column>
+			<column name="category_type" type="ENUM" jt="12" >
+				<enumeration><![CDATA['interest', 'age_group', 'profession', 'region']]></enumeration>
+			</column>
+			<column name="category_name" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<index name="pk_member_categories " unique="PRIMARY_KEY" >
+				<column name="category_id" />
+			</index>
+		</table>
+		<table name="member_category_assignments" prior="tbl" >
+			<column name="assignment_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT ]]></identity>
+			</column>
+			<column name="member_id" type="INT" jt="4" mandatory="y" unsigned="y" />
+			<column name="category_id" type="INT" jt="4" mandatory="y" unsigned="y" />
+			<index name="pk_member_category_assignments" unique="PRIMARY_KEY" >
+				<column name="assignment_id" />
+			</index>
+			<fk name="fk_member_category_assignments_members" to_schema="kpc353_2" to_table="members" delete_action="cascade" >
+				<fk_column name="member_id" pk="member_id" />
+			</fk>
+			<fk name="fk_member_category_assignments_member_categories" to_schema="kpc353_2" to_table="member_categories" delete_action="cascade" >
+				<fk_column name="category_id" pk="category_id" />
+			</fk>
+		</table>
 		<table name="member_messages" prior="tbl" >
 			<comment><![CDATA[table containing the messages that members send between each others]]></comment>
 			<column name="member_message_id" type="INT" jt="4" mandatory="y" unsigned="y" >
@@ -610,6 +635,10 @@ can be either 'admin', 'member', 'requested, 'ban']]></comment>
 			</column>
 			<column name="message_content" type="TEXT" jt="-1" >
 				<comment><![CDATA[the actual content of the message]]></comment>
+			</column>
+			<column name="message_datetime" type="DATETIME" jt="93" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+				<comment><![CDATA[the datetime of when the message was sent out]]></comment>
 			</column>
 			<index name="pk_member_messages" unique="PRIMARY_KEY" >
 				<column name="member_message_id" />
@@ -813,6 +842,8 @@ authorized_member_id = 2, it is visible to the "public" system member]]></commen
 		<entity schema="kpc353_2" name="group_vote_plebiscite" color="C1D8EE" x="208" y="240" />
 		<entity schema="kpc353_2" name="group_vote_plebiscite_results" color="C1D8EE" x="112" y="416" />
 		<entity schema="kpc353_2" name="groups" color="C1D8EE" x="448" y="352" />
+		<entity schema="kpc353_2" name="member_categories" color="E5EEC1" x="400" y="1104" />
+		<entity schema="kpc353_2" name="member_category_assignments" color="E5EEC1" x="672" y="1104" />
 		<entity schema="kpc353_2" name="member_messages" color="E5EEC1" x="1024" y="864" />
 		<entity schema="kpc353_2" name="member_privilege_change_request" color="E5EEC1" x="640" y="912" />
 		<entity schema="kpc353_2" name="member_relationships" color="E5EEC1" x="336" y="816" />
