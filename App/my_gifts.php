@@ -1,6 +1,6 @@
 <?php
     session_start();
-    include("db.php");
+    include("db_config.php");
     include("header.php");
     include('sidebar.php');
 
@@ -15,12 +15,12 @@
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mark_received'])) {
         $gift_id = $_POST['gift_id'];
 
-        $sql = "UPDATE gift_registry_gifts
+        $sql = "UPDATE kpc353_2.gift_registry_gifts
                 SET gift_status = 'received'
                 WHERE gift_id = :gift_id
                 AND target_gift_registry_id IN (
                     SELECT gift_registry_id
-                    FROM gift_registry
+                    FROM kpc353_2.gift_registry
                     WHERE organizer_member_id = :member_id
                 )";
 
@@ -33,10 +33,10 @@
 
 //get received gifts
 $sql = "SELECT grg.gift_id, grg.gift_status, gri.gift_idea_description, gr.gift_registry_name, m.username as sender_name, grg.gift_date
-        FROM gift_registry_gifts grg
-        JOIN gift_registry_ideas gri ON grg.gift_registry_idea_id = gri.gift_registry_ideas_id
-        JOIN gift_registry gr ON grg.target_gift_registry_id = gr.gift_registry_id
-        JOIN members m ON grg.sender_member_id = m.member_id
+        FROM kpc353_2.gift_registry_gifts grg
+        JOIN kpc353_2.gift_registry_ideas gri ON grg.gift_registry_idea_id = gri.gift_registry_ideas_id
+        JOIN kpc353_2.gift_registry gr ON grg.target_gift_registry_id = gr.gift_registry_id
+        JOIN kpc353_2.members m ON grg.sender_member_id = m.member_id
         WHERE gr.organizer_member_id = :member_id
         ORDER BY grg.gift_date DESC";
 
@@ -47,10 +47,10 @@ $received_gifts = $stmt->fetchAll();
 
 //get sent gifts
 $sql = "SELECT grg.gift_id, grg.gift_status, gri.gift_idea_description, gr.gift_registry_name, m.username as recipient_name, grg.gift_date
-        FROM gift_registry_gifts grg
-        JOIN gift_registry_ideas gri ON grg.gift_registry_idea_id = gri.gift_registry_ideas_id
-        JOIN gift_registry gr ON grg.target_gift_registry_id = gr.gift_registry_id
-        JOIN members m ON gr.organizer_member_id = m.member_id
+        FROM kpc353_2.gift_registry_gifts grg
+        JOIN kpc353_2.gift_registry_ideas gri ON grg.gift_registry_idea_id = gri.gift_registry_ideas_id
+        JOIN kpc353_2.gift_registry gr ON grg.target_gift_registry_id = gr.gift_registry_id
+        JOIN kpc353_2.members m ON gr.organizer_member_id = m.member_id
         WHERE grg.sender_member_id = :member_id
         ORDER BY grg.gift_date DESC";
 

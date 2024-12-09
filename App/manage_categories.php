@@ -1,6 +1,6 @@
 <?php
     session_start();
-    include("db.php");
+    include("db_config.php");
     include("header.php");
     include('sidebar.php');
 
@@ -39,8 +39,8 @@
                 mc.category_id,
                 mc.category_name,
                 COUNT(mca.member_id) as member_count
-            FROM member_categories mc
-            LEFT JOIN member_category_assignments mca ON mc.category_id = mca.category_id
+            FROM kpc353_2.member_categories mc
+            LEFT JOIN kpc353_2.member_category_assignments mca ON mc.category_id = mca.category_id
             WHERE mc.category_type = :type
             GROUP BY mc.category_id, mc.category_name
             ORDER BY mc.category_name";
