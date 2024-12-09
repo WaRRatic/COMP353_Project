@@ -333,7 +333,7 @@ values
       2, 
       2,
       'image', 
-      'content_data ="https://en.wikipedia.org/wiki/Duck#/media/File:Bucephala-albeola-010.jpg" ',
+      'https://upload.wikimedia.org/wikipedia/commons/b/bf/Bucephala-albeola-010.jpg',
       'Duck Image',
       '2024-01-02'
       , 'approved'
@@ -855,4 +855,3 @@ INSERT INTO kpc353_2.personal_info_public_permissions
   
 INSERT INTO kpc353_2.personal_info_public_permissions
 	(owner_member_id, personal_info_type) VALUES ( 3,'last_name');
-
