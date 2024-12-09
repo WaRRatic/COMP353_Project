@@ -54,7 +54,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Member Reports</title>
-        <link rel="stylesheet" type="text/css" href="COSN_members.css">
+        <link rel="stylesheet" type="text/css" href="member_reports.css">
     </head>
     <body>
     <div class="container">

@@ -117,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         <?php
         // Check if there are any results
-        if ($result_events->num_rows > 0) {
+        if ($result_events->num_rows > 0 && isset($row['group_event_id'])) {
             // Output data of each row
             while($row = $result_events->fetch_assoc()) {
                 echo "<tr>";
@@ -177,7 +177,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
     </form>
     <?php else: ?>
-    <p>You are not part of any groups. Please join a group to create an event.</p>
+    <p style = "margin-left: 200px;">You are not part of any groups. Please join a group to create an event.</p>
     <?php endif; ?>
 
 

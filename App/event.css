@@ -75,3 +75,8 @@ button {
 .form-group button:hover {
     background-color: #218838; /* Darker green on hover */
 }
+p{
+    text-align: left;
+    margin-bottom: 20px;
+    margin-left: 200px;
+}
